@@ -35,7 +35,8 @@ class Application extends App {
 			return new SmsController(
 				$c->query('AppName'),
 				$c->query('Request'),
-				$c->query('UserId')
+				$c->query('UserId'),
+				$c->query('SmsMapper')
 			);
 		});
 

@@ -21,16 +21,16 @@ class SmsMapper extends Mapper {
 	}
 
 	// @TODO
-	public function saveAll($smsList) {
+	public function saveAll($userId, $smsList) {
 		foreach ($smsList as $sms) {
 			$query = \OC_DB::prepare('INSERT INTO *PREFIX*ocsms_smsdatas ' .
 			'(user_id, added, lastmodified, sms_read, sms_seen, sms_date,' .
 			'sms_draft, sms_id, sms_address, sms_msg) VALUES ' .
 			'(?,?,?,?,?,?,?,?,?,?)');
 			$result = $query->execute(array(
-				\OCP\User::getUser(),"NOW()","NOW()",
+				$userId, "NOW()", "NOW()",
 				$sms["read"] === "true", $sms["seen"] === "true",
-				$sms["date"], $sms["draft"] === "true", $sms["id"],
+				(int) $sms["date"], $sms["draft"] === "true", $sms["id"],
 				$sms["address"], $sms["body"]
 			));
 		}
