@@ -37,16 +37,42 @@ class SmsController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function push($smsCount, $smsDatas) {
+	public function push ($smsCount, $smsDatas) {
 		if ($smsCount != count($smsDatas)) {
 			return "Error: sms count invalid";
 		}
 
-		$buf = "";
-		foreach ($sms as $smsDatas) {
-			$buf .= $sms["id"];
+		foreach ($smsDatas as $sms) {
+			if (!array_key_exists("id", $sms) || !array_key_exists("read", $sms) ||
+				!array_key_exists("draft", $sms) ||
+				!array_key_exists("date", $sms) || !array_key_exists("seen", $sms) ||
+				!array_key_exists("body", $sms) || !array_key_exists("address", $sms)) {
+				return "Error: bad SMS entry";
+			}
+
+			if (!is_numeric($sms["id"])) {
+				return "Error: Invalid SMS ID";
+			}
+
+			if ($sms["read"] !== "true" && $sms["read"] !== "false") {
+				return "Error: Invalid SMS Read state";
+			}
+
+			if ($sms["seen"] !== "true" && $sms["seen"] !== "false") {
+				return "Error: Invalid SMS Seen state";
+			}
+
+			if ($sms["draft"] !== "true" && $sms["draft"] !== "false") {
+				return "Error: Invalid SMS Draft state";
+			}
+
+			if (!is_numeric($sms["date"]) && $sms["date"] != 0 && $sms["date"] != 1) {
+				return "Error: Invalid SMS date";
+			}
+
+			// @ TODO: test address and body ?
 		}
-		return $buf;
+		return "OK";
 	}
 
 
