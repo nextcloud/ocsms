@@ -37,7 +37,10 @@ class SmsController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function push($json_datas) {
+	public function push($smsCount, $smsDatas) {
+		if ($smsCount != count($smsDatas)) {
+			return "ERROR";
+		}
 		return array("test" => "test2");
 	}
 

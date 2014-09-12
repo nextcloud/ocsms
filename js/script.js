@@ -11,7 +11,7 @@
 (function ($, OC) {
 
 	$(document).ready(function () {
-		$('#echo').click(function () {
+		$('#push').click(function () {
 			var url = OC.generateUrl('/apps/ocsms/push');
 			var data = {
 				sms_count: 1,
