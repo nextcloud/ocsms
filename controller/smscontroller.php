@@ -41,7 +41,12 @@ class SmsController extends Controller {
 		if ($smsCount != count($smsDatas)) {
 			return "Error: sms count invalid";
 		}
-		return array("test" => "test2");
+
+		$buf = "";
+		foreach ($sms in $smsDatas) {
+			$buf .= $sms["id"];
+		}
+		return $buf;
 	}
 
 
