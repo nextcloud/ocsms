@@ -30,12 +30,13 @@ class SmsMapper extends Mapper {
 
 			$query = \OC_DB::prepare('INSERT INTO *PREFIX*ocsms_smsdatas ' .
 			'(user_id, added, lastmodified, sms_flags, sms_date, sms_id,' .
-			'sms_address, sms_msg, sms_mailbox) VALUES ' .
-			'(?,?,?,?,?,?,?,?,?)');
+			'sms_address, sms_msg, sms_mailbox, sms_type) VALUES ' .
+			'(?,?,?,?,?,?,?,?,?,?)');
 			$result = $query->execute(array(
 				$userId, "NOW()", "NOW()", $smsFlags,
 				(int) $sms["date"], (int) $sms["_id"],
-				$sms["address"], $sms["body"], (int) $sms["mbox"]
+				$sms["address"], $sms["body"], (int) $sms["mbox"],
+				(int) $sms["type"]
 			));
 		}
 	}

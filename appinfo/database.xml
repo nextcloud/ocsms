@@ -72,6 +72,12 @@
 				<notnull>true</notnull>
 				<length>1</length>
 			</field>
+			<field>
+				<name>sms_type</name>
+				<type>integer</type>
+				<notnull>true</notnull>
+				<length>1</length>
+			</field>
 		</declaration>
 	</table>
 </database>
