@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<info>
+    <id>ocsms</id>
+    <name>Oc Sms</name>
+    <description>Owncloud SMS app</description>
+    <licence>AGPL</licence>
+    <author>Loic Blot</author>
+    <version>0.0.7</version>
+    <requiremin>7</requiremin>
+</info>
