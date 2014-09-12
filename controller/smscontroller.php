@@ -43,7 +43,7 @@ class SmsController extends Controller {
 		}
 
 		$buf = "";
-		foreach ($sms in $smsDatas) {
+		foreach ($sms as $smsDatas) {
 			$buf .= $sms["id"];
 		}
 		return $buf;
