@@ -57,7 +57,7 @@ class SmsController extends Controller {
 			return false;
 		}
 
-		foreach ($smsDatas as $sms) {
+		foreach ($smsDatas as &$sms) {
 			if (!array_key_exists("id", $sms) || !array_key_exists("read", $sms) ||
 				!array_key_exists("draft", $sms) ||
 				!array_key_exists("date", $sms) || !array_key_exists("seen", $sms) ||
@@ -84,6 +84,9 @@ class SmsController extends Controller {
 			if ($sms["draft"] !== "true" && $sms["draft"] !== "false") {
 				$this->errorMsg = "Error: Invalid SMS Draft state";
 				return false;
+			}
+			else {
+				$sms["draft"] == $sms["draft"] === true;
 			}
 
 			if (!is_numeric($sms["date"]) && $sms["date"] != 0 && $sms["date"] != 1) {

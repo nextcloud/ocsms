@@ -30,7 +30,7 @@ class SmsMapper extends Mapper {
 			$result = $query->execute(array(
 				$userId, "NOW()", "NOW()",
 				$sms["read"] === "true", $sms["seen"] === "true",
-				(int) $sms["date"], $sms["draft"] === "true", $sms["id"],
+				(int) $sms["date"], $sms["draft"], (int) $sms["id"],
 				$sms["address"], $sms["body"]
 			));
 		}
