@@ -16,6 +16,9 @@ use \OCP\AppFramework\App;
 
 use \OCA\OcSms\Controller\SmsController;
 
+use \OCA\MyApp\Db\Sms;
+use \OCA\MyApp\Db\SmsMapper;
+
 
 class Application extends App {
 
@@ -36,6 +39,16 @@ class Application extends App {
 			);
 		});
 
+		/**
+         * Database Layer
+         */
+        $container->registerService('Sms', function($c) {
+            return new Sms($c->query('ServerContainer')->getDb());
+        });
+
+        $container->registerService('SmsMapper', function($c) {
+            return new SmsMapper($c->query('ServerContainer')->getDb());
+        });
 
 		/**
 		 * Core

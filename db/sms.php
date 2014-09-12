@@ -23,7 +23,5 @@ class Sms extends Entity {
         $this->addType('smsRead', 'boolean');
         $this->addType('smsSeen', 'boolean');
     }
-
-     id | user_id | added | lastmodified | sms_read | sms_date | sms_id | sms_address | sms_msg
 }
 ?>
