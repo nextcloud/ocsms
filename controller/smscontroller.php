@@ -87,11 +87,6 @@ class SmsController extends Controller {
 				return false;
 			}
 
-			if ($sms["draft"] !== "true" && $sms["draft"] !== "false") {
-				$this->errorMsg = "Error: Invalid SMS Draft state";
-				return false;
-			}
-
 			if (!is_numeric($sms["date"]) && $sms["date"] != 0 && $sms["date"] != 1) {
 				$this->errorMsg = "Error: Invalid SMS date";
 				return false;
