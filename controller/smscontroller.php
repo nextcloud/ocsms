@@ -25,12 +25,18 @@ class SmsController extends Controller {
         $this->userId = $userId;
     }
 
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
     public function index() {
-        $templateName = 'main';  // will use templates/main.php
-        $parameters = array('key' => 'hi');
-        return new TemplateResponse($this->appName, $templateName, $parameters);
+        $params = array('user' => $this->userId);
+        return new TemplateResponse($this->appName, 'main', $params);
     }
 
+	/**
+	 * @NoAdminRequired
+	 */
 	public function push($json_datas) {
 		var_dump($json_datas);
 		return array("test" => "test2");
