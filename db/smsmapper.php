@@ -16,11 +16,9 @@ use \OCP\IDb;
 use \OCP\AppFramework\Db\Mapper;
 
 class SmsMapper extends Mapper {
-	private $db;
-
-    public function __construct(IDb $db) {
-        $this->db = $db;
-    }
+	public function __construct(IDb $db) {
+		parent::__construct($db, 'ocsms_smsdatas');
+	}
 
 	// @TODO
 	public function saveAll($smsList) {

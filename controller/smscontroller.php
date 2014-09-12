@@ -74,7 +74,7 @@ class SmsController extends Controller {
 			// @ TODO: test address and body ?
 		}
 
-		$smsMgr = new SmsMgr();
+		$smsMgr = new SmsMapper();
 		$smsMgr->saveAll($smsDAtas);
 		return "OK";
 	}
