@@ -44,11 +44,11 @@ class SmsController extends Controller {
 	 */
 	public function push ($smsCount, $smsDatas) {
 		if ($this->checkPushStructure($smsCount, $smsDatas) === false) {
-			return $this->errorMsg;
+			return array("status" => false, "msg" => $this->errorMsg);
 		}
 
 		$this->smsMapper->saveAll($this->userId, $smsDatas);
-		return "OK";
+		return array("status" => true, "msg" => "OK");
 	}
 
 	private function checkPushStructure($smsCount, $smsDatas) {
