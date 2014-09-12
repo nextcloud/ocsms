@@ -13,6 +13,7 @@ namespace OCA\OcSms\Controller;
 
 
 use \OCP\IRequest;
+use \OCP\AppFramework\Http\TemplateResponse;
 use \OCP\AppFramework\Controller;
 use \OCP\AppFramework\Http\JSONResponse;
 use \OCA\OcSms\Db\SmsMapper;
@@ -21,7 +22,6 @@ class SmsController extends Controller {
 
     private $userId;
     private $smsMapper;
-    // TMP
     private $errorMsg;
 
     public function __construct($appName, IRequest $request, $userId, SmsMapper $mapper){
