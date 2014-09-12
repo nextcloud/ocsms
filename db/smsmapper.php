@@ -23,15 +23,14 @@ class SmsMapper extends Mapper {
 	// @TODO
 	public function saveAll($userId, $smsList) {
 		foreach ($smsList as $sms) {
-			$smsFlags = sprintf("%s%s%s",
+			$smsFlags = sprintf("%s%s",
 				$sms["read"] === "true" ? "1" : "0",
-				$sms["seen"] === "true" ? "1" : "0",
-				$sms["draft"] === "true" ? "1" : "0"
+				$sms["seen"] === "true" ? "1" : "0"
 			);
 
 			$query = \OC_DB::prepare('INSERT INTO *PREFIX*ocsms_smsdatas ' .
 			'(user_id, added, lastmodified, sms_flags, sms_date, sms_id,' .
-			'sms_address, sms_msg) VALUES ' .
+			'sms_address, sms_msg, sms_mailbox) VALUES ' .
 			'(?,?,?,?,?,?,?,?)');
 			$result = $query->execute(array(
 				$userId, "NOW()", "NOW()", $smsFlags,

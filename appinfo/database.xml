@@ -63,8 +63,14 @@
 				<name>sms_flags</name>
 				<type>text</type>
 				<notnull>true</notnull>
-				<default>000</default>
-				<length>3</length>
+				<default>00</default>
+				<length>2</length>
+			</field>
+			<field>
+				<name>sms_mailbox</name>
+				<type>integer</type>
+				<notnull>true</notnull>
+				<length>1</length>
 			</field>
 		</declaration>
 	</table>
