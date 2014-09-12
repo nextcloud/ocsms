@@ -35,7 +35,7 @@ class SmsMapper extends Mapper {
 			'(?,?,?,?,?,?,?,?)');
 			$result = $query->execute(array(
 				$userId, "NOW()", "NOW()", $smsFlags,
-				(int) $sms["date"], (int) $sms["id"],
+				(int) $sms["date"], (int) $sms["_id"],
 				$sms["address"], $sms["body"]
 			));
 		}
