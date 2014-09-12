@@ -16,8 +16,8 @@ use \OCP\AppFramework\App;
 
 use \OCA\OcSms\Controller\SmsController;
 
-use \OCA\MyApp\Db\Sms;
-use \OCA\MyApp\Db\SmsMapper;
+use \OCA\OcSms\Db\Sms;
+use \OCA\OcSms\Db\SmsMapper;
 
 
 class Application extends App {
