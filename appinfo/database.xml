@@ -53,25 +53,17 @@
 				<notnull>true</notnull>
 			</field>
 			<field>
-				<name>sms_read</name>
-				<type>boolean</type>
-				<notnull>true</notnull>
-			</field>
-			<field>
-				<name>sms_seen</name>
-				<type>boolean</type>
-				<notnull>true</notnull>
-			</field>
-			<field>
 				<name>sms_date</name>
 				<type>integer</type>
 				<notnull>true</notnull>
 				<length>10</length>
 			</field>
 			<field>
-				<name>sms_draft</name>
-				<type>boolean</type>
+				<name>sms_flags</name>
+				<type>text</type>
 				<notnull>true</notnull>
+				<default>000</default>
+				<length>3</length>
 			</field>
 		</declaration>
 	</table>
