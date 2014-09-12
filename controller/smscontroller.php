@@ -38,7 +38,6 @@ class SmsController extends Controller {
 	 * @NoAdminRequired
 	 */
 	public function push($json_datas) {
-		var_dump($json_datas);
 		return array("test" => "test2");
 	}
 

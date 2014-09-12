@@ -11,20 +11,20 @@
 (function ($, OC) {
 
 	$(document).ready(function () {
-		$('#hello').click(function () {
-			alert('Hello from your script file');
-		});
-
 		$('#echo').click(function () {
-			var url = OC.generateUrl('/apps/ocsms/echo');
+			var url = OC.generateUrl('/apps/ocsms/push');
 			var data = {
-				echo: $('#echo-content').val()
+				sms_count: 1
+				sms_datas: {
+					{"read": 1, "date": 1410524385, "seen": 0, "address": "+33612121212", "body": "testSMS", "_id": 10},
+					{"read": 0, "date": 1400524385, "seen": 1, "address": "+33614121212", "body": "test SMS 2", "_id": 14},
+				}
 			};
 
 			$.post(url, data).success(function (response) {
-				$('#echo-result').text(response.echo);
+				$('#push-result').text(response);
 			});
-			
+
 		});
 	});
 
