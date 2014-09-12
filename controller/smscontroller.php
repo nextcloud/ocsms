@@ -47,7 +47,7 @@ class SmsController extends Controller {
 			return $this->errorMsg;
 		}
 
-		$smsMapper->saveAll($this->userId, $smsDatas);
+		$this->smsMapper->saveAll($this->userId, $smsDatas);
 		return "OK";
 	}
 
