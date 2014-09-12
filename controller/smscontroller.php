@@ -67,6 +67,7 @@ class SmsController extends Controller {
 
 			if (!array_key_exists("draft", $sms)) {
 				$sms["draft"] = "true";
+			}
 
 			if (!is_numeric($sms["id"])) {
 				$this->errorMsg = "Error: Invalid SMS ID";
