@@ -59,12 +59,14 @@ class SmsController extends Controller {
 
 		foreach ($smsDatas as &$sms) {
 			if (!array_key_exists("id", $sms) || !array_key_exists("read", $sms) ||
-				!array_key_exists("draft", $sms) ||
 				!array_key_exists("date", $sms) || !array_key_exists("seen", $sms) ||
 				!array_key_exists("body", $sms) || !array_key_exists("address", $sms)) {
 				$this->errorMsg = "Error: bad SMS entry";
 				return false;
 			}
+
+			if (!array_key_exists("draft", $sms)) {
+				$sms["draft"] = "true";
 
 			if (!is_numeric($sms["id"])) {
 				$this->errorMsg = "Error: Invalid SMS ID";
