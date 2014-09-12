@@ -27,11 +27,13 @@
 				<name>added</name>
 				<type>timestamp</type>
 				<notnull>true</notnull>
+				<default>1970-01-01 00:00:00</default>
 			</field>
 			<field>
 				<name>lastmodified</name>
 				<type>timestamp</type>
 				<notnull>true</notnull>
+				<default>1970-01-01 00:00:00</default>
 			</field>
 			<field>
 				<name>sms_id</name>
