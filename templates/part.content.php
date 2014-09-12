@@ -2,9 +2,9 @@
 
 <p><button id="hello">click me</button></p>
 
-<p><textarea id="echo-content">
+<p><textarea id="push-content">
 	Send this as ajax
 </textarea></p>
-<p><button id="echo">Send ajax request</button></p>
+<p><button id="push">Test push SMS</button></p>
 
-Ajax response: <div id="echo-result"></div>
+Push response: <div id="push-result"></div>
