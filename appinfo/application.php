@@ -14,7 +14,7 @@ namespace OCA\OcSms\AppInfo;
 
 use \OCP\AppFramework\App;
 
-use \OCA\OcSms\Controller\PageController;
+use \OCA\OcSms\Controller\SmsController;
 
 
 class Application extends App {
@@ -28,9 +28,10 @@ class Application extends App {
 		/**
 		 * Controllers
 		 */
-		$container->registerService('PageController', function($c) {
-			return new PageController(
-				$c->query('AppName'), 
+
+		$container->registerService('SmsController', function($c) {
+			return new SmsController(
+				$c->query('AppName'),
 				$c->query('Request'),
 				$c->query('UserId')
 			);
@@ -42,9 +43,7 @@ class Application extends App {
 		 */
 		$container->registerService('UserId', function($c) {
 			return \OCP\User::getUser();
-		});		
-		
+		});
+
 	}
-
-
 }
