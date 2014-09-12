@@ -22,5 +22,5 @@ namespace OCA\OcSms\AppInfo;
 $application = new Application();
 
 $application->registerRoutes($this, array('routes' => array(
-    array('name' => 'sms#push', 'url' => '/push', 'verb' => 'POST'),
+    array('name' => 'sms#push', 'url' => '/push', 'verb' => 'GET'),
 )));

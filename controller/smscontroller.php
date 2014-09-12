@@ -25,7 +25,8 @@ class SmsController extends Controller {
         $this->userId = $userId;
     }
 
-    public function push() {
+    public function push($json_datas) {
+		var_dump($json_datas);
 		return array("test" => "test2");
 	}
 
