@@ -13,8 +13,8 @@ namespace OCA\OcSms\Controller;
 
 
 use \OCP\IRequest;
-use \OCP\AppFramework\Http\TemplateResponse;
 use \OCP\AppFramework\Controller;
+use \OCP\AppFramework\Http\JSONResponse;
 use \OCA\OcSms\Db\SmsMapper;
 
 class SmsController extends Controller {
@@ -44,11 +44,11 @@ class SmsController extends Controller {
 	 */
 	public function push ($smsCount, $smsDatas) {
 		if ($this->checkPushStructure($smsCount, $smsDatas) === false) {
-			return array("status" => false, "msg" => $this->errorMsg);
+			return new JSONResponse(array("status" => false, "msg" => $this->errorMsg));
 		}
 
 		$this->smsMapper->saveAll($this->userId, $smsDatas);
-		return array("status" => true, "msg" => "OK");
+		return new JSONResponse(array("status" => true, "msg" => "OK"));
 	}
 
 	private function checkPushStructure($smsCount, $smsDatas) {
