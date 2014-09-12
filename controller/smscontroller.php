@@ -39,7 +39,7 @@ class SmsController extends Controller {
 	 */
 	public function push($smsCount, $smsDatas) {
 		if ($smsCount != count($smsDatas)) {
-			return "ERROR";
+			return "Error: sms count invalid";
 		}
 		return array("test" => "test2");
 	}
