@@ -15,7 +15,7 @@ namespace OCA\OcSms\Controller;
 use \OCP\IRequest;
 use \OCP\AppFramework\Http\TemplateResponse;
 use \OCP\AppFramework\Controller;
-use \OCA\MyApp\Db\SmsMapper;
+use \OCA\OcSms\Db\SmsMapper;
 
 class SmsController extends Controller {
 
