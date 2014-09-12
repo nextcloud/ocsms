@@ -52,10 +52,20 @@
 				<notnull>true</notnull>
 			</field>
 			<field>
+				<name>sms_seen</name>
+				<type>boolean</type>
+				<notnull>true</notnull>
+			</field>
+			<field>
 				<name>sms_date</name>
 				<type>integer</type>
 				<notnull>true</notnull>
-				<length>10</length>	
+				<length>10</length>
+			</field>
+			<field>
+				<name>sms_draft</name>
+				<type>boolean</type>
+				<notnull>true</notnull>
 			</field>
 			<field>
 				<name>lastmodified</name>

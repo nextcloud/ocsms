@@ -13,7 +13,7 @@ namespace OCA\OcSms\Db;
 
 use \OCP\IDb;
 
-class Sms {
+class SmsMgr {
 	private $db;
 
     public function __construct(IDb $db) {
@@ -21,7 +21,8 @@ class Sms {
     }
 
 	// @TODO
-	public function saveAll() {
+	public function saveAll($smsList) {
+
 	}
 
     public function find($id) {

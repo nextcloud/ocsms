@@ -15,6 +15,7 @@ namespace OCA\OcSms\Controller;
 use \OCP\IRequest;
 use \OCP\AppFramework\Http\TemplateResponse;
 use \OCP\AppFramework\Controller;
+use OCA\OcSms\Db\SmsMgr;
 
 class SmsController extends Controller {
 
@@ -70,6 +71,7 @@ class SmsController extends Controller {
 				return "Error: Invalid SMS date";
 			}
 
+			$smsMgr = new SmsMgr();
 			// @ TODO: test address and body ?
 		}
 		return "OK";
