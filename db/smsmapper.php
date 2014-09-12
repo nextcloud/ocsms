@@ -38,19 +38,8 @@ class SmsMapper extends Mapper {
 		}
 	}
 
-	    protected $userId;
-    protected $added;
-    protected $lastmodified;
-    protected $smsRead;
-    protected $smsSeen;
-    protected $smsDate;
-    protected $smsDraft;
-    protected $smsId;
-    protected $smsAddress;
-    protected $smsMsg;
-
     public function find($id) {
-        $sql = 'SELECT * FROM `*PREFIX*myapp_authors` ' .
+        $sql = 'SELECT * FROM `*PREFIX*ocsms_smsdatas` ' .
             'WHERE `id` = ?';
         $query = $db->prepareQuery($sql);
         $query->bindParam(1, $id, \PDO::PARAM_INT);
