@@ -31,8 +31,12 @@ class SmsMapper extends Mapper {
 			if (!isset($smsList[$mbox])) {
 				$smsList[$mbox] = array();
 			}
-			array_push($smsList[$mbox], $row["sms_id"]);
+			
+			if (!in_array($row["sms_id"], $smsList[$mbox])) {
+				array_push($smsList[$mbox], $row["sms_id"]);
+			}
 		}
+		return $smsList;
 	}
 
 	public function writeToDB ($userId, $smsList, $purgeAllSmsBeforeInsert = false) {
