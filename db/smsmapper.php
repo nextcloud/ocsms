@@ -16,6 +16,12 @@ use \OCP\IDb;
 use \OCP\AppFramework\Db\Mapper;
 
 class SmsMapper extends Mapper {
+	/*
+	* Useful to use a tag for getAllIds, else mobile can have problem to know
+	* on which mailbox it works
+	*/
+	private static $mailboxNames = array(0 => "inbox", 1 => "sent", 2 => "drafts");
+
 	public function __construct (IDb $db) {
 		parent::__construct($db, 'ocsms_smsdatas');
 	}
@@ -27,7 +33,7 @@ class SmsMapper extends Mapper {
 		
 		$smsList = array();
 		while($row = $result->fetchRow()) {
-			$mbox = $row["sms_mailbox"];
+			$mbox = SmsMapper::$mailboxNames[$row["sms_mailbox"]];
 			if (!isset($smsList[$mbox])) {
 				$smsList[$mbox] = array();
 			}
