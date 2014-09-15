@@ -17,7 +17,7 @@ class Sms extends Entity {
     protected $smsAddress;
     protected $smsMsg;
 
-    public function __construct() {
+    public function __construct () {
         $this->addType('smsId', 'integer');
         $this->addType('smsDraft', 'boolean');
         $this->addType('smsRead', 'boolean');

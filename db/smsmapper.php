@@ -16,11 +16,11 @@ use \OCP\IDb;
 use \OCP\AppFramework\Db\Mapper;
 
 class SmsMapper extends Mapper {
-	public function __construct(IDb $db) {
+	public function __construct (IDb $db) {
 		parent::__construct($db, 'ocsms_smsdatas');
 	}
 
-	public function writeToDB($userId, $smsList, $purgeBeforeInsert = false) {
+	public function writeToDB ($userId, $smsList, $purgeBeforeInsert = false) {
 		\OCP\DB::beginTransaction();
 		
 		if ($purgeBeforeInsert === true) {
@@ -52,7 +52,7 @@ class SmsMapper extends Mapper {
 		\OCP\DB::commit();
 	}
 
-    public function find($id) {
+    public function find ($id) {
         $sql = 'SELECT * FROM `*PREFIX*ocsms_smsdatas` ' .
             'WHERE `id` = ?';
         $query = $db->prepareQuery($sql);

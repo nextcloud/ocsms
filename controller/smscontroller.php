@@ -24,7 +24,7 @@ class SmsController extends Controller {
 	private $smsMapper;
 	private $errorMsg;
 	
-	public function __construct($appName, IRequest $request, $userId, SmsMapper $mapper){
+	public function __construct ($appName, IRequest $request, $userId, SmsMapper $mapper){
 		parent::__construct($appName, $request);
 		$this->userId = $userId;
 		$this->smsMapper = $mapper;
@@ -34,7 +34,7 @@ class SmsController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function index() {
+	public function index () {
 		$params = array('user' => $this->userId);
 		return new TemplateResponse($this->appName, 'main', $params);
 	}
@@ -55,7 +55,7 @@ class SmsController extends Controller {
 	 * @NoAdminRequired
 	 */
 
-	private function checkPushStructure($smsCount, $smsDatas) {
+	private function checkPushStructure ($smsCount, $smsDatas) {
 		if ($smsCount != count($smsDatas)) {
 			$this->errorMsg = "Error: sms count invalid";
 			return false;
