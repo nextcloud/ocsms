@@ -50,13 +50,16 @@ class SmsMapper extends Mapper {
 				$sms["seen"] === "true" ? "1" : "0"
 			);
 			
-			// Remove previous record
-			// @ TODO: only update the required fields, getAllIds can be useful
-			$query = \OC_DB::prepare('DELETE FROM *PREFIX*ocsms_smsdatas ' .
-			'WHERE user_id = ? AND sms_id = ?');
-			$result = $query->execute(array(
-				$userId, (int) $sms["_id"]
-			));
+			// Only delete if we haven't purged the DB
+			if ($purgeAllSmsBeforeInsert === false) {
+				// Remove previous record
+				// @ TODO: only update the required fields, getAllIds can be useful
+				$query = \OC_DB::prepare('DELETE FROM *PREFIX*ocsms_smsdatas ' .
+				'WHERE user_id = ? AND sms_id = ?');
+				$result = $query->execute(array(
+					$userId, (int) $sms["_id"]
+				));
+			}
 			
 			$query = \OC_DB::prepare('INSERT INTO *PREFIX*ocsms_smsdatas ' .
 			'(user_id, added, lastmodified, sms_flags, sms_date, sms_id,' .
