@@ -20,14 +20,14 @@ class SmsMapper extends Mapper {
 		parent::__construct($db, 'ocsms_smsdatas');
 	}
 
-	// @TODO
 	public function writeToDB($userId, $smsList) {
+		\OCP\DB::beginTransaction();
 		foreach ($smsList as $sms) {
 			$smsFlags = sprintf("%s%s",
 				$sms["read"] === "true" ? "1" : "0",
 				$sms["seen"] === "true" ? "1" : "0"
 			);
-
+			
 			$query = \OC_DB::prepare('INSERT INTO *PREFIX*ocsms_smsdatas ' .
 			'(user_id, added, lastmodified, sms_flags, sms_date, sms_id,' .
 			'sms_address, sms_msg, sms_mailbox, sms_type) VALUES ' .
@@ -38,7 +38,10 @@ class SmsMapper extends Mapper {
 				$sms["address"], $sms["body"], (int) $sms["mbox"],
 				(int) $sms["type"]
 			));
+			
+			
 		}
+		\OCP\DB::commit();
 	}
 
     public function find($id) {
