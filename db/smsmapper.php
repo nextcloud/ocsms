@@ -21,7 +21,7 @@ class SmsMapper extends Mapper {
 	}
 
 	// @TODO
-	public function saveAll($userId, $smsList) {
+	public function writeToDB($userId, $smsList) {
 		foreach ($smsList as $sms) {
 			$smsFlags = sprintf("%s%s",
 				$sms["read"] === "true" ? "1" : "0",
