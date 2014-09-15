@@ -42,6 +42,14 @@ class SmsController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 */
+	public function retrieveAllIds () {
+		$smsList = $this->smsMapper->getAllIds($this->userId);
+		return new JSONResponse(array("smslist" => $smsList));
+	}
+	
+	/**
+	 * @NoAdminRequired
+	 */
 	public function push ($smsCount, $smsDatas) {
 		if ($this->checkPushStructure($smsCount, $smsDatas, true) === false) {
 			return new JSONResponse(array("status" => false, "msg" => $this->errorMsg));
@@ -51,10 +59,6 @@ class SmsController extends Controller {
 		return new JSONResponse(array("status" => true, "msg" => "OK"));
 	}
 	
-	/**
-	 * @NoAdminRequired
-	 */
-
 	private function checkPushStructure ($smsCount, $smsDatas) {
 		if ($smsCount != count($smsDatas)) {
 			$this->errorMsg = "Error: sms count invalid";

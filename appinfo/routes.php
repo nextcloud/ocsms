@@ -24,4 +24,5 @@ $application = new Application();
 $application->registerRoutes($this, array('routes' => array(
 	array('name' => 'sms#index', 'url' => '/', 'verb' => 'GET'),
 	array('name' => 'sms#push', 'url' => '/push', 'verb' => 'POST'),
+	array('name' => 'sms#retrieve_all_ids', 'url' => '/get/ids/all', 'verb' => 'GET'),
 )));

@@ -19,12 +19,27 @@ class SmsMapper extends Mapper {
 	public function __construct (IDb $db) {
 		parent::__construct($db, 'ocsms_smsdatas');
 	}
+	
+	public function getAllIds ($userId) {
+		$query = \OC_DB::prepare('SELECT sms_id, sms_mailbox FROM ' .
+		'*PREFIX*ocsms_smsdatas WHERE user_id = ?');
+		$result = $query->execute(array($userId));
+		
+		$smsList = array();
+		while($row = $result->fetchRow()) {
+			$mbox = $row["sms_mailbox"];
+			if (!isset($smsList[$mbox])) {
+				$smsList[$mbox] = array();
+			}
+			array_push($smsList[$mbox], $row["sms_id"]);
+		}
+	}
 
 	public function writeToDB ($userId, $smsList, $purgeBeforeInsert = false) {
 		\OCP\DB::beginTransaction();
 		
 		if ($purgeBeforeInsert === true) {
-			$query = \OCP\DB::prepare('DELETE FROM *PREFIX*ocsms_smsdatas ' .
+			$query = \OC_DB::prepare('DELETE FROM *PREFIX*ocsms_smsdatas ' .
 			'WHERE user_id = ?');
 			$result = $query->execute(array($userId));
 		}
@@ -35,7 +50,7 @@ class SmsMapper extends Mapper {
 				$sms["seen"] === "true" ? "1" : "0"
 			);
 			
-			$query = \OCP\DB::prepare('INSERT INTO *PREFIX*ocsms_smsdatas ' .
+			$query = \OC_DB::prepare('INSERT INTO *PREFIX*ocsms_smsdatas ' .
 			'(user_id, added, lastmodified, sms_flags, sms_date, sms_id,' .
 			'sms_address, sms_msg, sms_mailbox, sms_type) VALUES ' .
 			'(?,?,?,?,?,?,?,?,?,?)');
@@ -51,18 +66,6 @@ class SmsMapper extends Mapper {
 		
 		\OCP\DB::commit();
 	}
-
-    public function find ($id) {
-        $sql = 'SELECT * FROM `*PREFIX*ocsms_smsdatas` ' .
-            'WHERE `id` = ?';
-        $query = $db->prepareQuery($sql);
-        $query->bindParam(1, $id, \PDO::PARAM_INT);
-        $result = $query->execute();
-
-        while($row = $result->fetchRow()) {
-            return $row;
-        }
-    }
 }
 
 ?>
