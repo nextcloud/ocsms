@@ -59,6 +59,18 @@ class SmsController extends Controller {
 		return new JSONResponse(array("status" => true, "msg" => "OK"));
 	}
 	
+	/**
+	 * @NoAdminRequired
+	 */
+	 public function replace($smsCount, $smsDatas) {
+		 if ($this->checkPushStructure($smsCount, $smsDatas, true) === false) {
+			return new JSONResponse(array("status" => false, "msg" => $this->errorMsg));
+		}
+
+		$this->smsMapper->writeToDB($this->userId, $smsDatas, true);
+		return new JSONResponse(array("status" => true, "msg" => "OK"));
+	 }
+	
 	private function checkPushStructure ($smsCount, $smsDatas) {
 		if ($smsCount != count($smsDatas)) {
 			$this->errorMsg = "Error: sms count invalid";

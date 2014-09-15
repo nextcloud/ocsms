@@ -35,10 +35,10 @@ class SmsMapper extends Mapper {
 		}
 	}
 
-	public function writeToDB ($userId, $smsList, $purgeBeforeInsert = false) {
+	public function writeToDB ($userId, $smsList, $purgeAllSmsBeforeInsert = false) {
 		\OCP\DB::beginTransaction();
 		
-		if ($purgeBeforeInsert === true) {
+		if ($purgeAllSmsBeforeInsert === true) {
 			$query = \OC_DB::prepare('DELETE FROM *PREFIX*ocsms_smsdatas ' .
 			'WHERE user_id = ?');
 			$result = $query->execute(array($userId));
@@ -49,6 +49,14 @@ class SmsMapper extends Mapper {
 				$sms["read"] === "true" ? "1" : "0",
 				$sms["seen"] === "true" ? "1" : "0"
 			);
+			
+			// Remove previous record
+			// @ TODO: only update the required fields, getAllIds can be useful
+			$query = \OC_DB::prepare('DELETE FROM *PREFIX*ocsms_smsdatas ' .
+			'WHERE user_id = ? AND sms_id = ?');
+			$result = $query->execute(array(
+				$userId, (int) $sms["_id"]
+			));
 			
 			$query = \OC_DB::prepare('INSERT INTO *PREFIX*ocsms_smsdatas ' .
 			'(user_id, added, lastmodified, sms_flags, sms_date, sms_id,' .
