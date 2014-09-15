@@ -43,7 +43,7 @@ class SmsController extends Controller {
 	 * @NoAdminRequired
 	 */
 	public function push ($smsCount, $smsDatas) {
-		if ($this->checkPushStructure($smsCount, $smsDatas) === false) {
+		if ($this->checkPushStructure($smsCount, $smsDatas, true) === false) {
 			return new JSONResponse(array("status" => false, "msg" => $this->errorMsg));
 		}
 
