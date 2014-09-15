@@ -20,24 +20,24 @@ use \OCA\OcSms\Db\SmsMapper;
 
 class SmsController extends Controller {
 
-    private $userId;
-    private $smsMapper;
-    private $errorMsg;
-
-    public function __construct($appName, IRequest $request, $userId, SmsMapper $mapper){
-        parent::__construct($appName, $request);
-        $this->userId = $userId;
-        $this->smsMapper = $mapper;
-    }
+	private $userId;
+	private $smsMapper;
+	private $errorMsg;
+	
+	public function __construct($appName, IRequest $request, $userId, SmsMapper $mapper){
+		parent::__construct($appName, $request);
+		$this->userId = $userId;
+		$this->smsMapper = $mapper;
+	}
 
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-    public function index() {
-        $params = array('user' => $this->userId);
-        return new TemplateResponse($this->appName, 'main', $params);
-    }
+	public function index() {
+		$params = array('user' => $this->userId);
+		return new TemplateResponse($this->appName, 'main', $params);
+	}
 
 	/**
 	 * @NoAdminRequired
