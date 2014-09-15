@@ -41,6 +41,7 @@ class SmsController extends Controller {
 
 	/**
 	 * @NoAdminRequired
+	 * @NoCSRFRequired
 	 */
 	public function retrieveAllIds () {
 		$smsList = $this->smsMapper->getAllIds($this->userId);
