@@ -18,4 +18,5 @@ $application->registerRoutes($this, array('routes' => array(
 	array('name' => 'sms#push', 'url' => '/push', 'verb' => 'POST'),
 	array('name' => 'sms#replace', 'url' => '/replace', 'verb' => 'POST'),
 	array('name' => 'sms#retrieve_all_ids', 'url' => '/get/smsidlist', 'verb' => 'GET'),
+	array('name' => 'sms#retrieve_all_peers', 'url' => '/get/peerlist', 'verb' => 'GET'),
 )));

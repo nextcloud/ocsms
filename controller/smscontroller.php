@@ -38,12 +38,10 @@ class SmsController extends Controller {
 		$mboxes = array(
 			'PNLConversations' => array(
 				'label' => 'Conversations',
-				'phoneNumbers' => $this->smsMapper->getAllPeersPhoneNumbers($this->userId),
 				'url' => \OCP\Util::linkToAbsolute('index.php', 'apps/ocsms/', array('feed' => 'conversations'))
 			),
 			'PNLDrafts' => array(
 				'label' => 'Drafts',
-				'phoneNumbers' => array(),
 				'url' => \OCP\Util::linkToAbsolute('index.php', 'apps/ocsms/', array('feed' => 'drafts'))
 			)
 		);
@@ -61,6 +59,16 @@ class SmsController extends Controller {
 	public function retrieveAllIds () {
 		$smsList = $this->smsMapper->getAllIds($this->userId);
 		return new JSONResponse(array("smslist" => $smsList));
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function retrieveAllPeers () {
+		$phoneList = $this->smsMapper->getAllPeersPhoneNumbers($this->userId);
+		// @ TODO: filter correctly
+		return new JSONResponse(array("phonelist" => $phoneList));
 	}
 
 	/**
