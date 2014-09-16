@@ -43,6 +43,7 @@ function fetchConversation(phoneNumber) {
 			});
 
 			$('#app-content').html(conversationBuf);
+			$('#app-content').scrollTop(1E10);
 		}
 	);
 }
