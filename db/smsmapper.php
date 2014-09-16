@@ -73,7 +73,10 @@ class SmsMapper extends Mapper {
 
 		$messageList = array();
 		while($row = $result->fetchRow()) {
-			array_push($messageList[$row["sms_date"]], $row);
+			$messageList[$row["sms_date"]] = array(
+				"msg" =>  $row["sms_msg"],
+				"type" => $row["sms_type"]
+			);
 		}
 		ksort($messageList);
 		return $messageList;
