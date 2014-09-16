@@ -35,8 +35,20 @@ class SmsController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function index () {
+		$mboxes = array(
+			'PNLConversations' => array(
+				'label' => 'Conversations',
+				'phoneNumbers' => $this->smsMapper->getAllPeersPhoneNumbers($this->userId),
+				'url' => \OCP\Util::linkToAbsolute('ocsms', 'index.php', array('feed' => 'conversations'))
+			),
+			'PNLDrafts' => array(
+				'label' => 'Drafts',
+				'phoneNumbers' => array(),
+				'url' => \OCP\Util::linkToAbsolute('ocsms', 'index.php', array('feed' => 'drafts'))
+			)
+		)
 		$params = array('user' => $this->userId,
-			"PNLConversations" => $this->smsMapper->getAllPeersPhoneNumbers($this->userId)
+			'mailboxes' => $mboxes
 		);
 		return new TemplateResponse($this->appName, 'main', $params);
 	}

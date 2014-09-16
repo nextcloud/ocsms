@@ -6,7 +6,10 @@
 <div id="app">
 	<div id="app-navigation">
 		<?php print_unescaped($this->inc('part.navigation')); ?>
-		<?php print_unescaped($this->inc('part.settings')); ?>
+		<?php /*print_unescaped($this->inc('part.settings'));*/ ?>
+	</div>
+
+	<div id="app-mailbox-content">
 	</div>
 
 	<div id="app-content">
