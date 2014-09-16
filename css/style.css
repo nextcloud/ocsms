@@ -72,6 +72,12 @@
 	float: left;
 }
 
+.msg-date {
+	font-style: italic;
+	font-size: 90%;
+	float: right;
+}
+
 .msg-spacer {
 	clear: both;
 }

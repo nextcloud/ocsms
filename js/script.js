@@ -16,6 +16,10 @@ function fetchConversation(phoneNumber) {
 			var conversationBuf = "";
 			// Improve JS performance
 			var msgClass = '';
+			var unixDate = '';
+			var formatedDate = '';
+			var months = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'Jun.', 'Jul.', 'Aug.', 'Sep.',
+				'Oct.', 'Nov.', 'Dec.'];
 
 			$.each(jsondata["conversation"], function(id, vals) {
 				if (vals["type"] == 1) {
@@ -28,7 +32,14 @@ function fetchConversation(phoneNumber) {
 					msgClass = '';
 				}
 
-				conversationBuf += '<div><div class="' + msgClass + '">' + vals["msg"] + '</div><div class="msg-spacer"></div></div>';
+				// Multiplicate ID to permit date to use it properly
+				msgDate = new Date(id*1);
+				formatedDate = msgDate.getDate() + " " + months[msgDate.getMonth()-1] + " " +
+					msgDate.getHours() + ":" + msgDate.getMinutes();
+
+				conversationBuf += '<div><div class="' + msgClass + '"><div>' + 
+					vals["msg"] + '</div><div class="msg-date">' + 
+					formatedDate + '</div></div><div class="msg-spacer"></div></div>';
 			});
 
 			$('#app-content').html(conversationBuf);
