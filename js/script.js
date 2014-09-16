@@ -28,7 +28,7 @@ function fetchConversation(phoneNumber) {
 					msgClass = '';
 				}
 
-				conversationBuf += '<div class="' + msgClass + '">' + vals["msg"] + '</div>';
+				conversationBuf += '<div><div class="' + msgClass + '">' + vals["msg"] + '</div><div class="msg-spacer"></div></div>';
 			});
 
 			$('#app-content').html(conversationBuf);
