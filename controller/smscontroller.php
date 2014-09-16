@@ -38,6 +38,7 @@ class SmsController extends Controller {
 		$mboxes = array(
 			'PNLConversations' => array(
 				'label' => 'Conversations',
+				'phoneNumbers' => $this->smsMapper->getAllPeersPhoneNumbers($this->userId),
 				'url' => \OCP\Util::linkToAbsolute('index.php', 'apps/ocsms/', array('feed' => 'conversations'))
 			),
 			'PNLDrafts' => array(

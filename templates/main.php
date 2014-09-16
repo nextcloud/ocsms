@@ -9,6 +9,8 @@
 	</div>
 
 	<div id="app-mailbox-peers">
+		<ul>
+		</ul>
 	</div>
 
 	<div id="app-content">

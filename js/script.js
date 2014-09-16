@@ -9,23 +9,27 @@
  */
 
 (function ($, OC) {
-
 	$(document).ready(function () {
-		$('#push').click(function () {
-			var url = OC.generateUrl('/apps/ocsms/push');
-			var data = {
-				smsCount: 2,
-				smsDatas: [
-					{"read": true, "date": 1410524385, "seen": false, "draft": false, "address": "+33612121212", "body": "testSMS", "id": 10},
-					{"read": false, "date": 1400524385, "seen": true, "draft": true, "address": "+33614121212", "body": "test SMS 2", "id": 14},
-				]
-			};
+		// Now bind the events when we click on the phone number
+		$('#app-navigation').find('a').on('click', function (event) {
+			OC.Util.History.pushState('feed=' + $(this).attr('nav-feed'));
+                	event.preventDefault();
+        	});
 
-			$.post(url, data).success(function (response) {
-				$('#push-result').text(response);
+		$.getJSON(OC.generateUrl('/apps/ocsms/get/peerlist'), function(jsondata, status) {
+			var peerListBuf = "";
+			$.each(jsondata['phonelist'], function(id, val) {
+				peerListBuf += '<li><a href="#" mailbox-navigation="' + val + '">' + val + '</a></li>';
 			});
+			$('#app-mailbox-peers ul').html(peerListBuf);
+			
+			// Now bind the events when we click on the phone number
+			$('#app-mailbox-peers').find('a[mailbox-navigation]').on('click', function (event) {
+				OC.Util.History.pushState('phonenumber=' + $(this).attr('mailbox-navigation'));
+                		event.preventDefault();
+        		});
 
-		});
+	        });
 	});
 
 })(jQuery, OC);

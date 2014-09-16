@@ -13,3 +13,33 @@
 	-ms-user-select: none;
 	user-select: none;
 }
+
+#app-mailbox-peers > ul {
+	position: relative;
+	height: 100%;
+	overflow: auto;
+	-moz-box-sizing: border-box; box-sizing: border-box;
+}
+#app-mailbox-peers li {
+	position: relative;
+	width: 100%;
+	-moz-box-sizing: border-box; box-sizing: border-box;
+}
+
+#app-mailbox-peers li:hover > a,
+#app-mailbox-peers .selected,
+#app-mailbox-peers .selected a {
+	background-color: #ccc;
+}
+
+#app-mailbox-peers li > a {
+	display: block;
+	width: 100%;
+	line-height: 44px;
+	padding: 0 12px;
+	overflow: hidden;
+	-moz-box-sizing: border-box; box-sizing: border-box;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	color: #333;
+}
