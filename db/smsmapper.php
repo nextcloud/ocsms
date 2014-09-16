@@ -52,11 +52,10 @@ class SmsMapper extends Mapper {
 
 		$phoneList = array();
 		while($row = $result->fetchRow()) {
-			if (!in_array($row["sms_id"], $phoneList)) {
-				array_push($phoneList);
+			if (!in_array($row["sms_address"], $phoneList)) {
+				array_push($phoneList, $row["sms_address"]);
 			}
 		}
-		sort($phoneList);
 		return $phoneList;
 	}
 
