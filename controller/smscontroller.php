@@ -23,7 +23,7 @@ class SmsController extends Controller {
 	private $userId;
 	private $smsMapper;
 	private $errorMsg;
-	
+
 	public function __construct ($appName, IRequest $request, $userId, SmsMapper $mapper){
 		parent::__construct($appName, $request);
 		$this->userId = $userId;
@@ -35,7 +35,9 @@ class SmsController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function index () {
-		$params = array('user' => $this->userId);
+		$params = array('user' => $this->userId,
+			"PNLConversations" => $this->smsMapper->getAllPeersPhoneNumbers($this->userId)
+		);
 		return new TemplateResponse($this->appName, 'main', $params);
 	}
 
@@ -47,7 +49,7 @@ class SmsController extends Controller {
 		$smsList = $this->smsMapper->getAllIds($this->userId);
 		return new JSONResponse(array("smslist" => $smsList));
 	}
-	
+
 	/**
 	 * @NoAdminRequired
 	 */
@@ -59,7 +61,7 @@ class SmsController extends Controller {
 		$this->smsMapper->writeToDB($this->userId, $smsDatas);
 		return new JSONResponse(array("status" => true, "msg" => "OK"));
 	}
-	
+
 	/**
 	 * @NoAdminRequired
 	 */
@@ -71,7 +73,7 @@ class SmsController extends Controller {
 		$this->smsMapper->writeToDB($this->userId, $smsDatas, true);
 		return new JSONResponse(array("status" => true, "msg" => "OK"));
 	 }
-	
+
 	private function checkPushStructure ($smsCount, $smsDatas) {
 		if ($smsCount != count($smsDatas)) {
 			$this->errorMsg = "Error: sms count invalid";

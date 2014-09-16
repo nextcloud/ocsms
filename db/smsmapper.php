@@ -25,19 +25,19 @@ class SmsMapper extends Mapper {
 	public function __construct (IDb $db) {
 		parent::__construct($db, 'ocsms_smsdatas');
 	}
-	
+
 	public function getAllIds ($userId) {
 		$query = \OC_DB::prepare('SELECT sms_id, sms_mailbox FROM ' .
 		'*PREFIX*ocsms_smsdatas WHERE user_id = ?');
 		$result = $query->execute(array($userId));
-		
+
 		$smsList = array();
 		while($row = $result->fetchRow()) {
 			$mbox = SmsMapper::$mailboxNames[$row["sms_mailbox"]];
 			if (!isset($smsList[$mbox])) {
 				$smsList[$mbox] = array();
 			}
-			
+
 			if (!in_array($row["sms_id"], $smsList[$mbox])) {
 				array_push($smsList[$mbox], $row["sms_id"]);
 			}
@@ -45,21 +45,36 @@ class SmsMapper extends Mapper {
 		return $smsList;
 	}
 
+	public function getAllPeersPhoneNumbers ($userId) {
+		$query = \OC_DB::prepare('SELECT sms_address FROM ' .
+		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_mailbox IN (?,?)');
+		$result = $query->execute(array($userId, 0, 1));
+
+		$phoneList = array();
+		while($row = $result->fetchRow()) {
+			if (!in_array($row["sms_id"], $phoneList)) {
+				array_push($phoneList);
+			}
+		}
+		sort($phoneList);
+		return $phoneList;
+	}
+
 	public function writeToDB ($userId, $smsList, $purgeAllSmsBeforeInsert = false) {
 		\OCP\DB::beginTransaction();
-		
+
 		if ($purgeAllSmsBeforeInsert === true) {
 			$query = \OC_DB::prepare('DELETE FROM *PREFIX*ocsms_smsdatas ' .
 			'WHERE user_id = ?');
 			$result = $query->execute(array($userId));
 		}
-		
+
 		foreach ($smsList as $sms) {
 			$smsFlags = sprintf("%s%s",
 				$sms["read"] === "true" ? "1" : "0",
 				$sms["seen"] === "true" ? "1" : "0"
 			);
-			
+
 			// Only delete if we haven't purged the DB
 			if ($purgeAllSmsBeforeInsert === false) {
 				// Remove previous record
@@ -70,7 +85,7 @@ class SmsMapper extends Mapper {
 					$userId, (int) $sms["_id"]
 				));
 			}
-			
+
 			$query = \OC_DB::prepare('INSERT INTO *PREFIX*ocsms_smsdatas ' .
 			'(user_id, added, lastmodified, sms_flags, sms_date, sms_id,' .
 			'sms_address, sms_msg, sms_mailbox, sms_type) VALUES ' .
@@ -81,10 +96,10 @@ class SmsMapper extends Mapper {
 				$sms["address"], $sms["body"], (int) $sms["mbox"],
 				(int) $sms["type"]
 			));
-			
-			
+
+
 		}
-		
+
 		\OCP\DB::commit();
 	}
 }
