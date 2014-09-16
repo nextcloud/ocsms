@@ -12,10 +12,23 @@ function fetchConversation(phoneNumber) {
 	$.getJSON(OC.generateUrl('/apps/ocsms/get/conversation'),
 		{'phoneNumber': phoneNumber},
 		function(jsondata, status) {
+			// Improve jQuery performance
 			var conversationBuf = "";
+			// Improve JS performance
+			var msgClass = '';
 
 			$.each(jsondata["conversation"], function(id, vals) {
-				conversationBuf += vals["msg"] + "<br />";
+				if (vals["type"] == 1) {
+					msgClass = "msg-recv";
+				}
+				else if (vals["type"] == 2) {
+					msgClass = "msg-sent";
+				}
+				else {
+					msgClass = '';
+				}
+
+				conversationBuf += '<div class="' + msgClass + '">' + vals["msg"] + '</div>';
 			});
 
 			$('#app-content').html(conversationBuf);
