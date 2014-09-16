@@ -43,6 +43,7 @@ class SmsController extends Controller {
 			),
 			'PNLDrafts' => array(
 				'label' => 'Drafts',
+				'phoneNumbers' => array(),
 				'url' => \OCP\Util::linkToAbsolute('index.php', 'apps/ocsms/', array('feed' => 'drafts'))
 			)
 		);
