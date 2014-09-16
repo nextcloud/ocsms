@@ -39,14 +39,15 @@ class SmsController extends Controller {
 			'PNLConversations' => array(
 				'label' => 'Conversations',
 				'phoneNumbers' => $this->smsMapper->getAllPeersPhoneNumbers($this->userId),
-				'url' => \OCP\Util::linkToAbsolute('ocsms', 'index.php', array('feed' => 'conversations'))
+				'url' => \OCP\Util::linkToAbsolute('index.php', 'apps/ocsms/', array('feed' => 'conversations'))
 			),
 			'PNLDrafts' => array(
 				'label' => 'Drafts',
 				'phoneNumbers' => array(),
-				'url' => \OCP\Util::linkToAbsolute('ocsms', 'index.php', array('feed' => 'drafts'))
+				'url' => \OCP\Util::linkToAbsolute('index.php', 'apps/ocsms/', array('feed' => 'drafts'))
 			)
-		)
+		);
+
 		$params = array('user' => $this->userId,
 			'mailboxes' => $mboxes
 		);
