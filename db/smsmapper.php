@@ -21,6 +21,12 @@ class SmsMapper extends Mapper {
 	* on which mailbox it works
 	*/
 	private static $mailboxNames = array(0 => "inbox", 1 => "sent", 2 => "drafts");
+	private static $messageTypes = array(
+		0 => "all", 1 => "inbox",
+		2 => "sent", 3 => "drafts",
+		4 => "outbox", 5 => "failed",
+		6 => "queued"
+	);
 
 	public function __construct (IDb $db) {
 		parent::__construct($db, 'ocsms_smsdatas');
@@ -57,6 +63,19 @@ class SmsMapper extends Mapper {
 			}
 		}
 		return $phoneList;
+	}
+
+	public function getAllMessagesForPhoneNumber ($userId, $phoneNumber) {
+		$query = \OC_DB::prepare('SELECT sms_date, sms_msg, sms_type FROM ' .
+		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_mailbox IN (?,?)');
+		$result = $query->execute(array($userId, 0, 1));
+
+		$messageList = array();
+		while($row = $result->fetchRow()) {
+			array_push($messageList[$row["sms_date"]], $row);
+		}
+		sort($messageList);
+		return $messageList;
 	}
 
 	public function writeToDB ($userId, $smsList, $purgeAllSmsBeforeInsert = false) {
