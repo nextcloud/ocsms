@@ -1,3 +1,15 @@
-#hello {
-	color: red;
+/* Navigation: folder like structure */
+#app-mailbox-content {
+	width: 250px;
+	height: 100%;
+	float: left;
+	-moz-box-sizing: border-box; box-sizing: border-box;
+	background-color: #f5f5f5;
+	padding-bottom: 44px;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
