@@ -9,12 +9,12 @@
  */
 
 function fetchConversation(phoneNumber) {
-	$.getJSON(OC.generateUrl('/apps/ocsms/get/get_conversation'),
+	$.getJSON(OC.generateUrl('/apps/ocsms/get/conversation'),
 		{'phoneNumber': phoneNumber},
 		function(jsondata, status) {
 			var conversationBuf = "";
 
-			$.each(jsondata["conversation"]), function(id, vals) {
+			$.each(jsondata["conversation"], function(id, vals) {
 				conversationBuf += vals["msg"] + "<br />";
 			});
 
