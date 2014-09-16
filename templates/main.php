@@ -9,7 +9,7 @@
 		<?php /*print_unescaped($this->inc('part.settings'));*/ ?>
 	</div>
 
-	<div id="app-mailbox-content">
+	<div id="app-mailbox-peers">
 	</div>
 
 	<div id="app-content">
