@@ -12,6 +12,17 @@
 // Some global vars to improve performances
 var selectedConversation = null;
 
+// Source: http://www.sitepoint.com/url-parameters-jquery/
+$.urlParam = function(name){
+	var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+	if (results == null) {
+		return null;
+	}
+	else {
+		return results[1] || 0;
+	}
+}
+
 function fetchConversation(phoneNumber) {
 	$.getJSON(OC.generateUrl('/apps/ocsms/get/conversation'),
 		{'phoneNumber': phoneNumber},
@@ -87,6 +98,15 @@ function changeSelectedConversation(item) {
 				event.preventDefault();
 			});
 
+			var urlPhoneNumber = decodeURIComponent($.urlParam('phonenumber'));
+			if (urlPhoneNumber != null) {
+				fetchConversation(urlPhoneNumber);
+				
+				var pObject = $("a[mailbox-navigation='" + urlPhoneNumber + "']");
+				if (pObject != null) {
+					changeSelectedConversation(pObject);
+				}
+			}
 	     });
 	});
 
