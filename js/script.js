@@ -7,6 +7,10 @@
  * @author Loic Blot <loic.blot@unix-experience.fr>
  * @copyright Loic Blot 2014
  */
+ 
+
+// Some global vars to improve performances
+var selectedConversation = null;
 
 function fetchConversation(phoneNumber) {
 	$.getJSON(OC.generateUrl('/apps/ocsms/get/conversation'),
@@ -47,13 +51,22 @@ function fetchConversation(phoneNumber) {
 		}
 	);
 }
+
+function changeSelectedConversation(item) {
+	if (selectedConversation != null) {
+		selectedConversation.removeClass('active');
+	}
+	selectedConversation = $(this);
+	selectedConversation.addClass('active');
+}
+
 (function ($, OC) {
 	$(document).ready(function () {
 		// Now bind the events when we click on the phone number
 		$('#app-navigation').find('a').on('click', function (event) {
 			OC.Util.History.pushState('feed=' + $(this).attr('nav-feed'));
 			event.preventDefault();
-        });
+		});
 
 		$.getJSON(OC.generateUrl('/apps/ocsms/get/peerlist'), function(jsondata, status) {
 			// Use a buffer for better jQuery performance
@@ -70,6 +83,7 @@ function fetchConversation(phoneNumber) {
 				var phoneNumber = $(this).attr('mailbox-navigation');
 				OC.Util.History.pushState('phonenumber=' + phoneNumber);
 				fetchConversation(phoneNumber);
+				changeSelectedConversation($(this));
 				event.preventDefault();
 			});
 
