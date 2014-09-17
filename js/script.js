@@ -77,10 +77,10 @@ function fetchConversation(phoneNumber) {
 
 function changeSelectedConversation(item) {
 	if (selectedConversation != null) {
-		selectedConversation.removeClass('active');
+		selectedConversation.parent().removeClass('selected');
 	}
-	selectedConversation = $(this);
-	selectedConversation.addClass('active');
+	selectedConversation = item;
+	selectedConversation.parent().addClass('selected');
 }
 
 (function ($, OC) {
@@ -113,7 +113,6 @@ function changeSelectedConversation(item) {
 			var urlPhoneNumber = decodeURIComponent($.urlParam('phonenumber'));
 			if (urlPhoneNumber != null) {
 				fetchConversation(urlPhoneNumber);
-				
 				var pObject = $("a[mailbox-navigation='" + urlPhoneNumber + "']");
 				if (pObject != null) {
 					changeSelectedConversation(pObject);
