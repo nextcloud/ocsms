@@ -61,7 +61,7 @@ function fetchConversation(phoneNumber) {
 				if (formatedMin < 10) {
 					formatedMin = '0' + formatedMin;
 				}
-				formatedDate = msgDate.getDate() + " " + months[msgDate.getMonth()-1] + " " +
+				formatedDate = msgDate.getDate() + " " + months[msgDate.getMonth()] + " " +
 					formatedHour + ":" + formatedMin;
 
 				conversationBuf += '<div><div class="' + msgClass + '"><div>' + 
