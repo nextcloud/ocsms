@@ -11,6 +11,7 @@
 
 // Some global vars to improve performances
 var selectedConversation = null;
+var curPhoneNumber = null;
 
 // Source: http://www.sitepoint.com/url-parameters-jquery/
 $.urlParam = function(name){
@@ -21,7 +22,11 @@ $.urlParam = function(name){
 	else {
 		return results[1] || 0;
 	}
-}
+};
+
+var refreshConversation = function() {
+	alert(curPhoneNumber);
+};
 
 function fetchConversation(phoneNumber) {
 	$.getJSON(OC.generateUrl('/apps/ocsms/get/conversation'),
@@ -67,6 +72,7 @@ function fetchConversation(phoneNumber) {
 				conversationBuf += '<div><div class="' + msgClass + '"><div>' +
 					vals["msg"] + '</div><div class="msg-date">' +
 					formatedDate + '</div></div><div class="msg-spacer"></div></div>';
+				curPhoneNumber = phoneNumber;
 			});
 
 			$('#app-content').html(conversationBuf);
@@ -115,6 +121,7 @@ function changeSelectedConversation(item) {
 				}
 			}
 	     });
+	     setInterval(refreshConversation, 10000);
 	});
 
 })(jQuery, OC);
