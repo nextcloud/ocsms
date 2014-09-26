@@ -7,7 +7,7 @@
  * @author Loic Blot <loic.blot@unix-experience.fr>
  * @copyright Loic Blot 2014
  */
- 
+
 
 // Some global vars to improve performances
 var selectedConversation = null;
@@ -64,8 +64,8 @@ function fetchConversation(phoneNumber) {
 				formatedDate = msgDate.getDate() + " " + months[msgDate.getMonth()-1] + " " +
 					formatedHour + ":" + formatedMin;
 
-				conversationBuf += '<div><div class="' + msgClass + '"><div>' + 
-					vals["msg"] + '</div><div class="msg-date">' + 
+				conversationBuf += '<div><div class="' + msgClass + '"><div>' +
+					vals["msg"] + '</div><div class="msg-date">' +
 					formatedDate + '</div></div><div class="msg-spacer"></div></div>';
 			});
 
@@ -86,11 +86,6 @@ function changeSelectedConversation(item) {
 (function ($, OC) {
 	$(document).ready(function () {
 		// Now bind the events when we click on the phone number
-		$('#app-navigation').find('a').on('click', function (event) {
-			OC.Util.History.pushState('feed=' + $(this).attr('nav-feed'));
-			event.preventDefault();
-		});
-
 		$.getJSON(OC.generateUrl('/apps/ocsms/get/peerlist'), function(jsondata, status) {
 			// Use a buffer for better jQuery performance
 			var peerListBuf = "";
@@ -113,7 +108,7 @@ function changeSelectedConversation(item) {
 			var urlPhoneNumber = decodeURIComponent($.urlParam('phonenumber'));
 			if (urlPhoneNumber != null) {
 				fetchConversation(urlPhoneNumber);
-				
+
 				var pObject = $("a[mailbox-navigation='" + urlPhoneNumber + "']");
 				if (pObject != null) {
 					changeSelectedConversation(pObject);
