@@ -28,7 +28,7 @@ $.urlParam = function(name){
 var refreshConversation = function() {
 	$.getJSON(OC.generateUrl('/apps/ocsms/get/conversation'),
 		{
-			'phoneNumber': phoneNumber,
+			'phoneNumber': curPhoneNumber,
 			"lastDate": lastMsgDate
 		},
 		function(jsondata, status) {
