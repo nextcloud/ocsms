@@ -77,7 +77,7 @@ class SmsController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function getConversation ($phoneNumber) {
+	public function getConversation ($phoneNumber, $lastDate = 0) {
 		$messages = $this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $phoneNumber);
 		// @ TODO: filter correctly
 		return new JSONResponse(array("conversation" => $messages));

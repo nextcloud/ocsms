@@ -12,6 +12,10 @@
 // Some global vars to improve performances
 var selectedConversation = null;
 var curPhoneNumber = null;
+var lastMsgDate = 0;
+
+var months = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'Jun.', 'Jul.', 'Aug.', 'Sep.',
+	'Oct.', 'Nov.', 'Dec.'];
 
 // Source: http://www.sitepoint.com/url-parameters-jquery/
 $.urlParam = function(name){
@@ -25,60 +29,83 @@ $.urlParam = function(name){
 };
 
 var refreshConversation = function() {
-
+	$.getJSON(OC.generateUrl('/apps/ocsms/get/conversation'),
+		{
+			'phoneNumber': phoneNumber,
+			"lastDate": lastMsgDate
+		},
+		function(jsondata, status) {
+			conversationBuf = formatConversation(jsondata);
+			$('.msg-endtag').addBefore(conversationBuf);
+			$('#app-content').scrollTop(1E10);
+		}
+	);
 };
 
 function fetchConversation(phoneNumber) {
 	$.getJSON(OC.generateUrl('/apps/ocsms/get/conversation'),
-		{'phoneNumber': phoneNumber},
+		{
+			'phoneNumber': phoneNumber
+		},
 		function(jsondata, status) {
-			// Improve jQuery performance
-			var conversationBuf = "";
-			// Improve JS performance
-			var msgClass = '';
-			var unixDate = '';
-			var formatedDate = '';
-			var formatedHour = '00';
-			var formatedMin = '00';
-			var months = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'Jun.', 'Jul.', 'Aug.', 'Sep.',
-				'Oct.', 'Nov.', 'Dec.'];
-
-			$.each(jsondata["conversation"], function(id, vals) {
-				if (vals["type"] == 1) {
-					msgClass = "msg-recv";
-				}
-				else if (vals["type"] == 2) {
-					msgClass = "msg-sent";
-				}
-				else {
-					msgClass = '';
-				}
-
-				// Multiplicate ID to permit date to use it properly
-				msgDate = new Date(id*1);
-
-				formatedHour = msgDate.getHours();
-				if (formatedHour < 10) {
-					formatedHour = '0' + formatedHour;
-				}
-
-				formatedMin = msgDate.getMinutes();
-				if (formatedMin < 10) {
-					formatedMin = '0' + formatedMin;
-				}
-				formatedDate = msgDate.getDate() + " " + months[msgDate.getMonth()] + " " +
-					formatedHour + ":" + formatedMin;
-
-				conversationBuf += '<div><div class="' + msgClass + '"><div>' +
-					vals["msg"] + '</div><div class="msg-date">' +
-					formatedDate + '</div></div><div class="msg-spacer"></div></div>';
-				curPhoneNumber = phoneNumber;
-			});
+			conversationBuf = formatConversation(jsondata);
+			conversationBuf += '<div class="msg-endtag"></div>';
 
 			$('#app-content').html(conversationBuf);
 			$('#app-content').scrollTop(1E10);
+
+			curPhoneNumber = phoneNumber;
 		}
 	);
+}
+
+function formatConversation(jsondata) {
+	// Improve jQuery performance
+	var buf = "";
+	// Improve JS performance
+	var msgClass = '';
+	var formatedDate = '';
+	var formatedHour = '00';
+	var formatedMin = '00';
+
+	$.each(jsondata["conversation"], function(id, vals) {
+		if (vals["type"] == 1) {
+			msgClass = "msg-recv";
+		}
+		else if (vals["type"] == 2) {
+			msgClass = "msg-sent";
+		}
+		else {
+			msgClass = '';
+		}
+
+		// Store the greater msg date for refresher
+		if (id > lastMsgDate) {
+			id = lastMsgDate;
+		}
+
+		// Multiplicate ID to permit date to use it properly
+		msgDate = new Date(id*1);
+
+		formatedHour = msgDate.getHours();
+		if (formatedHour < 10) {
+			formatedHour = '0' + formatedHour;
+		}
+
+		formatedMin = msgDate.getMinutes();
+		if (formatedMin < 10) {
+			formatedMin = '0' + formatedMin;
+		}
+		formatedDate = msgDate.getDate() + " " + months[msgDate.getMonth()] + " " +
+			formatedHour + ":" + formatedMin;
+
+		buf += '<div><div class="' + msgClass + '"><div>' +
+			vals["msg"] + '</div><div class="msg-date">' +
+			formatedDate + '</div></div><div class="msg-spacer"></div></div>';
+
+	});
+
+	return buf;
 }
 
 function changeSelectedConversation(item) {
@@ -106,6 +133,8 @@ function changeSelectedConversation(item) {
 			$('#app-mailbox-peers').find('a[mailbox-navigation]').on('click', function (event) {
 				var phoneNumber = $(this).attr('mailbox-navigation');
 				OC.Util.History.pushState('phonenumber=' + phoneNumber);
+				// Reset it for refreshConversation
+				lastMsgDate = 0;
 				fetchConversation(phoneNumber);
 				changeSelectedConversation($(this));
 				event.preventDefault();
