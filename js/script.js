@@ -33,7 +33,7 @@ var refreshConversation = function() {
 		},
 		function(jsondata, status) {
 			conversationBuf = formatConversation(jsondata);
-			$('.msg-endtag').addBefore(conversationBuf);
+			$('.msg-endtag').before(conversationBuf);
 			$('#app-content').scrollTop(1E10);
 		}
 	);
