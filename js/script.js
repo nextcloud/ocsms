@@ -80,7 +80,7 @@ function formatConversation(jsondata) {
 
 		// Store the greater msg date for refresher
 		if (id > lastMsgDate) {
-			id = lastMsgDate;
+			lastMsgDate = id;
 		}
 
 		// Multiplicate ID to permit date to use it properly
