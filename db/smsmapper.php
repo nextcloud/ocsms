@@ -65,11 +65,11 @@ class SmsMapper extends Mapper {
 		return $phoneList;
 	}
 
-	public function getAllMessagesForPhoneNumber ($userId, $phoneNumber) {
+	public function getAllMessagesForPhoneNumber ($userId, $phoneNumber, $minDate = 0) {
 		$query = \OC_DB::prepare('SELECT sms_date, sms_msg, sms_type FROM ' .
 		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_address = ? ' .
-		'AND sms_mailbox IN (?,?)');
-		$result = $query->execute(array($userId, $phoneNumber, 0, 1));
+		'AND sms_mailbox IN (?,?) AND sms_date > ?');
+		$result = $query->execute(array($userId, $phoneNumber, 0, 1, $minDate));
 
 		$messageList = array();
 		while($row = $result->fetchRow()) {
