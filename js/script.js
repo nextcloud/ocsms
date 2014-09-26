@@ -14,9 +14,6 @@ var selectedConversation = null;
 var curPhoneNumber = null;
 var lastMsgDate = 0;
 
-var months = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'Jun.', 'Jul.', 'Aug.', 'Sep.',
-	'Oct.', 'Nov.', 'Dec.'];
-
 // Source: http://www.sitepoint.com/url-parameters-jquery/
 $.urlParam = function(name){
 	var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -67,6 +64,8 @@ function formatConversation(jsondata) {
 	var formatedDate = '';
 	var formatedHour = '00';
 	var formatedMin = '00';
+	var months = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'Jun.', 'Jul.', 'Aug.', 'Sep.',
+		'Oct.', 'Nov.', 'Dec.'];
 
 	$.each(jsondata["conversation"], function(id, vals) {
 		if (vals["type"] == 1) {
