@@ -61,7 +61,7 @@ function fetchConversation(phoneNumber) {
 				if (formatedMin < 10) {
 					formatedMin = '0' + formatedMin;
 				}
-				formatedDate = msgDate.getDate() + " " + months[msgDate.getMonth()-1] + " " +
+				formatedDate = msgDate.getDate() + " " + months[msgDate.getMonth()] + " " +
 					formatedHour + ":" + formatedMin;
 
 				conversationBuf += '<div><div class="' + msgClass + '"><div>' +
@@ -77,10 +77,10 @@ function fetchConversation(phoneNumber) {
 
 function changeSelectedConversation(item) {
 	if (selectedConversation != null) {
-		selectedConversation.removeClass('active');
+		selectedConversation.parent().removeClass('selected');
 	}
-	selectedConversation = $(this);
-	selectedConversation.addClass('active');
+	selectedConversation = item;
+	selectedConversation.parent().addClass('selected');
 }
 
 (function ($, OC) {
