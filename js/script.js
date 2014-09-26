@@ -25,7 +25,7 @@ $.urlParam = function(name){
 };
 
 var refreshConversation = function() {
-	alert(curPhoneNumber);
+
 };
 
 function fetchConversation(phoneNumber) {
