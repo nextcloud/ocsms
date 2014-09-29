@@ -71,7 +71,10 @@ class Application extends App {
 		});
 	}
 	
-	// Partially importe this function from owncloud Chat app
+	/** 
+	 * Partially importe this function from owncloud Chat app
+	 * https://github.com/owncloud/chat/blob/master/app/chat.php
+	 */
 	public function getContacts() {
 		// Only load contacts if they aren't in the buffer
 		if(count(self::$contacts) == 0){
