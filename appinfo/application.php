@@ -21,6 +21,11 @@ use \OCA\OcSms\Db\SmsMapper;
 
 
 class Application extends App {
+	
+	/**
+	* @var array used to cache the parsed contacts for every request
+	*/
+	private static $contacts;
 
 	public function __construct (array $urlParams=array()) {
 		parent::__construct('ocsms', $urlParams);
@@ -64,6 +69,12 @@ class Application extends App {
 		$container->registerService('ContactsManager', function($c){
 			return $c->getServer()->getContactsManager();
 		});
-
+	}
+	
+	// Partially importe this function from owncloud Chat app
+	public function getContacts() {
+		// Only load contacts if they aren't in the buffer
+		if(count(self::$contacts) == 0){
+		}
 	}
 }
