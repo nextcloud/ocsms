@@ -41,21 +41,28 @@ class Application extends App {
 		});
 
 		/**
-         * Database Layer
-         */
-        $container->registerService('Sms', function($c) {
-            return new Sms($c->query('ServerContainer')->getDb());
-        });
-
-        $container->registerService('SmsMapper', function($c) {
-            return new SmsMapper($c->query('ServerContainer')->getDb());
-        });
+        	 * Database Layer
+        	 */
+	        $container->registerService('Sms', function($c) {
+	            return new Sms($c->query('ServerContainer')->getDb());
+	        });
+	
+	        $container->registerService('SmsMapper', function($c) {
+	            return new SmsMapper($c->query('ServerContainer')->getDb());
+	        });
 
 		/**
 		 * Core
 		 */
 		$container->registerService('UserId', function($c) {
 			return \OCP\User::getUser();
+		});
+		
+		/**
+		 * Managers
+		 */
+		$container->registerService('ContactsManager', function($c){
+			return $c->getServer()->getContactsManager();
 		});
 
 	}
