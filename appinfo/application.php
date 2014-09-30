@@ -21,7 +21,7 @@ use \OCA\OcSms\Db\SmsMapper;
 
 
 class Application extends App {
-	
+
 	/**
 	* @var array used to cache the parsed contacts for every request
 	*/
@@ -51,7 +51,7 @@ class Application extends App {
 	        $container->registerService('Sms', function($c) {
 	            return new Sms($c->query('ServerContainer')->getDb());
 	        });
-	
+
 	        $container->registerService('SmsMapper', function($c) {
 	            return new SmsMapper($c->query('ServerContainer')->getDb());
 	        });
@@ -62,7 +62,7 @@ class Application extends App {
 		$container->registerService('UserId', function($c) {
 			return \OCP\User::getUser();
 		});
-		
+
 		/**
 		 * Managers
 		 */
@@ -70,14 +70,21 @@ class Application extends App {
 			return $c->getServer()->getContactsManager();
 		});
 	}
-	
-	/** 
+
+	/**
 	 * Partially importe this function from owncloud Chat app
 	 * https://github.com/owncloud/chat/blob/master/app/chat.php
 	 */
 	public function getContacts() {
 		// Only load contacts if they aren't in the buffer
-		if(count(self::$contacts) == 0){
+		if(count(self::$contacts) == 0) {
+			$cm = $this->c['ContactsManager'];
+			$result = $cm->search('',array('FN'));
+			foreach ($result as $r) {
+				if (isset $r["phone"]) {
+					self::$contacts[$r["phone"]] = $r["FN"];
+				}
+			}
 		}
 	}
 }
