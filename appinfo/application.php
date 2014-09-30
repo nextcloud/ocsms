@@ -26,12 +26,15 @@ class Application extends App {
 	* @var array used to cache the parsed contacts for every request
 	*/
 	private static $contacts;
+	
+	private $c;
 
 	public function __construct (array $urlParams=array()) {
 		parent::__construct('ocsms', $urlParams);
 
 		$container = $this->getContainer();
-
+		$this->c = $container;
+		
 		/**
 		 * Controllers
 		 */
