@@ -41,7 +41,8 @@ class Application extends App {
 				$c->query('AppName'),
 				$c->query('Request'),
 				$c->query('UserId'),
-				$c->query('SmsMapper')
+				$c->query('SmsMapper'),
+				$this
 			);
 		});
 
@@ -86,5 +87,7 @@ class Application extends App {
 				}
 			}
 		}
+
+		return self::$contacts;
 	}
 }

@@ -20,12 +20,14 @@ use \OCA\OcSms\Db\SmsMapper;
 
 class SmsController extends Controller {
 
+	private $app;
 	private $userId;
 	private $smsMapper;
 	private $errorMsg;
 
-	public function __construct ($appName, IRequest $request, $userId, SmsMapper $mapper){
+	public function __construct ($appName, IRequest $request, $userId, SmsMapper $mapper, Application $app){
 		parent::__construct($appName, $request);
+		$this->app = $app;
 		$this->userId = $userId;
 		$this->smsMapper = $mapper;
 	}
@@ -80,7 +82,7 @@ class SmsController extends Controller {
 	public function getConversation ($phoneNumber, $lastDate = 0) {
 		$messages = $this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $phoneNumber, $lastDate);
 		// @ TODO: filter correctly
-		return new JSONResponse(array("conversation" => $messages));
+		return new JSONResponse(array("conversation" => $messages, $contacts => $this->app->getContacts()));
 	}
 
 	/**
