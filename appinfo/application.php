@@ -82,11 +82,12 @@ class Application extends App {
 	public function getContacts() {
 		// Only load contacts if they aren't in the buffer
 		if(count(self::$contacts) == 0) {
+			self::$contacts = array();
 			$cm = $this->c['ContactsManager'];
 			$result = $cm->search('',array('FN'));
 			foreach ($result as $r) {
-				if (isset ($r["phone"])) {
-					self::$contacts[$r["phone"]] = $r["FN"];
+				if (isset ($r["TEL"])) {
+					self::$contacts[$r["TEL"]] = $r["FN"];
 				}
 			}
 		}
