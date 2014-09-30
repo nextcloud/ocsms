@@ -81,7 +81,7 @@ class Application extends App {
 			$cm = $this->c['ContactsManager'];
 			$result = $cm->search('',array('FN'));
 			foreach ($result as $r) {
-				if (isset $r["phone"]) {
+				if (isset ($r["phone"])) {
 					self::$contacts[$r["phone"]] = $r["FN"];
 				}
 			}
