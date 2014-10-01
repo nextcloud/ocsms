@@ -25,7 +25,7 @@ class SmsController extends Controller {
 	private $smsMapper;
 	private $errorMsg;
 
-	public function __construct ($appName, IRequest $request, $userId, SmsMapper $mapper, Application $app){
+	public function __construct ($appName, IRequest $request, $userId, SmsMapper $mapper, OcSmsApp $app){
 		parent::__construct($appName, $request);
 		$this->app = $app;
 		$this->userId = $userId;
