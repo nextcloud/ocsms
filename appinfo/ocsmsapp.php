@@ -20,7 +20,7 @@ use \OCA\OcSms\Db\Sms;
 use \OCA\OcSms\Db\SmsMapper;
 
 
-class Application extends App {
+class OcSmsApp extends App {
 
 	/**
 	* @var array used to cache the parsed contacts for every request
