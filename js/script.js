@@ -34,7 +34,7 @@ var refreshConversation = function() {
 			conversationBuf = formatConversation(jsondata);
 			if (conversationBuf != '') {
 				$('.msg-endtag').before(conversationBuf);
-				$('#app-content').scrollTop(1E10);
+				$('#app-content-wrapper').scrollTop(1E10);
 			}
 		}
 	);
@@ -48,9 +48,17 @@ function fetchConversation(phoneNumber) {
 		function(jsondata, status) {
 			conversationBuf = formatConversation(jsondata);
 			conversationBuf += '<div class="msg-endtag"></div>';
+			if (typeof jsondata['contactName'] == 'undefined') {
+				$('#ocsms-phone-label').html(phoneNumber);
+				$('#ocsms-phone-opt-number').html('');
+			}
+			else {
+				$('#ocsms-phone-label').html(jsondata['contactName']);
+				$('#ocsms-phone-opt-number').html(phoneNumber);
+			}
 
-			$('#app-content').html(conversationBuf);
-			$('#app-content').scrollTop(1E10);
+			$('#app-content-wrapper').html(conversationBuf);
+			$('#app-content-wrapper').scrollTop(1E10);
 
 			curPhoneNumber = phoneNumber;
 		}

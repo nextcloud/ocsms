@@ -44,8 +44,29 @@
 	color: #333;
 }
 
-#app-content {
+#app-content-wrapper {
 	padding: 15px;
+	margin-top: 70px;
+}
+
+#app-content-header {
+	background-color: #E6E6E6;
+	min-height: 30px;
+	width: 100%;
+	float: left;
+	position: fixed;
+	top: 45px;
+	padding: 15px;
+}
+
+#ocsms-phone-label {
+	font-weight: bold;
+	color: #555;
+}
+
+#ocsms-phone-opt-number {
+	color: #999;
+	padding-left: 15px;
 }
 
 .msg-sent, .msg-recv {
