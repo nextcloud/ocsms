@@ -20,7 +20,7 @@ use \OCA\OcSms\Db\Sms;
 use \OCA\OcSms\Db\SmsMapper;
 
 
-class Application extends App {
+class OcSmsApp extends App {
 
 	/**
 	* @var array used to cache the parsed contacts for every request
@@ -88,6 +88,8 @@ class Application extends App {
 			foreach ($result as $r) {
 				if (isset ($r["TEL"])) {
 					self::$contacts[$r["TEL"]] = $r["FN"];
+					$phoneId = preg_replace("#[ ]#", "", $r["TEL"]);
+					self::$contacts[$phoneId] = $r["FN"];
 				}
 			}
 		}
