@@ -124,7 +124,16 @@ function changeSelectedConversation(item) {
 			var peerListBuf = "";
 
 			$.each(jsondata['phonelist'], function(id, val) {
-				peerListBuf += '<li><a href="#" mailbox-navigation="' + val + '">' + val + '</a></li>';
+				var fn, peerLabel;
+				if (typeof jsondata['contacts'][val] == 'undefined') {
+					fn = '';
+					peerLabel = val;
+				}
+				else {
+					fn = jsondata['contacts'][val];
+					peerLabel = fn;
+				}
+				peerListBuf += '<li><a href="#" mailbox-navigation="' + val + '">' + peerLabel + '</a></li>';
 			});
 
 			$('#app-mailbox-peers ul').html(peerListBuf);
