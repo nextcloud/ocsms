@@ -11,7 +11,7 @@
 
 namespace OCA\OcSms\AppInfo;
 
-$application = new Application();
+$application = new OcSmsApp();
 
 $application->registerRoutes($this, array('routes' => array(
 	array('name' => 'sms#index', 'url' => '/', 'verb' => 'GET'),
