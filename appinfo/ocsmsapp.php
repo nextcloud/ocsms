@@ -87,9 +87,17 @@ class OcSmsApp extends App {
 			$result = $cm->search('',array('FN'));
 			foreach ($result as $r) {
 				if (isset ($r["TEL"])) {
-					self::$contacts[$r["TEL"]] = $r["FN"];
-					$phoneId = preg_replace("#[ ]#", "", $r["TEL"]);
-					self::$contacts[$phoneId] = $r["FN"];
+					$phoneIds = $r["TEL"];
+					if (is_array($phoneIds)) {
+						$countPhone = count($phoneIds);
+						for ($i=0; $i<$countPhone; $i++) {
+							$phoneNb = preg_replace("#[ ]#", "", $phoneIds[$i]);
+							self::$contacts[$phoneNb] = $r["FN"];
+						}
+					}
+					else {
+						self::$contacts[$phoneIds] = $r["FN"];
+					}
 				}
 			}
 		}

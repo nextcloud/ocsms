@@ -71,8 +71,17 @@ class SmsController extends Controller {
 	 */
 	public function retrieveAllPeers () {
 		$phoneList = $this->smsMapper->getAllPeersPhoneNumbers($this->userId);
+		$contactsSrc = $this->app->getContacts();
+		$contacts = array();
+
+		$countPhone = count($phoneList);
+		for ($i=0; $i < $countPhone; $i++) {
+			if (isset($contactsSrc[$phoneList[$i]])) {
+				$contacts[$phoneList[$i]] = $contactsSrc[$phoneList[$i]];
+			}
+		}
 		// @ TODO: filter correctly
-		return new JSONResponse(array("phonelist" => $phoneList));
+		return new JSONResponse(array("phonelist" => $phoneList, "contacts" => $contacts));
 	}
 
 	/**
@@ -81,8 +90,14 @@ class SmsController extends Controller {
 	 */
 	public function getConversation ($phoneNumber, $lastDate = 0) {
 		$messages = $this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $phoneNumber, $lastDate);
+		$contacts = $this->app->getContacts();
+		$contactName = "";
+		if (isset($contacts[$phoneNumber])) {
+			$contactName = $contacts[$phoneNumber];
+		}
+		
 		// @ TODO: filter correctly
-		return new JSONResponse(array("conversation" => $messages, "contacts" => $this->app->getContacts()));
+		return new JSONResponse(array("conversation" => $messages, "contactName" => $contactName));
 	}
 
 	/**

@@ -14,7 +14,6 @@ var selectedConversation = null;
 var curPhoneNumber = null;
 var lastMsgDate = 0;
 
-// Source: http://www.sitepoint.com/url-parameters-jquery/
 $.urlParam = function(name){
 	var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
 	if (results == null) {
