@@ -14,7 +14,7 @@
 			<div id="ocsms-phone-opt-number"></div>
 		</div>
 		<div id="app-content-wrapper">
-			No conversation loaded
+			<div id="ocsms-empty-conversation">Please choose a conversation on the left menu</div>
 		</div>
 	</div>
 </div>

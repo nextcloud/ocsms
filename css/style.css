@@ -69,6 +69,16 @@
 	padding-left: 15px;
 }
 
+#ocsms-empty-conversation {
+	position: absolute;
+	text-align: center;
+	top: 40%;
+	width: 100%;
+	padding: 20px;
+	color: #666;
+	font-size: 32px;
+}
+
 .msg-sent, .msg-recv {
 	border-radius: 12px;
 	margin: 4px;
