@@ -166,7 +166,7 @@ function changeSelectedConversation(item) {
 				event.preventDefault();
 			});
 
-			var pnParam = $.urlParam('phonenumber'));
+			var pnParam = $.urlParam('phonenumber');
 			if (pnParam != null) {
 				var urlPhoneNumber = decodeURIComponent(pnParam);
 				if (urlPhoneNumber != null) {
