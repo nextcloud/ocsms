@@ -152,8 +152,12 @@ function changeSelectedConversation(item) {
 				OC.Util.History.pushState('phonenumber=' + phoneNumber);
 				// Reset it for refreshConversation
 				lastMsgDate = 0;
-				fetchConversation(phoneNumber);
-				changeSelectedConversation($(this));
+				
+				// phoneNumber must exist
+				if (phoneNumber != null) {
+					fetchConversation(phoneNumber);
+					changeSelectedConversation($(this));
+				}
 				event.preventDefault();
 			});
 
