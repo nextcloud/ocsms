@@ -25,6 +25,11 @@ $.urlParam = function(name){
 };
 
 var refreshConversation = function() {
+	// if no conversation selected, then don't fetch page
+	if (curPhoneNumber == null) {
+		return;
+	}
+	
 	$.getJSON(OC.generateUrl('/apps/ocsms/get/conversation'),
 		{
 			'phoneNumber': curPhoneNumber,
@@ -152,18 +157,25 @@ function changeSelectedConversation(item) {
 				OC.Util.History.pushState('phonenumber=' + phoneNumber);
 				// Reset it for refreshConversation
 				lastMsgDate = 0;
-				fetchConversation(phoneNumber);
-				changeSelectedConversation($(this));
+				
+				// phoneNumber must exist
+				if (phoneNumber != null) {
+					fetchConversation(phoneNumber);
+					changeSelectedConversation($(this));
+				}
 				event.preventDefault();
 			});
 
-			var urlPhoneNumber = decodeURIComponent($.urlParam('phonenumber'));
-			if (urlPhoneNumber != null) {
-				fetchConversation(urlPhoneNumber);
+			var pnParam = $.urlParam('phonenumber'));
+			if (pnParam != null) {
+				var urlPhoneNumber = decodeURIComponent(pnParam);
+				if (urlPhoneNumber != null) {
+					fetchConversation(urlPhoneNumber);
 
-				var pObject = $("a[mailbox-navigation='" + urlPhoneNumber + "']");
-				if (pObject != null) {
-					changeSelectedConversation(pObject);
+					var pObject = $("a[mailbox-navigation='" + urlPhoneNumber + "']");
+					if (pObject != null) {
+						changeSelectedConversation(pObject);
+					}
 				}
 			}
 	     });

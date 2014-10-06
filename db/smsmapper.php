@@ -33,7 +33,7 @@ class SmsMapper extends Mapper {
 	}
 
 	public function getAllIds ($userId) {
-		$query = \OC_DB::prepare('SELECT sms_id, sms_mailbox FROM ' .
+		$query = \OCP\DB::prepare('SELECT sms_id, sms_mailbox FROM ' .
 		'*PREFIX*ocsms_smsdatas WHERE user_id = ?');
 		$result = $query->execute(array($userId));
 
@@ -52,7 +52,7 @@ class SmsMapper extends Mapper {
 	}
 
 	public function getAllPeersPhoneNumbers ($userId) {
-		$query = \OC_DB::prepare('SELECT sms_address FROM ' .
+		$query = \OCP\DB::prepare('SELECT sms_address FROM ' .
 		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_mailbox IN (?,?)');
 		$result = $query->execute(array($userId, 0, 1));
 
@@ -66,7 +66,7 @@ class SmsMapper extends Mapper {
 	}
 
 	public function getAllMessagesForPhoneNumber ($userId, $phoneNumber, $minDate = 0) {
-		$query = \OC_DB::prepare('SELECT sms_date, sms_msg, sms_type FROM ' .
+		$query = \OCP\DB::prepare('SELECT sms_date, sms_msg, sms_type FROM ' .
 		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_address = ? ' .
 		'AND sms_mailbox IN (?,?) AND sms_date > ?');
 		$result = $query->execute(array($userId, $phoneNumber, 0, 1, $minDate));
@@ -86,7 +86,7 @@ class SmsMapper extends Mapper {
 		\OCP\DB::beginTransaction();
 
 		if ($purgeAllSmsBeforeInsert === true) {
-			$query = \OC_DB::prepare('DELETE FROM *PREFIX*ocsms_smsdatas ' .
+			$query = \OCP\DB::prepare('DELETE FROM *PREFIX*ocsms_smsdatas ' .
 			'WHERE user_id = ?');
 			$result = $query->execute(array($userId));
 		}
@@ -101,14 +101,14 @@ class SmsMapper extends Mapper {
 			if ($purgeAllSmsBeforeInsert === false) {
 				// Remove previous record
 				// @ TODO: only update the required fields, getAllIds can be useful
-				$query = \OC_DB::prepare('DELETE FROM *PREFIX*ocsms_smsdatas ' .
+				$query = \OCP\DB::prepare('DELETE FROM *PREFIX*ocsms_smsdatas ' .
 				'WHERE user_id = ? AND sms_id = ?');
 				$result = $query->execute(array(
 					$userId, (int) $sms["_id"]
 				));
 			}
 
-			$query = \OC_DB::prepare('INSERT INTO *PREFIX*ocsms_smsdatas ' .
+			$query = \OCP\DB::prepare('INSERT INTO *PREFIX*ocsms_smsdatas ' .
 			'(user_id, added, lastmodified, sms_flags, sms_date, sms_id,' .
 			'sms_address, sms_msg, sms_mailbox, sms_type) VALUES ' .
 			'(?,?,?,?,?,?,?,?,?,?)');

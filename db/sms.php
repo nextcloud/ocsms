@@ -1,5 +1,4 @@
 <?php
-// db/author.php
 namespace OCA\OcSms\Db;
 
 use \OCP\AppFramework\Db\Entity;

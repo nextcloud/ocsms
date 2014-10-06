@@ -16,6 +16,7 @@ use \OCP\IRequest;
 use \OCP\AppFramework\Http\TemplateResponse;
 use \OCP\AppFramework\Controller;
 use \OCP\AppFramework\Http\JSONResponse;
+use \OCA\OcSms\AppInfo\OcSmsApp;
 use \OCA\OcSms\Db\SmsMapper;
 
 class SmsController extends Controller {
