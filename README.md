@@ -4,7 +4,9 @@
 
 Oc Sms provides a webinterface to display your SMS conversations.
 
-SMS conversations are pushed by your Android devices using ownCloud Sms app (available on Google Play Store here: https://play.google.com/store/apps/details?id=fr.unix_experience.owncloud_sms)
+SMS conversations are pushed by your Android devices using ownCloud Sms app, available on Google Play Store
+
+Android download link: https://play.google.com/store/apps/details?id=fr.unix_experience.owncloud_sms
 
 ## Licence
 
