@@ -166,13 +166,16 @@ function changeSelectedConversation(item) {
 				event.preventDefault();
 			});
 
-			var urlPhoneNumber = decodeURIComponent($.urlParam('phonenumber'));
-			if (urlPhoneNumber != null) {
-				fetchConversation(urlPhoneNumber);
+			var pnParam = $.urlParam('phonenumber'));
+			if (pnParam != null) {
+				var urlPhoneNumber = decodeURIComponent(pnParam);
+				if (urlPhoneNumber != null) {
+					fetchConversation(urlPhoneNumber);
 
-				var pObject = $("a[mailbox-navigation='" + urlPhoneNumber + "']");
-				if (pObject != null) {
-					changeSelectedConversation(pObject);
+					var pObject = $("a[mailbox-navigation='" + urlPhoneNumber + "']");
+					if (pObject != null) {
+						changeSelectedConversation(pObject);
+					}
 				}
 			}
 	     });
