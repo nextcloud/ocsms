@@ -25,6 +25,11 @@ $.urlParam = function(name){
 };
 
 var refreshConversation = function() {
+	// if no conversation selected, then don't fetch page
+	if (curPhoneNumber == null) {
+		return;
+	}
+	
 	$.getJSON(OC.generateUrl('/apps/ocsms/get/conversation'),
 		{
 			'phoneNumber': curPhoneNumber,
