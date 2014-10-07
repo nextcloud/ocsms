@@ -27,6 +27,9 @@ $.urlParam = function(name){
 var refreshConversation = function() {
 	// if no conversation selected, then don't fetch page
 	if (curPhoneNumber == null) {
+		if ($('#app-content-header').is(':visible')) {
+			$('#app-content-header').hide();
+		}
 		return;
 	}
 	
@@ -40,6 +43,10 @@ var refreshConversation = function() {
 			if (conversationBuf != '') {
 				$('.msg-endtag').before(conversationBuf);
 				$('#app-content-wrapper').scrollTop(1E10);
+			}
+			
+			if ($('#app-content-header').is(':hidden')) {
+				$('#app-content-header').show();
 			}
 		}
 	);
@@ -60,6 +67,10 @@ function fetchConversation(phoneNumber) {
 			else {
 				$('#ocsms-phone-label').html(jsondata['contactName']);
 				$('#ocsms-phone-opt-number').html(phoneNumber);
+			}
+			
+			if ($('#app-content-header').is(':hidden')) {
+				$('#app-content-header').show();
 			}
 
 			$('#app-content-wrapper').html(conversationBuf);
@@ -178,6 +189,13 @@ function changeSelectedConversation(item) {
 					}
 				}
 			}
+			// Don't show message headers if no conversation selected
+			else {
+				if ($('#app-content-header').is(':visible')) {
+					$('#app-content-header').hide();
+				}
+			}
+
 	     });
 	     setInterval(refreshConversation, 10000);
 	});
