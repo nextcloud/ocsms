@@ -32,16 +32,23 @@
 	background-color: #ccc;
 }
 
+#app-mailbox-peers li > a, #ocsms-empty-peers {
+	line-height: 44px;
+	padding: 0 12px;
+}
 #app-mailbox-peers li > a {
 	display: block;
 	width: 100%;
-	line-height: 44px;
-	padding: 0 12px;
 	overflow: hidden;
 	-moz-box-sizing: border-box; box-sizing: border-box;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	color: #333;
+}
+
+#ocsms-empty-peers {
+	color: #666;
+	text-align: center;
 }
 
 #app-content-wrapper {
@@ -77,11 +84,6 @@
 	padding: 20px;
 	color: #666;
 	font-size: 32px;
-}
-
-#ocsms-empty-peers {
-	color: #666;
-	text-align: center;	
 }
 
 .msg-sent, .msg-recv {

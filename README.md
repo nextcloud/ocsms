@@ -18,3 +18,15 @@ OcSMS web application is actually under AGPL licence but this free licence can b
 
 ## Installation
 Place this app in **owncloud/apps/**
+
+## Issue template
+
+Server
+- ownCloud version: X.X.X
+- PHP version: X.X
+- HTTPd server: <apache|nginx...>
+
+Client
+- Android version: X.X.X
+- Phone: <phone-model>
+- ownCloud SMS app version: X.X.X
