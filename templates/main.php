@@ -6,7 +6,7 @@
 <div id="app">
 	<div id="app-mailbox-peers">
 		<ul>
-			<li><a>There isn't any conversation</a></li>
+			<li><div id="ocsms-empty-peers">There isn't any conversation</div></li>
 		</ul>
 	</div>
 	<div id="app-content">

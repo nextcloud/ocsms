@@ -79,6 +79,11 @@
 	font-size: 32px;
 }
 
+#ocsms-empty-peers {
+	color: #666;
+	text-align: center;	
+}
+
 .msg-sent, .msg-recv {
 	border-radius: 12px;
 	margin: 4px;
