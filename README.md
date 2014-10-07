@@ -25,6 +25,7 @@ Server
 - ownCloud version: X.X.X
 - PHP version: X.X
 - HTTPd server: <apache|nginx...>
+- HTTPS: <yes|no>
 
 Client
 - Android version: X.X.X
