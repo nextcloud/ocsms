@@ -6,6 +6,7 @@
 <div id="app">
 	<div id="app-mailbox-peers">
 		<ul>
+			<li><a>There isn't any conversation</a></li>
 		</ul>
 	</div>
 	<div id="app-content">

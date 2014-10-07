@@ -140,27 +140,34 @@ function changeSelectedConversation(item) {
 	selectedConversation.parent().addClass('selected');
 }
 
+function fetchInitialPeerList() {
+	// Use a buffer for better jQuery performance
+	var peerListBuf = "";
+
+	$.each(jsondata['phonelist'], function(id, val) {
+		var fn, peerLabel;
+		if (typeof jsondata['contacts'][val] == 'undefined') {
+			fn = '';
+			peerLabel = val;
+		}
+		else {
+			fn = jsondata['contacts'][val];
+			peerLabel = fn;
+		}
+		peerListBuf += '<li><a href="#" mailbox-navigation="' + val + '">' + peerLabel + '</a></li>';
+	});
+	
+	// Only modify peerList if there is peers
+	if (peerListBuf != '') {
+		$('#app-mailbox-peers ul').html(peerListBuf);
+	}
+}
+
 (function ($, OC) {
 	$(document).ready(function () {
 		// Now bind the events when we click on the phone number
 		$.getJSON(OC.generateUrl('/apps/ocsms/get/peerlist'), function(jsondata, status) {
-			// Use a buffer for better jQuery performance
-			var peerListBuf = "";
-
-			$.each(jsondata['phonelist'], function(id, val) {
-				var fn, peerLabel;
-				if (typeof jsondata['contacts'][val] == 'undefined') {
-					fn = '';
-					peerLabel = val;
-				}
-				else {
-					fn = jsondata['contacts'][val];
-					peerLabel = fn;
-				}
-				peerListBuf += '<li><a href="#" mailbox-navigation="' + val + '">' + peerLabel + '</a></li>';
-			});
-
-			$('#app-mailbox-peers ul').html(peerListBuf);
+			fetchInitialPeerList();
 
 			// Now bind the events when we click on the phone number
 			$('#app-mailbox-peers').find('a[mailbox-navigation]').on('click', function (event) {
