@@ -9,7 +9,7 @@
 		</ul>
 	</div>
 	<div id="app-content">
-		<div id="app-content-header">	
+		<div id="app-content-header" style="display: none;">	
 			<div id="ocsms-phone-label"></div>
 			<div id="ocsms-phone-opt-number"></div>
 		</div>
