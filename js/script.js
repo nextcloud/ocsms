@@ -42,7 +42,7 @@ var refreshConversation = function() {
 			conversationBuf = formatConversation(jsondata);
 			if (conversationBuf != '') {
 				$('.msg-endtag').before(conversationBuf);
-				$('#app-content-wrapper').scrollTop(1E10);
+				$('#app-content').scrollTop(1E10);
 			}
 			
 			if ($('#app-content-header').is(':hidden')) {
@@ -74,7 +74,7 @@ function fetchConversation(phoneNumber) {
 			}
 
 			$('#app-content-wrapper').html(conversationBuf);
-			$('#app-content-wrapper').scrollTop(1E10);
+			$('#app-content').scrollTop(1E10);
 
 			curPhoneNumber = phoneNumber;
 		}
