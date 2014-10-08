@@ -140,7 +140,7 @@ function changeSelectedConversation(item) {
 	selectedConversation.parent().addClass('selected');
 }
 
-function fetchInitialPeerList() {
+function fetchInitialPeerList(jsondata) {
 	// Use a buffer for better jQuery performance
 	var peerListBuf = "";
 
@@ -167,7 +167,7 @@ function fetchInitialPeerList() {
 	$(document).ready(function () {
 		// Now bind the events when we click on the phone number
 		$.getJSON(OC.generateUrl('/apps/ocsms/get/peerlist'), function(jsondata, status) {
-			fetchInitialPeerList();
+			fetchInitialPeerList(jsondata);
 
 			// Now bind the events when we click on the phone number
 			$('#app-mailbox-peers').find('a[mailbox-navigation]').on('click', function (event) {
