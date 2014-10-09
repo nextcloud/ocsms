@@ -126,9 +126,8 @@ class SmsController extends Controller {
 				
 				// We merge each message list into global messagelist
 				for ($i=0; $i < $ctPn; $i++) {
-					$messages = array_merge($messages, 
-						$this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $iContacts[$contactName][$i], $lastDate)
-					);
+					$messages = $messages +
+						$this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $iContacts[$contactName][$i], $lastDate);
 				}
 			}
 			// This case mustn't be reached, but add it.
