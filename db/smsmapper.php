@@ -34,7 +34,7 @@ class SmsMapper extends Mapper {
 
 	public function getAllIds ($userId) {
 		$query = \OCP\DB::prepare('SELECT sms_id, sms_mailbox FROM ' .
-		'*PREFIX*ocsms_smsdatas WHERE user_id = ?');
+			'*PREFIX*ocsms_smsdatas WHERE user_id = ?');
 		$result = $query->execute(array($userId));
 
 		$smsList = array();
@@ -46,6 +46,25 @@ class SmsMapper extends Mapper {
 
 			if (!in_array($row["sms_id"], $smsList[$mbox])) {
 				array_push($smsList[$mbox], $row["sms_id"]);
+			}
+		}
+		return $smsList;
+	}
+
+	public function getAllIdsWithStatus ($userId) {
+		$query = \OCP\DB::prepare('SELECT sms_id, sms_type, sms_mailbox FROM ' .
+			'*PREFIX*ocsms_smsdatas WHERE user_id = ?');
+		$result = $query->execute(array($userId));
+
+		$smsList = array();
+		while($row = $result->fetchRow()) {
+			$mbox = SmsMapper::$mailboxNames[$row["sms_mailbox"]];
+			if (!isset($smsList[$mbox])) {
+				$smsList[$mbox] = array();
+			}
+
+			if (!isset($smsList[$mbox][$row["sms_id"]])) {
+				$smsList[$mbox][$row["sms_id"]] = $row["sms_type"];
 			}
 		}
 		return $smsList;

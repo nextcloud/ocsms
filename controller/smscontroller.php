@@ -61,8 +61,25 @@ class SmsController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
+	public function getApiVersion () {
+		return new JSONResponse(array("version" => 1));
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
 	public function retrieveAllIds () {
 		$smsList = $this->smsMapper->getAllIds($this->userId);
+		return new JSONResponse(array("smslist" => $smsList));
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function retrieveAllIdsWithStatus () {
+		$smsList = $this->smsMapper->getAllIdsWithStatus($this->userId);
 		return new JSONResponse(array("smslist" => $smsList));
 	}
 
