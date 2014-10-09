@@ -115,11 +115,16 @@ class SmsController extends Controller {
 		
 		$messages = array();
 		
+		// Contact resolved
 		if ($contactName != "") {
 			$iContacts = $this->app->getInvertedContacts();
 			$messages = array();
+			
+			// If there is iContacts (this must be)
 			if (isset($iContacts[$contactName])) {
 				$ctPn = count($iContacts[$contactName]);
+				
+				// We merge each message list into global messagelist
 				for ($i=0; $i < $ctPn; $i++) {
 					$messages = array_merge($messages, 
 						$this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $iContacts[$contactName][$i], $lastDate)
