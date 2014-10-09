@@ -64,6 +64,7 @@
 	position: fixed;
 	top: 45px;
 	padding: 15px;
+	box-shadow: 0 1px 0 0 #CCC;
 }
 
 #ocsms-phone-label {
