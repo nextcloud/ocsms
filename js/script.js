@@ -157,7 +157,7 @@ function fetchInitialPeerList(jsondata) {
 			fn = jsondata['contacts'][val];
 			peerLabel = fn;
 		}
-		if (!$.inArray(peerLabel, bufferedContacts)) {
+		if ($.inArray(peerLabel, bufferedContacts) !== true) {
 			peerListBuf += '<li><a href="#" mailbox-navigation="' + val + '">' + peerLabel + '</a></li>';
 			bufferedContacts.push(peerLabel);
 		}
