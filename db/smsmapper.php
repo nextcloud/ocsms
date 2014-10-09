@@ -97,7 +97,6 @@ class SmsMapper extends Mapper {
 				"type" => $row["sms_type"]
 			);
 		}
-		ksort($messageList);
 		return $messageList;
 	}
 

@@ -107,12 +107,36 @@ class SmsController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function getConversation ($phoneNumber, $lastDate = 0) {
-		$messages = $this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $phoneNumber, $lastDate);
 		$contacts = $this->app->getContacts();
 		$contactName = "";
 		if (isset($contacts[$phoneNumber])) {
 			$contactName = $contacts[$phoneNumber];
 		}
+		
+		$messages = array();
+		
+		if ($contactName != "") {
+			$iContacts = $this->app->getInvertedContacts();
+			$messages = array();
+			if (isset($iContacts[$contactName])) {
+				$ctPn = count($iContacts[$contactName]);
+				for ($i=0; $i < $ctPn; $i++) {
+					$messages = array_merge($messages, 
+						$this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $iContacts[$contactName][$i], $lastDate)
+					);
+				}
+			}
+			// This case mustn't be reached, but add it.
+			else {
+				$messages = $this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $phoneNumber, $lastDate);
+			}
+		}
+		else {
+			$messages = $this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $phoneNumber, $lastDate);
+		}
+		
+		// Order by id (date)
+		ksort($messages);
 		
 		// @ TODO: filter correctly
 		return new JSONResponse(array("conversation" => $messages, "contactName" => $contactName));

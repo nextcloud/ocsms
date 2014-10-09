@@ -27,6 +27,8 @@ class OcSmsApp extends App {
 	*/
 	private static $contacts;
 	
+	private static $contactsInverted;
+	
 	private $c;
 
 	public function __construct (array $urlParams=array()) {
@@ -75,33 +77,57 @@ class OcSmsApp extends App {
 		});
 	}
 
+	public function getContacts() {
+		// Only load contacts if they aren't in the buffer
+		if(count(self::$contacts) == 0) {
+			$this->loadContacts();
+		}
+
+		return self::$contacts;
+	}
+	
+	public function getInvertedContacts() {
+		// Only load contacts if they aren't in the buffer
+		if(count(self::$contactsInverted) == 0) {
+			$this->loadContacts();
+		}
+
+		return self::$contactsInverted;
+	}
+	
 	/**
 	 * Partially importe this function from owncloud Chat app
 	 * https://github.com/owncloud/chat/blob/master/app/chat.php
 	 */
-	public function getContacts() {
-		// Only load contacts if they aren't in the buffer
-		if(count(self::$contacts) == 0) {
-			self::$contacts = array();
-			$cm = $this->c['ContactsManager'];
-			$result = $cm->search('',array('FN'));
-			foreach ($result as $r) {
-				if (isset ($r["TEL"])) {
-					$phoneIds = $r["TEL"];
-					if (is_array($phoneIds)) {
-						$countPhone = count($phoneIds);
-						for ($i=0; $i<$countPhone; $i++) {
-							$phoneNb = preg_replace("#[ ]#", "", $phoneIds[$i]);
-							self::$contacts[$phoneNb] = $r["FN"];
+	private function loadContacts() {
+		self::$contacts = array();
+		self::$contactsInverted = array();
+		
+		$cm = $this->c['ContactsManager'];
+		$result = $cm->search('',array('FN'));
+		foreach ($result as $r) {
+			if (isset ($r["TEL"])) {
+				$phoneIds = $r["TEL"];
+				if (is_array($phoneIds)) {
+					$countPhone = count($phoneIds);
+					for ($i=0; $i < $countPhone; $i++) {
+						$phoneNb = preg_replace("#[ ]#", "", $phoneIds[$i]);
+						
+						self::$contacts[$phoneNb] = $r["FN"];
+						if (!isset(self::$contactsInverted[$r["FN"]])) {
+							self::$contactsInverted[$r["FN"]] = array();
 						}
+						array_push(self::$contactsInverted[$r["FN"]], $phoneNb);
 					}
-					else {
-						self::$contacts[$phoneIds] = $r["FN"];
+				}
+				else {
+					self::$contacts[$phoneIds] = $r["FN"];
+					if (!isset(self::$contactsInverted[$r["FN"]])) {
+						self::$contactsInverted[$r["FN"]] = array();
 					}
+					array_push(self::$contactsInverted[$r["FN"]], $phoneIds);
 				}
 			}
 		}
-
-		return self::$contacts;
 	}
 }

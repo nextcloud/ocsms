@@ -143,8 +143,11 @@ function changeSelectedConversation(item) {
 function fetchInitialPeerList(jsondata) {
 	// Use a buffer for better jQuery performance
 	var peerListBuf = "";
+	
+	var bufferedContacts = [];
 
 	$.each(jsondata['phonelist'], function(id, val) {
+		
 		var fn, peerLabel;
 		if (typeof jsondata['contacts'][val] == 'undefined') {
 			fn = '';
@@ -154,7 +157,10 @@ function fetchInitialPeerList(jsondata) {
 			fn = jsondata['contacts'][val];
 			peerLabel = fn;
 		}
-		peerListBuf += '<li><a href="#" mailbox-navigation="' + val + '">' + peerLabel + '</a></li>';
+		if (!$.inArray(peerLabel, bufferedContacts)) {
+			peerListBuf += '<li><a href="#" mailbox-navigation="' + val + '">' + peerLabel + '</a></li>';
+			bufferedContacts.push(peerLabel);
+		}
 	});
 	
 	// Only modify peerList if there is peers
