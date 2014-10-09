@@ -114,6 +114,7 @@ class SmsController extends Controller {
 		}
 		
 		$messages = array();
+		$phoneNumbers = array();
 		
 		// Contact resolved
 		if ($contactName != "") {
@@ -128,22 +129,25 @@ class SmsController extends Controller {
 				for ($i=0; $i < $ctPn; $i++) {
 					$messages = $messages +
 						$this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $iContacts[$contactName][$i], $lastDate);
+					$phoneNumbers[] = $iContacts[$contactName][$i];
 				}
 			}
 			// This case mustn't be reached, but add it.
 			else {
 				$messages = $this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $phoneNumber, $lastDate);
+				$phoneNumbers[] = $phoneNumber;
 			}
 		}
 		else {
 			$messages = $this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $phoneNumber, $lastDate);
+			$phoneNumbers[] = $phoneNumber;
 		}
 		
 		// Order by id (date)
 		ksort($messages);
 		
 		// @ TODO: filter correctly
-		return new JSONResponse(array("conversation" => $messages, "contactName" => $contactName));
+		return new JSONResponse(array("conversation" => $messages, "contactName" => $contactName, "phoneNumbers" => $phoneNumbers));
 	}
 
 	/**

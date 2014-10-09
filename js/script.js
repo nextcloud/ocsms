@@ -58,15 +58,32 @@ function fetchConversation(phoneNumber) {
 			'phoneNumber': phoneNumber
 		},
 		function(jsondata, status) {
+			var phoneNumberLabel = phoneNumber;
+
+			if (typeof jsondata['phoneNumbers'] != 'undefined') {
+				len = jsondata["phoneNumbers"].length;
+				ctLen = 0;
+				phoneNumberLabel = '';
+
+				$.each(jsondata["phoneNumbers"], function(id, val) {
+					phoneNumberLabel += val;
+					ctLen++;
+					if (ctLen != len) {
+						phoneNumberLabel += ",";
+					}
+					phoneNumberLabel += " ";
+				});
+			}
+
 			conversationBuf = formatConversation(jsondata);
 			conversationBuf += '<div class="msg-endtag"></div>';
 			if (typeof jsondata['contactName'] == 'undefined') {
-				$('#ocsms-phone-label').html(phoneNumber);
+				$('#ocsms-phone-label').html(phoneNumberLabel);
 				$('#ocsms-phone-opt-number').html('');
 			}
 			else {
 				$('#ocsms-phone-label').html(jsondata['contactName']);
-				$('#ocsms-phone-opt-number').html(phoneNumber);
+				$('#ocsms-phone-opt-number').html(phoneNumberLabel);
 			}
 			
 			if ($('#app-content-header').is(':hidden')) {
