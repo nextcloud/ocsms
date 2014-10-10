@@ -13,7 +13,8 @@
 var selectedConversation = null;
 var curPhoneNumber = null;
 var lastMsgDate = 0;
-var originalTitle = '';
+var unreadCount = 0;
+var originalTitle = document.title;
 
 $.urlParam = function(name){
 	var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -39,13 +40,15 @@ var refreshConversation = function() {
 			"lastDate": lastMsgDate
 		},
 		function(jsondata, status) {
-			conversationBuf = formatConversation(jsondata);
+			var fmt = formatConversation(jsondata);
+			conversationBuf = fmt[1];
 			if (conversationBuf != '') {
 				$('.msg-endtag').before(conversationBuf);
 				$('#app-content').scrollTop(1E10);
 				// This will blink the tab because there is new messages
 				if (document.hasFocus() == false) {
-					document.title = originalTitle + " (new messages !)";
+					unreadCount += fmt[0];
+					document.title = originalTitle + " (" + unreadCount + ")";
 				}
 			}
 			
@@ -79,7 +82,7 @@ function fetchConversation(phoneNumber) {
 				});
 			}
 
-			conversationBuf = formatConversation(jsondata);
+			conversationBuf = formatConversation(jsondata)[1];
 			conversationBuf += '<div class="msg-endtag"></div>';
 			if (typeof jsondata['contactName'] == 'undefined') {
 				$('#ocsms-phone-label').html(phoneNumberLabel);
@@ -102,11 +105,14 @@ function fetchConversation(phoneNumber) {
 	);
 }
 
+// Return (int) msgCount, (str) htmlConversation
 function formatConversation(jsondata) {
 	// Improve jQuery performance
 	var buf = "";
 	// Improve JS performance
 	var msgClass = '';
+
+	var msgCount = 0;
 	var formatedDate = '';
 	var formatedHour = '00';
 	var formatedMin = '00';
@@ -147,10 +153,11 @@ function formatConversation(jsondata) {
 		buf += '<div><div class="' + msgClass + '"><div>' +
 			vals["msg"] + '</div><div class="msg-date">' +
 			formatedDate + '</div></div><div class="msg-spacer"></div></div>';
+		msgCount++;
 
 	});
 
-	return buf;
+	return [msgCount,buf];
 }
 
 function changeSelectedConversation(item) {
@@ -236,4 +243,10 @@ function fetchInitialPeerList(jsondata) {
 		});
 		setInterval(refreshConversation, 10000);
 	});
+
+	// reset count and title
+	window.onfocus = function () {
+		unreadCount = 0;
+		document.title = originalTitle;
+	};
 })(jQuery, OC);
