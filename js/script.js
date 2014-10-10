@@ -13,6 +13,7 @@
 var selectedConversation = null;
 var curPhoneNumber = null;
 var lastMsgDate = 0;
+var originalTitle = '';
 
 $.urlParam = function(name){
 	var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -32,7 +33,6 @@ var refreshConversation = function() {
 		}
 		return;
 	}
-	
 	$.getJSON(OC.generateUrl('/apps/ocsms/get/conversation'),
 		{
 			'phoneNumber': curPhoneNumber,
@@ -43,6 +43,10 @@ var refreshConversation = function() {
 			if (conversationBuf != '') {
 				$('.msg-endtag').before(conversationBuf);
 				$('#app-content').scrollTop(1E10);
+				// This will blink the tab because there is new messages
+				if (document.hasFocus() == false) {
+					document.title = originalTitle + " (new messages !)";
+				}
 			}
 			
 			if ($('#app-content-header').is(':hidden')) {
@@ -188,6 +192,9 @@ function fetchInitialPeerList(jsondata) {
 
 (function ($, OC) {
 	$(document).ready(function () {
+		// Register real title
+		originalTitle = document.title;
+
 		// Now bind the events when we click on the phone number
 		$.getJSON(OC.generateUrl('/apps/ocsms/get/peerlist'), function(jsondata, status) {
 			fetchInitialPeerList(jsondata);
@@ -226,8 +233,7 @@ function fetchInitialPeerList(jsondata) {
 				}
 			}
 
-	     });
-	     setInterval(refreshConversation, 10000);
+		});
+		setInterval(refreshConversation, 10000);
 	});
-
 })(jQuery, OC);
