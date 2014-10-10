@@ -12,6 +12,7 @@
 // Some global vars to improve performances
 var selectedConversation = null;
 var curPhoneNumber = null;
+var curContactName = '';
 var lastMsgDate = 0;
 var unreadCount = 0;
 var originalTitle = document.title;
@@ -49,6 +50,7 @@ var refreshConversation = function() {
 				if (document.hasFocus() == false) {
 					unreadCount += fmt[0];
 					document.title = originalTitle + " (" + unreadCount + ")";
+					desktopNotify(unreadCount + " unread message(s) in conversation with " + curContactName);
 				}
 			}
 			
@@ -86,10 +88,12 @@ function fetchConversation(phoneNumber) {
 			conversationBuf += '<div class="msg-endtag"></div>';
 			if (typeof jsondata['contactName'] == 'undefined') {
 				$('#ocsms-phone-label').html(phoneNumberLabel);
+				curContactName = phoneNumberLabel;
 				$('#ocsms-phone-opt-number').html('');
 			}
 			else {
 				$('#ocsms-phone-label').html(jsondata['contactName']);
+				curContactName = jsondata['contactName'];
 				$('#ocsms-phone-opt-number').html(phoneNumberLabel);
 			}
 			
@@ -197,6 +201,33 @@ function fetchInitialPeerList(jsondata) {
 	}
 }
 
+function initDesktopNotifies() {
+	Notification.requestPermission(function (permission) {
+		if(!('permission' in Notification)) {
+			Notification.permission = permission;
+		}
+	});
+}
+
+function desktopNotify(msg) {
+	if (!("Notification" in window)) {
+		return;
+	}
+	else if (Notification.permission === "granted") {
+		new Notification("ownCloud SMS - " + msg);
+	}
+	else if (Notification.permission !== 'denied') {
+		Notification.requestPermission(function (permission) {
+			if(!('permission' in Notification)) {
+				Notification.permission = permission;
+			}
+			if (permission === "granted") {
+				new Notification("ownCloud SMS - " + msg);
+			}
+		});
+	}
+}
+
 (function ($, OC) {
 	$(document).ready(function () {
 		// Register real title
@@ -241,6 +272,7 @@ function fetchInitialPeerList(jsondata) {
 			}
 
 		});
+		initDesktopNotifies();
 		setInterval(refreshConversation, 10000);
 	});
 
