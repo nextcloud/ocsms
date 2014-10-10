@@ -33,3 +33,11 @@ Client
 - Android version: X.X.X
 - Phone: <phone-model>
 - ownCloud SMS app version: X.X.X
+
+Please create your issues for the client here:
+
+https://github.com/nerzhul/ownCloud-SMS-App/issues
+
+And for the server app here:
+
+https://github.com/nerzhul/ocsms/issues
