@@ -112,19 +112,19 @@ class SmsController extends Controller {
 		if (isset($contacts[$phoneNumber])) {
 			$contactName = $contacts[$phoneNumber];
 		}
-		
+
 		$messages = array();
 		$phoneNumbers = array();
-		
+
 		// Contact resolved
 		if ($contactName != "") {
 			$iContacts = $this->app->getInvertedContacts();
 			$messages = array();
-			
+
 			// If there is iContacts (this must be)
 			if (isset($iContacts[$contactName])) {
 				$ctPn = count($iContacts[$contactName]);
-				
+
 				// We merge each message list into global messagelist
 				for ($i=0; $i < $ctPn; $i++) {
 					$messages = $messages +
@@ -142,10 +142,10 @@ class SmsController extends Controller {
 			$messages = $this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $phoneNumber, $lastDate);
 			$phoneNumbers[] = $phoneNumber;
 		}
-		
+
 		// Order by id (date)
 		ksort($messages);
-		
+
 		// @ TODO: filter correctly
 		return new JSONResponse(array("conversation" => $messages, "contactName" => $contactName, "phoneNumbers" => $phoneNumbers));
 	}
