@@ -53,13 +53,29 @@ var refreshConversation = function() {
 					desktopNotify(unreadCount + " unread message(s) in conversation with " + curContactName);
 				}
 			}
-			
+
+			setMessageCountInfo(jsondata);
+
 			if ($('#app-content-header').is(':hidden')) {
 				$('#app-content-header').show();
 			}
 		}
 	);
 };
+
+function setMessageCountInfo(jsondata) {
+	if (typeof jsondata['msgCount'] != 'undefined') {
+		if (jsondata['msgCount'] == 1) {
+			$('#ocsms-phone-msg-nb').html(jsondata['msgCount'] + ' message');
+		}
+		else {
+			$('#ocsms-phone-msg-nb').html(jsondata['msgCount'] + ' messages');
+		}
+	}
+	else {
+		$('#ocsms-phone-msg-nb').html('');
+	}
+}
 
 function fetchConversation(phoneNumber) {
 	$.getJSON(OC.generateUrl('/apps/ocsms/get/conversation'),
@@ -96,7 +112,9 @@ function fetchConversation(phoneNumber) {
 				curContactName = jsondata['contactName'];
 				$('#ocsms-phone-opt-number').html(phoneNumberLabel);
 			}
-			
+
+			setMessageCountInfo(jsondata);
+
 			if ($('#app-content-header').is(':hidden')) {
 				$('#app-content-header').show();
 			}
@@ -175,11 +193,11 @@ function changeSelectedConversation(item) {
 function fetchInitialPeerList(jsondata) {
 	// Use a buffer for better jQuery performance
 	var peerListBuf = "";
-	
+
 	var bufferedContacts = [];
 
 	$.each(jsondata['phonelist'], function(id, val) {
-		
+
 		var fn, peerLabel;
 		if (typeof jsondata['contacts'][val] == 'undefined') {
 			fn = '';
@@ -194,7 +212,7 @@ function fetchInitialPeerList(jsondata) {
 			bufferedContacts.push(peerLabel);
 		}
 	});
-	
+
 	// Only modify peerList if there is peers
 	if (peerListBuf != '') {
 		$('#app-mailbox-peers ul').html(peerListBuf);
@@ -243,7 +261,7 @@ function desktopNotify(msg) {
 				OC.Util.History.pushState('phonenumber=' + phoneNumber);
 				// Reset it for refreshConversation
 				lastMsgDate = 0;
-				
+
 				// phoneNumber must exist
 				if (phoneNumber != null) {
 					fetchConversation(phoneNumber);

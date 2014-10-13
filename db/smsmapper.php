@@ -91,13 +91,24 @@ class SmsMapper extends Mapper {
 		$result = $query->execute(array($userId, $phoneNumber, 0, 1, $minDate));
 
 		$messageList = array();
-		while($row = $result->fetchRow()) {
+		while ($row = $result->fetchRow()) {
 			$messageList[$row["sms_date"]] = array(
 				"msg" =>  $row["sms_msg"],
 				"type" => $row["sms_type"]
 			);
 		}
 		return $messageList;
+	}
+
+	public function countMessagesForPhoneNumber ($userId, $phoneNumber) {
+		$query = \OCP\DB::prepare('SELECT count(smsdate) as ct FROM ' .
+		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_address = ? ' .
+		'AND sms_mailbox IN (?,?)');
+		$result = $query->execute(array($userId, $phoneNumber, 0, 1));
+
+		if ($row = $result->fetchRow()) {
+			return $row["ct"];
+		}
 	}
 
 	public function writeToDB ($userId, $smsList, $purgeAllSmsBeforeInsert = false) {

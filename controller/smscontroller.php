@@ -115,31 +115,26 @@ class SmsController extends Controller {
 
 		$messages = array();
 		$phoneNumbers = array();
+		$msgCount = 0;
+
+		$iContacts = $this->app->getInvertedContacts();
 
 		// Contact resolved
-		if ($contactName != "") {
-			$iContacts = $this->app->getInvertedContacts();
-			$messages = array();
+		if ($contactName != "" && isset($iContacts[$contactName])) {
+			$ctPn = count($iContacts[$contactName]);
 
-			// If there is iContacts (this must be)
-			if (isset($iContacts[$contactName])) {
-				$ctPn = count($iContacts[$contactName]);
+			// We merge each message list into global messagelist
+			for ($i=0; $i < $ctPn; $i++) {
+				$messages = $messages +
+					$this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $iContacts[$contactName][$i], $lastDate);
+				$phoneNumbers[] = $iContacts[$contactName][$i];
 
-				// We merge each message list into global messagelist
-				for ($i=0; $i < $ctPn; $i++) {
-					$messages = $messages +
-						$this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $iContacts[$contactName][$i], $lastDate);
-					$phoneNumbers[] = $iContacts[$contactName][$i];
-				}
-			}
-			// This case mustn't be reached, but add it.
-			else {
-				$messages = $this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $phoneNumber, $lastDate);
-				$phoneNumbers[] = $phoneNumber;
+				$msgCount += $this->smsMapper->countMessagesForPhoneNumber($this->userId, $iContacts[$contactName][$i]);
 			}
 		}
 		else {
 			$messages = $this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $phoneNumber, $lastDate);
+			$msgCount = $this->smsMapper->countMessagesForPhoneNumber($this->userId, $phoneNumber);
 			$phoneNumbers[] = $phoneNumber;
 		}
 
@@ -147,7 +142,7 @@ class SmsController extends Controller {
 		ksort($messages);
 
 		// @ TODO: filter correctly
-		return new JSONResponse(array("conversation" => $messages, "contactName" => $contactName, "phoneNumbers" => $phoneNumbers));
+		return new JSONResponse(array("conversation" => $messages, "contactName" => $contactName, "phoneNumbers" => $phoneNumbers, "msgCount" => $msgCount));
 	}
 
 	/**
