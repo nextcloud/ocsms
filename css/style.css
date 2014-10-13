@@ -77,6 +77,10 @@
 	padding-left: 15px;
 }
 
+#ocsms-phone-msg-nb {
+	color: #555;
+}
+
 #ocsms-empty-conversation {
 	position: absolute;
 	text-align: center;
