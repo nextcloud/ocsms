@@ -101,7 +101,7 @@ class SmsMapper extends Mapper {
 	}
 
 	public function countMessagesForPhoneNumber ($userId, $phoneNumber) {
-		$query = \OCP\DB::prepare('SELECT count(smsdate) as ct FROM ' .
+		$query = \OCP\DB::prepare('SELECT count(sms_date) as ct FROM ' .
 		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_address = ? ' .
 		'AND sms_mailbox IN (?,?)');
 		$result = $query->execute(array($userId, $phoneNumber, 0, 1));
