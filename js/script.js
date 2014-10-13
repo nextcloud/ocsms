@@ -86,7 +86,7 @@ function fetchConversation(phoneNumber) {
 
 			conversationBuf = formatConversation(jsondata)[1];
 			conversationBuf += '<div class="msg-endtag"></div>';
-			if (typeof jsondata['contactName'] == 'undefined') {
+			if (typeof jsondata['contactName'] == 'undefined' || jsondata['contactName'] == '') {
 				$('#ocsms-phone-label').html(phoneNumberLabel);
 				curContactName = phoneNumberLabel;
 				$('#ocsms-phone-opt-number').html('');
