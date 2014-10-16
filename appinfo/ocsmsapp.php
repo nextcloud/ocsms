@@ -104,6 +104,10 @@ class OcSmsApp extends App {
 		self::$contactsInverted = array();
 		
 		$cm = $this->c['ContactsManager'];
+		if ($cm == null) {
+			return;
+		}
+		
 		$result = $cm->search('',array('FN'));
 		foreach ($result as $r) {
 			if (isset ($r["TEL"])) {
