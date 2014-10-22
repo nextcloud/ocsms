@@ -198,17 +198,17 @@ function fetchInitialPeerList(jsondata) {
 
 	$.each(jsondata['phonelist'], function(id, val) {
 		var fn, peerLabel, idxVal;
-		idxVal = val.replace(/ /g,'/');
-		if (typeof jsondata['contacts'][idxVal] == 'undefined') {
+		idxVal = id.replace(/\//g,' ');
+		if (typeof jsondata['contacts'][id] == 'undefined') {
 			fn = '';
-			peerLabel = val;
+			peerLabel = id;
 		}
 		else {
-			fn = jsondata['contacts'][idxVal];
+			fn = jsondata['contacts'][id];
 			peerLabel = fn;
 		}
 		if ($.inArray(peerLabel, bufferedContacts) == -1) {
-			peerListBuf += '<li><a href="#" mailbox-navigation="' + val + '">' + peerLabel + '</a></li>';
+			peerListBuf += '<li><a href="#" mailbox-navigation="' + idxVal + '">' + peerLabel + '</a></li>';
 			bufferedContacts.push(peerLabel);
 		}
 	});

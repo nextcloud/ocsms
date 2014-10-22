@@ -88,18 +88,18 @@ class SmsController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function retrieveAllPeers () {
-		$phoneList = $this->smsMapper->getAllPeersPhoneNumbers($this->userId);
+		$phoneList = $this->smsMapper->getLastMessageTimestampForAllPhonesNumbers($this->userId);
 		$contactsSrc = $this->app->getContacts();
 		$contacts = array();
 
 		$countPhone = count($phoneList);
-		for ($i=0; $i < $countPhone; $i++) {
-			$fmtPN = preg_replace("#[ ]#","/", $phoneList[$i]);
+		foreach ($phoneList as $number => $ts) {
+			$fmtPN = preg_replace("#[ ]#","/", $number);
 			if (isset($contactsSrc[$fmtPN])) {
 				$contacts[$fmtPN] = $contactsSrc[$fmtPN];
 			}
 		}
-		// @ TODO: filter correctly
+
 		return new JSONResponse(array("phonelist" => $phoneList, "contacts" => $contacts));
 	}
 
@@ -129,22 +129,24 @@ class SmsController extends Controller {
 
 			// We merge each message list into global messagelist
 			for ($i=0; $i < $ctPn; $i++) {
-				$messages = $messages +
-					$this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $iContacts[$contactName][$i], $lastDate);
-
 				// Remove slashes
 				$fmtPN = preg_replace("#[/]#"," ", $iContacts[$contactName][$i]);
+
+				$messages = $messages +
+					$this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $fmtPN, $lastDate);
+
 				$phoneNumbers[] = $fmtPN;
 
-				$msgCount += $this->smsMapper->countMessagesForPhoneNumber($this->userId, $iContacts[$contactName][$i]);
+				$msgCount += $this->smsMapper->countMessagesForPhoneNumber($this->userId, $fmtPN);
 			}
 		}
 		else {
-			$messages = $this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $phoneNumber, $lastDate);
-			$msgCount = $this->smsMapper->countMessagesForPhoneNumber($this->userId, $phoneNumber);
-
 			// remove slashes
 			$fmtPN = preg_replace("#[/]#"," ", $phoneNumber);
+
+			$messages = $this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $fmtPN, $lastDate);
+			$msgCount = $this->smsMapper->countMessagesForPhoneNumber($this->userId, $fmtPN);
+
 			$phoneNumbers[] = $fmtPN;
 		}
 

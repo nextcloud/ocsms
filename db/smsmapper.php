@@ -111,6 +111,22 @@ class SmsMapper extends Mapper {
 		}
 	}
 
+	public function getLastMessageTimestampForAllPhonesNumbers ($userId) {
+		$query = \OCP\DB::prepare('SELECT sms_address,MAX(sms_date) as mx FROM ' .
+		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_mailbox IN (?,?) ' .
+		'GROUP BY sms_address');
+		$result = $query->execute(array($userId, 0, 1));
+
+		$phoneList = array();
+		while ($row = $result->fetchRow()) {
+			$phoneNumber = preg_replace("#[ ]#", "/", $row["sms_address"]);
+			if (!in_array($phoneNumber, $phoneList)) {
+				$phoneList[$phoneNumber] = $row["mx"];
+			}
+		}
+		return $phoneList;
+	}
+
 	public function writeToDB ($userId, $smsList, $purgeAllSmsBeforeInsert = false) {
 		\OCP\DB::beginTransaction();
 
