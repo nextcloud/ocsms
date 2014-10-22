@@ -110,8 +110,11 @@ class SmsController extends Controller {
 	public function getConversation ($phoneNumber, $lastDate = 0) {
 		$contacts = $this->app->getContacts();
 		$contactName = "";
-		if (isset($contacts[$phoneNumber])) {
-			$contactName = $contacts[$phoneNumber];
+
+		// Add slashes to index properly
+		$fmtPN = preg_replace("#[ ]#","/", $phoneNumber);
+		if (isset($contacts[$fmtPN])) {
+			$contactName = $contacts[$fmtPN];
 		}
 
 		$messages = array();
@@ -128,7 +131,10 @@ class SmsController extends Controller {
 			for ($i=0; $i < $ctPn; $i++) {
 				$messages = $messages +
 					$this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $iContacts[$contactName][$i], $lastDate);
-				$phoneNumbers[] = $iContacts[$contactName][$i];
+
+				// Remove slashes
+				$fmtPN = preg_replace("#[/]#"," ", $iContacts[$contactName][$i]);
+				$phoneNumbers[] = $fmtPN;
 
 				$msgCount += $this->smsMapper->countMessagesForPhoneNumber($this->userId, $iContacts[$contactName][$i]);
 			}
@@ -136,7 +142,10 @@ class SmsController extends Controller {
 		else {
 			$messages = $this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $phoneNumber, $lastDate);
 			$msgCount = $this->smsMapper->countMessagesForPhoneNumber($this->userId, $phoneNumber);
-			$phoneNumbers[] = $phoneNumber;
+
+			// remove slashes
+			$fmtPN = preg_replace("#[/]#"," ", $phoneNumber);
+			$phoneNumbers[] = $fmtPN;
 		}
 
 		// Order by id (date)
