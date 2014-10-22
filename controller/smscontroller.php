@@ -94,8 +94,9 @@ class SmsController extends Controller {
 
 		$countPhone = count($phoneList);
 		for ($i=0; $i < $countPhone; $i++) {
-			if (isset($contactsSrc[$phoneList[$i]])) {
-				$contacts[$phoneList[$i]] = $contactsSrc[$phoneList[$i]];
+			$fmtPN = preg_replace("#[ ]#","/", $phoneList[$i]);
+			if (isset($contactsSrc[$fmtPN])) {
+				$contacts[$fmtPN] = $contactsSrc[$fmtPN];
 			}
 		}
 		// @ TODO: filter correctly

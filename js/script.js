@@ -197,14 +197,14 @@ function fetchInitialPeerList(jsondata) {
 	var bufferedContacts = [];
 
 	$.each(jsondata['phonelist'], function(id, val) {
-
-		var fn, peerLabel;
-		if (typeof jsondata['contacts'][val] == 'undefined') {
+		var fn, peerLabel, idxVal;
+		idxVal = val.replace(/ /g,'/');
+		if (typeof jsondata['contacts'][idxVal] == 'undefined') {
 			fn = '';
 			peerLabel = val;
 		}
 		else {
-			fn = jsondata['contacts'][val];
+			fn = jsondata['contacts'][idxVal];
 			peerLabel = fn;
 		}
 		if ($.inArray(peerLabel, bufferedContacts) == -1) {

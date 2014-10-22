@@ -115,23 +115,23 @@ class OcSmsApp extends App {
 				if (is_array($phoneIds)) {
 					$countPhone = count($phoneIds);
 					for ($i=0; $i < $countPhone; $i++) {
-						$phoneNb = preg_replace("#[ ]#", "", $phoneIds[$i]);
-						
-						self::$contacts[$phoneNb] = $r["FN"];
-						if (!isset(self::$contactsInverted[$r["FN"]])) {
-							self::$contactsInverted[$r["FN"]] = array();
-						}
-						array_push(self::$contactsInverted[$r["FN"]], $phoneNb);
+						$this->pushPhoneNumberToCache($phoneIds[$i], $r["FN"]);
 					}
 				}
 				else {
-					self::$contacts[$phoneIds] = $r["FN"];
-					if (!isset(self::$contactsInverted[$r["FN"]])) {
-						self::$contactsInverted[$r["FN"]] = array();
-					}
-					array_push(self::$contactsInverted[$r["FN"]], $phoneIds);
+					$this->pushPhoneNumberToCache($phoneIds, $r["FN"]);
 				}
 			}
 		}
+	}
+
+	private function pushPhoneNumberToCache($rawPhone, $contactName) {
+		$phoneNb = preg_replace("#[ ]#", "/", $rawPhone);
+		
+		self::$contacts[$phoneNb] = $contactName;
+		if (!isset(self::$contactsInverted[$contactName])) {
+			self::$contactsInverted[$contactName] = array();
+		}
+		array_push(self::$contactsInverted[$contactName], $phoneNb);
 	}
 }
