@@ -132,7 +132,6 @@ class SmsController extends Controller {
 			for ($i=0; $i < $ctPn; $i++) {
 				// Remove slashes
 				$fmtPN = preg_replace("#[/]#"," ", $iContacts[$contactName][$i]);
-				$fmtPN2 = preg_replace("#[/]#","", $iContacts[$contactName][$i]);
 
 				$messages = $messages +
 					$this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $fmtPN, $lastDate);
@@ -140,31 +139,16 @@ class SmsController extends Controller {
 				$msgCount += $this->smsMapper->countMessagesForPhoneNumber($this->userId, $fmtPN);
 
 				$phoneNumbers[] = $fmtPN;
-
-				if ($fmtPN != $fmtPN2) {
-					$messages = $messages +
-						$this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $fmtPN2, $lastDate);
-				
-					$msgCount += $this->smsMapper->countMessagesForPhoneNumber($this->userId, $fmtPN2);
-				}
-
 			}
 		}
 		else {
 			// remove slashes
 			$fmtPN = preg_replace("#[/]#"," ", $phoneNumber);
-			$fmtPN2 = preg_replace("#[/]#","", $phoneNumber);
 
 			$messages = $this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $fmtPN, $lastDate);
 			$msgCount = $this->smsMapper->countMessagesForPhoneNumber($this->userId, $fmtPN);
 
 			$phoneNumbers[] = $fmtPN;
-
-			if ($fmtPN != $fmtPN2) {
-				$messages = $messages +
-					$this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $fmtPN2, $lastDate);
-				$msgCount += $this->smsMapper->countMessagesForPhoneNumber($this->userId, $fmtPN2);
-			}
 		}
 
 		// Order by id (date)
