@@ -127,11 +127,18 @@ class OcSmsApp extends App {
 
 	private function pushPhoneNumberToCache($rawPhone, $contactName) {
 		$phoneNb = preg_replace("#[ ]#", "/", $rawPhone);
+		$phoneNbNoSpaces = preg_replace("#[ ]#", "", $rawPhone);
 		
 		self::$contacts[$phoneNb] = $contactName;
+		self::$contacts[$phoneNbNoSpaces] = $contactName;
+
 		if (!isset(self::$contactsInverted[$contactName])) {
 			self::$contactsInverted[$contactName] = array();
 		}
 		array_push(self::$contactsInverted[$contactName], $phoneNb);
+
+		if ($phoneNb != $phoneNbNoSpaces) {
+			array_push(self::$contactsInverted[$contactName], $phoneNbNoSpaces);
+		}
 	}
 }

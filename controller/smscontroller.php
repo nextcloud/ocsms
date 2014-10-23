@@ -111,6 +111,7 @@ class SmsController extends Controller {
 	 */
 	public function getConversation ($phoneNumber, $lastDate = 0) {
 		$contacts = $this->app->getContacts();
+		$iContacts = $this->app->getInvertedContacts();
 		$contactName = "";
 
 		// Add slashes to index properly
@@ -123,8 +124,6 @@ class SmsController extends Controller {
 		$phoneNumbers = array();
 		$msgCount = 0;
 
-		$iContacts = $this->app->getInvertedContacts();
-
 		// Contact resolved
 		if ($contactName != "" && isset($iContacts[$contactName])) {
 			$ctPn = count($iContacts[$contactName]);
@@ -133,23 +132,39 @@ class SmsController extends Controller {
 			for ($i=0; $i < $ctPn; $i++) {
 				// Remove slashes
 				$fmtPN = preg_replace("#[/]#"," ", $iContacts[$contactName][$i]);
+				$fmtPN2 = preg_replace("#[/]#","", $iContacts[$contactName][$i]);
 
 				$messages = $messages +
 					$this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $fmtPN, $lastDate);
 
+				$msgCount += $this->smsMapper->countMessagesForPhoneNumber($this->userId, $fmtPN);
+
 				$phoneNumbers[] = $fmtPN;
 
-				$msgCount += $this->smsMapper->countMessagesForPhoneNumber($this->userId, $fmtPN);
+				if ($fmtPN != $fmtPN2) {
+					$messages = $messages +
+						$this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $fmtPN2, $lastDate);
+				
+					$msgCount += $this->smsMapper->countMessagesForPhoneNumber($this->userId, $fmtPN2);
+				}
+
 			}
 		}
 		else {
 			// remove slashes
 			$fmtPN = preg_replace("#[/]#"," ", $phoneNumber);
+			$fmtPN2 = preg_replace("#[/]#","", $phoneNumber);
 
 			$messages = $this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $fmtPN, $lastDate);
 			$msgCount = $this->smsMapper->countMessagesForPhoneNumber($this->userId, $fmtPN);
 
 			$phoneNumbers[] = $fmtPN;
+
+			if ($fmtPN != $fmtPN2) {
+				$messages = $messages +
+					$this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $fmtPN2, $lastDate);
+				$msgCount += $this->smsMapper->countMessagesForPhoneNumber($this->userId, $fmtPN2);
+			}
 		}
 
 		// Order by id (date)
