@@ -150,6 +150,20 @@ class SmsMapper extends Mapper {
 		}
 		return $phoneList;
 	}
+
+	public function setLastReadDate ($userId, $lastDate) {
+		\OCP\DB::beginTransaction();
+		$query = \OCP\DB::prepare('DELETE FROM *PREFIX*ocsms_user_datas ' .
+			'WHERE user_id = ? AND datakey = ?');
+		$query->execute(array($userId, 'lastReadDate'));
+
+		$query = \OCP\DB::prepare('INSERT INTO *PREFIX*ocsms_user_datas' .
+			'(user_id, datakey, datavalue) VALUES ' .
+			'(?,?,?)');
+		$query->execute(array($userId, 'lastReadDate', $lastDate));
+		\OCP\DB::commit();
+	}
+
 	public function writeToDB ($userId, $smsList, $purgeAllSmsBeforeInsert = false) {
 		\OCP\DB::beginTransaction();
 

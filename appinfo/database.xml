@@ -6,6 +6,30 @@
 	<charset>utf8</charset>
 
 	<table>
+		<name>*dbprefix*ocsms_user_datas</name>
+		<declaration>
+			<field>
+				<name>user_id</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+			<field>
+				<name>datakey</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+			<field>
+				<name>datavalue</name>
+				<type>text</type>
+				<length>64</length>
+				<notnull>true</notnull>
+			</field>
+		</declaration>
+
+	</table>
+	<table>
 		<name>*dbprefix*ocsms_smsdatas</name>
 		<declaration>
 			<field>

@@ -264,6 +264,8 @@ function fetchInitialPeerList(jsondata) {
 		}
 	});
 
+	lastMsgDate = jsondata["lastRead"];
+
 	// Only modify peerList if there is peers
 	if (peerListBuf != '') {
 		$('#app-mailbox-peers ul').html(peerListBuf);
