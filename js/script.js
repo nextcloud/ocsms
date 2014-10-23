@@ -199,6 +199,7 @@ function fetchInitialPeerList(jsondata) {
 	$.each(jsondata['phonelist'], function(id, val) {
 		var fn, peerLabel, idxVal;
 		idxVal = id.replace(/\//g,' ');
+		idxVal2 = idxVal.replace('/ /g','');
 		if (typeof jsondata['contacts'][id] == 'undefined') {
 			fn = '';
 			peerLabel = id;

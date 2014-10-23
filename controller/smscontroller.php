@@ -96,7 +96,9 @@ class SmsController extends Controller {
 		foreach ($phoneList as $number => $ts) {
 			$fmtPN = preg_replace("#[ ]#","/", $number);
 			if (isset($contactsSrc[$fmtPN])) {
+				$fmtPN2 = preg_replace("#\/#","", $fmtPN);
 				$contacts[$fmtPN] = $contactsSrc[$fmtPN];
+				$contacts[$fmtPN2] = $contactsSrc[$fmtPN];
 			}
 		}
 
