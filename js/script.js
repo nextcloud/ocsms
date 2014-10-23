@@ -76,7 +76,7 @@ var checkNewMessages = function() {
 				idxVal2 = idxVal.replace('/ /g','');
 				if (typeof jsondata['contacts'][id] == 'undefined') {
 					fn = '';
-					peerLabel = id;
+					peerLabel = idxVal;
 				}
 				else {
 					fn = jsondata['contacts'][id];
@@ -252,7 +252,7 @@ function fetchInitialPeerList(jsondata) {
 		idxVal2 = idxVal.replace('/ /g','');
 		if (typeof jsondata['contacts'][id] == 'undefined') {
 			fn = '';
-			peerLabel = id;
+			peerLabel = idxVal;
 		}
 		else {
 			fn = jsondata['contacts'][id];
