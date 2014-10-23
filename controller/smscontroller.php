@@ -171,7 +171,8 @@ class SmsController extends Controller {
 		ksort($messages);
 
 		// @ TODO: filter correctly
-		return new JSONResponse(array("conversation" => $messages, "contactName" => $contactName, "phoneNumbers" => $phoneNumbers, "msgCount" => $msgCount));
+		return new JSONResponse(array("conversation" => $messages, "contactName" => $contactName,
+			"phoneNumbers" => $phoneNumbers, "msgCount" => $msgCount));
 	}
 
 	/**
