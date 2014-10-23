@@ -124,6 +124,9 @@ class SmsController extends Controller {
 		$phoneNumbers = array();
 		$msgCount = 0;
 
+		// This table will be used to avoid duplicates
+		$noSpacesPhones = array();
+
 		// Contact resolved
 		if ($contactName != "" && isset($iContacts[$contactName])) {
 			$ctPn = count($iContacts[$contactName]);
@@ -138,7 +141,11 @@ class SmsController extends Controller {
 
 				$msgCount += $this->smsMapper->countMessagesForPhoneNumber($this->userId, $fmtPN);
 
-				$phoneNumbers[] = $fmtPN;
+				$fmtPNNoSpaces = preg_replace("#[ ]#","", $fmtPN);
+				if (!in_array($fmtPNNoSpaces, $noSpacesPhones)) {
+					$phoneNumbers[] = $fmtPN;
+					$noSpacesPhones[] = $fmtPNNoSpaces;
+				}
 			}
 		}
 		else {
@@ -148,7 +155,11 @@ class SmsController extends Controller {
 			$messages = $this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $fmtPN, $lastDate);
 			$msgCount = $this->smsMapper->countMessagesForPhoneNumber($this->userId, $fmtPN);
 
-			$phoneNumbers[] = $fmtPN;
+			$fmtPNNoSpaces = preg_replace("#[ ]#","", $fmtPN);
+			if (!in_array($fmtPNNoSpaces, $noSpacesPhones)) {
+				$phoneNumbers[] = $fmtPN;
+				$noSpacesPhones[] = $fmtPNNoSpaces;
+			}
 		}
 
 		// Order by id (date)
