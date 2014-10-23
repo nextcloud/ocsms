@@ -93,7 +93,6 @@ class SmsController extends Controller {
 		$contacts = array();
 
 		$countPhone = count($phoneList);
-		$maxTS = 0;
 		foreach ($phoneList as $number => $ts) {
 			$fmtPN = preg_replace("#[ ]#","/", $number);
 			if (isset($contactsSrc[$fmtPN])) {
@@ -101,15 +100,11 @@ class SmsController extends Controller {
 				$contacts[$fmtPN] = $contactsSrc[$fmtPN];
 				$contacts[$fmtPN2] = $contactsSrc[$fmtPN];
 			}
-			
-			if ($ts > $maxTS) {
-				$maxTS = $ts;
-			}
 		}
 
-		$this->smsMapper->setLastReadDate($this->userId, $maxTS);
+		$lastRead = $this->smsMapper->getLastReadDate($this->userId);
 
-		return new JSONResponse(array("phonelist" => $phoneList, "contacts" => $contacts, "lastRead" => $maxTS));
+		return new JSONResponse(array("phonelist" => $phoneList, "contacts" => $contacts, "lastRead" => $lastRead));
 	}
 
 	/**
@@ -171,6 +166,14 @@ class SmsController extends Controller {
 
 		// Order by id (date)
 		ksort($messages);
+		
+		// Set the last read message for the conversation (all phone numbers)
+		if (count($messages) > 0) {
+			$maxDate = max(array_keys($messages));
+			for ($i=0;$i<count($phoneNumbers);$i++) {
+				$this->smsMapper->setLastReadDate($this->userId, $phoneNumbers[$i], $maxDate);
+			}
+		}
 
 		// @ TODO: filter correctly
 		return new JSONResponse(array("conversation" => $messages, "contactName" => $contactName,

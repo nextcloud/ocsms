@@ -151,16 +151,28 @@ class SmsMapper extends Mapper {
 		return $phoneList;
 	}
 
-	public function setLastReadDate ($userId, $lastDate) {
+	public function getLastReadDate ($userId) {
+		$sql = 'SELECT MAX(datavalue) as mx FROM ' .
+		'*PREFIX*ocsms_user_datas WHERE user_id = ?';
+	
+		$query = \OCP\DB::prepare($sql);
+		$result = $query->execute(array($userId));
+
+		if ($row = $result->fetchRow()) {
+			return $row["mx"];
+		}
+	}
+
+	public function setLastReadDate ($userId, $phoneNumber, $lastDate) {
 		\OCP\DB::beginTransaction();
 		$query = \OCP\DB::prepare('DELETE FROM *PREFIX*ocsms_user_datas ' .
 			'WHERE user_id = ? AND datakey = ?');
-		$query->execute(array($userId, 'lastReadDate'));
+		$query->execute(array($userId, 'lastReadDate-' . $phoneNumber));
 
 		$query = \OCP\DB::prepare('INSERT INTO *PREFIX*ocsms_user_datas' .
 			'(user_id, datakey, datavalue) VALUES ' .
 			'(?,?,?)');
-		$query->execute(array($userId, 'lastReadDate', $lastDate));
+		$query->execute(array($userId, 'lastReadDate-' . $phoneNumber, $lastDate));
 		\OCP\DB::commit();
 	}
 
