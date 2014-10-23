@@ -86,8 +86,8 @@ function fetchConversation(phoneNumber) {
 			var phoneNumberLabel = phoneNumber;
 
 			if (typeof jsondata['phoneNumbers'] != 'undefined') {
-				len = jsondata["phoneNumbers"].length;
-				ctLen = 0;
+				var len = jsondata["phoneNumbers"].length;
+				var ctLen = 0;
 				phoneNumberLabel = '';
 
 				$.each(jsondata["phoneNumbers"], function(id, val) {
