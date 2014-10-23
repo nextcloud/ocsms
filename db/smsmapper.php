@@ -133,6 +133,23 @@ class SmsMapper extends Mapper {
 		return $phoneList;
 	}
 
+	public function getNewMessagesCountForAllPhonesNumbers($userId, $lastDate) {
+		$sql = 'SELECT sms_address,count(sms_date) as ct FROM ' .
+		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_mailbox IN (?,?) ' .
+		'AND sms_date > ? GROUP BY sms_address';
+		
+		$query = \OCP\DB::prepare($sql);
+		$result = $query->execute(array($userId, 0, 1, $lastDate));
+
+		$phoneList = array();
+		while ($row = $result->fetchRow()) {
+			$phoneNumber = preg_replace("#[ ]#", "/", $row["sms_address"]);
+			if (!in_array($phoneNumber, $phoneList)) {
+				$phoneList[$phoneNumber] = $row["ct"];
+			}
+		}
+		return $phoneList;
+	}
 	public function writeToDB ($userId, $smsList, $purgeAllSmsBeforeInsert = false) {
 		\OCP\DB::beginTransaction();
 

@@ -63,6 +63,53 @@ var refreshConversation = function() {
 	);
 };
 
+var checkNewMessages = function() {
+	$.getJSON(OC.generateUrl('/apps/ocsms/get/new_messages'),
+		{ 'lastDate': lastMsgDate },
+		function(jsondata, status) {
+			var peerListBuf = '';
+			var bufferedContacts = [];
+
+			$.each(jsondata['phonelist'], function(id, val) {
+				var fn, peerLabel, idxVal;
+				idxVal = id.replace(/\//g,' ');
+				idxVal2 = idxVal.replace('/ /g','');
+				if (typeof jsondata['contacts'][id] == 'undefined') {
+					fn = '';
+					peerLabel = id;
+				}
+				else {
+					fn = jsondata['contacts'][id];
+					peerLabel = fn;
+				}
+				if ($.inArray(peerLabel, bufferedContacts) == -1) {
+					$("a[mailbox-label='" + peerLabel + "']").remove();
+					peerListBuf = '<li><a href="#" mailbox-navigation="' + idxVal2 + '" style="font-weight: bold;" mailbox-label="' + peerLabel + '">' + peerLabel + ' (' + val + ')</a></li>';
+					$('#app-mailbox-peers ul').prepend(peerListBuf);
+					bufferedContacts.push(peerLabel);
+
+					if (idxVal == curPhoneNumber) {
+						changeSelectedConversation($("a[mailbox-navigation='" + idxVal + "']"));
+					}
+
+					// Now bind the events when we click on the phone number
+					$("a[mailbox-navigation='" + idxVal + "']").on('click', function (event) {
+						var phoneNumber = $(this).attr('mailbox-navigation');
+						OC.Util.History.pushState('phonenumber=' + phoneNumber);
+
+						// phoneNumber must exist
+						if (phoneNumber != null) {
+							fetchConversation(phoneNumber);
+							changeSelectedConversation($(this));
+						}
+						event.preventDefault();
+					});
+				}
+			});
+		}
+	);
+};
+
 function setMessageCountInfo(jsondata) {
 	if (typeof jsondata['msgCount'] != 'undefined') {
 		if (jsondata['msgCount'] == 1) {
@@ -153,7 +200,8 @@ function formatConversation(jsondata) {
 		}
 
 		// Store the greater msg date for refresher
-		if (id > lastMsgDate) {
+		// Note: we divide by 100 because number compare too large integers
+		if ((id/100) > (lastMsgDate/100)) {
 			lastMsgDate = id;
 		}
 
@@ -188,6 +236,8 @@ function changeSelectedConversation(item) {
 	}
 	selectedConversation = item;
 	selectedConversation.parent().addClass('selected');
+	selectedConversation.css("font-weight", "normal");
+	selectedConversation.html(selectedConversation.attr("mailbox-label"));
 }
 
 function fetchInitialPeerList(jsondata) {
@@ -209,7 +259,7 @@ function fetchInitialPeerList(jsondata) {
 			peerLabel = fn;
 		}
 		if ($.inArray(peerLabel, bufferedContacts) == -1) {
-			peerListBuf += '<li><a href="#" mailbox-navigation="' + idxVal + '">' + peerLabel + '</a></li>';
+			peerListBuf += '<li><a href="#" mailbox-navigation="' + idxVal2 + '" mailbox-label="' + peerLabel + '">' + peerLabel + '</a></li>';
 			bufferedContacts.push(peerLabel);
 		}
 	});
@@ -260,8 +310,6 @@ function desktopNotify(msg) {
 			$('#app-mailbox-peers').find('a[mailbox-navigation]').on('click', function (event) {
 				var phoneNumber = $(this).attr('mailbox-navigation');
 				OC.Util.History.pushState('phonenumber=' + phoneNumber);
-				// Reset it for refreshConversation
-				lastMsgDate = 0;
 
 				// phoneNumber must exist
 				if (phoneNumber != null) {
@@ -293,6 +341,7 @@ function desktopNotify(msg) {
 		});
 		initDesktopNotifies();
 		setInterval(refreshConversation, 10000);
+		setInterval(checkNewMessages, 10000);
 	});
 
 	// reset count and title

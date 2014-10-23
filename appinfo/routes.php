@@ -21,5 +21,6 @@ $application->registerRoutes($this, array('routes' => array(
 	array('name' => 'sms#retrieve_all_ids_with_status', 'url' => '/get/smsidstate', 'verb' => 'GET'),
 	array('name' => 'sms#retrieve_all_peers', 'url' => '/get/peerlist', 'verb' => 'GET'),
 	array('name' => 'sms#get_conversation', 'url' => '/get/conversation', 'verb' => 'GET'),
+	array('name' => 'sms#check_new_messages', 'url' => '/get/new_messages', 'verb' => 'GET'),
 	array('name' => 'sms#get_api_version', 'url' => '/get/apiversion', 'verb' => 'GET'),
 )));

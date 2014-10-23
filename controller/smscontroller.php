@@ -172,6 +172,28 @@ class SmsController extends Controller {
 
 	/**
 	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function checkNewMessages($lastDate) {
+		$phoneList = $this->smsMapper->getNewMessagesCountForAllPhonesNumbers($this->userId, $lastDate);
+		$contactsSrc = $this->app->getContacts();
+		$contacts = array();
+
+		$countPhone = count($phoneList);
+		foreach ($phoneList as $number => $ts) {
+			$fmtPN = preg_replace("#[ ]#","/", $number);
+			if (isset($contactsSrc[$fmtPN])) {
+				$fmtPN2 = preg_replace("#\/#","", $fmtPN);
+				$contacts[$fmtPN] = $contactsSrc[$fmtPN];
+				$contacts[$fmtPN2] = $contactsSrc[$fmtPN];
+			}
+		}
+
+		return new JSONResponse(array("phonelist" => $phoneList, "contacts" => $contacts));
+	}
+
+	/**
+	 * @NoAdminRequired
 	 */
 	public function push ($smsCount, $smsDatas) {
 		if ($this->checkPushStructure($smsCount, $smsDatas, true) === false) {
