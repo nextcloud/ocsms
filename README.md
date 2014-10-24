@@ -21,7 +21,11 @@ OcSMS web application is currently under AGPL licence but this free licence can 
 ## Installation
 Place this app in **owncloud/apps/**
 
-## Issue template
+## ocsms app issues
+
+Please create your issues here:
+
+https://github.com/nerzhul/ocsms/issues
 
 Server
 - ownCloud version: X.X.X
@@ -32,12 +36,14 @@ Server
 Client
 - Android version: X.X.X
 - Phone: <phone-model>
-- ownCloud SMS app version: X.X.X
+- ownCloud SMS app version: X.X.X 
 
-Please create your issues for the client here:
+Please also include extract of owncloud.log
+
+## Android client issues
+
+Please create your issues for the Android client here:
 
 https://github.com/nerzhul/ownCloud-SMS-App/issues
 
-And for the server app here:
 
-https://github.com/nerzhul/ocsms/issues
