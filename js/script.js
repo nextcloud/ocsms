@@ -14,7 +14,8 @@ var selectedConversation = null;
 var curPhoneNumber = null;
 var curContactName = '';
 var lastMsgDate = 0;
-var unreadCount = 0;
+var unreadCountCurrentConv = 0;
+var unreadCountAllConv = 0;
 var originalTitle = document.title;
 
 $.urlParam = function(name){
@@ -48,9 +49,9 @@ var refreshConversation = function() {
 				$('#app-content').scrollTop(1E10);
 				// This will blink the tab because there is new messages
 				if (document.hasFocus() == false) {
-					unreadCount += fmt[0];
-					document.title = originalTitle + " (" + unreadCount + ")";
-					desktopNotify(unreadCount + " unread message(s) in conversation with " + curContactName);
+					unreadCountCurrentConv += fmt[0];
+					document.title = originalTitle + " (" + unreadCountCurrentConv + ")";
+					desktopNotify(unreadCountCurrentConv + " unread message(s) in conversation with " + curContactName);
 				}
 			}
 
@@ -64,6 +65,7 @@ var refreshConversation = function() {
 };
 
 var checkNewMessages = function() {
+	unreadCountAllConv = 0;
 	$.getJSON(OC.generateUrl('/apps/ocsms/get/new_messages'),
 		{ 'lastDate': lastMsgDate },
 		function(jsondata, status) {
@@ -82,15 +84,19 @@ var checkNewMessages = function() {
 					fn = jsondata['contacts'][id];
 					peerLabel = fn;
 				}
+
 				if ($.inArray(peerLabel, bufferedContacts) == -1) {
 					$("a[mailbox-label='" + peerLabel + "']").remove();
 					peerListBuf = '<li><a href="#" mailbox-navigation="' + idxVal2 + '" style="font-weight: bold;" mailbox-label="' + peerLabel + '">' + peerLabel + ' (' + val + ')</a></li>';
 					$('#app-mailbox-peers ul').prepend(peerListBuf);
 					bufferedContacts.push(peerLabel);
 
+					// Re-set conversation because we reload the element
 					if (idxVal == curPhoneNumber) {
 						changeSelectedConversation($("a[mailbox-navigation='" + idxVal + "']"));
 					}
+
+					unreadCountAllConv += parseInt(val);	
 
 					// Now bind the events when we click on the phone number
 					$("a[mailbox-navigation='" + idxVal + "']").on('click', function (event) {
@@ -100,12 +106,16 @@ var checkNewMessages = function() {
 						// phoneNumber must exist
 						if (phoneNumber != null) {
 							fetchConversation(phoneNumber);
-							changeSelectedConversation($(this));
+								unreadCountAllConv += val;changeSelectedConversation($(this));
 						}
 						event.preventDefault();
 					});
 				}
 			});
+
+			if (unreadCountAllConv > 0) {
+				desktopNotify(unreadCountAllConv + " unread message(s) for all conversations");
+			}
 		}
 	);
 };
@@ -348,7 +358,7 @@ function desktopNotify(msg) {
 
 	// reset count and title
 	window.onfocus = function () {
-		unreadCount = 0;
+		unreadCountCurrentConv = 0;
 		document.title = originalTitle;
 	};
 })(jQuery, OC);
