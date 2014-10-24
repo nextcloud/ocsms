@@ -16,6 +16,7 @@ var curContactName = '';
 var lastMsgDate = 0;
 var unreadCountCurrentConv = 0;
 var unreadCountAllConv = 0;
+var unreadCountNotifStep = 12;
 var originalTitle = document.title;
 
 $.urlParam = function(name){
@@ -113,8 +114,22 @@ var checkNewMessages = function() {
 				}
 			});
 
+			/*
+			* Decrement notification step counter, but stop it a zero
+			* Stop at zero permit to notify instanly the user when 
+			* there is new messages in all conversations
+			*/
+			
+			if (unreadCountNotifStep > 0) {
+				unreadCountNotifStep--;
+			}
+			
 			if (unreadCountAllConv > 0) {
-				desktopNotify(unreadCountAllConv + " unread message(s) for all conversations");
+				// We notify user every two minutes for all messages
+				if (unreadCountNotifStep == 0) {
+					desktopNotify(unreadCountAllConv + " unread message(s) for all conversations");
+					unreadCountNotifStep = 12;
+				}
 			}
 		}
 	);
