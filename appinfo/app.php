@@ -29,5 +29,5 @@ namespace OCA\OcSms\AppInfo;
 
     // the title of your application. This will be used in the
     // navigation or on the settings page of your app
-    'name' => \OCP\Util::getL10N('ocsms')->t('Oc Sms')
+    'name' => \OCP\Util::getL10N('ocsms')->t('SMS')
 ));
