@@ -1,49 +1,58 @@
-# Oc Sms
+## ownCloud SMS
 
-## Introduction
 
-Oc Sms provides a webinterface to display your SMS conversations.
+### Introduction
+ownCloud SMS provides a webinterface to display your SMS conversations.
 
-SMS conversations are pushed by your Android devices using ownCloud Sms app, available on Google Play Store
+SMS conversations are pushed by your Android devices using ownCloud SMS app, available on Google Play Store.
 
 Android download link: https://play.google.com/store/apps/details?id=fr.unix_experience.owncloud_sms
 
 ownCloud SMS Android App sources are partially available here: https://github.com/nerzhul/ownCloud-SMS-App
 
-## Licence
 
-OcSMS web application is currently under AGPL licence but this free licence can be modificated to a better free licence.
+### Licence
+ownCloud SMS (OcSMS) web application is currently under AGPL licence but this free licence can be modificated to a better free licence.
 
-## Requirements
+
+### Requirements
 - An ownCloud instance
+- An Andoid phone
 
 
-## Installation
-Place this app in **owncloud/apps/**
+### Installation
+1. Download the [latest release](https://github.com/nerzhul/ocsms/releases)
+2. Place this app in **owncloud/apps/** and unpack it
+3. Activate the app in https://your-owncloud/index.php/settings/apps?installed
+4. Download the Android client from [Google Play](https://play.google.com/store/apps/details?id=fr.unix_experience.owncloud_sms)
+5. Activate the Android client by adding an account in your phone settings
 
-## ocsms app issues
 
-Please create your issues here:
-
+### Owncloud SMS core issues
+*Please create your core issues here:*
 https://github.com/nerzhul/ocsms/issues
 
-Server
+
+### Issue template 
+**Server**
 - ownCloud version: X.X.X
 - PHP version: X.X
 - HTTPd server: <apache|nginx...>
 - HTTPS: <yes|no>
 
-Client
+**Client**
 - Android version: X.X.X
 - Phone: <phone-model>
 - ownCloud SMS app version: X.X.X 
 
-Please also include extract of owncloud.log
+**Content of /owncloud/data/owncloud.log**
+```
+Place content of your owncloud.log here
+```
 
-## Android client issues
 
-Please create your issues for the Android client here:
-
+### Android client issues
+*Please create your issues for the Android client here:*
 https://github.com/nerzhul/ownCloud-SMS-App/issues
 
 
