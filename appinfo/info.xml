@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <info>
     <id>ocsms</id>
-    <name>Oc Sms</name>
-    <description>Owncloud SMS app</description>
+    <name>ownCloud SMS</name>
+    <description>A app to sync SMS with your ownCloud</description>
     <licence>AGPL</licence>
     <author>Loic Blot</author>
     <version>1.3.0</version>
