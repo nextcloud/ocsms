@@ -36,18 +36,19 @@ class OcSmsApp extends App {
 
 		$container = $this->getContainer();
 		$this->c = $container;
+		$app = $this;
 		
 		/**
 		 * Controllers
 		 */
 
-		$container->registerService('SmsController', function($c) {
+		$container->registerService('SmsController', function($c) use($app) {
 			return new SmsController(
 				$c->query('AppName'),
 				$c->query('Request'),
 				$c->query('UserId'),
 				$c->query('SmsMapper'),
-				$this
+				$app
 			);
 		});
 
