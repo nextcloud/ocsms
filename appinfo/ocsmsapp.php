@@ -134,19 +134,73 @@ class OcSmsApp extends App {
 	}
 
 	private function pushPhoneNumberToCache($rawPhone, $contactName) {
+		// We try to add many combinaisons
 		$phoneNb = preg_replace("#[ ]#", "/", $rawPhone);
-		$phoneNbNoSpaces = preg_replace("#[ ]#", "", $rawPhone);
+
+		/*
+		* At this point, spaces are slashes.
+		*/
+
+		// Spaces removed
+		$phoneNbNoSpaces = preg_replace("#[/]#", "", $phoneNb);
+		// Parenthesis removed
+		$phoneNbNoParenthesis = preg_replace("#[(]|[)]#", "", $phoneNb);
+		// Dashes removed
+		$phoneNbNoDashes = preg_replace("#[-]#", "", $phoneNb);
+
+		// Spaces and parenthesis
+		$phoneNbNoSpacesParenthesis = preg_replace("#[/]|[(]|[)]#", "", $phoneNb);
+		// Spaces and dashes
+		$phoneNbNoSpacesDashes = preg_replace("#[/]|[-]#", "", $phoneNb);
+		// parenthesis and dashes
+		$phoneNbNoDashesParenthesis = preg_replace("#[-]|[(]|[)]#", "", $phoneNb);
+
+		// Nothing
+		$phoneNbNothing = preg_replace("#[/]|[(]|[)]|[-]#", "", $phoneNb);
 		
+		// Contacts
 		self::$contacts[$phoneNb] = $contactName;
 		self::$contacts[$phoneNbNoSpaces] = $contactName;
+		self::$contacts[$phoneNbNoParenthesis] = $contactName;
+		self::$contacts[$phoneNbNoDashes] = $contactName;
+		self::$contacts[$phoneNbNoSpacesParenthesis] = $contactName;
+		self::$contacts[$phoneNbNoSpacesDashes] = $contactName;
+		self::$contacts[$phoneNbNoDashesParenthesis] = $contactName;
+		self::$contacts[$phoneNbNothing] = $contactName;
 
+		// Inverted contacts
 		if (!isset(self::$contactsInverted[$contactName])) {
 			self::$contactsInverted[$contactName] = array();
 		}
+
 		array_push(self::$contactsInverted[$contactName], $phoneNb);
 
-		if ($phoneNb != $phoneNbNoSpaces) {
+		if (!in_array($phoneNbNoSpaces, self::$contactsInverted[$contactName])) {
 			array_push(self::$contactsInverted[$contactName], $phoneNbNoSpaces);
+		}
+
+		if (!in_array($phoneNbNoParenthesis, self::$contactsInverted[$contactName])) {
+			array_push(self::$contactsInverted[$contactName], $phoneNbNoParenthesis);
+		}
+
+		if (!in_array($phoneNbNoDashes, self::$contactsInverted[$contactName])) {
+			array_push(self::$contactsInverted[$contactName], $phoneNbNoDashes);
+		}
+
+		if (!in_array($phoneNbNoSpacesParenthesis, self::$contactsInverted[$contactName])) {
+			array_push(self::$contactsInverted[$contactName], $phoneNbNoSpacesParenthesis);
+		}
+
+		if (!in_array($phoneNbNoSpacesDashes, self::$contactsInverted[$contactName])) {
+			array_push(self::$contactsInverted[$contactName], $phoneNbNoSpacesDashes);
+		}
+
+		if (!in_array($phoneNbNoDashesParenthesis, self::$contactsInverted[$contactName])) {
+			array_push(self::$contactsInverted[$contactName], $phoneNbNoDashesParenthesis);
+		}
+
+		if (!in_array($phoneNbNothing, self::$contactsInverted[$contactName])) {
+			array_push(self::$contactsInverted[$contactName], $phoneNbNothing);
 		}
 	}
 }
