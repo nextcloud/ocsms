@@ -143,7 +143,7 @@ class SmsController extends Controller {
 
 				$msgCount += $this->smsMapper->countMessagesForPhoneNumber($this->userId, $fmtPN);
 
-				$fmtPNCleaned = preg_replace("#[ ]|-|\(|\)]#","", $fmtPN);
+				$fmtPNCleaned = preg_replace("#[ ]|[-]|[(]|[)]#","", $fmtPN);
 				if (!in_array($fmtPNCleaned, $cleanedPhones)) {
 					$phoneNumbers[] = $fmtPN;
 					$cleanedPhones[] = $fmtPNCleaned;
