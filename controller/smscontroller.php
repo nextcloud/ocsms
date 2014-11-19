@@ -68,6 +68,11 @@ class SmsController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 * 
+	 * This function is used by API v1
+	 * Phone will compare its own message list with this
+	 * message list and send the missing messages
+	 * This call will remain as secure slow sync mode (1 per hour)
 	 */
 	public function retrieveAllIds () {
 		$smsList = $this->smsMapper->getAllIds($this->userId);
