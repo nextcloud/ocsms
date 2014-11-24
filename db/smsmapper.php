@@ -14,6 +14,8 @@ namespace OCA\OcSms\Db;
 use \OCP\IDb;
 
 use \OCP\AppFramework\Db\Mapper;
+use \OCA\OcSms\AppInfo\OcSmsApp;
+use \OCA\OcSms\AppInfo\FormatPhoneNumber;
 
 class SmsMapper extends Mapper {
 	/*
@@ -77,38 +79,74 @@ class SmsMapper extends Mapper {
 
 		$phoneList = array();
 		while($row = $result->fetchRow()) {
-			if (!in_array($row["sms_address"], $phoneList)) {
-				array_push($phoneList, $row["sms_address"]);
+			$pn = $row["sms_address"];
+			if (!in_array($pn, $phoneList)) {
+				array_push($phoneList, $pn);
 			}
 		}
 		return $phoneList;
 	}
+	
+	public function getAllPhoneNumbersForFPN ($userId,$phoneNumber) {
+		$query = \OCP\DB::prepare('SELECT sms_address FROM ' .
+		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_mailbox IN (?,?)');
+		$result = $query->execute(array($userId, 0, 1));
+		$phoneList = array();
+		while($row = $result->fetchRow()) {
+			$pn = $row["sms_address"];
+			$fmtPN = FormatPhoneNumber::formatPhoneNumber($pn);
+			if (!isset($phoneList[$fmtPN])) {
+				$phoneList[$fmtPN] = array();
+			} 
+			//if (!in_array($pn, $phoneList[$fmtPN])) {
+			if(!isset($phoneList[$fmtPN][$pn])) {
+				$phoneList[$fmtPN][$pn] = 0;
+			}
+			$phoneList[$fmtPN][$pn] += 1;
+		}
+		$fpn = FormatPhoneNumber::formatPhoneNumber($phoneNumber);
+		if(isset($phoneList[$fpn])){
+			return $phoneList[$fpn];
+		}
+		else 
+			return array();
+	}
 
 	public function getAllMessagesForPhoneNumber ($userId, $phoneNumber, $minDate = 0) {
+	
+		$phlst = $this->getAllPhoneNumbersForFPN ($userId,$phoneNumber);
+		$messageList = array();
 		$query = \OCP\DB::prepare('SELECT sms_date, sms_msg, sms_type FROM ' .
 		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_address = ? ' .
 		'AND sms_mailbox IN (?,?) AND sms_date > ?');
-		$result = $query->execute(array($userId, $phoneNumber, 0, 1, $minDate));
 
-		$messageList = array();
-		while ($row = $result->fetchRow()) {
-			$messageList[$row["sms_date"]] = array(
-				"msg" =>  $row["sms_msg"],
-				"type" => $row["sms_type"]
-			);
+		foreach( $phlst as $pn => $val) {
+			$result = $query->execute(array($userId, $pn, 0, 1, $minDate));
+
+			while ($row = $result->fetchRow()) {
+				$messageList[$row["sms_date"]] = array(
+					"msg" =>  $row["sms_msg"],
+					"type" => $row["sms_type"]
+				);
+			}
 		}
 		return $messageList;
 	}
 
 	public function countMessagesForPhoneNumber ($userId, $phoneNumber) {
+		$cnt = 0;
+		$phlst = $this->getAllPhoneNumbersForFPN ($userId,$phoneNumber);
+
 		$query = \OCP\DB::prepare('SELECT count(sms_date) as ct FROM ' .
 		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_address = ? ' .
 		'AND sms_mailbox IN (?,?)');
-		$result = $query->execute(array($userId, $phoneNumber, 0, 1));
 
-		if ($row = $result->fetchRow()) {
-			return $row["ct"];
+		foreach( $phlst as $pn => $val) {
+			$result = $query->execute(array($userId, $pn, 0, 1));
+			if ($row = $result->fetchRow())
+				$cnt += $row["ct"];
 		}
+		return $cnt;
 	}
 
 	public function getLastMessageTimestampForAllPhonesNumbers ($userId, $order = true) {
@@ -125,7 +163,9 @@ class SmsMapper extends Mapper {
 
 		$phoneList = array();
 		while ($row = $result->fetchRow()) {
-			$phoneNumber = preg_replace("#[ ]#", "/", $row["sms_address"]);
+			//$phoneNumber = preg_replace("#[ ]#", "/", $row["sms_address"]);
+			//$phoneNumber = \OCA\OcSms\AppInfo\FormatPhoneNumber::formatPhoneNumber($row["sms_address"]);
+			$phoneNumber = $row["sms_address"];
 			if (!in_array($phoneNumber, $phoneList)) {
 				$phoneList[$phoneNumber] = $row["mx"];
 			}
@@ -201,7 +241,6 @@ class SmsMapper extends Mapper {
 					$userId, (int) $sms["_id"]
 				));
 			}
-
 			$query = \OCP\DB::prepare('INSERT INTO *PREFIX*ocsms_smsdatas ' .
 			'(user_id, added, lastmodified, sms_flags, sms_date, sms_id,' .
 			'sms_address, sms_msg, sms_mailbox, sms_type) VALUES ' .
