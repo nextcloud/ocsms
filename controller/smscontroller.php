@@ -26,7 +26,7 @@ class SmsController extends Controller {
 	private $userId;
 	private $smsMapper;
 	private $errorMsg;
-	
+
 	public function __construct ($appName, IRequest $request, $userId, SmsMapper $mapper, OcSmsApp $app){
 		parent::__construct($appName, $request);
 		$this->app = $app;
@@ -145,7 +145,7 @@ class SmsController extends Controller {
 			$msgCount = $this->smsMapper->countMessagesForPhoneNumber($this->userId, $phoneNumber);
 			if(isset($peerNumber[$fmtPN])) {
 				foreach($peerNumber[$fmtPN] as $cnumber) {
-					$messages = $messages +	$this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $cnumber, $lastDate);	
+					$messages = $messages +	$this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $cnumber, $lastDate);
 					$msgCount += $this->smsMapper->countMessagesForPhoneNumber($this->userId, $cnumber);
 				}
 			}
@@ -153,7 +153,7 @@ class SmsController extends Controller {
 		}
 		// Order by id (date)
 		ksort($messages);
-		
+
 		// Set the last read message for the conversation (all phone numbers)
 		if (count($messages) > 0) {
 			$maxDate = max(array_keys($messages));

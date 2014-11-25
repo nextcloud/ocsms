@@ -30,10 +30,10 @@ class OcSmsApp extends App {
 	/*
 		caching dosn´t work because on every call all will be reinstantiated
 	*/
-	private static $contacts;				// dosn´t work
-	
+	private static $contacts;			// dosn´t work
+
 	private static $contactsInverted;		// dosn´t work
-	
+
 	private $c;
 
 	public function __construct (array $urlParams=array()) {
@@ -42,7 +42,7 @@ class OcSmsApp extends App {
 		$container = $this->getContainer();
 		$this->c = $container;
 		$app = $this;
-		
+
 		/**
 		 * Controllers
 		 */
@@ -91,7 +91,7 @@ class OcSmsApp extends App {
 		}
 		return self::$contacts;
 	}
-	
+
 	public function getInvertedContacts() {
 		// Only load contacts if they aren't in the buffer
 		// dosn´t work
@@ -100,7 +100,7 @@ class OcSmsApp extends App {
 		}
 		return self::$contactsInverted;
 	}
-	
+
 	/**
 	 * Partially importe this function from owncloud Chat app
 	 * https://github.com/owncloud/chat/blob/master/app/chat.php
@@ -108,12 +108,12 @@ class OcSmsApp extends App {
 	private function loadContacts() {
 		self::$contacts = array();
 		self::$contactsInverted = array();
-		
+
 		$cm = $this->c['ContactsManager'];
 		if ($cm == null) {
 			return;
 		}
-		
+
 		$result = array();
 		try {
 			$result = $cm->search('',array('FN'));
@@ -146,8 +146,9 @@ class OcSmsApp extends App {
 		$phoneNb = FormatPhoneNumber::formatPhoneNumber($rawPhone);
 		self::$contacts[$phoneNb] = $contactName;
 		// Inverted contacts
-		if (!isset(self::$contactsInverted[$contactName]))
+		if (!isset(self::$contactsInverted[$contactName])) {
 			self::$contactsInverted[$contactName] = array();
+		}
 		array_push(self::$contactsInverted[$contactName], $phoneNb);
 	}
 }

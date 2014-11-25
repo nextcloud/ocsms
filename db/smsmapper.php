@@ -100,7 +100,7 @@ class SmsMapper extends Mapper {
 			$fmtPN = FormatPhoneNumber::formatPhoneNumber($pn);
 			if (!isset($phoneList[$fmtPN])) {
 				$phoneList[$fmtPN] = array();
-			} 
+			}
 			if(!isset($phoneList[$fmtPN][$pn])) {
 				$phoneList[$fmtPN][$pn] = 0;
 			}
@@ -110,12 +110,13 @@ class SmsMapper extends Mapper {
 		if(isset($phoneList[$fpn])){
 			return $phoneList[$fpn];
 		}
-		else 
+		else {
 			return array();
+		}
 	}
 
 	public function getAllMessagesForPhoneNumber ($userId, $phoneNumber, $minDate = 0) {
-	
+
 		$phlst = $this->getAllPhoneNumbersForFPN ($userId,$phoneNumber);
 		$messageList = array();
 		$query = \OCP\DB::prepare('SELECT sms_date, sms_msg, sms_type FROM ' .
