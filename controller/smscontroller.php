@@ -133,6 +133,7 @@ class SmsController extends Controller {
 		$msgCount = 0;
 		// Contact resolved
 		if ($contactName != "" && isset($iContacts[$contactName])) {
+			// forall numbers in iContacts
 			foreach($iContacts[$contactName] as $cnumber) {
 				$messages = $messages +	$this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $cnumber, $lastDate);
 				$msgCount += $this->smsMapper->countMessagesForPhoneNumber($this->userId, $cnumber);

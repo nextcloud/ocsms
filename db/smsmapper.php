@@ -86,7 +86,10 @@ class SmsMapper extends Mapper {
 		}
 		return $phoneList;
 	}
-	
+
+	/*
+		get all possible SMS_adresses for a given formated phonenumber
+	*/
 	public function getAllPhoneNumbersForFPN ($userId,$phoneNumber) {
 		$query = \OCP\DB::prepare('SELECT sms_address FROM ' .
 		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_mailbox IN (?,?)');
@@ -98,7 +101,6 @@ class SmsMapper extends Mapper {
 			if (!isset($phoneList[$fmtPN])) {
 				$phoneList[$fmtPN] = array();
 			} 
-			//if (!in_array($pn, $phoneList[$fmtPN])) {
 			if(!isset($phoneList[$fmtPN][$pn])) {
 				$phoneList[$fmtPN][$pn] = 0;
 			}
@@ -163,8 +165,6 @@ class SmsMapper extends Mapper {
 
 		$phoneList = array();
 		while ($row = $result->fetchRow()) {
-			//$phoneNumber = preg_replace("#[ ]#", "/", $row["sms_address"]);
-			//$phoneNumber = \OCA\OcSms\AppInfo\FormatPhoneNumber::formatPhoneNumber($row["sms_address"]);
 			$phoneNumber = $row["sms_address"];
 			if (!in_array($phoneNumber, $phoneList)) {
 				$phoneList[$phoneNumber] = $row["mx"];

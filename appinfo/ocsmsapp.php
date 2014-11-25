@@ -27,6 +27,9 @@ class OcSmsApp extends App {
 	/**
 	* @var array used to cache the parsed contacts for every request
 	*/
+	/*
+		caching dosn´t work because on every call all will be reinstantiated
+	*/
 	private static $contacts;				// dosn´t work
 	
 	private static $contactsInverted;		// dosn´t work
@@ -135,6 +138,9 @@ class OcSmsApp extends App {
 		}
 	}
 
+	/*
+		all numbers will be formatted
+	*/
 	private function pushPhoneNumberToCache($rawPhone, $contactName) {
 
 		$phoneNb = FormatPhoneNumber::formatPhoneNumber($rawPhone);
@@ -143,6 +149,5 @@ class OcSmsApp extends App {
 		if (!isset(self::$contactsInverted[$contactName]))
 			self::$contactsInverted[$contactName] = array();
 		array_push(self::$contactsInverted[$contactName], $phoneNb);
-
 	}
 }
