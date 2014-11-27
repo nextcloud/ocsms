@@ -10,9 +10,13 @@
  */
 namespace OCA\OcSms\AppInfo;
 
+error_log("You messed up!", 3, "/var/tmp/my-errors.log");
+
 class FormatPhoneNumber {
 
+
 	public static function formatPhoneNumber($pn) {
+
 		$ipnrxp = array(					// match international numbers with 1,2,3 digits
 			'#^(00|\+)(1\d\d\d)#',				// NANP
 			'#^(00|\+)(2[1|2|3|4|5|6|8|9]\d)#',		// +2(1|2|3|4|5|6|8|9)x
@@ -33,20 +37,26 @@ class FormatPhoneNumber {
 		);
 
 		$ignrxp = array(					// match non digits and +
-			'#\(\d*\)|[^\d\+]#',
+			'#[^\d\+\(\)\[\]\{\}]#',			// everything but digit, +, (), [] or {}
+			'#(.+)([\(\[\{]\d*[\)\]\}])#',			// braces inside the number: +49 (0) 123 456789
+			'#[^\d\+]#'					// everything but digits and +
 		);
-
+		$ignrpl = array(					// replacements
+			'',
+			'$1',
+			''
+		);
+		
 		/*
 			ToDo : make local settings in web-page
 		*/
 		$lpnrxp = array(						// match local numbers
-			'#(^0)([^0])#',						// in germany : 0-xx[x[x]]-123456
+			'#(^0)([^0])#'						// in germany : 0-xx[x[x]]-123456
 		);								//
 		$lpnrpl = '+49$2';						// replace with +49 -xx[x[x]]-123456
-
 		$tpn = trim($pn);
-		if( preg_match('#^[\d\+].*#',$tpn)) {				// start with digit or +
-			$fpn = preg_replace($ignrxp, '', $tpn);			// replace everything but digits/+ with ''
+		if( preg_match('#^[\d\+\(\[\{].*#',$tpn)) {			// start with digit, +, (, [ or {
+			$fpn = preg_replace($ignrxp, $ignrpl, $tpn);		// replace everything but digits/+ with ''
 			$xpn = preg_replace($lpnrxp, $lpnrpl, $fpn);		// replace local prenumbers
 			$ypn = preg_replace($ipnrxp, '+$2', $xpn);		// format to international coding +x[x[x]].....
 		} else {
