@@ -20,7 +20,7 @@ use \OCA\OcSms\Controller\SmsController;
 use \OCA\OcSms\Db\Sms;
 use \OCA\OcSms\Db\SmsMapper;
 
-use \OCA\OcSms\AppInfo\FormatPhoneNumber;
+use \OCA\OcSms\Lib\PhoneNumberFormatter;
 
 class OcSmsApp extends App {
 
@@ -143,7 +143,7 @@ class OcSmsApp extends App {
 	*/
 	private function pushPhoneNumberToCache($rawPhone, $contactName) {
 
-		$phoneNb = FormatPhoneNumber::formatPhoneNumber($rawPhone);
+		$phoneNb = PhoneNumberFormatter::format($rawPhone);
 		self::$contacts[$phoneNb] = $contactName;
 		// Inverted contacts
 		if (!isset(self::$contactsInverted[$contactName])) {

@@ -15,7 +15,7 @@ use \OCP\IDb;
 
 use \OCP\AppFramework\Db\Mapper;
 use \OCA\OcSms\AppInfo\OcSmsApp;
-use \OCA\OcSms\AppInfo\FormatPhoneNumber;
+use \OCA\OcSms\Lib\PhoneNumberFormatter;
 
 class SmsMapper extends Mapper {
 	/*
@@ -97,7 +97,7 @@ class SmsMapper extends Mapper {
 		$phoneList = array();
 		while($row = $result->fetchRow()) {
 			$pn = $row["sms_address"];
-			$fmtPN = FormatPhoneNumber::formatPhoneNumber($pn);
+			$fmtPN = PhoneNumberFormatter::format($pn);
 			if (!isset($phoneList[$fmtPN])) {
 				$phoneList[$fmtPN] = array();
 			}
@@ -106,7 +106,7 @@ class SmsMapper extends Mapper {
 			}
 			$phoneList[$fmtPN][$pn] += 1;
 		}
-		$fpn = FormatPhoneNumber::formatPhoneNumber($phoneNumber);
+		$fpn = PhoneNumberFormatter::format($phoneNumber);
 		if(isset($phoneList[$fpn])){
 			return $phoneList[$fpn];
 		}

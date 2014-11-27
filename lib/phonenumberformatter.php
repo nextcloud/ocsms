@@ -6,16 +6,15 @@
  * later. See the COPYING file.
  *
  * @author Loic Blot <loic.blot@unix-experience.fr>
+ * @contributor: stagprom <https://github.com/stagprom/>
  * @copyright Loic Blot 2014
  */
 
-namespace OCA\OcSms\AppInfo;
+namespace OCA\OcSms\Lib;
 
 
-class FormatPhoneNumber {
-
-	public static function formatPhoneNumber($pn) {
-
+class PhoneNumberFormatter {
+	public static function format ($pn) {
 		$ipnrxp = array(					// match international numbers with 1,2,3 digits
 			'#^(00|\+)(1\d\d\d)#',				// NANP
 			'#^(00|\+)(2[1|2|3|4|5|6|8|9]\d)#',		// +2(1|2|3|4|5|6|8|9)x
@@ -40,6 +39,7 @@ class FormatPhoneNumber {
 			'#(.+)([\(\[\{]\d*[\)\]\}])#',			// braces inside the number: +49 (0) 123 456789
 			'#[^\d\+]#'					// everything but digits and +
 		);
+
 		$ignrpl = array(					// replacements
 			'',
 			'$1',
@@ -47,20 +47,23 @@ class FormatPhoneNumber {
 		);
 		
 		/*
-			ToDo : make local settings in web-page
+			@TODO: make local settings in web-page
 		*/
 		$lpnrxp = array(						// match local numbers
 			'#(^0)([^0])#'						// in germany : 0-xx[x[x]]-123456
 		);								//
+
 		$lpnrpl = '+49$2';						// replace with +49 -xx[x[x]]-123456
 		$tpn = trim($pn);
-		if( preg_match('#^[\d\+\(\[\{].*#',$tpn)) {			// start with digit, +, (, [ or {
+
+		if (preg_match('#^[\d\+\(\[\{].*#',$tpn)) {			// start with digit, +, (, [ or {
 			$fpn = preg_replace($ignrxp, $ignrpl, $tpn);		// replace everything but digits/+ with ''
 			$xpn = preg_replace($lpnrxp, $lpnrpl, $fpn);		// replace local prenumbers
 			$ypn = preg_replace($ipnrxp, '+$2', $xpn);		// format to international coding +x[x[x]].....
 		} else {
 			$ypn = $tpn;						// some SMS_adresses are strings
 		}
+
 		return $ypn;
     }
-}
+};

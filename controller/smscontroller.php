@@ -18,7 +18,7 @@ use \OCP\AppFramework\Controller;
 use \OCP\AppFramework\Http\JSONResponse;
 use \OCA\OcSms\AppInfo\OcSmsApp;
 use \OCA\OcSms\Db\SmsMapper;
-use \OCA\OcSms\AppInfo\FormatPhoneNumber;
+use \OCA\OcSms\Lib\PhoneNumberFormatter;
 
 class SmsController extends Controller {
 
@@ -100,7 +100,7 @@ class SmsController extends Controller {
 
 		$countPhone = count($phoneList);
 		foreach ($phoneList as $number => $ts) {
-			$fmtPN = FormatPhoneNumber::formatPhoneNumber($number);
+			$fmtPN = PhoneNumberFormatter::format($number);
 			if (isset($contactsSrc[$number])) {
 				$contacts[$number] = $contactsSrc[$number];
 			} elseif (isset($contactsSrc[$fmtPN])) {
@@ -123,7 +123,7 @@ class SmsController extends Controller {
 		$contacts = $this->app->getContacts();
 		$iContacts = $this->app->getInvertedContacts();
 		$contactName = "";
-		$fmtPN = FormatPhoneNumber::formatPhoneNumber($phoneNumber);
+		$fmtPN = PhoneNumberFormatter::format($phoneNumber);
 		if (isset($contacts[$fmtPN])) {
 			$contactName = $contacts[$fmtPN];
 		}
@@ -137,7 +137,7 @@ class SmsController extends Controller {
 			foreach($iContacts[$contactName] as $cnumber) {
 				$messages = $messages +	$this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $cnumber, $lastDate);
 				$msgCount += $this->smsMapper->countMessagesForPhoneNumber($this->userId, $cnumber);
-				$phoneNumbers[] = FormatPhoneNumber::formatPhoneNumber($cnumber);
+				$phoneNumbers[] = PhoneNumberFormatter::format($cnumber);
 			}
 		}
 		else {
@@ -149,7 +149,7 @@ class SmsController extends Controller {
 					$msgCount += $this->smsMapper->countMessagesForPhoneNumber($this->userId, $cnumber);
 				}
 			}
-			$phoneNumbers[] = FormatPhoneNumber::formatPhoneNumber($phoneNumber);
+			$phoneNumbers[] = PhoneNumberFormatter::format($phoneNumber);
 		}
 		// Order by id (date)
 		ksort($messages);
