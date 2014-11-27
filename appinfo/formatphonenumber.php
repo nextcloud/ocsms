@@ -10,8 +10,6 @@
  */
 namespace OCA\OcSms\AppInfo;
 
-error_log("You messed up!", 3, "/var/tmp/my-errors.log");
-
 class FormatPhoneNumber {
 
 
