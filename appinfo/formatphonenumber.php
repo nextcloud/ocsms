@@ -8,10 +8,11 @@
  * @author Loic Blot <loic.blot@unix-experience.fr>
  * @copyright Loic Blot 2014
  */
+
 namespace OCA\OcSms\AppInfo;
 
-class FormatPhoneNumber {
 
+class FormatPhoneNumber {
 
 	public static function formatPhoneNumber($pn) {
 
