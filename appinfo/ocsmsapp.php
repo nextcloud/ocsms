@@ -9,6 +9,7 @@
  * @copyright Loic Blot 2014
  */
 
+
 namespace OCA\OcSms\AppInfo;
 
 
@@ -19,16 +20,20 @@ use \OCA\OcSms\Controller\SmsController;
 use \OCA\OcSms\Db\Sms;
 use \OCA\OcSms\Db\SmsMapper;
 
+use \OCA\OcSms\AppInfo\FormatPhoneNumber;
 
 class OcSmsApp extends App {
 
 	/**
 	* @var array used to cache the parsed contacts for every request
 	*/
-	private static $contacts;
-	
-	private static $contactsInverted;
-	
+	/*
+		caching dosn´t work because on every call all will be reinstantiated
+	*/
+	private static $contacts;			// dosn´t work
+
+	private static $contactsInverted;		// dosn´t work
+
 	private $c;
 
 	public function __construct (array $urlParams=array()) {
@@ -37,7 +42,7 @@ class OcSmsApp extends App {
 		$container = $this->getContainer();
 		$this->c = $container;
 		$app = $this;
-		
+
 		/**
 		 * Controllers
 		 */
@@ -80,22 +85,22 @@ class OcSmsApp extends App {
 
 	public function getContacts() {
 		// Only load contacts if they aren't in the buffer
+		// dosn´t work
 		if(count(self::$contacts) == 0) {
 			$this->loadContacts();
 		}
-
 		return self::$contacts;
 	}
-	
+
 	public function getInvertedContacts() {
 		// Only load contacts if they aren't in the buffer
+		// dosn´t work
 		if(count(self::$contactsInverted) == 0) {
 			$this->loadContacts();
 		}
-
 		return self::$contactsInverted;
 	}
-	
+
 	/**
 	 * Partially importe this function from owncloud Chat app
 	 * https://github.com/owncloud/chat/blob/master/app/chat.php
@@ -103,12 +108,12 @@ class OcSmsApp extends App {
 	private function loadContacts() {
 		self::$contacts = array();
 		self::$contactsInverted = array();
-		
+
 		$cm = $this->c['ContactsManager'];
 		if ($cm == null) {
 			return;
 		}
-		
+
 		$result = array();
 		try {
 			$result = $cm->search('',array('FN'));
@@ -133,74 +138,17 @@ class OcSmsApp extends App {
 		}
 	}
 
+	/*
+		all numbers will be formatted
+	*/
 	private function pushPhoneNumberToCache($rawPhone, $contactName) {
-		// We try to add many combinaisons
-		$phoneNb = preg_replace("#[ ]#", "/", $rawPhone);
 
-		/*
-		* At this point, spaces are slashes.
-		*/
-
-		// Spaces removed
-		$phoneNbNoSpaces = preg_replace("#[/]#", "", $phoneNb);
-		// Parenthesis removed
-		$phoneNbNoParenthesis = preg_replace("#[(]|[)]#", "", $phoneNb);
-		// Dashes removed
-		$phoneNbNoDashes = preg_replace("#[-]#", "", $phoneNb);
-
-		// Spaces and parenthesis
-		$phoneNbNoSpacesParenthesis = preg_replace("#[/]|[(]|[)]#", "", $phoneNb);
-		// Spaces and dashes
-		$phoneNbNoSpacesDashes = preg_replace("#[/]|[-]#", "", $phoneNb);
-		// parenthesis and dashes
-		$phoneNbNoDashesParenthesis = preg_replace("#[-]|[(]|[)]#", "", $phoneNb);
-
-		// Nothing
-		$phoneNbNothing = preg_replace("#[/]|[(]|[)]|[-]#", "", $phoneNb);
-		
-		// Contacts
+		$phoneNb = FormatPhoneNumber::formatPhoneNumber($rawPhone);
 		self::$contacts[$phoneNb] = $contactName;
-		self::$contacts[$phoneNbNoSpaces] = $contactName;
-		self::$contacts[$phoneNbNoParenthesis] = $contactName;
-		self::$contacts[$phoneNbNoDashes] = $contactName;
-		self::$contacts[$phoneNbNoSpacesParenthesis] = $contactName;
-		self::$contacts[$phoneNbNoSpacesDashes] = $contactName;
-		self::$contacts[$phoneNbNoDashesParenthesis] = $contactName;
-		self::$contacts[$phoneNbNothing] = $contactName;
-
 		// Inverted contacts
 		if (!isset(self::$contactsInverted[$contactName])) {
 			self::$contactsInverted[$contactName] = array();
 		}
-
 		array_push(self::$contactsInverted[$contactName], $phoneNb);
-
-		if (!in_array($phoneNbNoSpaces, self::$contactsInverted[$contactName])) {
-			array_push(self::$contactsInverted[$contactName], $phoneNbNoSpaces);
-		}
-
-		if (!in_array($phoneNbNoParenthesis, self::$contactsInverted[$contactName])) {
-			array_push(self::$contactsInverted[$contactName], $phoneNbNoParenthesis);
-		}
-
-		if (!in_array($phoneNbNoDashes, self::$contactsInverted[$contactName])) {
-			array_push(self::$contactsInverted[$contactName], $phoneNbNoDashes);
-		}
-
-		if (!in_array($phoneNbNoSpacesParenthesis, self::$contactsInverted[$contactName])) {
-			array_push(self::$contactsInverted[$contactName], $phoneNbNoSpacesParenthesis);
-		}
-
-		if (!in_array($phoneNbNoSpacesDashes, self::$contactsInverted[$contactName])) {
-			array_push(self::$contactsInverted[$contactName], $phoneNbNoSpacesDashes);
-		}
-
-		if (!in_array($phoneNbNoDashesParenthesis, self::$contactsInverted[$contactName])) {
-			array_push(self::$contactsInverted[$contactName], $phoneNbNoDashesParenthesis);
-		}
-
-		if (!in_array($phoneNbNothing, self::$contactsInverted[$contactName])) {
-			array_push(self::$contactsInverted[$contactName], $phoneNbNothing);
-		}
 	}
 }

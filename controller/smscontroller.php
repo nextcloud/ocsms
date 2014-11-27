@@ -18,6 +18,7 @@ use \OCP\AppFramework\Controller;
 use \OCP\AppFramework\Http\JSONResponse;
 use \OCA\OcSms\AppInfo\OcSmsApp;
 use \OCA\OcSms\Db\SmsMapper;
+use \OCA\OcSms\AppInfo\FormatPhoneNumber;
 
 class SmsController extends Controller {
 
@@ -99,16 +100,18 @@ class SmsController extends Controller {
 
 		$countPhone = count($phoneList);
 		foreach ($phoneList as $number => $ts) {
-			$fmtPN = preg_replace("#[ ]#","/", $number);
-			if (isset($contactsSrc[$fmtPN])) {
-				$fmtPN2 = preg_replace("#\/#","", $fmtPN);
-				$contacts[$fmtPN] = $contactsSrc[$fmtPN];
-				$contacts[$fmtPN2] = $contactsSrc[$fmtPN];
+			$fmtPN = FormatPhoneNumber::formatPhoneNumber($number);
+			if (isset($contactsSrc[$number])) {
+				$contacts[$number] = $contactsSrc[$number];
+			} elseif (isset($contactsSrc[$fmtPN])) {
+				$contacts[$number] = $contactsSrc[$fmtPN];
+			} elseif (isset($contacts[$fmtPN])) {
+				$contacts[$number] = $fmtPN;
+			} else {
+				$contacts[$number] = $fmtPN;
 			}
 		}
-
 		$lastRead = $this->smsMapper->getLastReadDate($this->userId);
-
 		return new JSONResponse(array("phonelist" => $phoneList, "contacts" => $contacts, "lastRead" => $lastRead));
 	}
 
@@ -120,9 +123,7 @@ class SmsController extends Controller {
 		$contacts = $this->app->getContacts();
 		$iContacts = $this->app->getInvertedContacts();
 		$contactName = "";
-
-		// Add slashes to index properly
-		$fmtPN = preg_replace("#[ ]#","/", $phoneNumber);
+		$fmtPN = FormatPhoneNumber::formatPhoneNumber($phoneNumber);
 		if (isset($contacts[$fmtPN])) {
 			$contactName = $contacts[$fmtPN];
 		}
@@ -130,48 +131,29 @@ class SmsController extends Controller {
 		$messages = array();
 		$phoneNumbers = array();
 		$msgCount = 0;
-
-		// This table will be used to avoid duplicates
-		$cleanedPhones = array();
-
 		// Contact resolved
 		if ($contactName != "" && isset($iContacts[$contactName])) {
-			$ctPn = count($iContacts[$contactName]);
-
-			// We merge each message list into global messagelist
-			for ($i=0; $i < $ctPn; $i++) {
-				// Remove slashes
-				$fmtPN = preg_replace("#[/]#"," ", $iContacts[$contactName][$i]);
-
-				$messages = $messages +
-					$this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $fmtPN, $lastDate);
-
-				$msgCount += $this->smsMapper->countMessagesForPhoneNumber($this->userId, $fmtPN);
-
-				$fmtPNCleaned = preg_replace("#[ ]|[-]|[(]|[)]#","", $fmtPN);
-				if (!in_array($fmtPNCleaned, $cleanedPhones)) {
-					$phoneNumbers[] = $fmtPN;
-					$cleanedPhones[] = $fmtPNCleaned;
-				}
+			// forall numbers in iContacts
+			foreach($iContacts[$contactName] as $cnumber) {
+				$messages = $messages +	$this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $cnumber, $lastDate);
+				$msgCount += $this->smsMapper->countMessagesForPhoneNumber($this->userId, $cnumber);
+				$phoneNumbers[] = FormatPhoneNumber::formatPhoneNumber($cnumber);
 			}
 		}
 		else {
-			// remove slashes
-			$fmtPN = preg_replace("#[/]#"," ", $phoneNumber);
-
-			$messages = $this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $fmtPN, $lastDate);
-			$msgCount = $this->smsMapper->countMessagesForPhoneNumber($this->userId, $fmtPN);
-
-			$fmtPNCleaned = preg_replace("#[ ]|-|\(|\)]#","", $fmtPN);
-			if (!in_array($fmtPNCleaned, $cleanedPhones)) {
-				$phoneNumbers[] = $fmtPN;
-				$cleanedPhones[] = $fmtPNCleaned;
+			$messages = $this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $phoneNumber, $lastDate);
+			$msgCount = $this->smsMapper->countMessagesForPhoneNumber($this->userId, $phoneNumber);
+			if(isset($peerNumber[$fmtPN])) {
+				foreach($peerNumber[$fmtPN] as $cnumber) {
+					$messages = $messages +	$this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $cnumber, $lastDate);
+					$msgCount += $this->smsMapper->countMessagesForPhoneNumber($this->userId, $cnumber);
+				}
 			}
+			$phoneNumbers[] = FormatPhoneNumber::formatPhoneNumber($phoneNumber);
 		}
-
 		// Order by id (date)
 		ksort($messages);
-		
+
 		// Set the last read message for the conversation (all phone numbers)
 		if (count($messages) > 0) {
 			$maxDate = max(array_keys($messages));
