@@ -83,6 +83,20 @@ class SmsController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 * 
+	 * This function is used by API v2
+	 * Phone will get this ID to push recent messages
+	 * This call will be used combined with retrieveAllIds
+	 * but will be used more times
+	 */
+	public function retrieveLastTimestamp () {
+		$ts = $this->smsMapper->getLastTimestamp($this->userId);
+		return new JSONResponse(array("timestamp" => $ts));
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
 	 */
 	public function retrieveAllIdsWithStatus () {
 		$smsList = $this->smsMapper->getAllIdsWithStatus($this->userId);

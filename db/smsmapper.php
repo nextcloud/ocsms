@@ -72,6 +72,18 @@ class SmsMapper extends Mapper {
 		return $smsList;
 	}
 
+	public function getLastTimestamp ($userId) {
+		$query = \OCP\DB::prepare('SELECT max(sms_date) as mx FROM ' .
+			'*PREFIX*ocsms_smsdatas WHERE user_id = ?');
+		$result = $query->execute(array($userId));
+		
+		if ($row = $result->fetchRow()) {
+			return $row["mx"];
+		}
+
+		return 0;
+	}
+
 	public function getAllPeersPhoneNumbers ($userId) {
 		$query = \OCP\DB::prepare('SELECT sms_address FROM ' .
 		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_mailbox IN (?,?)');
@@ -144,7 +156,7 @@ class SmsMapper extends Mapper {
 		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_address = ? ' .
 		'AND sms_mailbox IN (?,?)');
 
-		foreach( $phlst as $pn => $val) {
+		foreach($phlst as $pn => $val) {
 			$result = $query->execute(array($userId, $pn, 0, 1));
 			if ($row = $result->fetchRow())
 				$cnt += $row["ct"];
