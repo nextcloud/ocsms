@@ -114,13 +114,7 @@ class OcSmsApp extends App {
 			return;
 		}
 
-		$result = array();
-		try {
-			$result = $cm->search('',array('FN'));
-		} catch (Exception $e) {
-			// If contact manager failed, avoid the issue
-			return;
-		}
+		$result = $cm->search('',array('FN'));
 
 		foreach ($result as $r) {
 			if (isset ($r["TEL"])) {
