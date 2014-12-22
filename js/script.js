@@ -303,6 +303,10 @@ function fetchInitialPeerList(jsondata) {
 }
 
 function initDesktopNotifies() {
+	if (!("Notification" in window)) {
+		return;
+	}
+	
 	Notification.requestPermission(function (permission) {
 		if(!('permission' in Notification)) {
 			Notification.permission = permission;
