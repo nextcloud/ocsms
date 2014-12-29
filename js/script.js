@@ -289,7 +289,12 @@ function fetchInitialPeerList(jsondata) {
 			peerLabel = fn;
 		}
 		if ($.inArray(peerLabel, bufferedContacts) == -1) {
-			peerListBuf += '<li><a href="#" mailbox-navigation="' + idxVal2 + '" mailbox-label="' + peerLabel + '">' + peerLabel + '</a></li>';
+			//peerListBuf += '<li><a href="#" mailbox-navigation="' + idxVal2 + '" mailbox-label="' + peerLabel + '">' + peerLabel + '</a></li>';
+			peerListBuf += '<li><div class="ocsms-plavatar"';
+			if (typeof jsondata['photos'][peerLabel] != 'undefined') {
+				peerListBuf += 'style="background-image: url(' + jsondata['photos'][peerLabel] + ');"';
+			}
+			peerListBuf += '></div><a href="#" mailbox-navigation="' + idxVal2 + '" mailbox-label="' + peerLabel + '">' + peerLabel + '</a></li>';
 			bufferedContacts.push(peerLabel);
 		}
 	});

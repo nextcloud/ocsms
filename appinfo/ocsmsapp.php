@@ -30,9 +30,10 @@ class OcSmsApp extends App {
 	/*
 		caching dosn´t work because on every call all will be reinstantiated
 	*/
-	private static $contacts;			// dosn´t work
+	private static $contacts;
+	private static $contactPhotos;
 
-	private static $contactsInverted;		// dosn´t work
+	private static $contactsInverted;
 
 	private $c;
 
@@ -85,7 +86,6 @@ class OcSmsApp extends App {
 
 	public function getContacts() {
 		// Only load contacts if they aren't in the buffer
-		// dosn´t work
 		if(count(self::$contacts) == 0) {
 			$this->loadContacts();
 		}
@@ -94,11 +94,18 @@ class OcSmsApp extends App {
 
 	public function getInvertedContacts() {
 		// Only load contacts if they aren't in the buffer
-		// dosn´t work
 		if(count(self::$contactsInverted) == 0) {
 			$this->loadContacts();
 		}
 		return self::$contactsInverted;
+	}
+
+	public function getContactPhotos() {
+		// Only load contacts if they aren't in the buffer
+		if(count(self::$contactPhotos) == 0) {
+			$this->loadContacts();
+		}
+		return self::$contactPhotos;
 	}
 
 	/**
@@ -129,12 +136,15 @@ class OcSmsApp extends App {
 					$this->pushPhoneNumberToCache($phoneIds, $r["FN"]);
 				}
 			}
+
+			if (isset ($r["PHOTO"])) {
+				// Remove useless prefix
+				$photoURL = preg_replace("#VALUE=uri:#","",$r["PHOTO"]);
+				self::$contactPhotos[$r["FN"]] = $photoURL;
+			}
 		}
 	}
 
-	/*
-		all numbers will be formatted
-	*/
 	private function pushPhoneNumberToCache($rawPhone, $contactName) {
 
 		$phoneNb = PhoneNumberFormatter::format($rawPhone);

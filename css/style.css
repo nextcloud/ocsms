@@ -38,7 +38,6 @@
 }
 #app-mailbox-peers li > a {
 	display: block;
-	width: 100%;
 	overflow: hidden;
 	-moz-box-sizing: border-box; box-sizing: border-box;
 	white-space: nowrap;
@@ -123,4 +122,12 @@
 
 .msg-spacer {
 	clear: both;
+}
+
+.ocsms-plavatar {
+	width: 40px;
+	height: 40px;
+	float: left;
+	background-size: 40px;
+	background-repeat: no-repeat;
 }

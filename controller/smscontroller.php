@@ -111,6 +111,7 @@ class SmsController extends Controller {
 		$phoneList = $this->smsMapper->getLastMessageTimestampForAllPhonesNumbers($this->userId);
 		$contactsSrc = $this->app->getContacts();
 		$contacts = array();
+		$photos = $this->app->getContactPhotos();
 
 		$countPhone = count($phoneList);
 		foreach ($phoneList as $number => $ts) {
@@ -126,7 +127,7 @@ class SmsController extends Controller {
 			}
 		}
 		$lastRead = $this->smsMapper->getLastReadDate($this->userId);
-		return new JSONResponse(array("phonelist" => $phoneList, "contacts" => $contacts, "lastRead" => $lastRead));
+		return new JSONResponse(array("phonelist" => $phoneList, "contacts" => $contacts, "lastRead" => $lastRead, "photos" => $photos));
 	}
 
 	/**
