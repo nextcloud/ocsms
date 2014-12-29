@@ -27,6 +27,7 @@
 }
 
 #app-mailbox-peers li:hover > a,
+#app-mailbox-peers li:hover,
 #app-mailbox-peers .selected,
 #app-mailbox-peers .selected a {
 	background-color: #ccc;
@@ -125,6 +126,7 @@
 }
 
 .ocsms-plavatar {
+	margin-top: 2px;
 	width: 40px;
 	height: 40px;
 	float: left;
