@@ -18,6 +18,7 @@ use \OCP\AppFramework\Controller;
 use \OCP\AppFramework\Http\JSONResponse;
 use \OCA\OcSms\AppInfo\OcSmsApp;
 use \OCA\OcSms\Db\SmsMapper;
+use \OCA\OcSms\Lib\PhoneNumberFormatter;
 
 class SmsController extends Controller {
 
@@ -68,10 +69,29 @@ class SmsController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 * 
+	 * This function is used by API v1
+	 * Phone will compare its own message list with this
+	 * message list and send the missing messages
+	 * This call will remain as secure slow sync mode (1 per hour)
 	 */
 	public function retrieveAllIds () {
 		$smsList = $this->smsMapper->getAllIds($this->userId);
 		return new JSONResponse(array("smslist" => $smsList));
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 * 
+	 * This function is used by API v2
+	 * Phone will get this ID to push recent messages
+	 * This call will be used combined with retrieveAllIds
+	 * but will be used more times
+	 */
+	public function retrieveLastTimestamp () {
+		$ts = $this->smsMapper->getLastTimestamp($this->userId);
+		return new JSONResponse(array("timestamp" => $ts));
 	}
 
 	/**
@@ -94,16 +114,18 @@ class SmsController extends Controller {
 
 		$countPhone = count($phoneList);
 		foreach ($phoneList as $number => $ts) {
-			$fmtPN = preg_replace("#[ ]#","/", $number);
-			if (isset($contactsSrc[$fmtPN])) {
-				$fmtPN2 = preg_replace("#\/#","", $fmtPN);
-				$contacts[$fmtPN] = $contactsSrc[$fmtPN];
-				$contacts[$fmtPN2] = $contactsSrc[$fmtPN];
+			$fmtPN = PhoneNumberFormatter::format($number);
+			if (isset($contactsSrc[$number])) {
+				$contacts[$number] = $contactsSrc[$number];
+			} elseif (isset($contactsSrc[$fmtPN])) {
+				$contacts[$number] = $contactsSrc[$fmtPN];
+			} elseif (isset($contacts[$fmtPN])) {
+				$contacts[$number] = $fmtPN;
+			} else {
+				$contacts[$number] = $fmtPN;
 			}
 		}
-
 		$lastRead = $this->smsMapper->getLastReadDate($this->userId);
-
 		return new JSONResponse(array("phonelist" => $phoneList, "contacts" => $contacts, "lastRead" => $lastRead));
 	}
 
@@ -115,9 +137,7 @@ class SmsController extends Controller {
 		$contacts = $this->app->getContacts();
 		$iContacts = $this->app->getInvertedContacts();
 		$contactName = "";
-
-		// Add slashes to index properly
-		$fmtPN = preg_replace("#[ ]#","/", $phoneNumber);
+		$fmtPN = PhoneNumberFormatter::format($phoneNumber);
 		if (isset($contacts[$fmtPN])) {
 			$contactName = $contacts[$fmtPN];
 		}
@@ -125,48 +145,29 @@ class SmsController extends Controller {
 		$messages = array();
 		$phoneNumbers = array();
 		$msgCount = 0;
-
-		// This table will be used to avoid duplicates
-		$noSpacesPhones = array();
-
 		// Contact resolved
 		if ($contactName != "" && isset($iContacts[$contactName])) {
-			$ctPn = count($iContacts[$contactName]);
-
-			// We merge each message list into global messagelist
-			for ($i=0; $i < $ctPn; $i++) {
-				// Remove slashes
-				$fmtPN = preg_replace("#[/]#"," ", $iContacts[$contactName][$i]);
-
-				$messages = $messages +
-					$this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $fmtPN, $lastDate);
-
-				$msgCount += $this->smsMapper->countMessagesForPhoneNumber($this->userId, $fmtPN);
-
-				$fmtPNNoSpaces = preg_replace("#[ ]#","", $fmtPN);
-				if (!in_array($fmtPNNoSpaces, $noSpacesPhones)) {
-					$phoneNumbers[] = $fmtPN;
-					$noSpacesPhones[] = $fmtPNNoSpaces;
-				}
+			// forall numbers in iContacts
+			foreach($iContacts[$contactName] as $cnumber) {
+				$messages = $messages +	$this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $cnumber, $lastDate);
+				$msgCount += $this->smsMapper->countMessagesForPhoneNumber($this->userId, $cnumber);
+				$phoneNumbers[] = PhoneNumberFormatter::format($cnumber);
 			}
 		}
 		else {
-			// remove slashes
-			$fmtPN = preg_replace("#[/]#"," ", $phoneNumber);
-
-			$messages = $this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $fmtPN, $lastDate);
-			$msgCount = $this->smsMapper->countMessagesForPhoneNumber($this->userId, $fmtPN);
-
-			$fmtPNNoSpaces = preg_replace("#[ ]#","", $fmtPN);
-			if (!in_array($fmtPNNoSpaces, $noSpacesPhones)) {
-				$phoneNumbers[] = $fmtPN;
-				$noSpacesPhones[] = $fmtPNNoSpaces;
+			$messages = $this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $phoneNumber, $lastDate);
+			$msgCount = $this->smsMapper->countMessagesForPhoneNumber($this->userId, $phoneNumber);
+			if(isset($peerNumber[$fmtPN])) {
+				foreach($peerNumber[$fmtPN] as $cnumber) {
+					$messages = $messages +	$this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $cnumber, $lastDate);
+					$msgCount += $this->smsMapper->countMessagesForPhoneNumber($this->userId, $cnumber);
+				}
 			}
+			$phoneNumbers[] = PhoneNumberFormatter::format($phoneNumber);
 		}
-
 		// Order by id (date)
 		ksort($messages);
-		
+
 		// Set the last read message for the conversation (all phone numbers)
 		if (count($messages) > 0) {
 			$maxDate = max(array_keys($messages));
@@ -204,6 +205,7 @@ class SmsController extends Controller {
 
 	/**
 	 * @NoAdminRequired
+	 * @NoCSRFRequired
 	 */
 	public function push ($smsCount, $smsDatas) {
 		if ($this->checkPushStructure($smsCount, $smsDatas, true) === false) {
