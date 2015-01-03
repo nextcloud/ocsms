@@ -6,7 +6,7 @@
  * later. See the COPYING file.
  *
  * @author Loic Blot <loic.blot@unix-experience.fr>
- * @copyright Loic Blot 2014
+ * @copyright Loic Blot 2014-2015
  */
 
 

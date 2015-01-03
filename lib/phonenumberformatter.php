@@ -7,7 +7,7 @@
  *
  * @author Loic Blot <loic.blot@unix-experience.fr>
  * @contributor: stagprom <https://github.com/stagprom/>
- * @copyright Loic Blot 2014
+ * @copyright Loic Blot 2014-2015
  */
 
 namespace OCA\OcSms\Lib;
