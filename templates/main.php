@@ -1,4 +1,6 @@
 <?php
+use \OCA\OcSms\Lib\CountryCodes;
+
 \OCP\Util::addScript('ocsms', 'script');
 \OCP\Util::addStyle('ocsms', 'style');
 ?>
@@ -14,6 +16,11 @@
 			<button name="app settings" class="settings-button" data-apps-slide-toggle="#app-settings-content"></button>
 		</div>
 		<div id="app-settings-content">
+		<select name="intl_phone">
+		<?php foreach (CountryCodes::$codes as $code => $cval) { ?>
+		<option><?php p($code); ?></option>
+		<?php } ?>
+		</select>
 		</div> <!-- app-settings-content -->
 	</div>
 

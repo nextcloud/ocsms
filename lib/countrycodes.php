@@ -36,6 +36,5 @@ class CountryCodes {
 		"Sweden" => "+46",
 		"Tunisia" => "+216",
 		"USA" => "+1",
-
 	);
 };
