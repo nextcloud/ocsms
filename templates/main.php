@@ -3,12 +3,20 @@
 \OCP\Util::addStyle('ocsms', 'style');
 ?>
 
-<div id="app">
+<div class="ng-scope" id="app" ng-app="OcSms">
 	<div id="app-mailbox-peers">
 		<ul>
 			<li><div id="ocsms-empty-peers">There isn't any conversation</div></li>
 		</ul>
 	</div>
+	<div id="app-settings" class="ng-scope">
+		<div id="app-settings-header">
+			<button name="app settings" class="settings-button" data-apps-slide-toggle="#app-settings-content"></button>
+		</div>
+		<div id="app-settings-content">
+		</div> <!-- app-settings-content -->
+	</div>
+
 	<div id="app-content">
 		<div id="app-content-header" style="display: none;">	
 			<div id="ocsms-phone-label"></div>
