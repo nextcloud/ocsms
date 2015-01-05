@@ -88,8 +88,13 @@ var checkNewMessages = function() {
 				}
 
 				if ($.inArray(peerLabel, bufferedContacts) == -1) {
+					$("div[mailbox-avatar='" + peerLabel + "']").remove();
 					$("a[mailbox-label='" + peerLabel + "']").remove();
-					peerListBuf = '<li><a href="#" mailbox-navigation="' + idxVal2 + '" style="font-weight: bold;" mailbox-label="' + peerLabel + '">' + peerLabel + ' (' + val + ')</a></li>';
+					peerListBuf += '<li><div class="ocsms-plavatar"';
+					if (typeof jsondata['photos'][peerLabel] != 'undefined') {
+						peerListBuf += 'style="background-image: url(' + jsondata['photos'][peerLabel] + ');"';
+					}
+					peerListBuf = '></div><a href="#" mailbox-navigation="' + idxVal2 + '" style="font-weight: bold;" mailbox-label="' + peerLabel + '">' + peerLabel + ' (' + val + ')</a></li>';
 					$('#app-mailbox-peers ul').prepend(peerListBuf);
 					bufferedContacts.push(peerLabel);
 
@@ -289,7 +294,6 @@ function fetchInitialPeerList(jsondata) {
 			peerLabel = fn;
 		}
 		if ($.inArray(peerLabel, bufferedContacts) == -1) {
-			//peerListBuf += '<li><a href="#" mailbox-navigation="' + idxVal2 + '" mailbox-label="' + peerLabel + '">' + peerLabel + '</a></li>';
 			peerListBuf += '<li><div class="ocsms-plavatar"';
 			if (typeof jsondata['photos'][peerLabel] != 'undefined') {
 				peerListBuf += 'style="background-image: url(' + jsondata['photos'][peerLabel] + ');"';

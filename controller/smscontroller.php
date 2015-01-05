@@ -189,7 +189,9 @@ class SmsController extends Controller {
 	public function checkNewMessages($lastDate) {
 		$phoneList = $this->smsMapper->getNewMessagesCountForAllPhonesNumbers($this->userId, $lastDate);
 		$contactsSrc = $this->app->getContacts();
+		$photosSrc = $this->app->getContactPhotos();
 		$contacts = array();
+		$photos = array();
 
 		$countPhone = count($phoneList);
 		foreach ($phoneList as $number => $ts) {
@@ -198,10 +200,11 @@ class SmsController extends Controller {
 				$fmtPN2 = preg_replace("#\/#","", $fmtPN);
 				$contacts[$fmtPN] = $contactsSrc[$fmtPN];
 				$contacts[$fmtPN2] = $contactsSrc[$fmtPN];
+				$photos[$fmtPN] = $photosSrc[$fmtPN];
 			}
 		}
 
-		return new JSONResponse(array("phonelist" => $phoneList, "contacts" => $contacts));
+		return new JSONResponse(array("phonelist" => $phoneList, "contacts" => $contacts, "photos" => $photos));
 	}
 
 	/**
