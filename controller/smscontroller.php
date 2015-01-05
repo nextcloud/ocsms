@@ -279,4 +279,11 @@ class SmsController extends Controller {
 		}
 		return true;
 	}
+
+	/**
+	 * @NoAdminRequired
+	 */
+	function setCountry($country) {
+		return new JSONResponse(array("status" => true, "msg" => "OK"));
+	}
 }
