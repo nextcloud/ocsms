@@ -88,9 +88,8 @@ var checkNewMessages = function() {
 				}
 
 				if ($.inArray(peerLabel, bufferedContacts) == -1) {
-					$("div[mailbox-avatar='" + peerLabel + "']").remove();
-					$("a[mailbox-label='" + peerLabel + "']").remove();
-					peerListBuf = '<li><div class="ocsms-plavatar"';
+					$("li[peer-label='" + peerLabel + "']").remove();
+					peerListBuf = '<li peer-label="' + peerLabel + '"><div class="ocsms-plavatar"';
 					if (typeof jsondata['photos'][peerLabel] != 'undefined') {
 						peerListBuf += 'style="background-image: url(' + jsondata['photos'][peerLabel] + ');"';
 					}
@@ -294,7 +293,7 @@ function fetchInitialPeerList(jsondata) {
 			peerLabel = fn;
 		}
 		if ($.inArray(peerLabel, bufferedContacts) == -1) {
-			peerListBuf += '<li><div class="ocsms-plavatar"';
+			peerListBuf += '<li peer-label="' + peerLabel + '"><div class="ocsms-plavatar"';
 			if (typeof jsondata['photos'][peerLabel] != 'undefined') {
 				peerListBuf += 'style="background-image: url(' + jsondata['photos'][peerLabel] + ');"';
 			}
