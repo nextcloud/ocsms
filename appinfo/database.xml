@@ -104,4 +104,27 @@
 			</field>
 		</declaration>
 	</table>
+	<table>
+        <name>*dbprefix*ocsms_config</name>
+        <declaration>
+            <field>
+                <name>user</name>
+                <type>text</type>
+                <notnull>true</notnull>
+                <length>255</length>
+            </field>
+            <field>
+                <name>key</name>
+                <type>text</type>
+                <notnull>true</notnull>
+                <length>25555</length>
+            </field>
+            <field>
+                <name>value</name>
+                <type>text</type>
+                <notnull>false</notnull>
+                <length>25555</length>
+            </field>
+        </declaration>
+    </table>
 </database>
