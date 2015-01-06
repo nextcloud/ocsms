@@ -44,12 +44,19 @@ class OcSmsApp extends App {
 		$app = $this;
 
 		/**
+		 * Core
+		 */
+		$container->registerService('UserId', function($c) {
+			return \OCP\User::getUser();
+		});
+
+		/**
         	 * Database Layer
         	 */
 		$container->registerService('ConfigMapper', function ($c) use ($app) {
                         return new ConfigMapper(
                                 $c->query('ServerContainer')->getDb(),
-                                $app->getUserId(),
+				$c->query('UserId'),
                                 $c->query('ServerContainer')->getCrypto()
                         );
                 });
@@ -61,13 +68,6 @@ class OcSmsApp extends App {
 	        $container->registerService('SmsMapper', function($c) {
 	            return new SmsMapper($c->query('ServerContainer')->getDb());
 	        });
-
-		/**
-		 * Core
-		 */
-		$container->registerService('UserId', function($c) {
-			return \OCP\User::getUser();
-		});
 
 		/**
 		 * Controllers

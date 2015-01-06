@@ -54,4 +54,6 @@ class ConfigMapper extends Mapper {
 			return false;
 		}
 	}
+};
+
 ?>
