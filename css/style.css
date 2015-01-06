@@ -133,3 +133,11 @@
 	background-size: 40px;
 	background-repeat: no-repeat;
 }
+
+#app-settings-content .new-button {
+	width: 32px;
+	background-size: 16px;
+	background-position: center;
+	background-repeat: no-repeat;
+	height: 34px;
+}
