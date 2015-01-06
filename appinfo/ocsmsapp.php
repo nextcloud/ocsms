@@ -20,15 +20,14 @@ use \OCA\OcSms\Controller\SmsController;
 use \OCA\OcSms\Db\Sms;
 use \OCA\OcSms\Db\SmsMapper;
 
+use \OCA\OcSms\Db\ConfigMapper;
+
 use \OCA\OcSms\Lib\PhoneNumberFormatter;
 
 class OcSmsApp extends App {
 
 	/**
 	* @var array used to cache the parsed contacts for every request
-	*/
-	/*
-		caching dosn´t work because on every call all will be reinstantiated
 	*/
 	private static $contacts;
 	private static $contactPhotos;
@@ -45,22 +44,16 @@ class OcSmsApp extends App {
 		$app = $this;
 
 		/**
-		 * Controllers
-		 */
-
-		$container->registerService('SmsController', function($c) use($app) {
-			return new SmsController(
-				$c->query('AppName'),
-				$c->query('Request'),
-				$c->query('UserId'),
-				$c->query('SmsMapper'),
-				$app
-			);
-		});
-
-		/**
         	 * Database Layer
         	 */
+		$container->registerService('ConfigMapper', function ($c) use ($app) {
+                        return new ConfigMapper(
+                                $c->query('ServerContainer')->getDb(),
+                                $app->getUserId(),
+                                $c->query('ServerContainer')->getCrypto()
+                        );
+                });
+
 	        $container->registerService('Sms', function($c) {
 	            return new Sms($c->query('ServerContainer')->getDb());
 	        });
@@ -74,6 +67,20 @@ class OcSmsApp extends App {
 		 */
 		$container->registerService('UserId', function($c) {
 			return \OCP\User::getUser();
+		});
+
+		/**
+		 * Controllers
+		 */
+		$container->registerService('SmsController', function($c) use($app) {
+			return new SmsController(
+				$c->query('AppName'),
+				$c->query('Request'),
+				$c->query('UserId'),
+				$c->query('SmsMapper'),
+				$c->query('ConfigMapper'),
+				$app
+			);
 		});
 
 		/**

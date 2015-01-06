@@ -16,22 +16,29 @@ use \OCP\IRequest;
 use \OCP\AppFramework\Http\TemplateResponse;
 use \OCP\AppFramework\Controller;
 use \OCP\AppFramework\Http\JSONResponse;
+
 use \OCA\OcSms\AppInfo\OcSmsApp;
+
+use \OCA\OcSms\Db\ConfigMapper;
 use \OCA\OcSms\Db\SmsMapper;
+
+use \OCA\OcSms\Lib\CountryCodes;
 use \OCA\OcSms\Lib\PhoneNumberFormatter;
 
 class SmsController extends Controller {
 
 	private $app;
 	private $userId;
+	private $configMapper;
 	private $smsMapper;
 	private $errorMsg;
 
-	public function __construct ($appName, IRequest $request, $userId, SmsMapper $mapper, OcSmsApp $app){
+	public function __construct ($appName, IRequest $request, $userId, SmsMapper $mapper, ConfigMapper $cfgMapper, OcSmsApp $app){
 		parent::__construct($appName, $request);
 		$this->app = $app;
 		$this->userId = $userId;
 		$this->smsMapper = $mapper;
+		$this->configMapper = $cfgMapper;
 	}
 
 	/**
@@ -287,6 +294,10 @@ class SmsController extends Controller {
 	 * @NoAdminRequired
 	 */
 	function setCountry($country) {
+		if (!array_key_exists($country, CountryCodes::$codes)) {
+			return new JSONResponse(array("status" => false, "msg" => "Invalid country"));
+		}
+		$this->configMapper->set("country", $country);
 		return new JSONResponse(array("status" => true, "msg" => "OK"));
 	}
 }
