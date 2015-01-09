@@ -1,11 +1,13 @@
 <?php
 use \OCA\OcSms\Lib\CountryCodes;
 
+\OCP\Util::addScript('ocsms', 'angular/angular.min');
+\OCP\Util::addScript('appframework', 'public/app');
 \OCP\Util::addScript('ocsms', 'script');
 \OCP\Util::addStyle('ocsms', 'style');
 ?>
 
-<div class="ng-scope" id="app" ng-app="OcSms">
+<div class="ng-scope" id="app">
 	<div id="app-mailbox-peers">
 		<ul>
 			<li><div id="ocsms-empty-peers">There isn't any conversation</div></li>
