@@ -20,7 +20,21 @@ var unreadCountNotifStep = 12;
 var lastUnreadCountAllConv = 0;
 var originalTitle = document.title;
 
-angular.module('OcSms', ['OC']);
+var app = angular.module('OcSms', ['OC']);
+
+app.controller('SettingsController', ['$scope',
+	function ($scope) {
+		$scope.buttons = [{}];
+		$scope.sendCountry = function () {
+			alert('sendCountry');
+		};
+	}
+]);
+
+app.controller('ContactsController' ['$scope', function ($scope) {
+	}
+]);
+
 
 $.urlParam = function(name){
 	var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);

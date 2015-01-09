@@ -8,7 +8,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 ?>
 
 <div class="ng-scope" id="app" ng-app="OcSms">
-	<div id="app-mailbox-peers">
+	<div id="app-mailbox-peers" ng-controller="ContactsController">
 		<ul>
 			<li><div id="ocsms-empty-peers">There isn't any conversation</div></li>
 		</ul>
@@ -17,13 +17,13 @@ use \OCA\OcSms\Lib\CountryCodes;
 		<div id="app-settings-header">
 			<button name="app settings" class="settings-button" data-apps-slide-toggle="#app-settings-content"></button>
 		</div>
-		<div id="app-settings-content">
+		<div id="app-settings-content" ng-controller="SettingsController">
 			<select name="intl_phone">
 			<?php foreach (CountryCodes::$codes as $code => $cval) { ?>
 			<option><?php p($code); ?></option>
 			<?php } ?>
 			</select>
-			<button class="new-button primary icon-checkmark-white"></button>
+			<button class="new-button primary icon-checkmark-white" ng-repeat="button in buttons" ng-click="sendCountryCode();"></button>
 		</div> <!-- app-settings-content -->
 	</div>
 
