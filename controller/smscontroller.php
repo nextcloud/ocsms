@@ -164,18 +164,18 @@ class SmsController extends Controller {
 		if ($contactName != "" && isset($iContacts[$contactName])) {
 			// forall numbers in iContacts
 			foreach($iContacts[$contactName] as $cnumber) {
-				$messages = $messages +	$this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $cnumber, $lastDate);
-				$msgCount += $this->smsMapper->countMessagesForPhoneNumber($this->userId, $cnumber);
+				$messages = $messages +	$this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $cnumber, $configuredCountry, $lastDate);
+				$msgCount += $this->smsMapper->countMessagesForPhoneNumber($this->userId, $cnumber, $configuredCountry);
 				$phoneNumbers[] = PhoneNumberFormatter::format($configuredCountry, $cnumber);
 			}
 		}
 		else {
-			$messages = $this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $phoneNumber, $lastDate);
-			$msgCount = $this->smsMapper->countMessagesForPhoneNumber($this->userId, $phoneNumber);
+			$messages = $this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $phoneNumber, $configuredCountry, $lastDate);
+			$msgCount = $this->smsMapper->countMessagesForPhoneNumber($this->userId, $phoneNumber, $configuredCountry);
 			if(isset($peerNumber[$fmtPN])) {
 				foreach($peerNumber[$fmtPN] as $cnumber) {
-					$messages = $messages +	$this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $cnumber, $lastDate);
-					$msgCount += $this->smsMapper->countMessagesForPhoneNumber($this->userId, $cnumber);
+					$messages = $messages +	$this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $cnumber, $configuredCountry, $lastDate);
+					$msgCount += $this->smsMapper->countMessagesForPhoneNumber($this->userId, $cnumber, $configuredCountry);
 				}
 			}
 			$phoneNumbers[] = PhoneNumberFormatter::format($configuredCountry, $phoneNumber);

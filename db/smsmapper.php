@@ -102,14 +102,14 @@ class SmsMapper extends Mapper {
 	/*
 		get all possible SMS_adresses for a given formated phonenumber
 	*/
-	public function getAllPhoneNumbersForFPN ($userId,$phoneNumber) {
+	public function getAllPhoneNumbersForFPN ($userId, $phoneNumber, $country) {
 		$query = \OCP\DB::prepare('SELECT sms_address FROM ' .
 		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_mailbox IN (?,?)');
 		$result = $query->execute(array($userId, 0, 1));
 		$phoneList = array();
 		while($row = $result->fetchRow()) {
 			$pn = $row["sms_address"];
-			$fmtPN = PhoneNumberFormatter::format($pn);
+			$fmtPN = PhoneNumberFormatter::format($country, $pn);
 			if (!isset($phoneList[$fmtPN])) {
 				$phoneList[$fmtPN] = array();
 			}
@@ -118,7 +118,7 @@ class SmsMapper extends Mapper {
 			}
 			$phoneList[$fmtPN][$pn] += 1;
 		}
-		$fpn = PhoneNumberFormatter::format($phoneNumber);
+		$fpn = PhoneNumberFormatter::format($country, $phoneNumber);
 		if(isset($phoneList[$fpn])){
 			return $phoneList[$fpn];
 		}
@@ -127,15 +127,15 @@ class SmsMapper extends Mapper {
 		}
 	}
 
-	public function getAllMessagesForPhoneNumber ($userId, $phoneNumber, $minDate = 0) {
+	public function getAllMessagesForPhoneNumber ($userId, $phoneNumber, $country, $minDate = 0) {
 
-		$phlst = $this->getAllPhoneNumbersForFPN ($userId,$phoneNumber);
+		$phlst = $this->getAllPhoneNumbersForFPN($userId, $phoneNumber, $country);
 		$messageList = array();
 		$query = \OCP\DB::prepare('SELECT sms_date, sms_msg, sms_type FROM ' .
 		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_address = ? ' .
 		'AND sms_mailbox IN (?,?) AND sms_date > ?');
 
-		foreach( $phlst as $pn => $val) {
+		foreach ($phlst as $pn => $val) {
 			$result = $query->execute(array($userId, $pn, 0, 1, $minDate));
 
 			while ($row = $result->fetchRow()) {
@@ -148,9 +148,9 @@ class SmsMapper extends Mapper {
 		return $messageList;
 	}
 
-	public function countMessagesForPhoneNumber ($userId, $phoneNumber) {
+	public function countMessagesForPhoneNumber ($userId, $phoneNumber, $country) {
 		$cnt = 0;
-		$phlst = $this->getAllPhoneNumbersForFPN ($userId,$phoneNumber);
+		$phlst = $this->getAllPhoneNumbersForFPN ($userId, $phoneNumber, $country);
 
 		$query = \OCP\DB::prepare('SELECT count(sms_date) as ct FROM ' .
 		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_address = ? ' .
