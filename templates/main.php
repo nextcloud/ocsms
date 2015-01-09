@@ -23,7 +23,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 			<option><?php p($code); ?></option>
 			<?php } ?>
 			</select>
-			<button class="new-button primary icon-checkmark-white" ng-repeat="button in buttons" ng-click="sendCountry();"></button>
+			<button class="new-button primary icon-checkmark-white" ng-click="sendCountry();"></button>
 		</div> <!-- app-settings-content -->
 	</div>
 

@@ -34,11 +34,11 @@ class ConfigMapper extends Mapper {
 		$this->crypto = $crypto;
 	}
 
-	public function set($backend, $key, $value){
+	public function set($key, $value){
 		$value = $this->crypto->encrypt($value);
 		if($this->hasKey($key, $value)){
-			$sql = "UPDATE `*PREFIX*ocsms_config` SET `value` = ? WHERE `user` = ? AND `keyi` = ?";
-			$this->execute($sql, array($value, $this->user, $backend, $key));
+			$sql = "UPDATE `*PREFIX*ocsms_config` SET `value` = ? WHERE `user` = ? AND `key` = ?";
+			$this->execute($sql, array($value, $this->user, $key));
 		} else {
 			$sql = "INSERT INTO `*PREFIX*ocsms_config` (`user`,`key`,`value`) VALUES (?,?,?);";
 			$this->execute($sql, array($this->user, $key, $value));
