@@ -28,13 +28,13 @@ class ConfigMapper extends Mapper {
 	 */
 	private $crypto;
 
-	public function __construct(IDb $api, $user, $crypto){
+	public function __construct (IDb $api, $user, $crypto){
 		parent::__construct($api, 'ocsms_config');
 		$this->user = $user;
 		$this->crypto = $crypto;
 	}
 
-	public function set($key, $value){
+	public function set ($key, $value){
 		$value = $this->crypto->encrypt($value);
 		if($this->hasKey($key, $value)){
 			$sql = "UPDATE `*PREFIX*ocsms_config` SET `value` = ? WHERE `user` = ? AND `key` = ?";
@@ -45,7 +45,7 @@ class ConfigMapper extends Mapper {
 		}
 	}
 
-	public function hasKey($key, $value){
+	public function hasKey ($key, $value){
 		try {
 			$sql = "SELECT key FROM `*PREFIX*ocsms_config` WHERE `key` = ? AND `user` = ?";
 			$this->findEntity($sql, array($key, $this->user));
@@ -55,18 +55,23 @@ class ConfigMapper extends Mapper {
 		}
 	}
 
-	public function getKey($key) {
+	public function getKey ($key) {
 		try {
-			$sql = "SELECT key FROM `*PREFIX*ocsms_config` WHERE `key` = ? AND `user` = ?";
-			$result = $this->findEntity($sql, array($key, $this->user));
-			foreach ($result as $r) {
-				return $this->crypto->decrypt($r->getValue());
+			$query = \OCP\DB::prepare("SELECT value FROM `*PREFIX*ocsms_config` WHERE `key` = ? AND `user` = ?");
+			$result = $query->execute(array($key, $this->user));
+			while($row = $result->fetchRow()) {
+				return $this->crypto->decrypt($row["value"]);
 			}
 			return false;
 		} catch (DoesNotExistException $e){
 			return false;
 		}
 	}
+
+	/**
+	* Helpers for different config options
+	*/
+	public function getCountry () { return $this->getKey("country"); }
 };
 
 ?>

@@ -120,9 +120,12 @@ class SmsController extends Controller {
 		$contacts = array();
 		$photos = $this->app->getContactPhotos();
 
+		// Cache country because of loops
+		$configuredCountry = $this->configMapper->getCountry();
+
 		$countPhone = count($phoneList);
 		foreach ($phoneList as $number => $ts) {
-			$fmtPN = PhoneNumberFormatter::format($number);
+			$fmtPN = PhoneNumberFormatter::format($configuredCountry, $number);
 			if (isset($contactsSrc[$number])) {
 				$contacts[$number] = $contactsSrc[$number];
 			} elseif (isset($contactsSrc[$fmtPN])) {
@@ -145,7 +148,11 @@ class SmsController extends Controller {
 		$contacts = $this->app->getContacts();
 		$iContacts = $this->app->getInvertedContacts();
 		$contactName = "";
-		$fmtPN = PhoneNumberFormatter::format($phoneNumber);
+	
+		// Cache country because of loops
+		$configuredCountry = $this->configMapper->getCountry();
+
+		$fmtPN = PhoneNumberFormatter::format($configuredCountry, $phoneNumber);
 		if (isset($contacts[$fmtPN])) {
 			$contactName = $contacts[$fmtPN];
 		}
@@ -159,7 +166,7 @@ class SmsController extends Controller {
 			foreach($iContacts[$contactName] as $cnumber) {
 				$messages = $messages +	$this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $cnumber, $lastDate);
 				$msgCount += $this->smsMapper->countMessagesForPhoneNumber($this->userId, $cnumber);
-				$phoneNumbers[] = PhoneNumberFormatter::format($cnumber);
+				$phoneNumbers[] = PhoneNumberFormatter::format($configuredCountry, $cnumber);
 			}
 		}
 		else {
@@ -171,7 +178,7 @@ class SmsController extends Controller {
 					$msgCount += $this->smsMapper->countMessagesForPhoneNumber($this->userId, $cnumber);
 				}
 			}
-			$phoneNumbers[] = PhoneNumberFormatter::format($phoneNumber);
+			$phoneNumbers[] = PhoneNumberFormatter::format($configuredCountry, $phoneNumber);
 		}
 		// Order by id (date)
 		ksort($messages);

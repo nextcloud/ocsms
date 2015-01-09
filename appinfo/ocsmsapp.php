@@ -123,6 +123,9 @@ class OcSmsApp extends App {
 		self::$contacts = array();
 		self::$contactsInverted = array();
 
+		// Cache country because of loops
+                $configuredCountry = $this->c->query('ConfigMapper')->getCountry();
+
 		$cm = $this->c['ContactsManager'];
 		if ($cm == null) {
 			return;
@@ -136,11 +139,11 @@ class OcSmsApp extends App {
 				if (is_array($phoneIds)) {
 					$countPhone = count($phoneIds);
 					for ($i=0; $i < $countPhone; $i++) {
-						$this->pushPhoneNumberToCache($phoneIds[$i], $r["FN"]);
+						$this->pushPhoneNumberToCache($phoneIds[$i], $r["FN"], $configuredCountry);
 					}
 				}
 				else {
-					$this->pushPhoneNumberToCache($phoneIds, $r["FN"]);
+					$this->pushPhoneNumberToCache($phoneIds, $r["FN"], $configuredCountry);
 				}
 			}
 
@@ -152,9 +155,9 @@ class OcSmsApp extends App {
 		}
 	}
 
-	private function pushPhoneNumberToCache($rawPhone, $contactName) {
+	private function pushPhoneNumberToCache($rawPhone, $contactName, $country) {
 
-		$phoneNb = PhoneNumberFormatter::format($rawPhone);
+		$phoneNb = PhoneNumberFormatter::format($country, $rawPhone);
 		self::$contacts[$phoneNb] = $contactName;
 		// Inverted contacts
 		if (!isset(self::$contactsInverted[$contactName])) {

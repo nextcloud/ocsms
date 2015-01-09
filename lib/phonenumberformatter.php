@@ -12,10 +12,10 @@
 
 namespace OCA\OcSms\Lib;
 
+use \OCA\OcSms\Lib\CountryCodes;
 
 class PhoneNumberFormatter {
-	public static function format ($pn) {
-		$ipnrxp = array(					// match international numbers with 1,2,3 digits
+	public static $intlPhoneNumber_rxp = array(					// match international numbers with 1,2,3 digits
 			'#^(00|\+)(1\d\d\d)#',				// NANP
 			'#^(00|\+)(2[1|2|3|4|5|6|8|9]\d)#',		// +2(1|2|3|4|5|6|8|9)x
 			'#^(00|\+)(2[0|7])#',				// +2x
@@ -32,7 +32,13 @@ class PhoneNumberFormatter {
 			'#^(00|\+)(8[1|2|3|4|6])#',			// +8x
 			'#^(00|\+)(9[6|7|9]\d)#',			// +9(6|7|9)x
 			'#^(00|\+)(9[0|1|2|3|4|5|8])#'			// +9x
-		);
+	);
+
+	public static function format ($country, $pn) {
+		// If no country or country not found into mapper, return false
+		if ($country === false || !array_key_exists($country, CountryCodes::$codes)) {
+			return $pn;	
+		}
 
 		$ignrxp = array(					// match non digits and +
 			'#[^\d\+\(\)\[\]\{\}]#',			// everything but digit, +, (), [] or {}
@@ -53,13 +59,13 @@ class PhoneNumberFormatter {
 			'#(^0)([^0])#'						// in germany : 0-xx[x[x]]-123456
 		);								//
 
-		$lpnrpl = '+49$2';						// replace with +49 -xx[x[x]]-123456
+		$lpnrpl = '+'.CountryCodes::$codes[$country].'$2';		// replace with +{countryCode} -xx[x[x]]-123456
 		$tpn = trim($pn);
 
 		if (preg_match('#^[\d\+\(\[\{].*#',$tpn)) {			// start with digit, +, (, [ or {
 			$fpn = preg_replace($ignrxp, $ignrpl, $tpn);		// replace everything but digits/+ with ''
 			$xpn = preg_replace($lpnrxp, $lpnrpl, $fpn);		// replace local prenumbers
-			$ypn = preg_replace($ipnrxp, '+$2', $xpn);		// format to international coding +x[x[x]].....
+			$ypn = preg_replace(PhoneNumberFormatter::$intlPhoneNumber_rxp, '+$2', $xpn);	// format to international coding +x[x[x]].....
 		} else {
 			$ypn = $tpn;						// some SMS_adresses are strings
 		}
