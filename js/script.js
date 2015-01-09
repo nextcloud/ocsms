@@ -20,7 +20,7 @@ var unreadCountNotifStep = 12;
 var lastUnreadCountAllConv = 0;
 var originalTitle = document.title;
 
-angular.module('ocsms', ['OC']);
+angular.module('OcSms', ['OC']);
 
 $.urlParam = function(name){
 	var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
