@@ -47,7 +47,7 @@ class ConfigMapper extends Mapper {
 
 	public function hasKey ($key, $value){
 		try {
-			$sql = "SELECT key FROM `*PREFIX*ocsms_config` WHERE `key` = ? AND `user` = ?";
+			$sql = "SELECT `key` FROM `*PREFIX*ocsms_config` WHERE `key` = ? AND `user` = ?";
 			$this->findEntity($sql, array($key, $this->user));
 			return true;
 		} catch (DoesNotExistException $e){
@@ -57,7 +57,7 @@ class ConfigMapper extends Mapper {
 
 	public function getKey ($key) {
 		try {
-			$query = \OCP\DB::prepare("SELECT value FROM `*PREFIX*ocsms_config` WHERE `key` = ? AND `user` = ?");
+			$query = \OCP\DB::prepare("SELECT `value` FROM `*PREFIX*ocsms_config` WHERE `key` = ? AND `user` = ?");
 			$result = $query->execute(array($key, $this->user));
 			while($row = $result->fetchRow()) {
 				return $this->crypto->decrypt($row["value"]);

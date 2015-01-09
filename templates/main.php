@@ -9,7 +9,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 
 <div class="ng-scope" id="app" ng-app="OcSms">
 	<div id="app-mailbox-peers">
-		<ul>
+		<ul ng-controller="ContactsController">
 			<li><div id="ocsms-empty-peers">There isn't any conversation</div></li>
 		</ul>
 	</div>
