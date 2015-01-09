@@ -54,6 +54,19 @@ class ConfigMapper extends Mapper {
 			return false;
 		}
 	}
+
+	public function getKey($key) {
+		try {
+			$sql = "SELECT key FROM `*PREFIX*ocsms_config` WHERE `key` = ? AND `user` = ?";
+			$result = $this->findEntity($sql, array($key, $this->user));
+			foreach ($result as $r) {
+				return $this->crypto->decrypt($r->getValue());
+			}
+			return false;
+		} catch (DoesNotExistException $e){
+			return false;
+		}
+	}
 };
 
 ?>
