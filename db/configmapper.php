@@ -37,10 +37,10 @@ class ConfigMapper extends Mapper {
 	public function set($backend, $key, $value){
 		$value = $this->crypto->encrypt($value);
 		if($this->hasKey($key, $value)){
-			$sql = "UPDATE `*PREFIX*chat_config` SET `value` = ? WHERE `user` = ? AND `keyi` = ?";
+			$sql = "UPDATE `*PREFIX*ocsms_config` SET `value` = ? WHERE `user` = ? AND `keyi` = ?";
 			$this->execute($sql, array($value, $this->user, $backend, $key));
 		} else {
-			$sql = "INSERT INTO `*PREFIX*chat_config` (`user`,`key`,`value`) VALUES (?,?,?);";
+			$sql = "INSERT INTO `*PREFIX*ocsms_config` (`user`,`key`,`value`) VALUES (?,?,?);";
 			$this->execute($sql, array($this->user, $key, $value));
 		}
 	}

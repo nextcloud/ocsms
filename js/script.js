@@ -24,9 +24,11 @@ var app = angular.module('OcSms', ['OC']);
 
 app.controller('SettingsController', ['$scope',
 	function ($scope) {
-		$scope.buttons = [{}];
+		$scope.buttons = [
+			{text: "Send"}
+		];
 		$scope.sendCountry = function () {
-			alert('sendCountry');
+			$.post(OC.generateUrl('/apps/ocsms/set/country'),{'country': $('select[name=intl_phone]').val()});
 		};
 	}
 ]);
@@ -34,6 +36,7 @@ app.controller('SettingsController', ['$scope',
 app.controller('ContactsController' ['$scope', function ($scope) {
 	}
 ]);
+
 
 
 $.urlParam = function(name){
