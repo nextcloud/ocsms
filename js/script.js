@@ -116,7 +116,7 @@ var checkNewMessages = function() {
 					if (typeof jsondata['photos'][peerLabel] != 'undefined') {
 						peerListBuf += 'style="background-image: url(' + jsondata['photos'][peerLabel] + ');"';
 					}
-					peerListBuf += '></div><a href="#" ng-click="loadConversation();" mailbox-navigation="' + idxVal2 + '" style="font-weight: bold;" mailbox-label="' + peerLabel + '">' + peerLabel + ' (' + val + ')</a></li>';
+					peerListBuf += '></div><a href="#" ng-click="ctCtl.loadConversation();" mailbox-navigation="' + idxVal2 + '" style="font-weight: bold;" mailbox-label="' + peerLabel + '">' + peerLabel + ' (' + val + ')</a></li>';
 					$('#app-mailbox-peers ul').prepend(peerListBuf);
 					bufferedContacts.push(peerLabel);
 
@@ -320,7 +320,7 @@ function fetchInitialPeerList(jsondata) {
 			if (typeof jsondata['photos'][peerLabel] != 'undefined') {
 				peerListBuf += 'style="background-image: url(' + jsondata['photos'][peerLabel] + ');"';
 			}
-			peerListBuf += '></div><a href="#" ng-click="loadConversation();" mailbox-navigation="' + idxVal2 + '" mailbox-label="' + peerLabel + '">' + peerLabel + '</a></li>';
+			peerListBuf += '></div><a href="#" ng-click="ctCtl.loadConversation();" mailbox-navigation="' + idxVal2 + '" mailbox-label="' + peerLabel + '">' + peerLabel + '</a></li>';
 			bufferedContacts.push(peerLabel);
 		}
 	});

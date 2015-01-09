@@ -49,6 +49,7 @@ class ConfigMapper extends Mapper {
 		try {
 			$sql = "SELECT `key` FROM `*PREFIX*ocsms_config` WHERE `key` = ? AND `user` = ?";
 			$this->findEntity($sql, array($key, $this->user));
+
 			return true;
 		} catch (DoesNotExistException $e){
 			return false;
