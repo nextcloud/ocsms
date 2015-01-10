@@ -22,26 +22,20 @@ var originalTitle = document.title;
 
 var app = angular.module('OcSms', ['OC']);
 
-app.controller('SettingsController', ['$scope',
+app.controller('OcSmsController', ['$scope',
 	function ($scope) {
 		$scope.buttons = [
 			{text: "Send"}
 		];
+		$scope.contacts = [];
 		$scope.sendCountry = function () {
 			$.post(OC.generateUrl('/apps/ocsms/set/country'),{'country': $('select[name=intl_phone]').val()});
 		};
-	}
-]);
-
-app.controller('ContactsController' ['$scope',
-	function ($scope) {
 		$scope.loadConversation = function () {
 			alert('loadConversation');
 		};
 	}
 ]);
-
-
 
 $.urlParam = function(name){
 	var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -116,7 +110,7 @@ var checkNewMessages = function() {
 					if (typeof jsondata['photos'][peerLabel] != 'undefined') {
 						peerListBuf += 'style="background-image: url(' + jsondata['photos'][peerLabel] + ');"';
 					}
-					peerListBuf += '></div><a href="#" ng-click="ctCtl.loadConversation();" mailbox-navigation="' + idxVal2 + '" style="font-weight: bold;" mailbox-label="' + peerLabel + '">' + peerLabel + ' (' + val + ')</a></li>';
+					peerListBuf += '></div><a href="#" ng-click="loadConversation();" mailbox-navigation="' + idxVal2 + '" style="font-weight: bold;" mailbox-label="' + peerLabel + '">' + peerLabel + ' (' + val + ')</a></li>';
 					$('#app-mailbox-peers ul').prepend(peerListBuf);
 					bufferedContacts.push(peerLabel);
 
@@ -320,7 +314,7 @@ function fetchInitialPeerList(jsondata) {
 			if (typeof jsondata['photos'][peerLabel] != 'undefined') {
 				peerListBuf += 'style="background-image: url(' + jsondata['photos'][peerLabel] + ');"';
 			}
-			peerListBuf += '></div><a href="#" ng-click="ctCtl.loadConversation();" mailbox-navigation="' + idxVal2 + '" mailbox-label="' + peerLabel + '">' + peerLabel + '</a></li>';
+			peerListBuf += '></div><a href="#" ng-click="loadConversation();" mailbox-navigation="' + idxVal2 + '" mailbox-label="' + peerLabel + '">' + peerLabel + '</a></li>';
 			bufferedContacts.push(peerLabel);
 		}
 	});

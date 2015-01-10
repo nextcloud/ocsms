@@ -7,17 +7,20 @@ use \OCA\OcSms\Lib\CountryCodes;
 \OCP\Util::addStyle('ocsms', 'style');
 ?>
 
-<div class="ng-scope" id="app" ng-app="OcSms">
+<div class="ng-scope" id="app" ng-app="OcSms" ng-controller="OcSmsController">
 	<div id="app-mailbox-peers">
 		<ul>
-			<li><div id="ocsms-empty-peers">There isn't any conversation</div></li>
+			<li ng-repeat="contact in contacts">
+				<div class="ocsms-plavatar"></div>
+				<a mailbox-label="{{ contact.label }}" mailbox-navigation="{{ contact.nav }}" ng-click="loadConversation();" href="#">{{ contact.label }}</a>
+			</li>
 		</ul>
 	</div>
 	<div id="app-settings" class="ng-scope">
 		<div id="app-settings-header">
 			<button name="app settings" class="settings-button" data-apps-slide-toggle="#app-settings-content"></button>
 		</div>
-		<div id="app-settings-content" ng-controller="SettingsController">
+		<div id="app-settings-content">
 			<select name="intl_phone">
 			<?php foreach (CountryCodes::$codes as $code => $cval) { ?>
 			<option><?php p($code); ?></option>
