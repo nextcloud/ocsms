@@ -31,14 +31,16 @@ app.controller('OcSmsController', ['$scope',
 		$scope.sendCountry = function () {
 			$.post(OC.generateUrl('/apps/ocsms/set/country'),{'country': $('select[name=intl_phone]').val()});
 		};
-		$scope.loadConversation = function () {
-			//@TODO
+		$scope.loadConversation = function (contact) {
+			OC.Util.History.pushState('phonenumber=' + contact.nav);
+
+			// phoneNumber must exist
+			if (contact.nav !== null) {
+				fetchConversation(contact.nav);
+				changeSelectedConversation($("a[mailbox-navigation='" + contact.nav + "']"));
+			}
 		};
-		$scope.replaceContacts = function (ctList) {
-			$scope.$apply(function () {
-				$scope.contacts = ctList;
-			});
-		};
+
 		$scope.addContact = function (ct) {
 			$scope.$apply(function () {
 				$scope.contacts.push(ct);
@@ -120,7 +122,7 @@ var checkNewMessages = function() {
 					if (typeof jsondata['photos'][peerLabel] != 'undefined') {
 						peerListBuf += 'style="background-image: url(' + jsondata['photos'][peerLabel] + ');"';
 					}
-					peerListBuf += '></div><a href="#" ng-click="loadConversation();" mailbox-navigation="' + idxVal2 + '" style="font-weight: bold;" mailbox-label="' + peerLabel + '">' + peerLabel + ' (' + val + ')</a></li>';
+					peerListBuf += '></div><a href="#" ng-click="loadConversation(' + idxVal2 + ');" mailbox-navigation="' + idxVal2 + '" style="font-weight: bold;" mailbox-label="' + peerLabel + '">' + peerLabel + ' (' + val + ')</a></li>';
 					$('#app-mailbox-peers ul').prepend(peerListBuf);
 					bufferedContacts.push(peerLabel);
 
@@ -139,7 +141,8 @@ var checkNewMessages = function() {
 						// phoneNumber must exist
 						if (phoneNumber != null) {
 							fetchConversation(phoneNumber);
-								unreadCountAllConv += val;changeSelectedConversation($(this));
+							unreadCountAllConv += val;
+							changeSelectedConversation($(this));
 						}
 						event.preventDefault();
 					});
@@ -292,6 +295,10 @@ function formatConversation(jsondata) {
 }
 
 function changeSelectedConversation(item) {
+	if (item === 'undefined' || item == null) {
+		return;
+	}
+
 	if (selectedConversation != null) {
 		selectedConversation.parent().removeClass('selected');
 	}
@@ -370,29 +377,12 @@ function desktopNotify(msg) {
 		$.getJSON(OC.generateUrl('/apps/ocsms/get/peerlist'), function(jsondata, status) {
 			fetchInitialPeerList(jsondata);
 
-			// Now bind the events when we click on the phone number
-			$('#app-mailbox-peers').find('a[mailbox-navigation]').on('click', function (event) {
-				var phoneNumber = $(this).attr('mailbox-navigation');
-				OC.Util.History.pushState('phonenumber=' + phoneNumber);
-
-				// phoneNumber must exist
-				if (phoneNumber != null) {
-					fetchConversation(phoneNumber);
-					changeSelectedConversation($(this));
-				}
-				event.preventDefault();
-			});
-
 			var pnParam = $.urlParam('phonenumber');
 			if (pnParam != null) {
 				var urlPhoneNumber = decodeURIComponent(pnParam);
 				if (urlPhoneNumber != null) {
 					fetchConversation(urlPhoneNumber);
-
-					var pObject = $("a[mailbox-navigation='" + urlPhoneNumber + "']");
-					if (pObject != null) {
-						changeSelectedConversation(pObject);
-					}
+					changeSelectedConversation($("a[mailbox-navigation='" + urlPhoneNumber + "']"));
 				}
 			}
 			// Don't show message headers if no conversation selected
