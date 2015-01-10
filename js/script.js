@@ -32,7 +32,17 @@ app.controller('OcSmsController', ['$scope',
 			$.post(OC.generateUrl('/apps/ocsms/set/country'),{'country': $('select[name=intl_phone]').val()});
 		};
 		$scope.loadConversation = function () {
-			alert('loadConversation');
+			//@TODO
+		};
+		$scope.replaceContacts = function (ctList) {
+			$scope.$apply(function () {
+				$scope.contacts = ctList;
+			});
+		};
+		$scope.addContact = function (ct) {
+			$scope.$apply(function () {
+				$scope.contacts.push(ct);
+			});
 		};
 	}
 ]);
@@ -297,6 +307,8 @@ function fetchInitialPeerList(jsondata) {
 
 	var bufferedContacts = [];
 
+	var aScope = angular.element('[ng-controller="OcSmsController"]').scope();
+
 	$.each(jsondata['phonelist'], function(id, val) {
 		var fn, peerLabel, idxVal;
 		idxVal = id.replace(/\//g,' ');
@@ -310,21 +322,12 @@ function fetchInitialPeerList(jsondata) {
 			peerLabel = fn;
 		}
 		if ($.inArray(peerLabel, bufferedContacts) == -1) {
-			peerListBuf += '<li peer-label="' + peerLabel + '"><div class="ocsms-plavatar"';
-			if (typeof jsondata['photos'][peerLabel] != 'undefined') {
-				peerListBuf += 'style="background-image: url(' + jsondata['photos'][peerLabel] + ');"';
-			}
-			peerListBuf += '></div><a href="#" ng-click="loadConversation();" mailbox-navigation="' + idxVal2 + '" mailbox-label="' + peerLabel + '">' + peerLabel + '</a></li>';
+			aScope.addContact({'label': peerLabel, 'nav': idxVal2, 'avatar': jsondata['photos'][peerLabel]});
 			bufferedContacts.push(peerLabel);
 		}
 	});
 
 	lastMsgDate = jsondata["lastRead"];
-
-	// Only modify peerList if there is peers
-	if (peerListBuf != '') {
-		$('#app-mailbox-peers ul').html(peerListBuf);
-	}
 }
 
 function initDesktopNotifies() {
