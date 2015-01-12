@@ -11,23 +11,27 @@
 
 namespace OCA\OcSms\AppInfo;
 
+if(\OCP\App::isEnabled('appframework')){
+	\OCP\App::addNavigationEntry(array(
+	    // the string under which your app will be referenced in owncloud
+	    'id' => 'ocsms',
 
-\OCP\App::addNavigationEntry(array(
-    // the string under which your app will be referenced in owncloud
-    'id' => 'ocsms',
+	    // sorting weight for the navigation. The higher the number, the higher
+	    // will it be listed in the navigation
+	    'order' => 10,
 
-    // sorting weight for the navigation. The higher the number, the higher
-    // will it be listed in the navigation
-    'order' => 10,
+	    // the route that will be shown on startup
+	    'href' => \OCP\Util::linkToRoute('ocsms.sms.index'),
 
-    // the route that will be shown on startup
-    'href' => \OCP\Util::linkToRoute('ocsms.sms.index'),
+	    // the icon that will be shown in the navigation
+	    // this file needs to exist in img/
+	    'icon' => \OCP\Util::imagePath('ocsms', 'app.svg'),
 
-    // the icon that will be shown in the navigation
-    // this file needs to exist in img/
-    'icon' => \OCP\Util::imagePath('ocsms', 'app.svg'),
-
-    // the title of your application. This will be used in the
-    // navigation or on the settings page of your app
-    'name' => \OCP\Util::getL10N('ocsms')->t('SMS')
-));
+	    // the title of your application. This will be used in the
+	    // navigation or on the settings page of your app
+	    'name' => \OCP\Util::getL10N('ocsms')->t('SMS')
+	));
+} else {
+	$msg = 'Can not enable the MyApp app because the App Framework App is disabled';
+	\OCP\Util::writeLog('myapp', $msg, \OCP\Util::ERROR);
+}
