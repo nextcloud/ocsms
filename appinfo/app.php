@@ -32,6 +32,6 @@ if(\OCP\App::isEnabled('appframework')){
 	    'name' => \OCP\Util::getL10N('ocsms')->t('SMS')
 	));
 } else {
-	$msg = 'Can not enable the MyApp app because the App Framework App is disabled';
-	\OCP\Util::writeLog('myapp', $msg, \OCP\Util::ERROR);
+	$msg = 'Can not enable the OcSms app because the App Framework App is disabled';
+	\OCP\Util::writeLog('ocsms', $msg, \OCP\Util::ERROR);
 }
