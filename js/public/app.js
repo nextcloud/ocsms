@@ -20,7 +20,7 @@ var unreadCountNotifStep = 12;
 var lastUnreadCountAllConv = 0;
 var originalTitle = document.title;
 
-var app = angular.module('OcSms', ['OC']);
+var app = angular.module('OcSms', []);
 
 app.controller('OcSmsController', ['$scope',
 	function ($scope) {
