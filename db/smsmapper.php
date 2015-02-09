@@ -14,6 +14,7 @@ namespace OCA\OcSms\Db;
 use \OCP\IDb;
 
 use \OCP\AppFramework\Db\Mapper;
+
 use \OCA\OcSms\AppInfo\OcSmsApp;
 use \OCA\OcSms\Lib\PhoneNumberFormatter;
 

@@ -2,7 +2,6 @@
 use \OCA\OcSms\Lib\CountryCodes;
 
 \OCP\Util::addScript('ocsms', 'angular/angular.min');
-\OCP\Util::addScript('appframework', 'public/app');
 \OCP\Util::addScript('ocsms', 'public/app');
 \OCP\Util::addStyle('ocsms', 'style');
 ?>

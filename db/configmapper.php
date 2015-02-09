@@ -12,9 +12,10 @@
 
 namespace OCA\OcSms\Db;
 
-use OCP\AppFramework\Db\DoesNotExistException;
-use \OCP\AppFramework\Db\Mapper;
 use \OCP\IDb;
+
+use \OCP\AppFramework\Db\Mapper;
+use \OCP\AppFramework\Db\DoesNotExistException;
 
 class ConfigMapper extends Mapper {
 

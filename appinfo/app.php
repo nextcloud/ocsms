@@ -11,7 +11,7 @@
 
 namespace OCA\OcSms\AppInfo;
 
-if(\OCP\App::isEnabled('appframework')){
+if (class_exists('\OCP\AppFramework\App')) {
 	\OCP\App::addNavigationEntry(array(
 	    // the string under which your app will be referenced in owncloud
 	    'id' => 'ocsms',
