@@ -30,6 +30,7 @@ class CountryCodes {
 		"Norway" => "+47",
 		"Poland" => "+48",
 		"Russia" => "+7",
+		"South Africa" => "+27",
 		"South Korea" => "+82",
 		"South Sudan" => "+211",
 		"Spain" => "+34",
