@@ -148,7 +148,7 @@ class OcSmsApp extends App {
 				
 				if (isset ($r["PHOTO"])) {
 					// Remove useless prefix
-					$photoURL = preg_replace("#VALUE=uri:#","",$r["PHOTO"]);
+					$photoURL = preg_replace("#^VALUE=uri:#","",$r["PHOTO"], 1);
 					self::$contactPhotos[$r["FN"]] = $photoURL;
 				}
 			}
