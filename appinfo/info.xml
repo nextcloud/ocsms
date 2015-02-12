@@ -5,7 +5,7 @@
     <description>A app to sync SMS with your ownCloud</description>
     <licence>AGPL</licence>
     <author>Loic Blot</author>
-    <version>1.4.3</version>
+    <version>1.4.2</version>
     <requiremin>7</requiremin>
 
     <ocsid>167289</ocsid>
