@@ -145,12 +145,12 @@ class OcSmsApp extends App {
 				else {
 					$this->pushPhoneNumberToCache($phoneIds, $r["FN"], $configuredCountry);
 				}
-			}
-
-			if (isset ($r["PHOTO"])) {
-				// Remove useless prefix
-				$photoURL = preg_replace("#VALUE=uri:#","",$r["PHOTO"]);
-				self::$contactPhotos[$r["FN"]] = $photoURL;
+				
+				if (isset ($r["PHOTO"])) {
+					// Remove useless prefix
+					$photoURL = preg_replace("#^VALUE=uri:#","",$r["PHOTO"], 1);
+					self::$contactPhotos[$r["FN"]] = $photoURL;
+				}
 			}
 		}
 	}
