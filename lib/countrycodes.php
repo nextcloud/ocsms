@@ -35,6 +35,7 @@ class CountryCodes {
 		"South Sudan" => "+211",
 		"Spain" => "+34",
 		"Sweden" => "+46",
+		"Switzerland" => "+41",
 		"Tunisia" => "+216",
 		"USA" => "+1",
 	);
