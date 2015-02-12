@@ -7,10 +7,4 @@
     <author>Loic Blot</author>
     <version>1.4.2</version>
     <requiremin>7</requiremin>
-
-    <ocsid>167289</ocsid>
-    
-    <website>https://apps.owncloud.com/content/show.php/ownCloud+SMS?content=167289</website>
-    <bugs>https://github.com/nerzhul/ocsms/issues</bugs>
-    <repository type="git">https://github.com/nerzhul/ocsms</repository>
 </info>
