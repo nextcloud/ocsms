@@ -153,7 +153,7 @@ class SmsMapper extends Mapper {
 		$cnt = 0;
 		$phlst = $this->getAllPhoneNumbersForFPN ($userId, $phoneNumber, $country);
 
-		$query = \OCP\DB::prepare('SELECT count(sms_date) as ct FROM ' .
+		$query = \OCP\DB::prepare('SELECT count(*) as ct FROM ' .
 		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_address = ? ' .
 		'AND sms_mailbox IN (?,?)');
 
