@@ -20,7 +20,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 			<button name="app settings" class="settings-button" data-apps-slide-toggle="#app-settings-content"></button>
 		</div>
 		<div id="app-settings-content">
-			<select name="intl_phone">
+			<select name="intl_phone" id="sel_intl_phone">
 			<?php foreach (CountryCodes::$codes as $code => $cval) { ?>
 			<option><?php p($code); ?></option>
 			<?php } ?>

@@ -368,6 +368,15 @@ function desktopNotify(msg) {
 	}
 }
 
+function fetchInitialSettings() {
+	$.getJSON(OC.generateUrl('/apps/ocsms/get/country'), function(jsondata, status) {
+		if (jsondata['status'] == true) {
+			$('#sel_intl_phone').val(jsondata["country"]);
+		}
+		else {
+		}
+	});
+}
 (function ($, OC) {
 	$(document).ready(function () {
 		// Register real title
@@ -393,6 +402,7 @@ function desktopNotify(msg) {
 			}
 
 		});
+		fetchInitialSettings();
 		initDesktopNotifies();
 		setInterval(refreshConversation, 10000);
 		setInterval(checkNewMessages, 10000);

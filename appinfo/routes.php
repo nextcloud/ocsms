@@ -25,4 +25,5 @@ $application->registerRoutes($this, array('routes' => array(
 	array('name' => 'sms#check_new_messages', 'url' => '/get/new_messages', 'verb' => 'GET'),
 	array('name' => 'sms#get_api_version', 'url' => '/get/apiversion', 'verb' => 'GET'),
 	array('name' => 'sms#set_country', 'url'=> '/set/country', 'verb' => 'POST'),
+	array('name' => 'sms#get_country', 'url'=> '/get/country', 'verb' => 'GET'),
 )));

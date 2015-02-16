@@ -314,4 +314,15 @@ class SmsController extends Controller {
 		$this->configMapper->set("country", $country);
 		return new JSONResponse(array("status" => true, "msg" => "OK"));
 	}
+
+	/**
+	* @NoAdminRequired
+	*/
+	function getCountry() {
+		$country = $this->configMapper->getKey("country");
+		if ($country === false) {
+			return new JSONResponse(array("status" => false));
+		}
+		return new JSONResponse(array("status" => true, "country" => $country));
+	}
 }
