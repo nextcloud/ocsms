@@ -26,6 +26,7 @@ ownCloud SMS (OcSMS) web application is currently under AGPL licence but this fr
 3. Activate the app in https://your-owncloud/index.php/settings/apps?installed
 4. Download the Android client from [Google Play](https://play.google.com/store/apps/details?id=fr.unix_experience.owncloud_sms)
 5. Activate the Android client by adding an account in your phone settings
+6. Choose your language into ocsms ownCloud app setting at the bottom of the contact list
 
 
 ### Owncloud SMS core issues
