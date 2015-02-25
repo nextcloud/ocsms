@@ -40,6 +40,7 @@ class CountryCodes {
 		"Hungary" => "+36",
 		"Iceland" => "+354",
 		"India" => "+91",
+		"Iran" => "+98",
 		"Ireland" => "+353",
 		"Italy" => "+39",
 		"Japan" => "+81",
