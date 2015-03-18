@@ -79,6 +79,7 @@ class OcSmsApp extends App {
 				$c->query('UserId'),
 				$c->query('SmsMapper'),
 				$c->query('ConfigMapper'),
+				$c->query('ServerContainer')->getURLGenerator(),
 				$app
 			);
 		});

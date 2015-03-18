@@ -32,13 +32,15 @@ class SmsController extends Controller {
 	private $configMapper;
 	private $smsMapper;
 	private $errorMsg;
+	private $urlGenerator;
 
-	public function __construct ($appName, IRequest $request, $userId, SmsMapper $mapper, ConfigMapper $cfgMapper, OcSmsApp $app){
+	public function __construct ($appName, IRequest $request, $userId, SmsMapper $mapper, ConfigMapper $cfgMapper, $urlGenerator, OcSmsApp $app){
 		parent::__construct($appName, $request);
 		$this->app = $app;
 		$this->userId = $userId;
 		$this->smsMapper = $mapper;
 		$this->configMapper = $cfgMapper;
+		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
@@ -50,12 +52,12 @@ class SmsController extends Controller {
 			'PNLConversations' => array(
 				'label' => 'Conversations',
 				'phoneNumbers' => $this->smsMapper->getAllPeersPhoneNumbers($this->userId),
-				'url' => \OCP\Util::linkToAbsolute('index.php', 'apps/ocsms/', array('feed' => 'conversations'))
+				'url' => $this->urlGenerator->linkToRoute('ocsms.sms.index', ['feed' => 'conversations'])
 			),
 			'PNLDrafts' => array(
 				'label' => 'Drafts',
 				'phoneNumbers' => array(),
-				'url' => \OCP\Util::linkToAbsolute('index.php', 'apps/ocsms/', array('feed' => 'drafts'))
+				'url' => $this->urlGenerator->linkToRoute('ocsms.sms.index', ['feed' => 'drafts'])
 			)
 		);
 
