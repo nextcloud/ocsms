@@ -15,6 +15,7 @@ namespace OCA\OcSms\AppInfo;
 
 use \OCP\AppFramework\App;
 
+use \OCA\OcSms\Controller\ApiController;
 use \OCA\OcSms\Controller\SmsController;
 
 use \OCA\OcSms\Db\Sms;
@@ -80,6 +81,16 @@ class OcSmsApp extends App {
 				$c->query('SmsMapper'),
 				$c->query('ConfigMapper'),
 				$c->query('ServerContainer')->getURLGenerator(),
+				$app
+			);
+		});
+
+		$container->registerService('ApiController', function($c) use($app) {
+			return new ApiController(
+				$c->query('AppName'),
+				$c->query('Request'),
+				$c->query('UserId'),
+				$c->query('SmsMapper'),
 				$app
 			);
 		});
