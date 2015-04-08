@@ -22,6 +22,7 @@ use \OCA\OcSms\AppInfo\OcSmsApp;
 use \OCA\OcSms\Db\ConfigMapper;
 use \OCA\OcSms\Db\SmsMapper;
 
+use \OCA\OcSms\Lib\ContactCache;
 use \OCA\OcSms\Lib\CountryCodes;
 use \OCA\OcSms\Lib\PhoneNumberFormatter;
 
@@ -33,14 +34,16 @@ class SmsController extends Controller {
 	private $smsMapper;
 	private $errorMsg;
 	private $urlGenerator;
+	private $contactCache;
 
-	public function __construct ($appName, IRequest $request, $userId, SmsMapper $mapper, ConfigMapper $cfgMapper, $urlGenerator, OcSmsApp $app){
+	public function __construct ($appName, IRequest $request, $userId, SmsMapper $mapper, ConfigMapper $cfgMapper, $contactsManager, $urlGenerator, OcSmsApp $app){
 		parent::__construct($appName, $request);
 		$this->app = $app;
 		$this->userId = $userId;
 		$this->smsMapper = $mapper;
 		$this->configMapper = $cfgMapper;
 		$this->urlGenerator = $urlGenerator;
+		$this->contactCache = new ContactCache($cfgMapper, $contactsManager);
 	}
 
 	/**
@@ -73,9 +76,9 @@ class SmsController extends Controller {
 	 */
 	public function retrieveAllPeers () {
 		$phoneList = $this->smsMapper->getLastMessageTimestampForAllPhonesNumbers($this->userId);
-		$contactsSrc = $this->app->getContacts();
+		$contactsSrc = $this->contactCache->getContacts();
 		$contacts = array();
-		$photos = $this->app->getContactPhotos();
+		$photos = $this->contactCache->getContactPhotos();
 
 		// Cache country because of loops
 		$configuredCountry = $this->configMapper->getCountry();
@@ -102,8 +105,8 @@ class SmsController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function getConversation ($phoneNumber, $lastDate = 0) {
-		$contacts = $this->app->getContacts();
-		$iContacts = $this->app->getInvertedContacts();
+		$contacts = $this->contactCache->getContacts();
+		$iContacts = $this->contactCache->getInvertedContacts();
 		$contactName = "";
 	
 		// Cache country because of loops
@@ -159,8 +162,8 @@ class SmsController extends Controller {
 	 */
 	public function checkNewMessages($lastDate) {
 		$phoneList = $this->smsMapper->getNewMessagesCountForAllPhonesNumbers($this->userId, $lastDate);
-		$contactsSrc = $this->app->getContacts();
-		$photosSrc = $this->app->getContactPhotos();
+		$contactsSrc = $this->contactCache->getContacts();
+		$photosSrc = $this->contactCache->getContactPhotos();
 		$contacts = array();
 		$photos = array();
 
