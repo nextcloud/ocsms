@@ -54,7 +54,7 @@ class SmsController extends Controller {
 		$mboxes = array(
 			'PNLConversations' => array(
 				'label' => 'Conversations',
-				'phoneNumbers' => $this->smsMapper->getAllPeersPhoneNumbers($this->userId),
+				'phoneNumbers' => $this->smsMapper->getAllPhoneNumbers($this->userId),
 				'url' => $this->urlGenerator->linkToRoute('ocsms.sms.index', ['feed' => 'conversations'])
 			),
 			'PNLDrafts' => array(

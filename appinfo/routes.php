@@ -27,5 +27,5 @@ $application->registerRoutes($this, array('routes' => array(
 	array('name' => 'api#retrieve_all_ids', 'url' => '/get/smsidlist', 'verb' => 'GET'), // Android APIv1
 	array('name' => 'api#retrieve_all_ids_with_status', 'url' => '/get/smsidstate', 'verb' => 'GET'), // Android APIv1
 	array('name' => 'api#retrieve_last_timestamp', 'url' => '/get/lastmsgtime', 'verb' => 'GET'), // Android APIv1
-	array('name' => 'api#get_phones_sms_number', 'url' => 'get/phones/smsnumber', 'verb' => 'GET'), // Android APIv2
+	array('name' => 'api#get_all_stored_phone_numbers', 'url' => 'get/phones/smsnumber', 'verb' => 'GET'), // Android APIv2
 )));

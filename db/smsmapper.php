@@ -93,7 +93,7 @@ class SmsMapper extends Mapper {
 		return 0;
 	}
 
-	public function getAllPeersPhoneNumbers ($userId) {
+	public function getAllPhoneNumbers ($userId) {
 		$query = \OCP\DB::prepare('SELECT sms_address FROM ' .
 		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_mailbox IN (?,?)');
 		$result = $query->execute(array($userId, 0, 1));
@@ -109,8 +109,8 @@ class SmsMapper extends Mapper {
 	}
 
 	/*
-		get all possible SMS_adresses for a given formated phonenumber
-	*/
+	 *	get all possible SMS_adresses for a given formated phonenumber
+	 */
 	public function getAllPhoneNumbersForFPN ($userId, $phoneNumber, $country) {
 		$query = \OCP\DB::prepare('SELECT sms_address FROM ' .
 		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_mailbox IN (?,?)');
