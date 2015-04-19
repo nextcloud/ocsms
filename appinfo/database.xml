@@ -26,9 +26,22 @@
 				<length>64</length>
 				<notnull>true</notnull>
 			</field>
-		</declaration>
 
+			<index>
+				<name>oc_ocsms_user_data_user_key_idx</name>
+				<unique>true</unique>
+				<field>
+					<name>user_id</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>datakey</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+		</declaration>
 	</table>
+
 	<table>
 		<name>*dbprefix*ocsms_smsdatas</name>
 		<declaration>
@@ -102,29 +115,76 @@
 				<notnull>true</notnull>
 				<length>1</length>
 			</field>
+
+			<index>
+				<name>oc_ocsms_smsdatas_user_addr_date_mbox_idx</name>
+				<unique>false</unique>
+				<field>
+					<name>user_id</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>sms_address</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>sms_date</name>
+					<sorting>descending</sorting>
+				</field>
+				<field>
+					<name>sms_mailbox</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+			<index>
+				<name>oc_ocsms_smsdatas_user_mbox_idx</name>
+				<unique>false</unique>
+				<field>
+					<name>user_id</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>sms_mailbox</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
 		</declaration>
 	</table>
+
 	<table>
-        <name>*dbprefix*ocsms_config</name>
-        <declaration>
-            <field>
-                <name>user</name>
-                <type>text</type>
-                <notnull>true</notnull>
-                <length>255</length>
-            </field>
-            <field>
-                <name>key</name>
-                <type>text</type>
-                <notnull>true</notnull>
-                <length>25555</length>
-            </field>
-            <field>
-                <name>value</name>
-                <type>text</type>
-                <notnull>false</notnull>
-                <length>25555</length>
-            </field>
-        </declaration>
-    </table>
+		<name>*dbprefix*ocsms_config</name>
+		<declaration>
+			<field>
+				<name>user</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+			<field>
+				<name>key</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+			<field>
+				<name>value</name>
+				<type>text</type>
+				<notnull>false</notnull>
+				<length>25555</length>
+			</field>
+
+			<index>
+				<name>oc_ocsms_config_user_key_idx</name>
+				<unique>true</unique>
+				<field>
+					<name>user</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>key</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+	   </declaration>
+	</table>
 </database>
