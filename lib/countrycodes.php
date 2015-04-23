@@ -19,6 +19,7 @@ class CountryCodes {
 		"Andorra" => "+376",
 		"Armenia" => "+374",
 		"Austria" => "+43",
+                "Australia" => "+61",
 		"Belarus" => "+375",
 		"Belgium" => "+32",
 		"Bosnia and Herzegovina" => "+387",
