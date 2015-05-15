@@ -117,13 +117,13 @@
                 <name>key</name>
                 <type>text</type>
                 <notnull>true</notnull>
-                <length>25555</length>
+                <length>255</length>
             </field>
             <field>
                 <name>value</name>
                 <type>text</type>
                 <notnull>false</notnull>
-                <length>25555</length>
+                <length>10240</length>
             </field>
         </declaration>
     </table>
