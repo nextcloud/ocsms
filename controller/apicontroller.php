@@ -82,9 +82,12 @@ class ApiController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 *
+	 * This function is used by API v2
+	 * Phone will get this list to generate a ListView
 	 */
-	public function getPhonesSmsNumber () {
-		$phoneList = array();
+	public function getAllStoredPhoneNumbers () {
+		$phoneList = $this->smsMapper->getAllPhoneNumbers($this->userId);
 		return new JSONResponse(array("phoneList" => $phoneList));
 	}
 
