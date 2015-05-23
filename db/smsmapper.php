@@ -196,12 +196,14 @@ class SmsMapper extends Mapper {
 	}
 
 	public function getNewMessagesCountForAllPhonesNumbers($userId, $lastDate) {
+		$ld = ($lastDate == '') ? 0 : $lastDate;
+
 		$sql = 'SELECT sms_address,count(sms_date) as ct FROM ' .
 		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_mailbox IN (?,?) ' .
 		'AND sms_date > ? GROUP BY sms_address';
 		
 		$query = \OCP\DB::prepare($sql);
-		$result = $query->execute(array($userId, 0, 1, $lastDate));
+		$result = $query->execute(array($userId, 0, 1, $ld));
 
 		$phoneList = array();
 		while ($row = $result->fetchRow()) {
