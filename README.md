@@ -17,7 +17,7 @@ ownCloud SMS (OcSMS) web application is currently under AGPL licence but this fr
 
 ### Requirements
 - An ownCloud instance
-- An Andoid phone
+- An Android phone
 
 
 ### Installation
