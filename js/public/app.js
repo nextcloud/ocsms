@@ -127,7 +127,7 @@ var checkNewMessages = function() {
 					peerLabel = fn;
 				}
 
-				if (inArray(peerLabel, bufferedContacts)) {
+				if (!inArray(peerLabel, bufferedContacts)) {
 					$("li[peer-label='" + peerLabel + "']").remove();
 					peerListBuf = '<li peer-label="' + peerLabel + '"><div class="ocsms-plavatar"';
 					if (typeof jsondata['photos'][peerLabel] != 'undefined') {
@@ -135,6 +135,7 @@ var checkNewMessages = function() {
 					}
 					peerListBuf += '></div><a href="#" ng-click="loadConversation(' + idxVal2 + ');" mailbox-navigation="' +
 						idxVal2 + '" style="font-weight: bold;" mailbox-label="' + peerLabel + '">' + peerLabel + ' (' + val + ')</a></li>';
+
 					$('#app-mailbox-peers ul').prepend(peerListBuf);
 					bufferedContacts.push(peerLabel);
 
@@ -330,7 +331,7 @@ function fetchInitialPeerList(jsondata) {
 			fn = jsondata['contacts'][id];
 			peerLabel = fn;
 		}
-		if (inArray(peerLabel, bufferedContacts)) {
+		if (!inArray(peerLabel, bufferedContacts)) {
 			aScope.addContact({'label': peerLabel, 'nav': idxVal2, 'avatar': jsondata['photos'][peerLabel]});
 			bufferedContacts.push(peerLabel);
 		}
