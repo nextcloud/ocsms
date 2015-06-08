@@ -22,6 +22,17 @@ var originalTitle = document.title;
 
 var app = angular.module('OcSms', []);
 
+function inArray(val, arr) {
+	return ($.inArray(val, arr) != -1);
+}
+
+function arrayUnique(arr) {
+	unq = arr.filter(function(item, i, arr) {
+		return i == arr.indexOf(item);
+	})
+	return unq;
+}
+
 app.controller('OcSmsController', ['$scope',
 	function ($scope) {
 		$scope.buttons = [
@@ -116,7 +127,7 @@ var checkNewMessages = function() {
 					peerLabel = fn;
 				}
 
-				if ($.inArray(peerLabel, bufferedContacts) == -1) {
+				if (inArray(peerLabel, bufferedContacts)) {
 					$("li[peer-label='" + peerLabel + "']").remove();
 					peerListBuf = '<li peer-label="' + peerLabel + '"><div class="ocsms-plavatar"';
 					if (typeof jsondata['photos'][peerLabel] != 'undefined') {
@@ -197,25 +208,8 @@ function fetchConversation(phoneNumber) {
 			var phoneNumberLabel = phoneNumber;
 
 			if (typeof jsondata['phoneNumbers'] != 'undefined') {
-				var len = jsondata["phoneNumbers"].length;
-				var ctLen = 0;
-				phoneNumberLabel = '';
-				// This array permit to remove double entries
-				phoneNumberShown = [];
-
-				$.each(jsondata["phoneNumbers"], function(id, val) {
-					// Don't add phone numbers is they are already shown
-					if ($.inArray(val, phoneNumberShown)) {
-						continue;
-					}
-					phoneNumberLabel += val;
-					ctLen++;
-					if (ctLen != len) {
-						phoneNumberLabel += ",";
-					}
-					phoneNumberLabel += " ";
-					phoneNumberShown.push(val);
-				});
+				phoneNumberList = arrayUnique(jsondata['phoneNumbers']);
+				phoneNumberLabel = phoneNumberList.toString();
 			}
 
 			conversationBuf = formatConversation(jsondata)[1];
