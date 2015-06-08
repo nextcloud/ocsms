@@ -10,17 +10,17 @@
 
 
 // Some global vars to improve performances
-var selectedConversation = null;
-var curPhoneNumber = null;
-var curContactName = '';
-var lastMsgDate = 0;
-var unreadCountCurrentConv = 0;
-var unreadCountAllConv = 0;
-var unreadCountNotifStep = 12;
-var lastUnreadCountAllConv = 0;
-var originalTitle = document.title;
+var g_selectedConversation = null;
+var g_curPhoneNumber = null;
+var g_curContactName = '';
+var g_lastMsgDate = 0;
+var g_unreadCountCurrentConv = 0;
+var g_unreadCountAllConv = 0;
+var g_unreadCountNotifStep = 12;
+var g_lastUnreadCountAllConv = 0;
+var g_originalTitle = document.title;
 
-var ulContactList = $('.contact-list');
+var g_ulContactList = $('.contact-list');
 var app = angular.module('OcSms', []);
 
 function inArray(val, arr) {
@@ -73,7 +73,7 @@ $.urlParam = function(name){
 
 var refreshConversation = function() {
 	// if no conversation selected, then don't fetch page
-	if (curPhoneNumber == null) {
+	if (g_curPhoneNumber == null) {
 		if ($('#app-content-header').is(':visible')) {
 			$('#app-content-header').hide();
 		}
@@ -81,8 +81,8 @@ var refreshConversation = function() {
 	}
 	$.getJSON(OC.generateUrl('/apps/ocsms/get/conversation'),
 		{
-			'phoneNumber': curPhoneNumber,
-			"lastDate": lastMsgDate
+			'phoneNumber': g_curPhoneNumber,
+			"lastDate": g_lastMsgDate
 		},
 		function(jsondata, status) {
 			var fmt = formatConversation(jsondata);
@@ -92,9 +92,9 @@ var refreshConversation = function() {
 				$('#app-content').scrollTop(1E10);
 				// This will blink the tab because there is new messages
 				if (document.hasFocus() == false) {
-					unreadCountCurrentConv += fmt[0];
-					document.title = originalTitle + " (" + unreadCountCurrentConv + ")";
-					desktopNotify(unreadCountCurrentConv + " unread message(s) in conversation with " + curContactName);
+					g_unreadCountCurrentConv += fmt[0];
+					document.title = g_originalTitle + " (" + g_unreadCountCurrentConv + ")";
+					desktopNotify(g_unreadCountCurrentConv + " unread message(s) in conversation with " + g_curContactName);
 				}
 			}
 
@@ -108,9 +108,9 @@ var refreshConversation = function() {
 };
 
 var checkNewMessages = function() {
-	unreadCountAllConv = 0;
+	g_unreadCountAllConv = 0;
 	$.getJSON(OC.generateUrl('/apps/ocsms/get/new_messages'),
-		{ 'lastDate': lastMsgDate },
+		{ 'lastDate': g_lastMsgDate },
 		function(jsondata, status) {
 			var peerListBuf = '';
 			var bufferedContacts = [];
@@ -137,15 +137,15 @@ var checkNewMessages = function() {
 					peerListBuf += '></div><a href="#" ng-click="loadConversation(' + idxVal2 + ');" mailbox-navigation="' +
 						idxVal2 + '" style="font-weight: bold;" mailbox-label="' + peerLabel + '">' + peerLabel + ' (' + val + ')</a></li>';
 
-					ulContactList.prepend(peerListBuf);
+					g_ulContactList.prepend(peerListBuf);
 					bufferedContacts.push(peerLabel);
 
 					// Re-set conversation because we reload the element
-					if (idxVal == curPhoneNumber) {
+					if (idxVal == g_curPhoneNumber) {
 						changeSelectedConversation($("a[mailbox-navigation='" + idxVal + "']"));
 					}
 
-					unreadCountAllConv += parseInt(val);	
+					g_unreadCountAllConv += parseInt(val);	
 
 					// Now bind the events when we click on the phone number
 					$("a[mailbox-navigation='" + idxVal + "']").on('click', function (event) {
@@ -155,7 +155,7 @@ var checkNewMessages = function() {
 						// phoneNumber must exist
 						if (phoneNumber != null) {
 							fetchConversation(phoneNumber);
-							unreadCountAllConv += val;
+							g_unreadCountAllConv += val;
 							changeSelectedConversation($(this));
 						}
 						event.preventDefault();
@@ -169,19 +169,19 @@ var checkNewMessages = function() {
 			* there is new messages in all conversations
 			*/
 			
-			if (unreadCountNotifStep > 0) {
-				unreadCountNotifStep--;
+			if (g_unreadCountNotifStep > 0) {
+				g_unreadCountNotifStep--;
 			}
 			
-			if (unreadCountAllConv > 0) {
+			if (g_unreadCountAllConv > 0) {
 				/*
 				* We notify user every two minutes for all messages
 				* or if unreadCount changes
 				*/
-				if (unreadCountNotifStep == 0 || lastUnreadCountAllConv != unreadCountAllConv) {
-					desktopNotify(unreadCountAllConv + " unread message(s) for all conversations");
-					unreadCountNotifStep = 12;
-					lastUnreadCountAllConv = unreadCountAllConv;
+				if (g_unreadCountNotifStep == 0 || g_lastUnreadCountAllConv != g_unreadCountAllConv) {
+					desktopNotify(g_unreadCountAllConv + " unread message(s) for all conversations");
+					g_unreadCountNotifStep = 12;
+					g_lastUnreadCountAllConv = g_unreadCountAllConv;
 				}
 			}
 		}
@@ -219,12 +219,12 @@ function fetchConversation(phoneNumber) {
 			conversationBuf += '<div class="msg-endtag"></div>';
 			if (typeof jsondata['contactName'] == 'undefined' || jsondata['contactName'] == '') {
 				$('#ocsms-phone-label').html(phoneNumberLabel);
-				curContactName = phoneNumberLabel;
+				g_curContactName = phoneNumberLabel;
 				$('#ocsms-phone-opt-number').html('');
 			}
 			else {
 				$('#ocsms-phone-label').html(jsondata['contactName']);
-				curContactName = jsondata['contactName'];
+				g_curContactName = jsondata['contactName'];
 				$('#ocsms-phone-opt-number').html(phoneNumberLabel);
 			}
 
@@ -237,7 +237,7 @@ function fetchConversation(phoneNumber) {
 			$('#app-content-wrapper').html(conversationBuf);
 			$('#app-content').scrollTop(1E10);
 
-			curPhoneNumber = phoneNumber;
+			g_curPhoneNumber = phoneNumber;
 		}
 	);
 }
@@ -269,8 +269,8 @@ function formatConversation(jsondata) {
 
 		// Store the greater msg date for refresher
 		// Note: we divide by 100 because number compare too large integers
-		if ((id/100) > (lastMsgDate/100)) {
-			lastMsgDate = id;
+		if ((id/100) > (g_lastMsgDate/100)) {
+			g_lastMsgDate = id;
 		}
 
 		// Multiplicate ID to permit date to use it properly
@@ -303,13 +303,13 @@ function changeSelectedConversation(item) {
 		return;
 	}
 
-	if (selectedConversation != null) {
-		selectedConversation.parent().removeClass('selected');
+	if (g_selectedConversation != null) {
+		g_selectedConversation.parent().removeClass('selected');
 	}
-	selectedConversation = item;
-	selectedConversation.parent().addClass('selected');
-	selectedConversation.css("font-weight", "normal");
-	selectedConversation.html(selectedConversation.attr("mailbox-label"));
+	g_selectedConversation = item;
+	g_selectedConversation.parent().addClass('selected');
+	g_selectedConversation.css("font-weight", "normal");
+	g_selectedConversation.html(g_selectedConversation.attr("mailbox-label"));
 }
 
 function fetchInitialPeerList(jsondata) {
@@ -336,7 +336,7 @@ function fetchInitialPeerList(jsondata) {
 		}
 	});
 
-	lastMsgDate = jsondata["lastRead"];
+	g_lastMsgDate = jsondata["lastRead"];
 }
 
 function initDesktopNotifies() {
@@ -382,7 +382,7 @@ function fetchInitialSettings() {
 (function ($, OC) {
 	$(document).ready(function () {
 		// Register real title
-		originalTitle = document.title;
+		g_originalTitle = document.title;
 
 		// Now bind the events when we click on the phone number
 		$.getJSON(OC.generateUrl('/apps/ocsms/get/peerlist'), function(jsondata, status) {
@@ -412,7 +412,7 @@ function fetchInitialSettings() {
 
 	// reset count and title
 	window.onfocus = function () {
-		unreadCountCurrentConv = 0;
-		document.title = originalTitle;
+		g_unreadCountCurrentConv = 0;
+		document.title = g_originalTitle;
 	};
 })(jQuery, OC);
