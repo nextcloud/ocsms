@@ -8,7 +8,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 
 <div class="ng-scope" id="app" ng-app="OcSms" ng-controller="OcSmsController">
 	<div id="app-mailbox-peers">
-		<ul>
+		<ul class="contact-list">
 			<li ng-repeat="contact in contacts" peer-label="{{ contact.label }}">
 				<div class="ocsms-plavatar" style="background-image: url('{{ contact.avatar }}');"></div>
 				<a mailbox-label="{{ contact.label }}" mailbox-navigation="{{ contact.nav }}" ng-click="loadConversation(contact);" href="#">{{ contact.label }}</a>

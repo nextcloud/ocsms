@@ -20,6 +20,7 @@ var unreadCountNotifStep = 12;
 var lastUnreadCountAllConv = 0;
 var originalTitle = document.title;
 
+var ulContactList = $('.contact-list');
 var app = angular.module('OcSms', []);
 
 function inArray(val, arr) {
@@ -27,7 +28,7 @@ function inArray(val, arr) {
 }
 
 function arrayUnique(arr) {
-	unq = arr.filter(function(item, i, arr) {
+	var unq = arr.filter(function(item, i, arr) {
 		return i == arr.indexOf(item);
 	})
 	return unq;
@@ -136,7 +137,7 @@ var checkNewMessages = function() {
 					peerListBuf += '></div><a href="#" ng-click="loadConversation(' + idxVal2 + ');" mailbox-navigation="' +
 						idxVal2 + '" style="font-weight: bold;" mailbox-label="' + peerLabel + '">' + peerLabel + ' (' + val + ')</a></li>';
 
-					$('#app-mailbox-peers ul').prepend(peerListBuf);
+					ulContactList.prepend(peerListBuf);
 					bufferedContacts.push(peerLabel);
 
 					// Re-set conversation because we reload the element
@@ -214,7 +215,7 @@ function fetchConversation(phoneNumber) {
 				phoneNumberLabel = phoneNumberList.toString();
 			}
 
-			conversationBuf = formatConversation(jsondata)[1];
+			var conversationBuf = formatConversation(jsondata)[1];
 			conversationBuf += '<div class="msg-endtag"></div>';
 			if (typeof jsondata['contactName'] == 'undefined' || jsondata['contactName'] == '') {
 				$('#ocsms-phone-label').html(phoneNumberLabel);
@@ -314,9 +315,7 @@ function changeSelectedConversation(item) {
 function fetchInitialPeerList(jsondata) {
 	// Use a buffer for better jQuery performance
 	var peerListBuf = "";
-
 	var bufferedContacts = [];
-
 	var aScope = angular.element('[ng-controller="OcSmsController"]').scope();
 
 	$.each(jsondata['phonelist'], function(id, val) {
