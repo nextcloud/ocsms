@@ -200,14 +200,21 @@ function fetchConversation(phoneNumber) {
 				var len = jsondata["phoneNumbers"].length;
 				var ctLen = 0;
 				phoneNumberLabel = '';
+				// This array permit to remove double entries
+				phoneNumberShown = [];
 
 				$.each(jsondata["phoneNumbers"], function(id, val) {
+					// Don't add phone numbers is they are already shown
+					if ($.inArray(val, phoneNumberShown)) {
+						continue;
+					}
 					phoneNumberLabel += val;
 					ctLen++;
 					if (ctLen != len) {
 						phoneNumberLabel += ",";
 					}
 					phoneNumberLabel += " ";
+					phoneNumberShown.push(val);
 				});
 			}
 
