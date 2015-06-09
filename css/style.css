@@ -54,6 +54,7 @@
 #app-content-wrapper {
 	padding: 15px;
 	margin-top: 80px;
+	min-height: auto !important;
 }
 
 #app-content-header {
