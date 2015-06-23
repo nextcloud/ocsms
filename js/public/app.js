@@ -54,6 +54,14 @@ app.controller('OcSmsController', ['$scope',
 		};
 		$scope.removeConversation = function() {
 			$.post(OC.generateUrl('/apps/ocsms/delete/conversation'), {"contact": g_curContactName}, function(data) {
+				// Reinit main window
+				$('#ocsms-phone-label').html('');
+				$('#ocsms-phone-opt-number').html('');
+				$('#ocsms-phone-msg-nb').html('');
+				$('#app-content-wrapper').html('<div id="ocsms-empty-conversation">Please choose a conversation on the left menu</div>');
+				$('#ocsms-conversation-removal').hide();
+				$('#app-content-header').hide();
+				$("li[peer-label='" + g_curContactName + "']").remove();
 			});
 		}
 
