@@ -99,6 +99,9 @@ var refreshConversation = function() {
 			}
 
 			setMessageCountInfo(jsondata);
+			if ($('#ocsms-conversation-removal').is(':hidden')) {
+				$('#ocsms-conversation-removal').show();
+			}
 
 			if ($('#app-content-header').is(':hidden')) {
 				$('#app-content-header').show();
@@ -232,6 +235,10 @@ function fetchConversation(phoneNumber) {
 
 			if ($('#app-content-header').is(':hidden')) {
 				$('#app-content-header').show();
+			}
+
+			if ($('#ocsms-conversation-removal').is(':hidden')) {
+				$('#ocsms-conversation-removal').show();
 			}
 
 			$('#app-content-wrapper').html(conversationBuf);

@@ -71,15 +71,30 @@
 #ocsms-phone-label {
 	font-weight: bold;
 	color: #555;
+	float: left;
 }
 
 #ocsms-phone-opt-number {
 	color: #999;
 	padding-left: 15px;
+	float: left;
+	width: 100%;
 }
 
 #ocsms-phone-msg-nb {
 	color: #555;
+	float: left;
+	width: 100%;
+}
+
+#ocsms-conversation-removal {
+	display: none;
+	float: left;
+	margin-left: 25px;
+}
+
+#ocsms-conversation-removal:hover {
+	cursor: pointer;
 }
 
 #ocsms-empty-conversation {
