@@ -160,6 +160,14 @@ class SmsController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
+	public function deleteConversation ($contact) {
+		return new JSONResponse(array());
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
 	public function checkNewMessages($lastDate) {
 		$phoneList = $this->smsMapper->getNewMessagesCountForAllPhonesNumbers($this->userId, $lastDate);
 		$contactsSrc = $this->contactCache->getContacts();

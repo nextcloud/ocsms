@@ -31,7 +31,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 
 	<div id="app-content">
 		<div id="app-content-header" style="display: none;">	
-			<div id="ocsms-phone-label"></div><div id="ocsms-conversation-removal" class="icon-delete svn delete action"></div>
+			<div id="ocsms-phone-label"></div><div id="ocsms-conversation-removal" class="icon-delete svn delete action" ng-click="removeConversation();"></div>
 			<div id="ocsms-phone-opt-number"></div>
 			<div id="ocsms-phone-msg-nb"></div>
 			

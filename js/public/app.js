@@ -52,6 +52,10 @@ app.controller('OcSmsController', ['$scope',
 				changeSelectedConversation($("a[mailbox-navigation='" + contact.nav + "']"));
 			}
 		};
+		$scope.removeConversation = function() {
+			$.post(OC.generateUrl('/apps/ocsms/delete/conversation'), {"contact": g_curContactName}, function(data) {
+			});
+		}
 
 		$scope.addContact = function (ct) {
 			$scope.$apply(function () {

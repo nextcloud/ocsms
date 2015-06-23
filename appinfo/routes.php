@@ -17,6 +17,7 @@ $application->registerRoutes($this, array('routes' => array(
 	array('name' => 'sms#index', 'url' => '/', 'verb' => 'GET'),
 	array('name' => 'sms#retrieve_all_peers', 'url' => '/get/peerlist', 'verb' => 'GET'),
 	array('name' => 'sms#get_conversation', 'url' => '/get/conversation', 'verb' => 'GET'),
+	array('name' => 'sms#delete_conversation', 'url' => '/delete/conversation', 'verb' => 'POST'),
 	array('name' => 'sms#check_new_messages', 'url' => '/get/new_messages', 'verb' => 'GET'),
 	array('name' => 'sms#set_country', 'url'=> '/set/country', 'verb' => 'POST'),
 	array('name' => 'sms#get_country', 'url'=> '/get/country', 'verb' => 'GET'),
