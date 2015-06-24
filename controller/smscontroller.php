@@ -132,12 +132,6 @@ class SmsController extends Controller {
 		else {
 			$messages = $this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $phoneNumber, $configuredCountry, $lastDate);
 			$msgCount = $this->smsMapper->countMessagesForPhoneNumber($this->userId, $phoneNumber, $configuredCountry);
-			if(isset($peerNumber[$fmtPN])) {
-				foreach($peerNumber[$fmtPN] as $cnumber) {
-					$messages = $messages +	$this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $cnumber, $configuredCountry, $lastDate);
-					$msgCount += $this->smsMapper->countMessagesForPhoneNumber($this->userId, $cnumber, $configuredCountry);
-				}
-			}
 			$phoneNumbers[] = PhoneNumberFormatter::format($configuredCountry, $phoneNumber);
 		}
 		// Order by id (date)
@@ -161,6 +155,26 @@ class SmsController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function deleteConversation ($contact) {
+		$contacts = $this->contactCache->getContacts();
+		$iContacts = $this->contactCache->getInvertedContacts();
+		$contactName = "";
+	
+		// Cache country because of loops
+		$configuredCountry = $this->configMapper->getCountry();
+
+		$fmtPN = PhoneNumberFormatter::format($configuredCountry, $phoneNumber);
+		if (isset($contacts[$fmtPN])) {
+			$contactName = $contacts[$fmtPN];
+		}
+
+		// Contact resolved
+		if ($contactName != "" && isset($iContacts[$contactName])) {
+			// forall numbers in iContacts
+			foreach($iContacts[$contactName] as $cnumber) {
+			}
+		}
+		else {
+		}
 		return new JSONResponse(array());
 	}
 
