@@ -171,9 +171,11 @@ class SmsController extends Controller {
 		if ($contactName != "" && isset($iContacts[$contactName])) {
 			// forall numbers in iContacts
 			foreach($iContacts[$contactName] as $cnumber) {
+				$this->smsMapper->removeMessagesForPhoneNumber($this->userId, $cnumber);
 			}
 		}
 		else {
+			$this->smsMapper->removeMessagesForPhoneNumber($this->userId, $phoneNumber);
 		}
 		return new JSONResponse(array());
 	}

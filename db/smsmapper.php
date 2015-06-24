@@ -85,7 +85,7 @@ class SmsMapper extends Mapper {
 		$query = \OCP\DB::prepare('SELECT max(sms_date) as mx FROM ' .
 			'*PREFIX*ocsms_smsdatas WHERE user_id = ?');
 		$result = $query->execute(array($userId));
-		
+
 		if ($row = $result->fetchRow()) {
 			return $row["mx"];
 		}
@@ -173,11 +173,14 @@ class SmsMapper extends Mapper {
 		return $cnt;
 	}
 
+	public function removeMessagesForPhoneNumber ($userId, $phoneNumber) {
+	}
+
 	public function getLastMessageTimestampForAllPhonesNumbers ($userId, $order = true) {
 		$sql = 'SELECT sms_address,MAX(sms_date) as mx FROM ' .
 		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_mailbox IN (?,?) ' .
 		'GROUP BY sms_address';
-		
+
 		if ($order === true) {
 			$sql .= ' ORDER BY mx DESC';
 		}
@@ -201,7 +204,7 @@ class SmsMapper extends Mapper {
 		$sql = 'SELECT sms_address,count(sms_date) as ct FROM ' .
 		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_mailbox IN (?,?) ' .
 		'AND sms_date > ? GROUP BY sms_address';
-		
+
 		$query = \OCP\DB::prepare($sql);
 		$result = $query->execute(array($userId, 0, 1, $ld));
 
@@ -218,7 +221,7 @@ class SmsMapper extends Mapper {
 	public function getLastReadDate ($userId) {
 		$sql = 'SELECT MAX(datavalue) as mx FROM ' .
 		'*PREFIX*ocsms_user_datas WHERE user_id = ?';
-	
+
 		$query = \OCP\DB::prepare($sql);
 		$result = $query->execute(array($userId));
 
