@@ -162,7 +162,7 @@ class SmsController extends Controller {
 		// Cache country because of loops
 		$configuredCountry = $this->configMapper->getCountry();
 
-		$fmtPN = PhoneNumberFormatter::format($configuredCountry, $phoneNumber);
+		$fmtPN = PhoneNumberFormatter::format($configuredCountry, $contact);
 		if (isset($contacts[$fmtPN])) {
 			$contactName = $contacts[$fmtPN];
 		}
@@ -175,7 +175,7 @@ class SmsController extends Controller {
 			}
 		}
 		else {
-			$this->smsMapper->removeMessagesForPhoneNumber($this->userId, $phoneNumber);
+			$this->smsMapper->removeMessagesForPhoneNumber($this->userId, $contact);
 		}
 		return new JSONResponse(array());
 	}

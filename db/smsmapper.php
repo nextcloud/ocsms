@@ -174,6 +174,11 @@ class SmsMapper extends Mapper {
 	}
 
 	public function removeMessagesForPhoneNumber ($userId, $phoneNumber) {
+		\OCP\DB::beginTransaction();
+		$query = \OCP\DB::prepare('DELETE FROM ' .
+		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_address = ?');
+		$query->execute(array($userId, $phoneNumber));
+		\OCP\DB::commit();
 	}
 
 	public function getLastMessageTimestampForAllPhonesNumbers ($userId, $order = true) {
