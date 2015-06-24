@@ -62,6 +62,7 @@ app.controller('OcSmsController', ['$scope',
 				$('#ocsms-conversation-removal').hide();
 				$('#app-content-header').hide();
 				$("li[peer-label='" + g_curContactName + "']").remove();
+				g_curPhoneNumber = null;
 			});
 		}
 
