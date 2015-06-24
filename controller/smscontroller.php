@@ -108,7 +108,7 @@ class SmsController extends Controller {
 		$contacts = $this->contactCache->getContacts();
 		$iContacts = $this->contactCache->getInvertedContacts();
 		$contactName = "";
-	
+
 		// Cache country because of loops
 		$configuredCountry = $this->configMapper->getCountry();
 
@@ -158,7 +158,7 @@ class SmsController extends Controller {
 		$contacts = $this->contactCache->getContacts();
 		$iContacts = $this->contactCache->getInvertedContacts();
 		$contactName = "";
-	
+
 		// Cache country because of loops
 		$configuredCountry = $this->configMapper->getCountry();
 
@@ -196,7 +196,7 @@ class SmsController extends Controller {
 				$fmtPN2 = preg_replace("#\/#","", $fmtPN);
 				$contacts[$fmtPN] = $contactsSrc[$fmtPN];
 				$contacts[$fmtPN2] = $contactsSrc[$fmtPN];
-	
+
 				if (isset($photosSrc[$contacts[$fmtPN]])) {
 					$photos[$contacts[$fmtPN]] = $photosSrc[$contacts[$fmtPN]];
 				}
