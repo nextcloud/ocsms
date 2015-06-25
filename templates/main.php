@@ -11,7 +11,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 		<ul class="contact-list">
 			<li ng-repeat="contact in contacts" peer-label="{{ contact.label }}">
 				<div class="ocsms-plavatar" style="background-image: url('{{ contact.avatar }}');"></div>
-				<a mailbox-label="{{ contact.label }}" mailbox-navigation="{{ contact.nav }}" ng-click="loadConversation(contact);" href="#">{{ contact.label }}</a>
+				<a style="{{ contact.unread > 0 ? 'font-weight:bold;' : ''}}" mailbox-label="{{ contact.label }}" mailbox-navigation="{{ contact.nav }}" ng-click="loadConversation(contact);" href="#">{{ contact.label }}{{ contact.unread > 0 ? ' (' + contact.unread + ') ' : '' }}</a>
 			</li>
 		</ul>
 	</div>

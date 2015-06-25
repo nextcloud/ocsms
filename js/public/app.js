@@ -117,15 +117,11 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 						}
 
 						if (!inArray(peerLabel, bufferedContacts)) {
-							$("li[peer-label='" + peerLabel + "']").remove();
-							peerListBuf = '<li peer-label="' + peerLabel + '"><div class="ocsms-plavatar"';
-							if (typeof jsondata['photos'][peerLabel] != 'undefined') {
-								peerListBuf += 'style="background-image: url(' + jsondata['photos'][peerLabel] + ');"';
-							}
-							peerListBuf += '></div><a href="#" ng-click="loadConversation(' + idxVal2 + ');" mailbox-navigation="' +
-								idxVal2 + '" style="font-weight: bold;" mailbox-label="' + peerLabel + '">' + peerLabel + ' (' + val + ')</a></li>';
+							contactObj = {'label': peerLabel, 'nav': idxVal2, 'avatar': jsondata['photos'][peerLabel], 'unread': val};
 
-							g_ulContactList.prepend(peerListBuf);
+							$scope.removeContact(contactObj);
+							$scope.addContactToFront(contactObj);
+
 							bufferedContacts.push(peerLabel);
 
 							// Re-set conversation because we reload the element
@@ -134,20 +130,6 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 							}
 
 							g_unreadCountAllConv += parseInt(val);	
-
-							// Now bind the events when we click on the phone number
-							$("a[mailbox-navigation='" + idxVal + "']").on('click', function (event) {
-								var phoneNumber = $(this).attr('mailbox-navigation');
-								OC.Util.History.pushState('phonenumber=' + phoneNumber);
-
-								// phoneNumber must exist
-								if (phoneNumber != null) {
-									$scope.fetchConversation(phoneNumber);
-									g_unreadCountAllConv += val;
-									changeSelectedConversation($(this));
-								}
-								event.preventDefault();
-							});
 						}
 					});
 
@@ -197,6 +179,21 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 				$scope.contacts.push(ct);
 			});
 		};
+		$scope.addContactToFront = function (ct) {
+			$scope.$apply(function () {
+				$scope.contacts.splice(0, 0, ct);
+			});
+		};
+		$scope.removeContact = function (ct) {
+			var len = $scope.contacts.length;
+			for (var i=0; i < len; i++) {
+				var curCt = $scope.contacts[i];
+				if (curCt['nav'] == ct['nav']) {
+					$scope.contacts.splice(i, 1);
+					return;
+				}
+			}
+		}
 
 		$scope.fetchInitialSettings = function () {
 			$.getJSON(OC.generateUrl('/apps/ocsms/get/country'), function(jsondata, status) {
@@ -223,7 +220,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 					peerLabel = fn;
 				}
 				if (!inArray(peerLabel, bufferedContacts)) {
-					$scope.addContact({'label': peerLabel, 'nav': idxVal2, 'avatar': jsondata['photos'][peerLabel]});
+					$scope.addContact({'label': peerLabel, 'nav': idxVal2, 'avatar': jsondata['photos'][peerLabel], 'unread' : 0});
 					bufferedContacts.push(peerLabel);
 				}
 			});
