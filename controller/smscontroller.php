@@ -214,6 +214,14 @@ class SmsController extends Controller {
 
 	/**
 	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function deleteMessage ($messageId, $phoneNumber) {
+		return new JSONResponse(array());
+	}
+
+	/**
+	 * @NoAdminRequired
 	 */
 	function setCountry($country) {
 		if (!array_key_exists($country, CountryCodes::$codes)) {

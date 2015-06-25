@@ -64,8 +64,10 @@ app.controller('OcSmsController', ['$scope',
 				$("li[peer-label='" + g_curContactName + "']").remove();
 				g_curPhoneNumber = null;
 			});
-		}
-
+		};
+		$scope.removeMessage = function(messageId) {
+			alert('test');
+		};
 		$scope.addContact = function (ct) {
 			$scope.$apply(function () {
 				$scope.contacts.push(ct);
@@ -109,6 +111,7 @@ var refreshConversation = function() {
 					document.title = g_originalTitle + " (" + g_unreadCountCurrentConv + ")";
 					desktopNotify(g_unreadCountCurrentConv + " unread message(s) in conversation with " + g_curContactName);
 				}
+				
 			}
 
 			setMessageCountInfo(jsondata);
@@ -309,12 +312,13 @@ function formatConversation(jsondata) {
 			formatedHour + ":" + formatedMin;
 
 		buf += '<div><div class="' + msgClass + '"><div>' +
-			vals["msg"] + '</div><div class="msg-date">' +
-			formatedDate + '</div></div><div class="msg-spacer"></div></div>';
+			vals["msg"] + '</div>' + 
+			'<div style="display: block;" id="ocsms-message-removal" class="icon-delete svn delete action" ng-click="removeMessage(' + id + ');"></div>' +
+			'<div class="msg-date">' + formatedDate + '</div>' +
+			'</div><div class="msg-spacer"></div></div>';
 		msgCount++;
 
 	});
-
 	return [msgCount,buf];
 }
 

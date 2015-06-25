@@ -97,6 +97,15 @@
 	cursor: pointer;
 }
 
+#ocsms-message-removal {
+	float: right;
+	margin-left: 10px;
+}
+
+#ocsms-message-removal:hover {
+	cursor: pointer;
+}
+
 #ocsms-empty-conversation {
 	position: absolute;
 	text-align: center;
