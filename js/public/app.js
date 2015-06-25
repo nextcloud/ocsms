@@ -34,8 +34,8 @@ function arrayUnique(arr) {
 	return unq;
 }
 
-app.controller('OcSmsController', /*['$scope',*/
-	function ($timeout, $scope) {
+app.controller('OcSmsController', ['$scope', '$timeout',
+	function ($scope, $timeout) {
 		$scope.buttons = [
 			{text: "Send"}
 		];
@@ -104,7 +104,7 @@ app.controller('OcSmsController', /*['$scope',*/
 			setInterval(checkNewMessages, 10000);
 		});
 	}
-);
+]);
 
 $.urlParam = function(name){
 	var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
