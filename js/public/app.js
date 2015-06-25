@@ -34,8 +34,8 @@ function arrayUnique(arr) {
 	return unq;
 }
 
-app.controller('OcSmsController', ['$scope', '$timeout',
-	function ($scope, $timeout) {
+app.controller('OcSmsController', ['$scope', '$interval', '$timeout',
+	function ($scope, $interval, $timeout) {
 		$scope.buttons = [
 			{text: "Send"}
 		];
@@ -74,6 +74,9 @@ app.controller('OcSmsController', ['$scope', '$timeout',
 			});
 		};
 
+		$interval(refreshConversation, 10000);
+		$interval(checkNewMessages, 10000);
+
 		$timeout(function () {
 			// Register real title
 			g_originalTitle = document.title;
@@ -100,8 +103,6 @@ app.controller('OcSmsController', ['$scope', '$timeout',
 			});
 			fetchInitialSettings();
 			initDesktopNotifies();
-			setInterval(refreshConversation, 10000);
-			setInterval(checkNewMessages, 10000);
 		});
 	}
 ]);
