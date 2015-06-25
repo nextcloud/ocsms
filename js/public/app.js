@@ -34,8 +34,8 @@ function arrayUnique(arr) {
 	return unq;
 }
 
-app.controller('OcSmsController', ['$scope',
-	function ($scope) {
+app.controller('OcSmsController', /*['$scope',*/
+	function ($timeout, $scope) {
 		$scope.buttons = [
 			{text: "Send"}
 		];
@@ -73,8 +73,38 @@ app.controller('OcSmsController', ['$scope',
 				$scope.contacts.push(ct);
 			});
 		};
+
+		$timeout(function () {
+			// Register real title
+			g_originalTitle = document.title;
+
+			// Now bind the events when we click on the phone number
+			$.getJSON(OC.generateUrl('/apps/ocsms/get/peerlist'), function(jsondata, status) {
+				fetchInitialPeerList(jsondata);
+
+				var pnParam = $.urlParam('phonenumber');
+				if (pnParam != null) {
+					var urlPhoneNumber = decodeURIComponent(pnParam);
+					if (urlPhoneNumber != null) {
+						fetchConversation(urlPhoneNumber);
+						changeSelectedConversation($("a[mailbox-navigation='" + urlPhoneNumber + "']"));
+					}
+				}
+				// Don't show message headers if no conversation selected
+				else {
+					if ($('#app-content-header').is(':visible')) {
+						$('#app-content-header').hide();
+					}
+				}
+
+			});
+			fetchInitialSettings();
+			initDesktopNotifies();
+			setInterval(refreshConversation, 10000);
+			setInterval(checkNewMessages, 10000);
+		});
 	}
-]);
+);
 
 $.urlParam = function(name){
 	var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -404,36 +434,6 @@ function fetchInitialSettings() {
 	});
 }
 (function ($, OC) {
-	$(document).ready(function () {
-		// Register real title
-		g_originalTitle = document.title;
-
-		// Now bind the events when we click on the phone number
-		$.getJSON(OC.generateUrl('/apps/ocsms/get/peerlist'), function(jsondata, status) {
-			fetchInitialPeerList(jsondata);
-
-			var pnParam = $.urlParam('phonenumber');
-			if (pnParam != null) {
-				var urlPhoneNumber = decodeURIComponent(pnParam);
-				if (urlPhoneNumber != null) {
-					fetchConversation(urlPhoneNumber);
-					changeSelectedConversation($("a[mailbox-navigation='" + urlPhoneNumber + "']"));
-				}
-			}
-			// Don't show message headers if no conversation selected
-			else {
-				if ($('#app-content-header').is(':visible')) {
-					$('#app-content-header').hide();
-				}
-			}
-
-		});
-		fetchInitialSettings();
-		initDesktopNotifies();
-		setInterval(refreshConversation, 10000);
-		setInterval(checkNewMessages, 10000);
-	});
-
 	// reset count and title
 	window.onfocus = function () {
 		g_unreadCountCurrentConv = 0;
