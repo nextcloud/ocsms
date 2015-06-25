@@ -34,8 +34,8 @@ function arrayUnique(arr) {
 	return unq;
 }
 
-app.controller('OcSmsController', ['$scope', '$interval', '$timeout',
-	function ($scope, $interval, $timeout) {
+app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile',
+	function ($scope, $interval, $timeout, $compile) {
 		$scope.buttons = [
 			{text: "Send"}
 		];
@@ -48,10 +48,134 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout',
 
 			// phoneNumber must exist
 			if (contact.nav !== null) {
-				fetchConversation(contact.nav);
+				$scope.fetchConversation(contact.nav);
 				changeSelectedConversation($("a[mailbox-navigation='" + contact.nav + "']"));
 			}
 		};
+		$scope.fetchConversation = function (phoneNumber) {
+			$.getJSON(OC.generateUrl('/apps/ocsms/get/conversation'),
+				{
+					'phoneNumber': phoneNumber
+				},
+				function(jsondata, status) {
+					var phoneNumberLabel = phoneNumber;
+
+					if (typeof jsondata['phoneNumbers'] != 'undefined') {
+						phoneNumberList = arrayUnique(jsondata['phoneNumbers']);
+						phoneNumberLabel = phoneNumberList.toString();
+					}
+
+					var conversationBuf = formatConversation(jsondata)[1];
+					conversationBuf += '<div class="msg-endtag"></div>';
+					if (typeof jsondata['contactName'] == 'undefined' || jsondata['contactName'] == '') {
+						$('#ocsms-phone-label').html(phoneNumberLabel);
+						g_curContactName = phoneNumberLabel;
+						$('#ocsms-phone-opt-number').html('');
+					}
+					else {
+						$('#ocsms-phone-label').html(jsondata['contactName']);
+						g_curContactName = jsondata['contactName'];
+						$('#ocsms-phone-opt-number').html(phoneNumberLabel);
+					}
+
+					setMessageCountInfo(jsondata);
+
+					if ($('#app-content-header').is(':hidden')) {
+						$('#app-content-header').show();
+					}
+
+					if ($('#ocsms-conversation-removal').is(':hidden')) {
+						$('#ocsms-conversation-removal').show();
+					}
+
+					$('#app-content-wrapper').html(conversationBuf);
+					$('#app-content').scrollTop(1E10);
+
+					g_curPhoneNumber = phoneNumber;
+				}
+			);
+		}
+		$scope.checkNewMessages = function() {
+			g_unreadCountAllConv = 0;
+			$.getJSON(OC.generateUrl('/apps/ocsms/get/new_messages'),
+				{ 'lastDate': g_lastMsgDate },
+				function(jsondata, status) {
+					var peerListBuf = '';
+					var bufferedContacts = [];
+
+					$.each(jsondata['phonelist'], function(id, val) {
+						var fn, peerLabel, idxVal;
+						idxVal = id.replace(/\//g,' ');
+						idxVal2 = idxVal.replace('/ /g','');
+						if (typeof jsondata['contacts'][id] == 'undefined') {
+							fn = '';
+							peerLabel = idxVal;
+						}
+						else {
+							fn = jsondata['contacts'][id];
+							peerLabel = fn;
+						}
+
+						if (!inArray(peerLabel, bufferedContacts)) {
+							$("li[peer-label='" + peerLabel + "']").remove();
+							peerListBuf = '<li peer-label="' + peerLabel + '"><div class="ocsms-plavatar"';
+							if (typeof jsondata['photos'][peerLabel] != 'undefined') {
+								peerListBuf += 'style="background-image: url(' + jsondata['photos'][peerLabel] + ');"';
+							}
+							peerListBuf += '></div><a href="#" ng-click="loadConversation(' + idxVal2 + ');" mailbox-navigation="' +
+								idxVal2 + '" style="font-weight: bold;" mailbox-label="' + peerLabel + '">' + peerLabel + ' (' + val + ')</a></li>';
+
+							g_ulContactList.prepend(peerListBuf);
+							bufferedContacts.push(peerLabel);
+
+							// Re-set conversation because we reload the element
+							if (idxVal == g_curPhoneNumber) {
+								changeSelectedConversation($("a[mailbox-navigation='" + idxVal + "']"));
+							}
+
+							g_unreadCountAllConv += parseInt(val);	
+
+							// Now bind the events when we click on the phone number
+							$("a[mailbox-navigation='" + idxVal + "']").on('click', function (event) {
+								var phoneNumber = $(this).attr('mailbox-navigation');
+								OC.Util.History.pushState('phonenumber=' + phoneNumber);
+
+								// phoneNumber must exist
+								if (phoneNumber != null) {
+									$scope.fetchConversation(phoneNumber);
+									g_unreadCountAllConv += val;
+									changeSelectedConversation($(this));
+								}
+								event.preventDefault();
+							});
+						}
+					});
+
+					/*
+					* Decrement notification step counter, but stop it a zero
+					* Stop at zero permit to notify instanly the user when 
+					* there is new messages in all conversations
+					*/
+					
+					if (g_unreadCountNotifStep > 0) {
+						g_unreadCountNotifStep--;
+					}
+					
+					if (g_unreadCountAllConv > 0) {
+						/*
+						* We notify user every two minutes for all messages
+						* or if unreadCount changes
+						*/
+						if (g_unreadCountNotifStep == 0 || g_lastUnreadCountAllConv != g_unreadCountAllConv) {
+							desktopNotify(g_unreadCountAllConv + " unread message(s) for all conversations");
+							g_unreadCountNotifStep = 12;
+							g_lastUnreadCountAllConv = g_unreadCountAllConv;
+						}
+					}
+				}
+			);
+		};
+
 		$scope.removeConversation = function() {
 			$.post(OC.generateUrl('/apps/ocsms/delete/conversation'), {"contact": g_curContactName}, function(data) {
 				// Reinit main window
@@ -74,8 +198,54 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout',
 			});
 		};
 
+		$scope.fetchInitialSettings = function () {
+			$.getJSON(OC.generateUrl('/apps/ocsms/get/country'), function(jsondata, status) {
+				if (jsondata['status'] == true) {
+					$('#sel_intl_phone').val(jsondata["country"]);
+				}
+			});
+		}
+		$scope.fetchInitialPeerList = function (jsondata) {
+			// Use a buffer for better jQuery performance
+			var peerListBuf = "";
+			var bufferedContacts = [];
+
+			$.each(jsondata['phonelist'], function(id, val) {
+				var fn, peerLabel, idxVal;
+				idxVal = id.replace(/\//g,' ');
+				idxVal2 = idxVal.replace('/ /g','');
+				if (typeof jsondata['contacts'][id] == 'undefined') {
+					fn = '';
+					peerLabel = idxVal;
+				}
+				else {
+					fn = jsondata['contacts'][id];
+					peerLabel = fn;
+				}
+				if (!inArray(peerLabel, bufferedContacts)) {
+					$scope.addContact({'label': peerLabel, 'nav': idxVal2, 'avatar': jsondata['photos'][peerLabel]});
+					bufferedContacts.push(peerLabel);
+				}
+			});
+
+			g_lastMsgDate = jsondata["lastRead"];
+		}
+
+
+		$scope.initDesktopNotifies = function () {
+			if (!("Notification" in window)) {
+				return;
+			}
+			
+			Notification.requestPermission(function (permission) {
+				if(!('permission' in Notification)) {
+					Notification.permission = permission;
+				}
+			});
+		}
+
 		$interval(refreshConversation, 10000);
-		$interval(checkNewMessages, 10000);
+		$interval($scope.checkNewMessages, 10000);
 
 		$timeout(function () {
 			// Register real title
@@ -83,13 +253,13 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout',
 
 			// Now bind the events when we click on the phone number
 			$.getJSON(OC.generateUrl('/apps/ocsms/get/peerlist'), function(jsondata, status) {
-				fetchInitialPeerList(jsondata);
+				$scope.fetchInitialPeerList(jsondata);
 
 				var pnParam = $.urlParam('phonenumber');
 				if (pnParam != null) {
 					var urlPhoneNumber = decodeURIComponent(pnParam);
 					if (urlPhoneNumber != null) {
-						fetchConversation(urlPhoneNumber);
+						$scope.fetchConversation(urlPhoneNumber);
 						changeSelectedConversation($("a[mailbox-navigation='" + urlPhoneNumber + "']"));
 					}
 				}
@@ -101,8 +271,8 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout',
 				}
 
 			});
-			fetchInitialSettings();
-			initDesktopNotifies();
+			$scope.fetchInitialSettings();
+			$scope.initDesktopNotifies();
 		});
 	}
 ]);
@@ -157,87 +327,6 @@ var refreshConversation = function() {
 	);
 };
 
-var checkNewMessages = function() {
-	g_unreadCountAllConv = 0;
-	$.getJSON(OC.generateUrl('/apps/ocsms/get/new_messages'),
-		{ 'lastDate': g_lastMsgDate },
-		function(jsondata, status) {
-			var peerListBuf = '';
-			var bufferedContacts = [];
-
-			$.each(jsondata['phonelist'], function(id, val) {
-				var fn, peerLabel, idxVal;
-				idxVal = id.replace(/\//g,' ');
-				idxVal2 = idxVal.replace('/ /g','');
-				if (typeof jsondata['contacts'][id] == 'undefined') {
-					fn = '';
-					peerLabel = idxVal;
-				}
-				else {
-					fn = jsondata['contacts'][id];
-					peerLabel = fn;
-				}
-
-				if (!inArray(peerLabel, bufferedContacts)) {
-					$("li[peer-label='" + peerLabel + "']").remove();
-					peerListBuf = '<li peer-label="' + peerLabel + '"><div class="ocsms-plavatar"';
-					if (typeof jsondata['photos'][peerLabel] != 'undefined') {
-						peerListBuf += 'style="background-image: url(' + jsondata['photos'][peerLabel] + ');"';
-					}
-					peerListBuf += '></div><a href="#" ng-click="loadConversation(' + idxVal2 + ');" mailbox-navigation="' +
-						idxVal2 + '" style="font-weight: bold;" mailbox-label="' + peerLabel + '">' + peerLabel + ' (' + val + ')</a></li>';
-
-					g_ulContactList.prepend(peerListBuf);
-					bufferedContacts.push(peerLabel);
-
-					// Re-set conversation because we reload the element
-					if (idxVal == g_curPhoneNumber) {
-						changeSelectedConversation($("a[mailbox-navigation='" + idxVal + "']"));
-					}
-
-					g_unreadCountAllConv += parseInt(val);	
-
-					// Now bind the events when we click on the phone number
-					$("a[mailbox-navigation='" + idxVal + "']").on('click', function (event) {
-						var phoneNumber = $(this).attr('mailbox-navigation');
-						OC.Util.History.pushState('phonenumber=' + phoneNumber);
-
-						// phoneNumber must exist
-						if (phoneNumber != null) {
-							fetchConversation(phoneNumber);
-							g_unreadCountAllConv += val;
-							changeSelectedConversation($(this));
-						}
-						event.preventDefault();
-					});
-				}
-			});
-
-			/*
-			* Decrement notification step counter, but stop it a zero
-			* Stop at zero permit to notify instanly the user when 
-			* there is new messages in all conversations
-			*/
-			
-			if (g_unreadCountNotifStep > 0) {
-				g_unreadCountNotifStep--;
-			}
-			
-			if (g_unreadCountAllConv > 0) {
-				/*
-				* We notify user every two minutes for all messages
-				* or if unreadCount changes
-				*/
-				if (g_unreadCountNotifStep == 0 || g_lastUnreadCountAllConv != g_unreadCountAllConv) {
-					desktopNotify(g_unreadCountAllConv + " unread message(s) for all conversations");
-					g_unreadCountNotifStep = 12;
-					g_lastUnreadCountAllConv = g_unreadCountAllConv;
-				}
-			}
-		}
-	);
-};
-
 function setMessageCountInfo(jsondata) {
 	if (typeof jsondata['msgCount'] != 'undefined') {
 		if (jsondata['msgCount'] == 1) {
@@ -250,50 +339,6 @@ function setMessageCountInfo(jsondata) {
 	else {
 		$('#ocsms-phone-msg-nb').html('');
 	}
-}
-
-function fetchConversation(phoneNumber) {
-	$.getJSON(OC.generateUrl('/apps/ocsms/get/conversation'),
-		{
-			'phoneNumber': phoneNumber
-		},
-		function(jsondata, status) {
-			var phoneNumberLabel = phoneNumber;
-
-			if (typeof jsondata['phoneNumbers'] != 'undefined') {
-				phoneNumberList = arrayUnique(jsondata['phoneNumbers']);
-				phoneNumberLabel = phoneNumberList.toString();
-			}
-
-			var conversationBuf = formatConversation(jsondata)[1];
-			conversationBuf += '<div class="msg-endtag"></div>';
-			if (typeof jsondata['contactName'] == 'undefined' || jsondata['contactName'] == '') {
-				$('#ocsms-phone-label').html(phoneNumberLabel);
-				g_curContactName = phoneNumberLabel;
-				$('#ocsms-phone-opt-number').html('');
-			}
-			else {
-				$('#ocsms-phone-label').html(jsondata['contactName']);
-				g_curContactName = jsondata['contactName'];
-				$('#ocsms-phone-opt-number').html(phoneNumberLabel);
-			}
-
-			setMessageCountInfo(jsondata);
-
-			if ($('#app-content-header').is(':hidden')) {
-				$('#app-content-header').show();
-			}
-
-			if ($('#ocsms-conversation-removal').is(':hidden')) {
-				$('#ocsms-conversation-removal').show();
-			}
-
-			$('#app-content-wrapper').html(conversationBuf);
-			$('#app-content').scrollTop(1E10);
-
-			g_curPhoneNumber = phoneNumber;
-		}
-	);
 }
 
 // Return (int) msgCount, (str) htmlConversation
@@ -367,45 +412,6 @@ function changeSelectedConversation(item) {
 	g_selectedConversation.html(g_selectedConversation.attr("mailbox-label"));
 }
 
-function fetchInitialPeerList(jsondata) {
-	// Use a buffer for better jQuery performance
-	var peerListBuf = "";
-	var bufferedContacts = [];
-	var aScope = angular.element('[ng-controller="OcSmsController"]').scope();
-
-	$.each(jsondata['phonelist'], function(id, val) {
-		var fn, peerLabel, idxVal;
-		idxVal = id.replace(/\//g,' ');
-		idxVal2 = idxVal.replace('/ /g','');
-		if (typeof jsondata['contacts'][id] == 'undefined') {
-			fn = '';
-			peerLabel = idxVal;
-		}
-		else {
-			fn = jsondata['contacts'][id];
-			peerLabel = fn;
-		}
-		if (!inArray(peerLabel, bufferedContacts)) {
-			aScope.addContact({'label': peerLabel, 'nav': idxVal2, 'avatar': jsondata['photos'][peerLabel]});
-			bufferedContacts.push(peerLabel);
-		}
-	});
-
-	g_lastMsgDate = jsondata["lastRead"];
-}
-
-function initDesktopNotifies() {
-	if (!("Notification" in window)) {
-		return;
-	}
-	
-	Notification.requestPermission(function (permission) {
-		if(!('permission' in Notification)) {
-			Notification.permission = permission;
-		}
-	});
-}
-
 function desktopNotify(msg) {
 	if (!("Notification" in window)) {
 		return;
@@ -425,13 +431,6 @@ function desktopNotify(msg) {
 	}
 }
 
-function fetchInitialSettings() {
-	$.getJSON(OC.generateUrl('/apps/ocsms/get/country'), function(jsondata, status) {
-		if (jsondata['status'] == true) {
-			$('#sel_intl_phone').val(jsondata["country"]);
-		}
-	});
-}
 (function ($, OC) {
 	// reset count and title
 	window.onfocus = function () {
