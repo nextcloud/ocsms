@@ -66,7 +66,10 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 						phoneNumberLabel = phoneNumberList.toString();
 					}
 
+					// Reinit messages before showing conversation
+					$scope.messages = [];
 					$scope.formatConversation(jsondata);
+
 					if (typeof jsondata['contactName'] == 'undefined' || jsondata['contactName'] == '') {
 						$('#ocsms-phone-label').html(phoneNumberLabel);
 						g_curContactName = phoneNumberLabel;
@@ -242,6 +245,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			});
 		}
 		$scope.removeConversationMessage = function (msg) {
+			alert('test');
 			var len = $scope.messages.length;
 			for (var i=0; i < len; i++) {
 				var curMsg = $scope.messages[i];
