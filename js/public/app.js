@@ -40,6 +40,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			{text: "Send"}
 		];
 		$scope.contacts = [];
+		$scope.messages = []
 		$scope.sendCountry = function () {
 			$.post(OC.generateUrl('/apps/ocsms/set/country'),{'country': $('select[name=intl_phone]').val()});
 		};
@@ -171,9 +172,10 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 				g_curPhoneNumber = null;
 			});
 		};
-		$scope.removeMessage = function(messageId) {
-			alert('test');
-		};
+
+		/*
+		* Contact list management
+		*/
 		$scope.addContact = function (ct) {
 			$scope.$apply(function () {
 				$scope.contacts.push(ct);
@@ -190,6 +192,25 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 				var curCt = $scope.contacts[i];
 				if (curCt['nav'] == ct['nav']) {
 					$scope.contacts.splice(i, 1);
+					return;
+				}
+			}
+		}
+
+		/*
+		* Conversation messagelist management
+		*/
+		$scope.addConversationMessage = function (msg) {
+			$scope.$apply(function () {
+				$scope.messages.push(msg);
+			});
+		}
+		$scope.removeConversationMessage = function (msg) {
+			var len = $scope.messages.length;
+			for (var i=0; i < len; i++) {
+				var curMsg = $scope.messages[i];
+				if (curMsg['id'] == msg['id']) {
+					$scope.messages.splice(i, 1);
 					return;
 				}
 			}
@@ -241,7 +262,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			});
 		}
 
-		$interval(refreshConversation, 10000);
+		//$interval(refreshConversation, 10000);
 		$interval($scope.checkNewMessages, 10000);
 
 		$timeout(function () {
@@ -386,7 +407,7 @@ function formatConversation(jsondata) {
 
 		buf += '<div><div class="' + msgClass + '"><div>' +
 			vals["msg"] + '</div>' + 
-			'<div style="display: block;" id="ocsms-message-removal" class="icon-delete svn delete action" ng-click="removeMessage(' + id + ');"></div>' +
+			'<div style="display: block;" id="ocsms-message-removal" class="icon-delete svn delete action" ng-click="removeConversationMessage(' + id + ');"></div>' +
 			'<div class="msg-date">' + formatedDate + '</div>' +
 			'</div><div class="msg-spacer"></div></div>';
 		msgCount++;
