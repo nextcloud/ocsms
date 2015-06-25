@@ -143,7 +143,7 @@ var refreshConversation = function() {
 				}
 				
 			}
-
+			
 			setMessageCountInfo(jsondata);
 			if ($('#ocsms-conversation-removal').is(':hidden')) {
 				$('#ocsms-conversation-removal').show();
@@ -428,8 +428,6 @@ function fetchInitialSettings() {
 	$.getJSON(OC.generateUrl('/apps/ocsms/get/country'), function(jsondata, status) {
 		if (jsondata['status'] == true) {
 			$('#sel_intl_phone').val(jsondata["country"]);
-		}
-		else {
 		}
 	});
 }
