@@ -37,10 +37,10 @@ use \OCA\OcSms\Lib\CountryCodes;
 			
 		</div>
 		<div id="app-content-wrapper">
-			<div id="ocsms-empty-conversation">Please choose a conversation on the left menu</div>
+			<div ng-show="messages.length == 0" id="ocsms-empty-conversation">Please choose a conversation on the left menu</div>
 			<div ng-repeat="message in messages">
-				<div class="msg-{{ message.type }}">{{ message.content }}
-				<div>
+				<div class="msg-{{ message.type }}">
+					<div>{{ message.content }}</div>
 					<div style="display: block;" id="ocsms-message-removal" class="icon-delete svn delete action" ng-click="removeConversationMessage({{ message.id }});"></div>
 					<div class="msg-date">{{ message.date }}</div>
 				</div>

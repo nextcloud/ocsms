@@ -40,7 +40,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			{text: "Send"}
 		];
 		$scope.contacts = [];
-		$scope.messages = []
+		$scope.messages = [];
 		$scope.sendCountry = function () {
 			$.post(OC.generateUrl('/apps/ocsms/set/country'),{'country': $('select[name=intl_phone]').val()});
 		};
@@ -66,8 +66,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 						phoneNumberLabel = phoneNumberList.toString();
 					}
 
-					var conversationBuf = formatConversation(jsondata)[1];
-					conversationBuf += '<div class="msg-endtag"></div>';
+					$scope.formatConversation(jsondata);
 					if (typeof jsondata['contactName'] == 'undefined' || jsondata['contactName'] == '') {
 						$('#ocsms-phone-label').html(phoneNumberLabel);
 						g_curContactName = phoneNumberLabel;
@@ -89,13 +88,50 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 						$('#ocsms-conversation-removal').show();
 					}
 
-					$('#app-content-wrapper').html(conversationBuf);
 					$('#app-content').scrollTop(1E10);
 
 					g_curPhoneNumber = phoneNumber;
 				}
 			);
-		}
+		};
+		$scope.refreshConversation = function() {
+			// if no conversation selected, then don't fetch page
+			if (g_curPhoneNumber == null) {
+				if ($('#app-content-header').is(':visible')) {
+					$('#app-content-header').hide();
+				}
+				return;
+			}
+			$.getJSON(OC.generateUrl('/apps/ocsms/get/conversation'),
+				{
+					'phoneNumber': g_curPhoneNumber,
+					"lastDate": g_lastMsgDate
+				},
+				function(jsondata, status) {
+					var fmt = $scope.formatConversation(jsondata);
+					conversationBuf = fmt[1];
+					if (conversationBuf == true) {
+						$('#app-content').scrollTop(1E10);
+						// This will blink the tab because there is new messages
+						if (document.hasFocus() == false) {
+							g_unreadCountCurrentConv += fmt[0];
+							document.title = g_originalTitle + " (" + g_unreadCountCurrentConv + ")";
+							desktopNotify(g_unreadCountCurrentConv + " unread message(s) in conversation with " + g_curContactName);
+						}
+						
+					}
+					
+					setMessageCountInfo(jsondata);
+					if ($('#ocsms-conversation-removal').is(':hidden')) {
+						$('#ocsms-conversation-removal').show();
+					}
+
+					if ($('#app-content-header').is(':hidden')) {
+						$('#app-content-header').show();
+					}
+				}
+			);
+		};
 		$scope.checkNewMessages = function() {
 			g_unreadCountAllConv = 0;
 			$.getJSON(OC.generateUrl('/apps/ocsms/get/new_messages'),
@@ -247,7 +283,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			});
 
 			g_lastMsgDate = jsondata["lastRead"];
-		}
+		};
 
 
 		$scope.initDesktopNotifies = function () {
@@ -260,9 +296,63 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 					Notification.permission = permission;
 				}
 			});
+		};
+
+		// Return (int) msgCount, (str) htmlConversation
+		$scope.formatConversation = function (jsondata) {
+			// Improve jQuery performance
+			var buf = false;
+			// Improve JS performance
+			var msgClass = '';
+
+			var msgCount = 0;
+			var formatedDate = '';
+			var formatedHour = '00';
+			var formatedMin = '00';
+			var months = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'Jun.', 'Jul.', 'Aug.', 'Sep.',
+				'Oct.', 'Nov.', 'Dec.'];
+
+			$.each(jsondata["conversation"], function(id, vals) {
+				if (vals["type"] == 1) {
+					msgClass = "recv";
+				}
+				else if (vals["type"] == 2) {
+					msgClass = "sent";
+				}
+				else {
+					msgClass = '';
+				}
+
+				// Store the greater msg date for refresher
+				// Note: we divide by 100 because number compare too large integers
+				if ((id/100) > (g_lastMsgDate/100)) {
+					g_lastMsgDate = id;
+				}
+
+				// Multiplicate ID to permit date to use it properly
+				msgDate = new Date(id*1);
+
+				formatedHour = msgDate.getHours();
+				if (formatedHour < 10) {
+					formatedHour = '0' + formatedHour;
+				}
+
+				formatedMin = msgDate.getMinutes();
+				if (formatedMin < 10) {
+					formatedMin = '0' + formatedMin;
+				}
+				formatedDate = msgDate.getDate() + " " + months[msgDate.getMonth()] + " " +
+					formatedHour + ":" + formatedMin;
+
+				$scope.addConversationMessage({'id': id, 'type': msgClass, 'date': formatedDate, 'content': vals['msg']});
+				buf = true;
+				msgCount++;
+
+			});
+			return [msgCount,buf];
 		}
 
-		//$interval(refreshConversation, 10000);
+		$interval($scope.refreshConversation, 10000);
 		$interval($scope.checkNewMessages, 10000);
 
 		$timeout(function () {
@@ -305,46 +395,6 @@ $.urlParam = function(name){
 	}
 };
 
-var refreshConversation = function() {
-	// if no conversation selected, then don't fetch page
-	if (g_curPhoneNumber == null) {
-		if ($('#app-content-header').is(':visible')) {
-			$('#app-content-header').hide();
-		}
-		return;
-	}
-	$.getJSON(OC.generateUrl('/apps/ocsms/get/conversation'),
-		{
-			'phoneNumber': g_curPhoneNumber,
-			"lastDate": g_lastMsgDate
-		},
-		function(jsondata, status) {
-			var fmt = formatConversation(jsondata);
-			conversationBuf = fmt[1];
-			if (conversationBuf != '') {
-				$('.msg-endtag').before(conversationBuf);
-				$('#app-content').scrollTop(1E10);
-				// This will blink the tab because there is new messages
-				if (document.hasFocus() == false) {
-					g_unreadCountCurrentConv += fmt[0];
-					document.title = g_originalTitle + " (" + g_unreadCountCurrentConv + ")";
-					desktopNotify(g_unreadCountCurrentConv + " unread message(s) in conversation with " + g_curContactName);
-				}
-				
-			}
-			
-			setMessageCountInfo(jsondata);
-			if ($('#ocsms-conversation-removal').is(':hidden')) {
-				$('#ocsms-conversation-removal').show();
-			}
-
-			if ($('#app-content-header').is(':hidden')) {
-				$('#app-content-header').show();
-			}
-		}
-	);
-};
-
 function setMessageCountInfo(jsondata) {
 	if (typeof jsondata['msgCount'] != 'undefined') {
 		if (jsondata['msgCount'] == 1) {
@@ -357,63 +407,6 @@ function setMessageCountInfo(jsondata) {
 	else {
 		$('#ocsms-phone-msg-nb').html('');
 	}
-}
-
-// Return (int) msgCount, (str) htmlConversation
-function formatConversation(jsondata) {
-	// Improve jQuery performance
-	var buf = "";
-	// Improve JS performance
-	var msgClass = '';
-
-	var msgCount = 0;
-	var formatedDate = '';
-	var formatedHour = '00';
-	var formatedMin = '00';
-	var months = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'Jun.', 'Jul.', 'Aug.', 'Sep.',
-		'Oct.', 'Nov.', 'Dec.'];
-
-	$.each(jsondata["conversation"], function(id, vals) {
-		if (vals["type"] == 1) {
-			msgClass = "msg-recv";
-		}
-		else if (vals["type"] == 2) {
-			msgClass = "msg-sent";
-		}
-		else {
-			msgClass = '';
-		}
-
-		// Store the greater msg date for refresher
-		// Note: we divide by 100 because number compare too large integers
-		if ((id/100) > (g_lastMsgDate/100)) {
-			g_lastMsgDate = id;
-		}
-
-		// Multiplicate ID to permit date to use it properly
-		msgDate = new Date(id*1);
-
-		formatedHour = msgDate.getHours();
-		if (formatedHour < 10) {
-			formatedHour = '0' + formatedHour;
-		}
-
-		formatedMin = msgDate.getMinutes();
-		if (formatedMin < 10) {
-			formatedMin = '0' + formatedMin;
-		}
-		formatedDate = msgDate.getDate() + " " + months[msgDate.getMonth()] + " " +
-			formatedHour + ":" + formatedMin;
-
-		buf += '<div><div class="' + msgClass + '"><div>' +
-			vals["msg"] + '</div>' + 
-			'<div style="display: block;" id="ocsms-message-removal" class="icon-delete svn delete action" ng-click="removeConversationMessage(' + id + ');"></div>' +
-			'<div class="msg-date">' + formatedDate + '</div>' +
-			'</div><div class="msg-spacer"></div></div>';
-		msgCount++;
-
-	});
-	return [msgCount,buf];
 }
 
 function changeSelectedConversation(item) {
