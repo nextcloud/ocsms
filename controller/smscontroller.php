@@ -16,6 +16,7 @@ use \OCP\IRequest;
 use \OCP\AppFramework\Http\TemplateResponse;
 use \OCP\AppFramework\Controller;
 use \OCP\AppFramework\Http\JSONResponse;
+use \OCP\AppFramework\Http;
 
 use \OCA\OcSms\AppInfo\OcSmsApp;
 
@@ -217,6 +218,10 @@ class SmsController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function deleteMessage ($messageId, $phoneNumber) {
+		if (!preg_match('#^[0-9]+$#',$messageId)) {
+			return new JSONResponse(array(), Http::STATUS_BAD_REQUEST);
+		}
+		$this->smsMapper->removeMessage($this->userId, $phoneNumber, $messageId);
 		return new JSONResponse(array());
 	}
 

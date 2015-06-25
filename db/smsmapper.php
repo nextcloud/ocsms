@@ -181,6 +181,18 @@ class SmsMapper extends Mapper {
 		\OCP\DB::commit();
 	}
 
+	/*
+	* WARN: messageId is sms_date here
+	*/
+	public function removeMessage ($userId, $phoneNumber, $messageId)  {
+		\OCP\DB::beginTransaction();
+		$query = \OCP\DB::prepare('DELETE FROM ' .
+		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_address = ? ' .
+		'AND sms_date = ?');
+		$query->execute(array($userId, $phoneNumber, $messageId));
+		\OCP\DB::commit();
+	}
+
 	public function getLastMessageTimestampForAllPhonesNumbers ($userId, $order = true) {
 		$sql = 'SELECT sms_address,MAX(sms_date) as mx FROM ' .
 		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_mailbox IN (?,?) ' .

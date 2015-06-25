@@ -54,10 +54,8 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			}
 		};
 		$scope.fetchConversation = function (phoneNumber) {
-			$.getJSON(OC.generateUrl('/apps/ocsms/get/conversation'),
-				{
-					'phoneNumber': phoneNumber
-				},
+			$scope.messages = [];
+			$.getJSON(OC.generateUrl('/apps/ocsms/get/conversation'), {'phoneNumber': phoneNumber},
 				function(jsondata, status) {
 					var phoneNumberLabel = phoneNumber;
 
@@ -67,7 +65,6 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 					}
 
 					// Reinit messages before showing conversation
-					$scope.messages = [];
 					$scope.formatConversation(jsondata);
 
 					if (typeof jsondata['contactName'] == 'undefined' || jsondata['contactName'] == '') {
@@ -204,10 +201,12 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 				$('#ocsms-phone-label').html('');
 				$('#ocsms-phone-opt-number').html('');
 				$('#ocsms-phone-msg-nb').html('');
-				$('#app-content-wrapper').html('<div id="ocsms-empty-conversation">Please choose a conversation on the left menu</div>');
 				$('#ocsms-conversation-removal').hide();
 				$('#app-content-header').hide();
-				$("li[peer-label='" + g_curContactName + "']").remove();
+				$scope.removeContact({'nav': g_curPhoneNumber});
+				$scope.$apply(function () {
+					$scope.messages = [];
+				});
 				g_curPhoneNumber = null;
 			});
 		};
@@ -230,7 +229,9 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			for (var i=0; i < len; i++) {
 				var curCt = $scope.contacts[i];
 				if (curCt['nav'] == ct['nav']) {
-					$scope.contacts.splice(i, 1);
+					$scope.$apply(function () {
+						$scope.contacts.splice(i, 1);
+					});
 					return;
 				}
 			}
@@ -244,13 +245,16 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 				$scope.messages.push(msg);
 			});
 		}
-		$scope.removeConversationMessage = function (msg) {
-			alert('test');
+		$scope.removeConversationMessage = function (msgId) {
 			var len = $scope.messages.length;
 			for (var i=0; i < len; i++) {
 				var curMsg = $scope.messages[i];
-				if (curMsg['id'] == msg['id']) {
-					$scope.messages.splice(i, 1);
+				if (curMsg['id'] == msgId) {
+					$.post(OC.generateUrl('/apps/ocsms/delete/message'), {"messageId": msgId, "phoneNumber": g_curContactName}, function(data) {
+						$scope.$apply(function () {
+							$scope.messages.splice(i, 1);
+						});
+					});
 					return;
 				}
 			}
