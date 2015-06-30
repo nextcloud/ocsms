@@ -23,10 +23,11 @@ ownCloud SMS (OcSMS) web application is currently under AGPL licence but this fr
 ### Installation
 1. Download the [latest release](https://github.com/nerzhul/ocsms/releases)
 2. Place this app in **owncloud/apps/** and unpack it
-3. Activate the app in https://your-owncloud/index.php/settings/apps?installed
-4. Download the Android client from [Google Play](https://play.google.com/store/apps/details?id=fr.unix_experience.owncloud_sms)
-5. Activate the Android client by adding an account in your phone settings
-6. Choose your language into ocsms ownCloud app setting at the bottom of the contact list
+3. Rename folder to ocsms if it's not the correct name
+4. Activate the app in https://your-owncloud/index.php/settings/apps?installed
+5. Download the Android client from [Google Play](https://play.google.com/store/apps/details?id=fr.unix_experience.owncloud_sms)
+6. Activate the Android client by adding an account in your phone settings
+7. Choose your language into ocsms ownCloud app setting at the bottom of the contact list
 
 
 ### Owncloud SMS core issues
