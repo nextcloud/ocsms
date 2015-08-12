@@ -65,6 +65,7 @@ class CountryCodes {
 		"Russia" => "+7",
 		"San Marino" => "+378",
 		"Serbia" => "+381",
+		"Singapore" => "+65",
 		"Slovakia" => "+421",
 		"Slovenia" => "+386",
 		"South Africa" => "+27",
