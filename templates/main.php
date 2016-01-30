@@ -20,16 +20,27 @@ use \OCA\OcSms\Lib\CountryCodes;
 			<button name="app settings" class="settings-button" data-apps-slide-toggle="#app-settings-content"></button>
 		</div>
 		<div id="app-settings-content">
-			<label for="setting_msg_per_page">Max messages on tab loading:</label>
+			<div><label for="setting_msg_per_page">Max messages on tab loading</label>
 			<input type="number" min="10" max="10000" name="setting_msg_per_page" ng-model="setting_msgLimit" ng-change="setMessageLimit()"></input>
 			<span class="label-invalid-input" ng-if="setting_msgLimit == null || setting_msgLimit == undefined">Invalid message limit</span>
+			</div>
 
+			<div><label for="intl_phone">Country code</label>
 			<select name="intl_phone" id="sel_intl_phone">
 			<?php foreach (CountryCodes::$codes as $code => $cval) { ?>
 			<option><?php p($code); ?></option>
 			<?php } ?>
 			</select>
 			<button class="new-button primary icon-checkmark-white" ng-click="sendCountry();"></button>
+			</div>
+
+			<div>
+			<label for"setting_notif">Notification settings</label>
+			<select name="setting_notif" ng-model="setting_enableNotifications" ng-change="setNotificationSetting()">
+			<option value="1">Enable</option>
+			<option value="0">Disable</option>
+			</select>
+			</div>
 		</div> <!-- app-settings-content -->
 	</div>
 

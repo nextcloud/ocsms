@@ -24,6 +24,7 @@ $application->registerRoutes($this, array('routes' => array(
 	array('name' => 'settings#set_country', 'url'=> '/set/country', 'verb' => 'POST'),
 	array('name' => 'settings#get_settings', 'url'=> '/get/settings', 'verb' => 'GET'),
 	array('name' => 'settings#set_messagelimit', 'url'=> '/set/msglimit', 'verb' => 'POST'),
+	array('name' => 'settings#set_notification_state', 'url'=> '/set/notification_state', 'verb' => 'POST'),
 
 	array('name' => 'api#get_api_version', 'url' => '/get/apiversion', 'verb' => 'GET'), // Android APIv1
 	array('name' => 'api#push', 'url' => '/push', 'verb' => 'POST'), // Android API

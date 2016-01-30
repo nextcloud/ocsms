@@ -39,7 +39,10 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 		$scope.buttons = [
 			{text: "Send"}
 		];
+
 		$scope.setting_msgLimit = 100;
+		$scope.setting_enableNotifications = 1;
+
 		$scope.contacts = [];
 		$scope.messages = [];
 		$scope.totalMessageCount = 0;
@@ -53,6 +56,14 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 				return;
 			}
 			$.post(OC.generateUrl('/apps/ocsms/set/msglimit'),{'limit': $scope.setting_msgLimit});
+		};
+
+		$scope.setNotificationSetting = function () {
+			if ($scope.setting_enableNotifications < 0 || $scope.setting_enableNotifications > 2) {
+				$scope.setting_enableNotifications = 0;
+				return;
+			}
+			$.post(OC.generateUrl('/apps/ocsms/set/notification_state'),{'notification': $scope.setting_enableNotifications});
 		};
 
 		// Conversations
@@ -128,7 +139,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 						if (document.hasFocus() == false) {
 							g_unreadCountCurrentConv += fmt[0];
 							document.title = g_originalTitle + " (" + g_unreadCountCurrentConv + ")";
-							desktopNotify(g_unreadCountCurrentConv + " unread message(s) in conversation with " + g_curContactName);
+							$scope.desktopNotify(g_unreadCountCurrentConv + " unread message(s) in conversation with " + g_curContactName);
 						}
 						
 					}
@@ -199,7 +210,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 						* or if unreadCount changes
 						*/
 						if (g_unreadCountNotifStep == 0 || g_lastUnreadCountAllConv != g_unreadCountAllConv) {
-							desktopNotify(g_unreadCountAllConv + " unread message(s) for all conversations");
+							$scope.desktopNotify(g_unreadCountAllConv + " unread message(s) for all conversations");
 							g_unreadCountNotifStep = 12;
 							g_lastUnreadCountAllConv = g_unreadCountAllConv;
 						}
@@ -276,8 +287,12 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			$.getJSON(OC.generateUrl('/apps/ocsms/get/settings'), function(jsondata, status) {
 				if (jsondata['status'] == true) {
 					$('#sel_intl_phone').val(jsondata["country"]);
+
 					$('input[name=setting_msg_per_page]').val(jsondata["message_limit"]);
+					$('select[name=setting_notif]').val(jsondata["notification_state"]);
+
 					$scope.setting_msgLimit = jsondata["message_limit"];
+					$scope.setting_enableNotifications = jsondata["notification_state"];
 				}
 			});
 		}
@@ -355,6 +370,29 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			return [msgCount,buf];
 		}
 
+		$scope.desktopNotify = function (msg) {
+			if ($scope.setting_enableNotifications == 0) {
+				return;
+			}
+
+			if (!("Notification" in window)) {
+				return;
+			}
+			else if (Notification.permission === "granted") {
+				new Notification("ownCloud SMS - " + msg);
+			}
+			else if (Notification.permission !== 'denied') {
+				Notification.requestPermission(function (permission) {
+					if(!('permission' in Notification)) {
+						Notification.permission = permission;
+					}
+					if (permission === "granted") {
+						new Notification("ownCloud SMS - " + msg);
+					}
+				});
+			}
+		}
+
 		$interval($scope.refreshConversation, 10000);
 		$interval($scope.checkNewMessages, 10000);
 
@@ -410,25 +448,6 @@ function changeSelectedConversation(item) {
 	g_selectedConversation.parent().addClass('selected');
 	g_selectedConversation.css("font-weight", "normal");
 	g_selectedConversation.html(g_selectedConversation.attr("mailbox-label"));
-}
-
-function desktopNotify(msg) {
-	if (!("Notification" in window)) {
-		return;
-	}
-	else if (Notification.permission === "granted") {
-		new Notification("ownCloud SMS - " + msg);
-	}
-	else if (Notification.permission !== 'denied') {
-		Notification.requestPermission(function (permission) {
-			if(!('permission' in Notification)) {
-				Notification.permission = permission;
-			}
-			if (permission === "granted") {
-				new Notification("ownCloud SMS - " + msg);
-			}
-		});
-	}
 }
 
 (function ($, OC) {

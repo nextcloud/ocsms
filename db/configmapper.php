@@ -82,6 +82,15 @@ class ConfigMapper extends Mapper {
 		}
 		return $limit;
 	}
+
+	public function getNotificationState () {
+		$st = $this->getKey("notification_state");
+		// Default state is 1/enabled
+		if ($st === false) {
+			$st = 1;
+		}
+		return $st;
+	}
 };
 
 ?>

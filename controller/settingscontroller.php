@@ -35,6 +35,22 @@ class SettingsController extends Controller {
 	}
 
 	/**
+	* @NoAdminRequired
+	*/
+	function getSettings() {
+		$country = $this->configMapper->getKey("country");
+		if ($country === false) {
+			return new JSONResponse(array("status" => false));
+		}
+
+		return new JSONResponse(array("status" => true,
+			"country" => $country,
+			"message_limit" => $this->configMapper->getMessageLimit(),
+			"notification_state" => $this->configMapper->getNotificationState()
+		));
+	}
+
+	/**
 	 * @NoAdminRequired
 	 */
 	function setCountry($country) {
@@ -46,20 +62,6 @@ class SettingsController extends Controller {
 	}
 
 	/**
-	* @NoAdminRequired
-	*/
-	function getSettings() {
-		$country = $this->configMapper->getKey("country");
-		if ($country === false) {
-			return new JSONResponse(array("status" => false));
-		}
-		$message_limit = $this->configMapper->getKey("message_limit");
-		return new JSONResponse(array("status" => true,
-			"country" => $country,
-			"message_limit" => $message_limit));
-	}
-
-	/**
 	 * @NoAdminRequired
 	 */
 	function setMessageLimit($limit) {
@@ -67,4 +69,14 @@ class SettingsController extends Controller {
 		return new JSONResponse(array("status" => true, "msg" => "OK"));
 	}
 
+	/**
+	 * @NoAdminRequired
+	 */
+	function setNotificationState($notification) {
+		if (!is_numeric($notification) || $notification < 0 || $notification > 2) {
+			return new JSONResponse(array("status" => false, "msg" => "Invalid notification state"));
+		}
+		$this->configMapper->set("notification_state", $notification);
+		return new JSONResponse(array("status" => true, "msg" => "OK"));
+	}
 }
