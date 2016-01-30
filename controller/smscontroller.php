@@ -227,38 +227,4 @@ class SmsController extends Controller {
 		$this->smsMapper->removeMessage($this->userId, $phoneNumber, $messageId);
 		return new JSONResponse(array());
 	}
-
-	/**
-	 * @NoAdminRequired
-	 */
-	function setCountry($country) {
-		if (!array_key_exists($country, CountryCodes::$codes)) {
-			return new JSONResponse(array("status" => false, "msg" => "Invalid country"));
-		}
-		$this->configMapper->set("country", $country);
-		return new JSONResponse(array("status" => true, "msg" => "OK"));
-	}
-
-	/**
-	* @NoAdminRequired
-	*/
-	function getSettings() {
-		$country = $this->configMapper->getKey("country");
-		if ($country === false) {
-			return new JSONResponse(array("status" => false));
-		}
-		$message_limit = $this->configMapper->getKey("message_limit");
-		return new JSONResponse(array("status" => true,
-			"country" => $country,
-			"message_limit" => $message_limit));
-	}
-
-	/**
-	 * @NoAdminRequired
-	 */
-	function setMessageLimit($limit) {
-		$this->configMapper->set("message_limit", $limit);
-		return new JSONResponse(array("status" => true, "msg" => "OK"));
-	}
-
 }

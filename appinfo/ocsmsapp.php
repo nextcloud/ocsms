@@ -16,6 +16,7 @@ namespace OCA\OcSms\AppInfo;
 use \OCP\AppFramework\App;
 
 use \OCA\OcSms\Controller\ApiController;
+use \OCA\OcSms\Controller\SettingsController;
 use \OCA\OcSms\Controller\SmsController;
 
 use \OCA\OcSms\Db\Sms;
@@ -72,6 +73,15 @@ class OcSmsApp extends App {
 		/**
 		 * Controllers
 		 */
+		$container->registerService('SettingsController', function($c) use($app) {
+			return new SettingsController(
+				$c->query('AppName'),
+				$c->query('Request'),
+				$c->query('ConfigMapper'),
+				$app
+			);
+		});
+
 		$container->registerService('SmsController', function($c) use($app) {
 			return new SmsController(
 				$c->query('AppName'),
