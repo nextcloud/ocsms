@@ -21,7 +21,8 @@ $application->registerRoutes($this, array('routes' => array(
 	array('name' => 'sms#check_new_messages', 'url' => '/get/new_messages', 'verb' => 'GET'),
 	array('name' => 'sms#delete_message', 'url' => '/delete/message', 'verb' => 'POST'),
 	array('name' => 'sms#set_country', 'url'=> '/set/country', 'verb' => 'POST'),
-	array('name' => 'sms#get_country', 'url'=> '/get/country', 'verb' => 'GET'),
+	array('name' => 'sms#get_settings', 'url'=> '/get/settings', 'verb' => 'GET'),
+	array('name' => 'sms#set_messagelimit', 'url'=> '/set/msglimit', 'verb' => 'POST'),
 
 	array('name' => 'api#get_api_version', 'url' => '/get/apiversion', 'verb' => 'GET'), // Android APIv1
 	array('name' => 'api#push', 'url' => '/push', 'verb' => 'POST'), // Android API

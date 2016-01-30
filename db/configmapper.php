@@ -74,6 +74,14 @@ class ConfigMapper extends Mapper {
 	* Helpers for different config options
 	*/
 	public function getCountry () { return $this->getKey("country"); }
+	public function getMessageLimit () {
+		$limit = $this->getKey("message_limit");
+		// Default limit is 500 messages
+		if ($limit === false) {
+			$limit = 500;
+		}
+		return $limit;
+	}
 };
 
 ?>

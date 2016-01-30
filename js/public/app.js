@@ -39,11 +39,23 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 		$scope.buttons = [
 			{text: "Send"}
 		];
+		$scope.setting_msgLimit = 100;
 		$scope.contacts = [];
 		$scope.messages = [];
+		$scope.totalMessageCount = 0;
+		// Settings
 		$scope.sendCountry = function () {
 			$.post(OC.generateUrl('/apps/ocsms/set/country'),{'country': $('select[name=intl_phone]').val()});
 		};
+
+		$scope.setMessageLimit = function () {
+			if ($scope.setting_msgLimit === null || $scope.setting_msgLimit === undefined) {
+				return;
+			}
+			$.post(OC.generateUrl('/apps/ocsms/set/msglimit'),{'limit': $scope.setting_msgLimit});
+		};
+
+		// Conversations
 		$scope.loadConversation = function (contact) {
 			OC.Util.History.pushState('phonenumber=' + contact.nav);
 
@@ -78,7 +90,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 						$('#ocsms-phone-opt-number').html(phoneNumberLabel);
 					}
 
-					setMessageCountInfo(jsondata);
+					$scope.totalMessageCount = jsondata['msgCount'] !== undefined ? jsondata['msgCount'] : 0;
 
 					if ($('#app-content-header').is(':hidden')) {
 						$('#app-content-header').show();
@@ -121,7 +133,8 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 						
 					}
 					
-					setMessageCountInfo(jsondata);
+					$scope.totalMessageCount = jsondata['msgCount'] !== undefined ? jsondata['msgCount'] : 0;
+
 					if ($('#ocsms-conversation-removal').is(':hidden')) {
 						$('#ocsms-conversation-removal').show();
 					}
@@ -200,7 +213,6 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 				// Reinit main window
 				$('#ocsms-phone-label').html('');
 				$('#ocsms-phone-opt-number').html('');
-				$('#ocsms-phone-msg-nb').html('');
 				$('#ocsms-conversation-removal').hide();
 				$('#app-content-header').hide();
 				$scope.removeContact({'nav': g_curPhoneNumber});
@@ -261,9 +273,11 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 		}
 
 		$scope.fetchInitialSettings = function () {
-			$.getJSON(OC.generateUrl('/apps/ocsms/get/country'), function(jsondata, status) {
+			$.getJSON(OC.generateUrl('/apps/ocsms/get/settings'), function(jsondata, status) {
 				if (jsondata['status'] == true) {
 					$('#sel_intl_phone').val(jsondata["country"]);
+					$('input[name=setting_msg_per_page]').val(jsondata["message_limit"]);
+					$scope.setting_msgLimit = jsondata["message_limit"];
 				}
 			});
 		}
@@ -312,13 +326,8 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			var buf = false;
 			// Improve JS performance
 			var msgClass = '';
-
 			var msgCount = 0;
 			var formatedDate = '';
-			var formatedHour = '00';
-			var formatedMin = '00';
-			var months = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'Jun.', 'Jul.', 'Aug.', 'Sep.',
-				'Oct.', 'Nov.', 'Dec.'];
 
 			$.each(jsondata["conversation"], function(id, vals) {
 				if (vals["type"] == 1) {
@@ -338,21 +347,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 				}
 
 				// Multiplicate ID to permit date to use it properly
-				msgDate = new Date(id*1);
-
-				formatedHour = msgDate.getHours();
-				if (formatedHour < 10) {
-					formatedHour = '0' + formatedHour;
-				}
-
-				formatedMin = msgDate.getMinutes();
-				if (formatedMin < 10) {
-					formatedMin = '0' + formatedMin;
-				}
-				formatedDate = msgDate.getDate() + " " + months[msgDate.getMonth()] + " " +
-					formatedHour + ":" + formatedMin;
-
-				$scope.addConversationMessage({'id': id, 'type': msgClass, 'date': formatedDate, 'content': vals['msg']});
+				$scope.addConversationMessage({'id': id, 'type': msgClass, 'date': new Date(id * 1), 'content': vals['msg']});
 				buf = true;
 				msgCount++;
 
@@ -402,20 +397,6 @@ $.urlParam = function(name){
 		return results[1] || 0;
 	}
 };
-
-function setMessageCountInfo(jsondata) {
-	if (typeof jsondata['msgCount'] != 'undefined') {
-		if (jsondata['msgCount'] == 1) {
-			$('#ocsms-phone-msg-nb').html(jsondata['msgCount'] + ' message');
-		}
-		else {
-			$('#ocsms-phone-msg-nb').html(jsondata['msgCount'] + ' messages');
-		}
-	}
-	else {
-		$('#ocsms-phone-msg-nb').html('');
-	}
-}
 
 function changeSelectedConversation(item) {
 	if (item === 'undefined' || item == null) {

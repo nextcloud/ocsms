@@ -166,3 +166,11 @@
 	background-repeat: no-repeat;
 	height: 34px;
 }
+
+.label-invalid-input {
+	color: red;
+}
+
+label {
+	font-weight: bold;
+}

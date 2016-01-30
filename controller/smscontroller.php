@@ -137,6 +137,9 @@ class SmsController extends Controller {
 		}
 		// Order by id (date)
 		ksort($messages);
+		$msgLimit = $this->configMapper->getMessageLimit();
+		// Only load the last 500 messages
+		$messages = array_slice($messages, -$msgLimit, $msgLimit, true);
 
 		// Set the last read message for the conversation (all phone numbers)
 		if (count($messages) > 0) {
@@ -239,11 +242,23 @@ class SmsController extends Controller {
 	/**
 	* @NoAdminRequired
 	*/
-	function getCountry() {
+	function getSettings() {
 		$country = $this->configMapper->getKey("country");
 		if ($country === false) {
 			return new JSONResponse(array("status" => false));
 		}
-		return new JSONResponse(array("status" => true, "country" => $country));
+		$message_limit = $this->configMapper->getKey("message_limit");
+		return new JSONResponse(array("status" => true,
+			"country" => $country,
+			"message_limit" => $message_limit));
 	}
+
+	/**
+	 * @NoAdminRequired
+	 */
+	function setMessageLimit($limit) {
+		$this->configMapper->set("message_limit", $limit);
+		return new JSONResponse(array("status" => true, "msg" => "OK"));
+	}
+
 }

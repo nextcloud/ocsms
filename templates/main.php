@@ -20,6 +20,10 @@ use \OCA\OcSms\Lib\CountryCodes;
 			<button name="app settings" class="settings-button" data-apps-slide-toggle="#app-settings-content"></button>
 		</div>
 		<div id="app-settings-content">
+			<label for="setting_msg_per_page">Max messages on tab loading:</label>
+			<input type="number" min="10" max="10000" name="setting_msg_per_page" ng-model="setting_msgLimit" ng-change="setMessageLimit()"></input>
+			<span class="label-invalid-input" ng-if="setting_msgLimit == null || setting_msgLimit == undefined">Invalid message limit</span>
+
 			<select name="intl_phone" id="sel_intl_phone">
 			<?php foreach (CountryCodes::$codes as $code => $cval) { ?>
 			<option><?php p($code); ?></option>
@@ -33,7 +37,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 		<div id="app-content-header" style="display: none;">	
 			<div id="ocsms-phone-label"></div><div id="ocsms-conversation-removal" class="icon-delete svn delete action" ng-click="removeConversation();"></div>
 			<div id="ocsms-phone-opt-number"></div>
-			<div id="ocsms-phone-msg-nb"></div>
+			<div id="ocsms-phone-msg-nb">{{ messages.length }} message(s) shown. {{ totalMessageCount }} message(s) stored in database.</div>
 			
 		</div>
 		<div id="app-content-wrapper">
@@ -42,7 +46,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 				<div class="msg-{{ message.type }}">
 					<div>{{ message.content }}</div>
 					<div style="display: block;" id="ocsms-message-removal" class="icon-delete svn delete action" ng-click="removeConversationMessage(message.id);"></div>
-					<div class="msg-date">{{ message.date }}</div>
+					<div class="msg-date">{{ message.date | date:'medium' }}</div>
 				</div>
 				<div class="msg-spacer"></div>
 			</div>
