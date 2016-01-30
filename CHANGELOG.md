@@ -1,3 +1,10 @@
+1.6.0
+* You can now limit messages shown when loading a conversation
+* Update AngularJS to 1.4.9
+* You can now disable desktop notifications
+* New application icon (thanks to @skjnldsv)
+* Add singapore country code
+
 1.5.0
 * You can now delete conversation or single messages (only in owncloud, not on your phone via the app)
 * Fix a scrolling issue (thanks @animalillo)
