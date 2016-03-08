@@ -46,6 +46,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 		$scope.contacts = [];
 		$scope.messages = [];
 		$scope.totalMessageCount = 0;
+		$scope.photoVersion = 1;
 		// Settings
 		$scope.sendCountry = function () {
 			$.post(OC.generateUrl('/apps/ocsms/set/country'),{'country': $('select[name=intl_phone]').val()});
@@ -299,7 +300,13 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 		$scope.fetchInitialPeerList = function (jsondata) {
 			// Use a buffer for better jQuery performance
 			var peerListBuf = "";
+			var photoPrefix = "";
 			var bufferedContacts = [];
+
+			$scope.photoVersion = jsondata["photo_version"];
+			if ($scope.photoVersion >= 2) {
+				photoPrefix = "data:image/png;base64,";
+			}
 
 			$.each(jsondata['phonelist'], function(id, val) {
 				var fn, peerLabel, idxVal;
@@ -314,7 +321,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 					peerLabel = fn;
 				}
 				if (!inArray(peerLabel, bufferedContacts)) {
-					$scope.addContact({'label': peerLabel, 'nav': idxVal2, 'avatar': jsondata['photos'][peerLabel], 'unread' : 0});
+					$scope.addContact({'label': peerLabel, 'nav': idxVal2, 'avatar': photoPrefix + jsondata['photos'][peerLabel], 'unread' : 0});
 					bufferedContacts.push(peerLabel);
 				}
 			});

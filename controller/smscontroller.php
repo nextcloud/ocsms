@@ -98,7 +98,14 @@ class SmsController extends Controller {
 			}
 		}
 		$lastRead = $this->smsMapper->getLastReadDate($this->userId);
-		return new JSONResponse(array("phonelist" => $phoneList, "contacts" => $contacts, "lastRead" => $lastRead, "photos" => $photos));
+		$ocversion = \OCP\Util::getVersion();
+		$photoURL = preg_replace("#^VALUE=uri:#","",$r["PHOTO"], 1);
+		$photoversion = 1;
+		if (version_compare($ocversion[0].".".$ocversion[1].".".$ocversion[2], "9.0.0", ">=")) {
+			$photoversion = 2;
+		}
+
+		return new JSONResponse(array("phonelist" => $phoneList, "contacts" => $contacts, "lastRead" => $lastRead, "photos" => $photos, "photo_version" => $photoversion));
 	}
 
 	/**
