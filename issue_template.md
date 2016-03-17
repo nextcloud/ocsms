@@ -36,5 +36,5 @@ Tell us what happens instead
 ### Logs
 
 ```
-Instert your log here
+Insert your log here
 ```
