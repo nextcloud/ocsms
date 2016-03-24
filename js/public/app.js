@@ -429,6 +429,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			});
 			$scope.fetchInitialSettings();
 			$scope.initDesktopNotifies();
+			$scope.checkNewMessages();
 		});
 	}
 ]);
