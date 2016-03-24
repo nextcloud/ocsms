@@ -34,27 +34,6 @@ ownCloud SMS (OcSMS) web application is currently under AGPL licence but this fr
 *Please create your core issues here:*
 https://github.com/nerzhul/ocsms/issues
 
-
-### Issue template 
-**Server**
-- ownCloud version: X.X.X
-- PHP version: X.X
-- HTTPd server: <apache|nginx...>
-- HTTPS: <yes|no>
-
-**Client**
-- Android version: X.X.X
-- Phone: <phone-model>
-- ownCloud SMS app version: X.X.X 
-
-**Content of /owncloud/data/owncloud.log**
-```
-Place content of your owncloud.log here
-```
-
-
 ### Android client issues
 *Please create your issues for the Android client here:*
 https://github.com/nerzhul/ownCloud-SMS-App/issues
-
-
