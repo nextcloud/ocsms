@@ -6,8 +6,11 @@
     <licence>AGPL</licence>
     <author>Loic Blot</author>
     <version>1.6.3</version>
-    <requiremin>7</requiremin>
-    <requiremax>9</requiremax>
+    <requiremin>8</requiremin>
+    <requiremax>9.1</requiremax>
+    <dependencies>
+        <owncloud min-version="8.0" max-version="9.1" />
+    </dependencies>
 
     <ocsid>167289</ocsid>
     
