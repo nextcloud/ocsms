@@ -58,29 +58,6 @@ class SmsMapper extends Mapper {
 		return $smsList;
 	}
 
-	public function getAllIdsWithStatus ($userId) {
-		$query = \OCP\DB::prepare('SELECT sms_id, sms_type, sms_mailbox FROM ' .
-			'*PREFIX*ocsms_smsdatas WHERE user_id = ?');
-		$result = $query->execute(array($userId));
-
-		$smsList = array();
-		while($row = $result->fetchRow()) {
-			// This case may not arrive, but we test if the DB is consistent
-			if (!in_array($row["sms_mailbox"], SmsMapper::$mailboxNames)) {
-				continue;
-			}
-			$mbox = SmsMapper::$mailboxNames[$row["sms_mailbox"]];
-			if (!isset($smsList[$mbox])) {
-				$smsList[$mbox] = array();
-			}
-
-			if (!isset($smsList[$mbox][$row["sms_id"]])) {
-				$smsList[$mbox][$row["sms_id"]] = $row["sms_type"];
-			}
-		}
-		return $smsList;
-	}
-
 	public function getLastTimestamp ($userId) {
 		$query = \OCP\DB::prepare('SELECT max(sms_date) as mx FROM ' .
 			'*PREFIX*ocsms_smsdatas WHERE user_id = ?');

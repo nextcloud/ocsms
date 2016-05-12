@@ -75,26 +75,6 @@ class ApiController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function retrieveAllIdsWithStatus () {
-		$smsList = $this->smsMapper->getAllIdsWithStatus($this->userId);
-		return new JSONResponse(array("smslist" => $smsList));
-	}
-
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 *
-	 * API v2
-	 */
-	public function getAllStoredPhoneNumbers () {
-		$phoneList = $this->smsMapper->getAllPhoneNumbers($this->userId);
-		return new JSONResponse(array("phoneList" => $phoneList));
-	}
-
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 */
 	public function push ($smsCount, $smsDatas) {
 		if ($this->checkPushStructure($smsCount, $smsDatas, true) === false) {
 			return new JSONResponse(array("status" => false, "msg" => $this->errorMsg));
@@ -114,41 +94,6 @@ class ApiController extends Controller {
 
 		$this->smsMapper->writeToDB($this->userId, $smsDatas, true);
 		return new JSONResponse(array("status" => true, "msg" => "OK"));
-	}
-
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 *
-	 * APIv2
-	 */
-	public function fetchMessages($start, $limit) {
-		if (!is_numeric($start) || !is_numeric($limit) || $start < 0 || $limit <= 0) {
-			return new JSONResponse(array("msg" => "Invalid request"), \OCP\AppFramework\Http::STATUS_BAD_REQUEST);
-		}
-
-		// Limit messages per fetch to prevent phone garbage collecting due to too many datas
-		if ($limit > 500) {
-			return new JSONResponse(array("msg" => "Too many messages requested"), 413);
-		}
-
-		$messages = $this->smsMapper->getMessages($this->userId, $start, $limit);
-		return new JSONResponse(array("messages" => $messages));
-	}
-
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 *
-	 * APIv2
-	 */
-	public function fetchMessagesForNumber($phoneNumber, $start, $limit) {
-		if (!is_numeric($start) || !is_numeric($limit) || $start < 0 || $limit <= 0) {
-			return new JSONResponse(array("msg" => "Invalid request"), \OCP\AppFramework\Http::STATUS_BAD_REQUEST);
-		}
-
-		// @TODO because multiple phone numbers can be same number with different formatting
-		return new JSONResponse(array("messages" => array()));
 	}
 
 	private function checkPushStructure ($smsCount, $smsDatas) {
@@ -200,5 +145,62 @@ class ApiController extends Controller {
 			// @ TODO: test address and body ?
 		}
 		return true;
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 *
+	 * API v2
+	 */
+	public function getAllStoredPhoneNumbers () {
+		$phoneList = $this->smsMapper->getAllPhoneNumbers($this->userId);
+		return new JSONResponse(array("phoneList" => $phoneList));
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 *
+	 * APIv2
+	 */
+	public function fetchMessages($start, $limit) {
+		if (!is_numeric($start) || !is_numeric($limit) || $start < 0 || $limit <= 0) {
+			return new JSONResponse(array("msg" => "Invalid request"), \OCP\AppFramework\Http::STATUS_BAD_REQUEST);
+		}
+
+		// Limit messages per fetch to prevent phone garbage collecting due to too many datas
+		if ($limit > 500) {
+			return new JSONResponse(array("msg" => "Too many messages requested"), 413);
+		}
+
+		$messages = $this->smsMapper->getMessages($this->userId, $start, $limit);
+		return new JSONResponse(array("messages" => $messages));
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 *
+	 * APIv2
+	 */
+	public function fetchMessagesForNumber($phoneNumber, $start, $limit) {
+		if (!is_numeric($start) || !is_numeric($limit) || $start < 0 || $limit <= 0) {
+			return new JSONResponse(array("msg" => "Invalid request"), \OCP\AppFramework\Http::STATUS_BAD_REQUEST);
+		}
+
+		// @TODO because multiple phone numbers can be same number with different formatting
+		return new JSONResponse(array("messages" => array()));
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 *
+	 * APIv2
+	 */
+	public function fetchMessagesToSend() {
+		// @TODO
+		return new JSONResponse(array("messages" => array()));
 	}
 }

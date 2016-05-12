@@ -31,11 +31,11 @@ $application->registerRoutes($this, array('routes' => array(
 	array('name' => 'api#push', 'url' => '/push', 'verb' => 'POST'), // Android API
 	array('name' => 'api#replace', 'url' => '/replace', 'verb' => 'POST'), // Android API
 	array('name' => 'api#retrieve_all_ids', 'url' => '/get/smsidlist', 'verb' => 'GET'), // Android APIv1
-	array('name' => 'api#retrieve_all_ids_with_status', 'url' => '/get/smsidstate', 'verb' => 'GET'), // Android APIv1
 	array('name' => 'api#retrieve_last_timestamp', 'url' => '/get/lastmsgtime', 'verb' => 'GET'), // Android APIv1
 
 	// API v2
-	array('name' => 'api#get_all_stored_phone_numbers', 'url' => '/api/v2/get/phones/numberlist', 'verb' => 'GET'), // Android APIv2
+	array('name' => 'api#get_all_stored_phone_numbers', 'url' => '/api/v2/phones/list', 'verb' => 'GET'), // Android APIv2
 	array('name' => 'api#fetch_messages', 'url' => '/api/v2/messages/{start}/{limit}', 'verb' => 'GET'), // Android APIv2
 	array('name' => 'api#fetch_messages_for_number', 'url' => '/api/v2/messages/{phonenumber}/{start}/{limit}', 'verb' => 'GET'), // Android APIv2
+	array('name' => 'api#fetch_messages_to_send', 'url' => '/api/v2/messages/sendqueue', 'verb' => 'GET'), // Android APIv2
 )));
