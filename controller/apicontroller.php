@@ -13,6 +13,7 @@ namespace OCA\OcSms\Controller;
 
 
 use \OCP\IRequest;
+use \OCP\AppFramework\Http;
 use \OCP\AppFramework\Controller;
 use \OCP\AppFramework\Http\JSONResponse;
 
@@ -45,7 +46,7 @@ class ApiController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
-	 * 
+	 *
 	 * This function is used by API v1
 	 * Phone will compare its own message list with this
 	 * message list and send the missing messages
@@ -59,7 +60,7 @@ class ApiController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
-	 * 
+	 *
 	 * This function is used by API v2
 	 * Phone will get this ID to push recent messages
 	 * This call will be used combined with retrieveAllIds
@@ -83,8 +84,7 @@ class ApiController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 *
-	 * This function is used by API v2
-	 * Phone will get this list to generate a ListView
+	 * API v2
 	 */
 	public function getAllStoredPhoneNumbers () {
 		$phoneList = $this->smsMapper->getAllPhoneNumbers($this->userId);
@@ -114,7 +114,42 @@ class ApiController extends Controller {
 
 		$this->smsMapper->writeToDB($this->userId, $smsDatas, true);
 		return new JSONResponse(array("status" => true, "msg" => "OK"));
-	 }
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 *
+	 * APIv2
+	 */
+	public function fetchMessages($start, $limit) {
+		if (!is_numeric($start) || !is_numeric($limit) || $start < 0 || $limit <= 0) {
+			return new JSONResponse(array("msg" => "Invalid request"), \OCP\AppFramework\Http::STATUS_BAD_REQUEST);
+		}
+
+		// Limit messages per fetch to prevent phone garbage collecting due to too many datas
+		if ($limit > 500) {
+			return new JSONResponse(array("msg" => "Too many messages requested"), 413);
+		}
+
+		$messages = $this->smsMapper->getMessages($this->userId, $start, $limit);
+		return new JSONResponse(array("messages" => $messages));
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 *
+	 * APIv2
+	 */
+	public function fetchMessagesForNumber($phoneNumber, $start, $limit) {
+		if (!is_numeric($start) || !is_numeric($limit) || $start < 0 || $limit <= 0) {
+			return new JSONResponse(array("msg" => "Invalid request"), \OCP\AppFramework\Http::STATUS_BAD_REQUEST);
+		}
+
+		// @TODO because multiple phone numbers can be same number with different formatting
+		return new JSONResponse(array("messages" => array()));
+	}
 
 	private function checkPushStructure ($smsCount, $smsDatas) {
 		if ($smsCount != count($smsDatas)) {

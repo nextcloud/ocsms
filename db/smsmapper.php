@@ -157,6 +157,21 @@ class SmsMapper extends Mapper {
 		return $messageList;
 	}
 
+	public function getMessages ($userId, $start, $limit) {
+		$messageList = array();
+
+		$query = \OCP\DB::prepare('SELECT sms_date, sms_msg, sms_type FROM ' .
+		'*PREFIX*ocsms_smsdatas WHERE user_id = ? LIMIT ?,?');
+		$result = $query->execute(array($userId, $start, $limit));
+		while ($row = $result->fetchRow()) {
+			$messageList[$row["sms_date"]] = array(
+				"msg" => $row["sms_msg"],
+				"type" => $row["sms_type"]
+			);
+		}
+		return $messageList;
+	}
+
 	public function countMessagesForPhoneNumber ($userId, $phoneNumber, $country) {
 		$cnt = 0;
 		$phlst = $this->getAllPhoneNumbersForFPN ($userId, $phoneNumber, $country);
