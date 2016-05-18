@@ -20,7 +20,6 @@ var g_unreadCountNotifStep = 12;
 var g_lastUnreadCountAllConv = 0;
 var g_originalTitle = document.title;
 
-var g_ulContactList = $('.contact-list');
 var app = angular.module('OcSms', []);
 
 function inArray(val, arr) {
@@ -28,10 +27,9 @@ function inArray(val, arr) {
 }
 
 function arrayUnique(arr) {
-	var unq = arr.filter(function(item, i, arr) {
+	return arr.filter(function (item, i, arr) {
 		return i == arr.indexOf(item);
-	})
-	return unq;
+	});
 }
 
 app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile',
@@ -133,7 +131,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 				},
 				function(jsondata, status) {
 					var fmt = $scope.formatConversation(jsondata);
-					conversationBuf = fmt[1];
+					var conversationBuf = fmt[1];
 					if (conversationBuf == true) {
 						$('#app-content').scrollTop(1E10);
 						// This will blink the tab because there is new messages
@@ -179,7 +177,12 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 						}
 
 						if (!inArray(peerLabel, bufferedContacts)) {
-							contactObj = {'label': peerLabel, 'nav': idxVal2, 'avatar': jsondata['photos'][peerLabel], 'unread': val};
+							var contactObj = {
+								'label': peerLabel,
+								'nav': idxVal2,
+								'avatar': jsondata['photos'][peerLabel],
+								'unread': val
+							};
 
 							$scope.removeContact(contactObj);
 							$scope.addContactToFront(contactObj);
@@ -191,7 +194,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 								changeSelectedConversation($("a[mailbox-navigation='" + idxVal + "']"));
 							}
 
-							g_unreadCountAllConv += parseInt(val);	
+							g_unreadCountAllConv += parseInt(val);
 						}
 					});
 
@@ -259,7 +262,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 					return;
 				}
 			}
-		}
+		};
 
 		/*
 		* Conversation messagelist management
@@ -268,7 +271,8 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			$scope.$apply(function () {
 				$scope.messages.push(msg);
 			});
-		}
+		};
+
 		$scope.removeConversationMessage = function (msgId) {
 			var len = $scope.messages.length;
 			for (var i=0; i < len; i++) {
@@ -282,7 +286,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 					return;
 				}
 			}
-		}
+		};
 
 		$scope.fetchInitialSettings = function () {
 			$.getJSON(OC.generateUrl('/apps/ocsms/get/settings'), function(jsondata, status) {
@@ -296,7 +300,8 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 					$scope.setting_enableNotifications = jsondata["notification_state"];
 				}
 			});
-		}
+		};
+
 		$scope.fetchInitialPeerList = function (jsondata) {
 			// Use a buffer for better jQuery performance
 			var peerListBuf = "";
@@ -349,7 +354,6 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			// Improve JS performance
 			var msgClass = '';
 			var msgCount = 0;
-			var formatedDate = '';
 
 			$.each(jsondata["conversation"], function(id, vals) {
 				if (vals["type"] == 1) {
@@ -375,7 +379,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 
 			});
 			return [msgCount,buf];
-		}
+		};
 
 		$scope.desktopNotify = function (msg) {
 			if ($scope.setting_enableNotifications == 0) {
@@ -398,7 +402,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 					}
 				});
 			}
-		}
+		};
 
 		$interval($scope.refreshConversation, 10000);
 		$interval($scope.checkNewMessages, 10000);
