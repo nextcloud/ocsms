@@ -37,7 +37,7 @@
 	padding: 0 12px;
 }
 #app-mailbox-peers li > a {
-	display: block;
+	display: inline-block;
 	overflow: hidden;
 	-moz-box-sizing: border-box; box-sizing: border-box;
 	white-space: nowrap;
