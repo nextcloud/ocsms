@@ -232,6 +232,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 				// Reinit main window
 				$scope.selectedContact.label = "";
 				$scope.selectedContact.opt_numbers = "";
+				$scope.selectedContact.avatar = "";
 				$scope.removeContact($scope.selectedContact);
 				$scope.$apply(function () {
 					$scope.messages = [];
@@ -424,6 +425,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 						if ($scope.selectedContact.nav === undefined) {
 							$scope.selectedContact.label = urlPhoneNumber;
 							$scope.selectedContact.nav = urlPhoneNumber;
+							$scope.selectedContact.avatar = "";
 						}
 						$scope.fetchConversation(null);
 						changeSelectedConversation($("a[mailbox-navigation='" + urlPhoneNumber + "']"));

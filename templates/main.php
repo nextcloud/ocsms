@@ -46,11 +46,19 @@ use \OCA\OcSms\Lib\CountryCodes;
 	</div>
 
 	<div id="app-content">
-		<div id="app-content-header" ng-show="selectedContact.label !== undefined && selectedContact.label !== ''">
-			<div id="ocsms-phone-label">{{ selectedContact.label }} </div>
-			<div id="ocsms-conversation-removal" class="icon-delete svn delete action" ng-click="removeConversation();"></div>
-			<div id="ocsms-phone-opt-number">{{ selectedContact.opt_numbers }}</div>
-			<div id="ocsms-phone-msg-nb">{{ messages.length }} message(s) shown. {{ totalMessageCount }} message(s) stored in database.</div>
+		<div id="app-content-header" ng-show="selectedContact.label !== undefined && selectedContact.label !== ''"
+			 ng-style="{'background-color': (selectedContact.label | peerColor)}">
+			<div id="ocsms-contact-avatar">
+				<img class="ocsms-plavatar" data-ng-src="data:image/png;base64,{{ selectedContact.avatar }}" ng-show="contact.avatar !== undefined" />
+			</div>
+			<div id="ocsms-contact-details">
+				<div id="ocsms-phone-label">{{ selectedContact.label }} </div>
+				<div id="ocsms-phone-opt-number">{{ selectedContact.opt_numbers }}</div>
+				<div id="ocsms-phone-msg-nb">{{ messages.length }} message(s) shown. {{ totalMessageCount }} message(s) stored in database.</div>
+			</div>
+			<div id="ocsms-contact-actions">
+				<div id="ocsms-conversation-removal" class="icon-delete svn delete action" ng-click="removeConversation();"></div>
+			</div>
 			
 		</div>
 		<div id="app-content-wrapper">

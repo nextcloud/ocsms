@@ -2,6 +2,8 @@
 * Enhance the contact list using nicer list like in contact app
 * PHP code cleanup (thanks to PHPStorm)
 * Angular app code cleanup & enhancements
+* Start to implement API calls for restoring messages to phones (using ownCloud SMS app)
+* Show the contact avatar in the conversation
 
 1.6.0
 * You can now limit messages shown when loading a conversation

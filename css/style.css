@@ -73,6 +73,21 @@
 	box-shadow: 0 1px 0 0 #CCC;
 }
 
+#ocsms-contact-avatar {
+	background-color: transparent;
+	height: 75px;
+	width: 75px;
+	font-size: 2.5em;
+	line-height: 75px;
+}
+
+#ocsms-contact-details,
+#ocsms-contact-actions,
+#ocsms-contact-avatar {
+	display: inline-block;
+}
+
+
 #ocsms-phone-label {
 	font-weight: bold;
 	color: #555;
