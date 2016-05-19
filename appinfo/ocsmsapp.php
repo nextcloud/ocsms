@@ -14,6 +14,7 @@ namespace OCA\OcSms\AppInfo;
 
 
 use \OCP\AppFramework\App;
+use \OCP\IContainer;
 
 use \OCA\OcSms\Controller\ApiController;
 use \OCA\OcSms\Controller\SettingsController;
@@ -23,8 +24,6 @@ use \OCA\OcSms\Db\Sms;
 use \OCA\OcSms\Db\SmsMapper;
 
 use \OCA\OcSms\Db\ConfigMapper;
-
-use \OCA\OcSms\Lib\PhoneNumberFormatter;
 
 class OcSmsApp extends App {
 
@@ -60,7 +59,7 @@ class OcSmsApp extends App {
 		 * Managers
 		 */
 		$container->registerService('ContactsManager', function(IContainer $c) {
-			return $c->getServer()->getContactsManager();
+			return $server = $c->query('ServerContainer')->getContactsManager();
 		});
 
 		/**
