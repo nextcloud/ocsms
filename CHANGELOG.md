@@ -1,3 +1,8 @@
+1.7.0 (-CURRENT)
+* Enhance the contact list using nicer list like in contact app
+* PHP code cleanup (thanks to PHPStorm)
+* Angular app code cleanup & enhancements
+
 1.6.0
 * You can now limit messages shown when loading a conversation
 * Update AngularJS to 1.4.9

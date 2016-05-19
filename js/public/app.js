@@ -237,6 +237,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 					$scope.messages = [];
 				});
 				$scope.selectedContact.nav = "";
+				OC.Util.History.pushState('');
 			});
 		};
 
@@ -307,7 +308,6 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 
 		$scope.fetchInitialPeerList = function (jsondata) {
 			// Use a buffer for better jQuery performance
-			var peerListBuf = "";
 			var photoPrefix = "";
 			var bufferedContacts = [];
 
@@ -317,16 +317,14 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			}
 
 			$.each(jsondata['phonelist'], function(id, val) {
-				var fn, peerLabel, idxVal;
+				var peerLabel, idxVal;
 				idxVal = id.replace(/\//g,' ');
 				idxVal2 = idxVal.replace('/ /g','');
 				if (typeof jsondata['contacts'][id] == 'undefined') {
-					fn = '';
 					peerLabel = idxVal;
 				}
 				else {
-					fn = jsondata['contacts'][id];
-					peerLabel = fn;
+					peerLabel = jsondata['contacts'][id];
 				}
 				if (!inArray(peerLabel, bufferedContacts)) {
 					$scope.addContact({'label': peerLabel, 'nav': idxVal2, 'avatar': photoPrefix + jsondata['photos'][peerLabel], 'unread' : 0});
@@ -422,6 +420,11 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 				if (pnParam != null) {
 					var urlPhoneNumber = decodeURIComponent(pnParam);
 					if (urlPhoneNumber != null) {
+						// If no contact when loading, creating a new contact from urlPhoneNumber
+						if ($scope.selectedContact.nav === undefined) {
+							$scope.selectedContact.label = urlPhoneNumber;
+							$scope.selectedContact.nav = urlPhoneNumber;
+						}
 						$scope.fetchConversation(null);
 						changeSelectedConversation($("a[mailbox-navigation='" + urlPhoneNumber + "']"));
 					}
