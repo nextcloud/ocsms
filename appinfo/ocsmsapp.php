@@ -27,55 +27,53 @@ use \OCA\OcSms\Db\ConfigMapper;
 
 class OcSmsApp extends App {
 
-	private $c;
-
+	/**
+	 * OcSmsApp constructor.
+	 * @param array $urlParams
+	 */
 	public function __construct (array $urlParams=array()) {
 		parent::__construct('ocsms', $urlParams);
-
 		$container = $this->getContainer();
-		$this->c = $container;
-		$app = $this;
+		$server = $container->query('ServerContainer');
 
 		/**
-        	 * Database Layer
-        	 */
-		$container->registerService('ConfigMapper', function (IContainer $c) use ($app) {
+         * Database Layer
+         */
+		$container->registerService('ConfigMapper', function (IContainer $c) use ($server) {
 			return new ConfigMapper(
-				$c->query('ServerContainer')->getDb(),
+				$server->getDb(),
 				$c->query('CurrentUID'),
-				$c->query('ServerContainer')->getCrypto()
+				$server->getCrypto()
 			);
 		});
 
-		$container->registerService('Sms', function(IContainer $c) {
-			return new Sms($c->query('ServerContainer')->getDb());
+		$container->registerService('Sms', function(IContainer $c) use ($server) {
+			return new Sms($server->getDb());
 		});
 
-		$container->registerService('SmsMapper', function(IContainer $c) {
-			return new SmsMapper($c->query('ServerContainer')->getDb());
+		$container->registerService('SmsMapper', function(IContainer $c) use ($server) {
+			return new SmsMapper($server->getDb());
 		});
 
 		/**
 		 * Managers
 		 */
-		$container->registerService('ContactsManager', function(IContainer $c) {
-			return $server = $c->query('ServerContainer')->getContactsManager();
+		$container->registerService('ContactsManager', function(IContainer $c) use ($server) {
+			return $server->getContactsManager();
 		});
 
 		/**
 		 * Controllers
 		 */
-		$container->registerService('SettingsController', function(IContainer $c) use($app) {
+		$container->registerService('SettingsController', function(IContainer $c) {
 			return new SettingsController(
 				$c->query('AppName'),
 				$c->query('Request'),
-				$c->query('ConfigMapper'),
-				$app
+				$c->query('ConfigMapper')
 			);
 		});
 
-		$container->registerService('SmsController', function(IContainer $c) use($app) {
-			$server = $c->query('ServerContainer');
+		$container->registerService('SmsController', function(IContainer $c) use($server) {
 			return new SmsController(
 				$c->query('AppName'),
 				$c->query('Request'),
@@ -83,18 +81,16 @@ class OcSmsApp extends App {
 				$c->query('SmsMapper'),
 				$c->query('ConfigMapper'),
 				$server->getContactsManager(),
-				$server->getURLGenerator(),
-				$app
+				$server->getURLGenerator()
 			);
 		});
 
-		$container->registerService('ApiController', function(IContainer $c) use($app) {
+		$container->registerService('ApiController', function(IContainer $c) {
 			return new ApiController(
 				$c->query('AppName'),
 				$c->query('Request'),
 				$c->query('CurrentUID'),
-				$c->query('SmsMapper'),
-				$app
+				$c->query('SmsMapper')
 			);
 		});
 	}

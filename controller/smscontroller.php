@@ -13,13 +13,12 @@ namespace OCA\OcSms\Controller;
 
 
 use \OCP\IRequest;
+use \OCP\IURLGenerator;
 use \OCP\Contacts\IManager as IContactsManager;
 use \OCP\AppFramework\Http\TemplateResponse;
 use \OCP\AppFramework\Controller;
 use \OCP\AppFramework\Http\JSONResponse;
 use \OCP\AppFramework\Http;
-
-use \OCA\OcSms\AppInfo\OcSmsApp;
 
 use \OCA\OcSms\Db\ConfigMapper;
 use \OCA\OcSms\Db\SmsMapper;
@@ -29,17 +28,25 @@ use \OCA\OcSms\Lib\PhoneNumberFormatter;
 
 class SmsController extends Controller {
 
-	private $app;
 	private $userId;
 	private $configMapper;
 	private $smsMapper;
 	private $urlGenerator;
 	private $contactCache;
 
+	/**
+	 * SmsController constructor.
+	 * @param string $appName
+	 * @param IRequest $request
+	 * @param $userId
+	 * @param SmsMapper $mapper
+	 * @param ConfigMapper $cfgMapper
+	 * @param IContactsManager $contactsManager
+	 * @param $urlGenerator
+	 */
 	public function __construct ($appName, IRequest $request, $userId, SmsMapper $mapper, ConfigMapper $cfgMapper,
-		IContactsManager $contactsManager, $urlGenerator, OcSmsApp $app) {
+								 IContactsManager $contactsManager, IURLGenerator $urlGenerator) {
 		parent::__construct($appName, $request);
-		$this->app = $app;
 		$this->userId = $userId;
 		$this->smsMapper = $mapper;
 		$this->configMapper = $cfgMapper;

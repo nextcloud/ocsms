@@ -17,20 +17,16 @@ use \OCP\AppFramework\Http;
 use \OCP\AppFramework\Controller;
 use \OCP\AppFramework\Http\JSONResponse;
 
-use \OCA\OcSms\AppInfo\OcSmsApp;
-
 use \OCA\OcSms\Db\SmsMapper;
 
 class ApiController extends Controller {
 
-	private $app;
 	private $userId;
 	private $smsMapper;
 	private $errorMsg;
 
-	public function __construct ($appName, IRequest $request, $userId, SmsMapper $mapper, OcSmsApp $app) {
+	public function __construct ($appName, IRequest $request, $userId, SmsMapper $mapper) {
 		parent::__construct($appName, $request);
-		$this->app = $app;
 		$this->userId = $userId;
 		$this->smsMapper = $mapper;
 	}

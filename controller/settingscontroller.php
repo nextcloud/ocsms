@@ -17,20 +17,16 @@ use \OCP\AppFramework\Controller;
 use \OCP\AppFramework\Http\JSONResponse;
 use \OCP\AppFramework\Http;
 
-use \OCA\OcSms\AppInfo\OcSmsApp;
-
 use \OCA\OcSms\Db\ConfigMapper;
 
 use \OCA\OcSms\Lib\CountryCodes;
 
 class SettingsController extends Controller {
 
-	private $app;
 	private $configMapper;
 
-	public function __construct ($appName, IRequest $request, ConfigMapper $cfgMapper, OcSmsApp $app){
+	public function __construct ($appName, IRequest $request, ConfigMapper $cfgMapper){
 		parent::__construct($appName, $request);
-		$this->app = $app;
 		$this->configMapper = $cfgMapper;
 	}
 
