@@ -13,6 +13,7 @@ namespace OCA\OcSms\Controller;
 
 
 use \OCP\IRequest;
+use \OCP\Contacts\IManager as IContactsManager;
 use \OCP\AppFramework\Http\TemplateResponse;
 use \OCP\AppFramework\Controller;
 use \OCP\AppFramework\Http\JSONResponse;
@@ -35,7 +36,8 @@ class SmsController extends Controller {
 	private $urlGenerator;
 	private $contactCache;
 
-	public function __construct ($appName, IRequest $request, $userId, SmsMapper $mapper, ConfigMapper $cfgMapper, $contactsManager, $urlGenerator, OcSmsApp $app){
+	public function __construct ($appName, IRequest $request, $userId, SmsMapper $mapper, ConfigMapper $cfgMapper,
+		IContactsManager $contactsManager, $urlGenerator, OcSmsApp $app) {
 		parent::__construct($appName, $request);
 		$this->app = $app;
 		$this->userId = $userId;

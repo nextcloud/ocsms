@@ -29,8 +29,8 @@ class ConfigMapper extends Mapper {
 	 */
 	private $crypto;
 
-	public function __construct (IDb $api, $user, $crypto){
-		parent::__construct($api, 'ocsms_config');
+	public function __construct (IDb $db, $user, $crypto){
+		parent::__construct($db, 'ocsms_config');
 		$this->user = $user;
 		$this->crypto = $crypto;
 	}

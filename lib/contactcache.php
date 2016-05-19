@@ -12,7 +12,9 @@
 
 namespace OCA\OcSms\Lib;
 
-use \OCP\Util;
+use \OCP\Contacts\IManager as IContactsManager;
+
+use \OCA\OcSms\Db\ConfigMapper;
 
 class ContactCache {
 	/**
@@ -25,11 +27,11 @@ class ContactCache {
 	private $cfgMapper;
 	private $contactsManager;
 
-	public function __construct ($cfgMapper, $contactsManager) {
-		$contacts = array();
-		$contactPhotos = array();
-		$contactsInverted = array();
-		
+	public function __construct (ConfigMapper $cfgMapper, IContactsManager $contactsManager) {
+		$this->contacts = array();
+		$this->contactPhotos = array();
+		$this->contactsInverted = array();
+
 		$this->cfgMapper = $cfgMapper;
 		$this->contactsManager = $contactsManager;
 	}
