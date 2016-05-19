@@ -112,8 +112,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			$scope.messages = [];
 			$.getJSON(OC.generateUrl('/apps/ocsms/get/conversation'), {'phoneNumber': $scope.selectedContact.nav},
 				function(jsondata, status) {
-					var phoneNumberLabel = phoneNumber;
-					$scope.selectedContact.nav = phoneNumber;
+					var phoneNumberLabel = $scope.selectedContact.nav;
 
 					if (typeof jsondata['phoneNumbers'] != 'undefined') {
 						phoneNumberList = arrayUnique(jsondata['phoneNumbers']);
