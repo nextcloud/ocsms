@@ -12,7 +12,6 @@
 // Some global vars to improve performances
 var g_selectedConversation = null;
 var g_lastMsgDate = 0;
-var g_curPhoneNumber = null;
 var g_unreadCountCurrentConv = 0;
 var g_unreadCountAllConv = 0;
 var g_unreadCountNotifStep = 12;
@@ -101,15 +100,20 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 
 			// phoneNumber must exist
 			if (contact.nav !== null) {
-				$scope.fetchConversation(contact.nav);
+				$scope.fetchConversation(contact);
 				changeSelectedConversation($("a[mailbox-navigation='" + contact.nav + "']"));
 			}
 		};
-		$scope.fetchConversation = function (phoneNumber) {
+		$scope.fetchConversation = function (contact) {
+			// If contact is not null, we will fetch a conversation for a new contact
+			if (contact != null) {
+				$scope.selectedContact = contact;
+			}
 			$scope.messages = [];
 			$.getJSON(OC.generateUrl('/apps/ocsms/get/conversation'), {'phoneNumber': phoneNumber},
 				function(jsondata, status) {
 					var phoneNumberLabel = phoneNumber;
+					$scope.selectedContact.nav = phoneNumber;
 
 					if (typeof jsondata['phoneNumbers'] != 'undefined') {
 						phoneNumberList = arrayUnique(jsondata['phoneNumbers']);
@@ -131,22 +135,13 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 					$scope.totalMessageCount = jsondata['msgCount'] !== undefined ? jsondata['msgCount'] : 0;
 
 					$('#app-content').scrollTop(1E10);
-
-					g_curPhoneNumber = phoneNumber;
 				}
 			);
 		};
 		$scope.refreshConversation = function() {
-			// if no conversation selected, then don't fetch page
-			if (g_curPhoneNumber == null) {
-				if ($('#app-content-header').is(':visible')) {
-					$('#app-content-header').hide();
-				}
-				return;
-			}
 			$.getJSON(OC.generateUrl('/apps/ocsms/get/conversation'),
 				{
-					'phoneNumber': g_curPhoneNumber,
+					'phoneNumber': $scope.selectedContact.nav,
 					"lastDate": g_lastMsgDate
 				},
 				function(jsondata, status) {
@@ -200,7 +195,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 							bufferedContacts.push(peerLabel);
 
 							// Re-set conversation because we reload the element
-							if (idxVal == g_curPhoneNumber) {
+							if (idxVal == $scope.selectedContact.nav) {
 								changeSelectedConversation($("a[mailbox-navigation='" + idxVal + "']"));
 							}
 
@@ -238,11 +233,11 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 				// Reinit main window
 				$scope.selectedContact.label = "";
 				$scope.selectedContact.opt_numbers = "";
-				$scope.removeContact({'nav': g_curPhoneNumber});
+				$scope.removeContact($scope.selectedContact);
 				$scope.$apply(function () {
 					$scope.messages = [];
 				});
-				g_curPhoneNumber = null;
+				$scope.selectedContact.nav = "";
 			});
 		};
 
@@ -428,14 +423,8 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 				if (pnParam != null) {
 					var urlPhoneNumber = decodeURIComponent(pnParam);
 					if (urlPhoneNumber != null) {
-						$scope.fetchConversation(urlPhoneNumber);
+						$scope.fetchConversation(null);
 						changeSelectedConversation($("a[mailbox-navigation='" + urlPhoneNumber + "']"));
-					}
-				}
-				// Don't show message headers if no conversation selected
-				else {
-					if ($('#app-content-header').is(':visible')) {
-						$('#app-content-header').hide();
 					}
 				}
 
