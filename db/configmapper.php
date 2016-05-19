@@ -35,6 +35,10 @@ class ConfigMapper extends Mapper {
 		$this->crypto = $crypto;
 	}
 
+	/**
+	 * @param $key
+	 * @param $value
+     */
 	public function set ($key, $value){
 		$value = $this->crypto->encrypt($value);
 		if($this->hasKey($key, $value)){
