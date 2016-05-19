@@ -49,7 +49,8 @@ use \OCA\OcSms\Lib\CountryCodes;
 		<div id="app-content-header" ng-show="selectedContact.label !== undefined && selectedContact.label !== ''"
 			 ng-style="{'background-color': (selectedContact.label | peerColor)}">
 			<div id="ocsms-contact-avatar">
-				<img class="ocsms-plavatar" data-ng-src="data:image/png;base64,{{ selectedContact.avatar }}" ng-show="selectedContact.avatar !== undefined" />
+				<img class="ocsms-plavatar" data-ng-src="data:image/png;base64,{{ selectedContact.avatar }}"
+					 ng-show="selectedContact.avatar !== undefined && selectedContact.avatar != ''" />
 			</div>
 			<div id="ocsms-contact-details">
 				<div id="ocsms-phone-label">{{ selectedContact.label }} </div>
