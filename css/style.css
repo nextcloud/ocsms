@@ -3,7 +3,7 @@
 	width: 20%;
 	height: 100%;
 	float: left;
-	-moz-box-sizing: border-box; box-sizing: border-box;
+	box-sizing: border-box;
 	padding-bottom: 44px;
 	border-left: 1px solid #ddd;
 	border-right: 1px solid #ddd;
@@ -17,12 +17,14 @@
 	position: relative;
 	height: 100%;
 	overflow: auto;
-	-moz-box-sizing: border-box; box-sizing: border-box;
+	box-sizing: border-box;
 }
 #app-mailbox-peers li {
 	position: relative;
+	padding: 10px;
 	width: 100%;
-	-moz-box-sizing: border-box; box-sizing: border-box;
+	border-top: 1px solid #eee;
+	box-sizing: border-box;
 }
 
 #app-mailbox-peers li:hover > a,
@@ -39,7 +41,7 @@
 #app-mailbox-peers li > a {
 	display: inline-block;
 	overflow: hidden;
-	-moz-box-sizing: border-box; box-sizing: border-box;
+	box-sizing: border-box;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	color: #333;
