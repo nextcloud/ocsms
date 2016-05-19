@@ -50,6 +50,17 @@ app.filter('peerColor', function() {
 	};
 });
 
+app.filter('firstCharacter', function() {
+		return function(input) {
+			if (input.charAt(0) == '+') {
+				return '#';
+			}
+
+			return input.charAt(0);
+		};
+	});
+
+
 app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile',
 	function ($scope, $interval, $timeout, $compile) {
 		$scope.buttons = [
