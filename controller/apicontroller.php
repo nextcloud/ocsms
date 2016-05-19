@@ -74,9 +74,12 @@ class ApiController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 * @param $smsCount
+	 * @param $smsDatas
+	 * @return JSONResponse
 	 */
 	public function push ($smsCount, $smsDatas) {
-		if ($this->checkPushStructure($smsCount, $smsDatas, true) === false) {
+		if ($this->checkPushStructure($smsCount, $smsDatas) === false) {
 			return new JSONResponse(array("status" => false, "msg" => $this->errorMsg));
 		}
 
@@ -86,9 +89,12 @@ class ApiController extends Controller {
 
 	/**
 	 * @NoAdminRequired
+	 * @param $smsCount
+	 * @param $smsDatas
+	 * @return JSONResponse
 	 */
 	 public function replace($smsCount, $smsDatas) {
-		 if ($this->checkPushStructure($smsCount, $smsDatas, true) === false) {
+		 if ($this->checkPushStructure($smsCount, $smsDatas) === false) {
 			return new JSONResponse(array("status" => false, "msg" => $this->errorMsg));
 		}
 
@@ -96,6 +102,11 @@ class ApiController extends Controller {
 		return new JSONResponse(array("status" => true, "msg" => "OK"));
 	}
 
+	/**
+	 * @param $smsCount
+	 * @param $smsDatas
+	 * @return bool
+     */
 	private function checkPushStructure ($smsCount, $smsDatas) {
 		if ($smsCount != count($smsDatas)) {
 			$this->errorMsg = "Error: sms count invalid";
@@ -163,6 +174,9 @@ class ApiController extends Controller {
 	 * @NoCSRFRequired
 	 *
 	 * APIv2
+	 * @param $start
+	 * @param $limit
+	 * @return JSONResponse
 	 */
 	public function fetchMessages($start, $limit) {
 		if (!is_numeric($start) || !is_numeric($limit) || $start < 0 || $limit <= 0) {
@@ -183,6 +197,10 @@ class ApiController extends Controller {
 	 * @NoCSRFRequired
 	 *
 	 * APIv2
+	 * @param $phoneNumber
+	 * @param $start
+	 * @param $limit
+	 * @return JSONResponse
 	 */
 	public function fetchMessagesForNumber($phoneNumber, $start, $limit) {
 		if (!is_numeric($start) || !is_numeric($limit) || $start < 0 || $limit <= 0) {

@@ -24,7 +24,6 @@ use \OCA\OcSms\Db\ConfigMapper;
 use \OCA\OcSms\Db\SmsMapper;
 
 use \OCA\OcSms\Lib\ContactCache;
-use \OCA\OcSms\Lib\CountryCodes;
 use \OCA\OcSms\Lib\PhoneNumberFormatter;
 
 class SmsController extends Controller {
@@ -33,7 +32,6 @@ class SmsController extends Controller {
 	private $userId;
 	private $configMapper;
 	private $smsMapper;
-	private $errorMsg;
 	private $urlGenerator;
 	private $contactCache;
 
@@ -84,7 +82,6 @@ class SmsController extends Controller {
 		// Cache country because of loops
 		$configuredCountry = $this->configMapper->getCountry();
 
-		$countPhone = count($phoneList);
 		foreach ($phoneList as $number => $ts) {
 			$fmtPN = PhoneNumberFormatter::format($configuredCountry, $number);
 			if (isset($contactsSrc[$number])) {
@@ -110,6 +107,9 @@ class SmsController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 * @param $phoneNumber
+	 * @param int $lastDate
+	 * @return JSONResponse
 	 */
 	public function getConversation ($phoneNumber, $lastDate = 0) {
 		$contacts = $this->contactCache->getContacts();
@@ -163,6 +163,8 @@ class SmsController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 * @param $contact
+	 * @return JSONResponse
 	 */
 	public function deleteConversation ($contact) {
 		$contacts = $this->contactCache->getContacts();
@@ -193,6 +195,8 @@ class SmsController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 * @param $lastDate
+	 * @return JSONResponse
 	 */
 	public function checkNewMessages($lastDate) {
 		$phoneList = $this->smsMapper->getNewMessagesCountForAllPhonesNumbers($this->userId, $lastDate);
@@ -201,7 +205,6 @@ class SmsController extends Controller {
 		$contacts = array();
 		$photos = array();
 
-		$countPhone = count($phoneList);
 		foreach ($phoneList as $number => $ts) {
 			$fmtPN = preg_replace("#[ ]#","/", $number);
 			if (isset($contactsSrc[$fmtPN])) {
@@ -225,6 +228,9 @@ class SmsController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 * @param $messageId
+	 * @param $phoneNumber
+	 * @return JSONResponse
 	 */
 	public function deleteMessage ($messageId, $phoneNumber) {
 		if (!preg_match('#^[0-9]+$#',$messageId)) {

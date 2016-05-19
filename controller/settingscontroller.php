@@ -52,6 +52,8 @@ class SettingsController extends Controller {
 
 	/**
 	 * @NoAdminRequired
+	 * @param $country
+	 * @return JSONResponse
 	 */
 	function setCountry($country) {
 		if (!array_key_exists($country, CountryCodes::$codes)) {
@@ -63,6 +65,8 @@ class SettingsController extends Controller {
 
 	/**
 	 * @NoAdminRequired
+	 * @param $limit
+	 * @return JSONResponse
 	 */
 	function setMessageLimit($limit) {
 		$this->configMapper->set("message_limit", $limit);
@@ -71,6 +75,8 @@ class SettingsController extends Controller {
 
 	/**
 	 * @NoAdminRequired
+	 * @param $notification
+	 * @return JSONResponse
 	 */
 	function setNotificationState($notification) {
 		if (!is_numeric($notification) || $notification < 0 || $notification > 2) {
