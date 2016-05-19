@@ -11,8 +11,6 @@
 
 // Some global vars to improve performances
 var g_selectedConversation = null;
-var g_curPhoneNumber = null;
-var g_curContactName = '';
 var g_lastMsgDate = 0;
 var g_unreadCountCurrentConv = 0;
 var g_unreadCountAllConv = 0;
@@ -74,6 +72,8 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 		$scope.messages = [];
 		$scope.totalMessageCount = 0;
 		$scope.photoVersion = 1;
+		$scope.selectedContact = {};
+
 		// Settings
 		$scope.sendCountry = function () {
 			$.post(OC.generateUrl('/apps/ocsms/set/country'),{'country': $('select[name=intl_phone]').val()});
@@ -119,25 +119,15 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 					$scope.formatConversation(jsondata);
 
 					if (typeof jsondata['contactName'] == 'undefined' || jsondata['contactName'] == '') {
-						$('#ocsms-phone-label').html(phoneNumberLabel);
-						g_curContactName = phoneNumberLabel;
-						$('#ocsms-phone-opt-number').html('');
+						$scope.selectedContact.label = phoneNumberLabel;
+						$scope.selectedContact.opt_numbers = "";
 					}
 					else {
-						$('#ocsms-phone-label').html(jsondata['contactName']);
-						g_curContactName = jsondata['contactName'];
-						$('#ocsms-phone-opt-number').html(phoneNumberLabel);
+						$scope.selectedContact.label = jsondata['contactName'];
+						$scope.selectedContact.opt_numbers = phoneNumberLabel;
 					}
 
 					$scope.totalMessageCount = jsondata['msgCount'] !== undefined ? jsondata['msgCount'] : 0;
-
-					if ($('#app-content-header').is(':hidden')) {
-						$('#app-content-header').show();
-					}
-
-					if ($('#ocsms-conversation-removal').is(':hidden')) {
-						$('#ocsms-conversation-removal').show();
-					}
 
 					$('#app-content').scrollTop(1E10);
 
@@ -167,20 +157,12 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 						if (document.hasFocus() == false) {
 							g_unreadCountCurrentConv += fmt[0];
 							document.title = g_originalTitle + " (" + g_unreadCountCurrentConv + ")";
-							$scope.desktopNotify(g_unreadCountCurrentConv + " unread message(s) in conversation with " + g_curContactName);
+							$scope.desktopNotify(g_unreadCountCurrentConv + " unread message(s) in conversation with " + $scope.selectedContact.label);
 						}
 						
 					}
 					
 					$scope.totalMessageCount = jsondata['msgCount'] !== undefined ? jsondata['msgCount'] : 0;
-
-					if ($('#ocsms-conversation-removal').is(':hidden')) {
-						$('#ocsms-conversation-removal').show();
-					}
-
-					if ($('#app-content-header').is(':hidden')) {
-						$('#app-content-header').show();
-					}
 				}
 			);
 		};
@@ -189,7 +171,6 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			$.getJSON(OC.generateUrl('/apps/ocsms/get/new_messages'),
 				{ 'lastDate': g_lastMsgDate },
 				function(jsondata, status) {
-					var peerListBuf = '';
 					var bufferedContacts = [];
 
 					$.each(jsondata['phonelist'], function(id, val) {
@@ -197,7 +178,6 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 						idxVal = id.replace(/\//g,' ');
 						idxVal2 = idxVal.replace('/ /g','');
 						if (typeof jsondata['contacts'][id] == 'undefined') {
-							fn = '';
 							peerLabel = idxVal;
 						}
 						else {
@@ -253,12 +233,10 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 		};
 
 		$scope.removeConversation = function() {
-			$.post(OC.generateUrl('/apps/ocsms/delete/conversation'), {"contact": g_curContactName}, function(data) {
+			$.post(OC.generateUrl('/apps/ocsms/delete/conversation'), {"contact": $scope.selectedContact.label}, function(data) {
 				// Reinit main window
-				$('#ocsms-phone-label').html('');
-				$('#ocsms-phone-opt-number').html('');
-				$('#ocsms-conversation-removal').hide();
-				$('#app-content-header').hide();
+				$scope.selectedContact.label = "";
+				$scope.selectedContact.opt_numbers = "";
 				$scope.removeContact({'nav': g_curPhoneNumber});
 				$scope.$apply(function () {
 					$scope.messages = [];
@@ -307,7 +285,8 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			for (var i=0; i < len; i++) {
 				var curMsg = $scope.messages[i];
 				if (curMsg['id'] == msgId) {
-					$.post(OC.generateUrl('/apps/ocsms/delete/message'), {"messageId": msgId, "phoneNumber": g_curContactName}, function(data) {
+					$.post(OC.generateUrl('/apps/ocsms/delete/message'),
+						{"messageId": msgId, "phoneNumber": $scope.selectedContact.label}, function(data) {
 						$scope.$apply(function () {
 							$scope.messages.splice(i, 1);
 						});

@@ -46,8 +46,9 @@ use \OCA\OcSms\Lib\CountryCodes;
 	</div>
 
 	<div id="app-content">
-		<div id="app-content-header" style="display: none;">	
-			<div id="ocsms-phone-label"></div><div id="ocsms-conversation-removal" class="icon-delete svn delete action" ng-click="removeConversation();"></div>
+		<div id="app-content-header" ng-show="selectedContact.label !== undefined && selectedContact.label !== ''">
+			<div id="ocsms-phone-label">{{ selectedContact.label }} </div>
+			<div id="ocsms-conversation-removal" class="icon-delete svn delete action" ng-click="removeConversation();">{{ selectedContact.opt_numbers }}</div>
 			<div id="ocsms-phone-opt-number"></div>
 			<div id="ocsms-phone-msg-nb">{{ messages.length }} message(s) shown. {{ totalMessageCount }} message(s) stored in database.</div>
 			
