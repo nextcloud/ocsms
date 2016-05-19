@@ -36,13 +36,17 @@ class OcSmsApp extends App {
 		$container = $this->getContainer();
 		$server = $container->query('ServerContainer');
 
+		$container->registerService('UserId', function($c) use ($server) {
+			return $server->getUserSession()->getUser()->getUID();
+		});
+
 		/**
          * Database Layer
          */
 		$container->registerService('ConfigMapper', function (IContainer $c) use ($server) {
 			return new ConfigMapper(
 				$server->getDb(),
-				$c->query('CurrentUID'),
+				$c->query('UserId'),
 				$server->getCrypto()
 			);
 		});
@@ -77,7 +81,7 @@ class OcSmsApp extends App {
 			return new SmsController(
 				$c->query('AppName'),
 				$c->query('Request'),
-				$c->query('CurrentUID'),
+				$c->query('UserId'),
 				$c->query('SmsMapper'),
 				$c->query('ConfigMapper'),
 				$server->getContactsManager(),
@@ -89,7 +93,7 @@ class OcSmsApp extends App {
 			return new ApiController(
 				$c->query('AppName'),
 				$c->query('Request'),
-				$c->query('CurrentUID'),
+				$c->query('UserId'),
 				$c->query('SmsMapper')
 			);
 		});
