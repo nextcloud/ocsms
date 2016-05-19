@@ -12,6 +12,7 @@
 // Some global vars to improve performances
 var g_selectedConversation = null;
 var g_lastMsgDate = 0;
+var g_curPhoneNumber = null;
 var g_unreadCountCurrentConv = 0;
 var g_unreadCountAllConv = 0;
 var g_unreadCountNotifStep = 12;
