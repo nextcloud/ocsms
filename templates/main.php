@@ -10,7 +10,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 	<div id="app-mailbox-peers">
 		<ul class="contact-list">
 			<li ng-repeat="contact in contacts" peer-label="{{ contact.label }}" ng-click="loadConversation(contact);" href="#">
-				<div class="ocsms-plavatar" style="background-image: url('{{ contact.avatar }}');" ng-show="contact.avatar !== undefined"></div>
+				<img class="ocsms-plavatar" data-ng-src="data:image/png;base64,{{ contact.avatar }}" ng-show="contact.avatar !== undefined" />
 				<div class="ocsms-plavatar" ng-show="contact.avatar === undefined" ng-style="{'background-color': (contact.label | peerColor)}">{{ contact.label | firstCharacter }}</div>
 				<a class="ocsms-plname" style="{{ contact.unread > 0 ? 'font-weight:bold;' : ''}}" mailbox-label="{{ contact.label }}" mailbox-navigation="{{ contact.nav }}">{{ contact.label }}{{ contact.unread > 0 ? ' (' + contact.unread + ') ' : '' }}</a>
 			</li>
