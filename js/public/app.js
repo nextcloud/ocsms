@@ -110,7 +110,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 				$scope.selectedContact = contact;
 			}
 			$scope.messages = [];
-			$.getJSON(OC.generateUrl('/apps/ocsms/get/conversation'), {'phoneNumber': phoneNumber},
+			$.getJSON(OC.generateUrl('/apps/ocsms/get/conversation'), {'phoneNumber': $scope.selectedContact.nav},
 				function(jsondata, status) {
 					var phoneNumberLabel = phoneNumber;
 					$scope.selectedContact.nav = phoneNumber;
