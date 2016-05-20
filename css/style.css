@@ -27,10 +27,6 @@
 	box-sizing: border-box;
 }
 
-#app-mailbox-peers li:hover {
-	cursor: pointer;
-}
-
 #app-mailbox-peers li:hover > a,
 #app-mailbox-peers li:hover,
 #app-mailbox-peers .selected,
@@ -98,7 +94,6 @@
 	float: right;
 }
 
-
 #ocsms-phone-label {
 	font-weight: bold;
 	color: #555;
@@ -123,17 +118,15 @@
 	margin-left: 25px;
 }
 
-#ocsms-conversation-removal:hover {
+#ocsms-conversation-removal:hover,
+#ocsms-message-removal:hover,
+#app-mailbox-peers li:hover {
 	cursor: pointer;
 }
 
 #ocsms-message-removal {
 	float: right;
 	margin-left: 10px;
-}
-
-#ocsms-message-removal:hover {
-	cursor: pointer;
 }
 
 #ocsms-empty-conversation {
@@ -180,7 +173,7 @@
 	clear: both;
 }
 
-.ocsms-plavatar {
+.ocsms-plavatar, .ocsms-plavatar-big {
 	display: inline-block;
 	height: 40px;
 	width: 40px;
@@ -193,6 +186,12 @@
 	font-size: 1.5em;
 	text-transform: capitalize;
 	object-fit: cover;
+}
+
+.ocsms-plavatar-big {
+	height: 55px;
+	width: 55px;
+	line-height: 55px;
 }
 
 .ocsms-plname {
