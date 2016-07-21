@@ -170,8 +170,6 @@ class ApiController extends Controller {
 	 * @NoCSRFRequired
 	 *
 	 * APIv2
-	 * @param $start
-	 * @param $limit
 	 * @return JSONResponse
 	 */
 	public function fetchMessagesCount() {
