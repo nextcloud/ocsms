@@ -134,6 +134,17 @@ class SmsMapper extends Mapper {
 		return $messageList;
 	}
 
+	public function getMessageCount ($userId) {
+		$query = \OCP\DB::prepare('SELECT count(*) AS count FROM ' .
+			'*PREFIX*ocsms_smsdatas WHERE user_id = ?');
+		$result = $query->execute(array($userId));
+		if ($row = $result->fetchRow()) {
+			return $row["count"];
+		}
+
+		return 0;
+	}
+
 	public function getMessages ($userId, $start, $limit) {
 		$messageList = array();
 

@@ -174,6 +174,18 @@ class ApiController extends Controller {
 	 * @param $limit
 	 * @return JSONResponse
 	 */
+	public function fetchMessagesCount() {
+		return new JSONResponse(array("count" => $this->smsMapper->getMessageCount($this->userId)));
+	}
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 *
+	 * APIv2
+	 * @param $start
+	 * @param $limit
+	 * @return JSONResponse
+	 */
 	public function fetchMessages($start, $limit) {
 		if (!is_numeric($start) || !is_numeric($limit) || $start < 0 || $limit <= 0) {
 			return new JSONResponse(array("msg" => "Invalid request"), \OCP\AppFramework\Http::STATUS_BAD_REQUEST);
@@ -184,8 +196,7 @@ class ApiController extends Controller {
 			return new JSONResponse(array("msg" => "Too many messages requested"), 413);
 		}
 
-		$messages = $this->smsMapper->getMessages($this->userId, $start, $limit);
-		return new JSONResponse(array("messages" => $messages));
+		return new JSONResponse(array("messages" => $this->smsMapper->getMessages($this->userId, $start, $limit)));
 	}
 
 	/**

@@ -36,6 +36,7 @@ $application->registerRoutes($this, array('routes' => array(
 	// API v2
 	array('name' => 'api#get_all_stored_phone_numbers', 'url' => '/api/v2/phones/list', 'verb' => 'GET'), // Android APIv2
 	array('name' => 'api#fetch_messages', 'url' => '/api/v2/messages/{start}/{limit}', 'verb' => 'GET'), // Android APIv2
+	array('name' => 'api#fetch_messages_count', 'url' => '/api/v2/messages/count', 'verb' => 'GET'), // Android APIv2
 	array('name' => 'api#fetch_messages_for_number', 'url' => '/api/v2/messages/{phonenumber}/{start}/{limit}', 'verb' => 'GET'), // Android APIv2
 	array('name' => 'api#fetch_messages_to_send', 'url' => '/api/v2/messages/sendqueue', 'verb' => 'GET'), // Android APIv2
 
