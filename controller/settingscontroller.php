@@ -42,7 +42,9 @@ class SettingsController extends Controller {
 		return new JSONResponse(array("status" => true,
 			"country" => $country,
 			"message_limit" => $this->configMapper->getMessageLimit(),
-			"notification_state" => $this->configMapper->getNotificationState()
+			"notification_state" => $this->configMapper->getNotificationState(),
+			"contact_order" => $this->configMapper->getContactOrder(),
+			"contact_order_reverse" => $this->configMapper->getContactOrderReverse(),
 		));
 	}
 
@@ -53,7 +55,7 @@ class SettingsController extends Controller {
 	 */
 	function setCountry($country) {
 		if (!array_key_exists($country, CountryCodes::$codes)) {
-			return new JSONResponse(array("status" => false, "msg" => "Invalid country"));
+			return new JSONResponse(array("status" => false, "msg" => "Invalid country"), Http::STATUS_BAD_REQUEST);
 		}
 		$this->configMapper->set("country", $country);
 		return new JSONResponse(array("status" => true, "msg" => "OK"));
@@ -76,9 +78,24 @@ class SettingsController extends Controller {
 	 */
 	function setNotificationState($notification) {
 		if (!is_numeric($notification) || $notification < 0 || $notification > 2) {
-			return new JSONResponse(array("status" => false, "msg" => "Invalid notification state"));
+			return new JSONResponse(array("status" => false, "msg" => "Invalid notification state"), Http::STATUS_BAD_REQUEST);
 		}
 		$this->configMapper->set("notification_state", $notification);
+		return new JSONResponse(array("status" => true, "msg" => "OK"));
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @param $attribute
+	 * @param $reverse
+	 * @return JSONResponse
+	 */
+	function setContactOrder($attribute, $reverse) {
+		if (!in_array($reverse, ['true','false']) || !in_array($attribute, ['lastmsg','label'])) {
+			return new JSONResponse(array("status" => false, "msg" => "Invalid contact ordering"), Http::STATUS_BAD_REQUEST);
+		}
+		$this->configMapper->set("contact_order", $attribute);
+		$this->configMapper->set("contact_order_reverse", $reverse);
 		return new JSONResponse(array("status" => true, "msg" => "OK"));
 	}
 }

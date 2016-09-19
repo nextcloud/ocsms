@@ -30,6 +30,27 @@ function arrayUnique(arr) {
 	});
 }
 
+function toBool(str) {
+	if (str === "true") {
+		return true;
+	}
+	else if (str === "false") {
+		return false;
+	}
+	return null;
+}
+
+app.directive('toInt', function() {
+	return {
+		require: 'ngModel',
+		link: function(scope, element, attrs, modelCtrl) {
+			modelCtrl.$parsers.push(function (inputValue) {
+				return parseInt(inputValue, 10);
+			});
+		}
+	};
+});
+
 // Imported from ownCloud contact app
 app.filter('peerColor', function() {
 	return function(input) {
@@ -70,6 +91,8 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 
 		$scope.setting_msgLimit = 100;
 		$scope.setting_enableNotifications = 1;
+		$scope.setting_contactOrder = 'lastmsg';
+		$scope.setting_contactOrderReverse = true;
 
 		$scope.contacts = [];
 		$scope.messages = [];
@@ -95,6 +118,15 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 				return;
 			}
 			$.post(OC.generateUrl('/apps/ocsms/set/notification_state'),{'notification': $scope.setting_enableNotifications});
+		};
+
+		$scope.setContactOrderSetting = function () {
+			$.post(OC.generateUrl('/apps/ocsms/set/contact_order'),
+				{
+					'attribute': $scope.setting_contactOrder,
+					'reverse': $scope.setting_contactOrderReverse
+				}
+			);
 		};
 
 		// Conversations
@@ -314,9 +346,13 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 
 					$('input[name=setting_msg_per_page]').val(jsondata["message_limit"]);
 					$('select[name=setting_notif]').val(jsondata["notification_state"]);
+					$('select[name=setting_contact_order]').val(jsondata["contact_order"]);
+					$('input[name=setting_contact_order_reverse').val(toBool(jsondata["contact_order_reverse"]));
 
 					$scope.setting_msgLimit = jsondata["message_limit"];
 					$scope.setting_enableNotifications = jsondata["notification_state"];
+					$scope.setting_contactOrder = jsondata["contact_order"];
+					$scope.setting_contactOrderReverse = toBool(jsondata["contact_order_reverse"]);
 				}
 			});
 		};

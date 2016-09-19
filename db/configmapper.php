@@ -95,6 +95,22 @@ class ConfigMapper extends Mapper {
 		}
 		return $st;
 	}
+
+	public function getContactOrder() {
+		$order = $this->getKey("contact_order");
+		if ($order === false) {
+			$order = "lastmsg";
+		}
+		return $order;
+	}
+
+	public function getContactOrderReverse() {
+		$rev = $this->getKey("contact_order_reverse");
+		if ($rev === false) {
+			$rev = "true";
+		}
+		return $rev;
+	}
 };
 
 ?>

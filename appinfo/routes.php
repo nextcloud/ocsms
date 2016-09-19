@@ -25,6 +25,7 @@ $application->registerRoutes($this, array('routes' => array(
 	array('name' => 'settings#get_settings', 'url'=> '/get/settings', 'verb' => 'GET'),
 	array('name' => 'settings#set_messagelimit', 'url'=> '/set/msglimit', 'verb' => 'POST'),
 	array('name' => 'settings#set_notification_state', 'url'=> '/set/notification_state', 'verb' => 'POST'),
+	array('name' => 'settings#set_contact_order', 'url' => '/set/contact_order', 'verb' => 'POST'),
 
 	// Android API v1 doesn't have a version in the URL, be careful
 	array('name' => 'api#get_api_version', 'url' => '/get/apiversion', 'verb' => 'GET'), // Android APIv1
