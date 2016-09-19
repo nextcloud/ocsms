@@ -188,9 +188,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 								'unread': val
 							};
 
-							$scope.removeContact(contactObj);
-							$scope.addContactToFront(contactObj);
-
+							$scope.modifyContact(contactObj);
 							bufferedContacts.push(peerLabel);
 
 							// Re-set conversation because we reload the element
@@ -250,11 +248,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 				$scope.contacts.push(ct);
 			});
 		};
-		$scope.addContactToFront = function (ct) {
-			$scope.$apply(function () {
-				$scope.contacts.splice(0, 0, ct);
-			});
-		};
+
 		$scope.removeContact = function (ct) {
 			var len = $scope.contacts.length;
 			for (var i=0; i < len; i++) {
@@ -264,6 +258,18 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 						$scope.contacts.splice(i, 1);
 					});
 					return;
+				}
+			}
+		};
+
+		$scope.modifyContact = function (ct) {
+			var len = $scope.contacts.length;
+			for (var i=0; i < len; i++) {
+				if ($scope.contacts[i]['nav'] == ct['nav']) {
+					$scope.apply(function () {
+						$scope.contacts[i].unread = ct.unread;
+						$scope.contacts[i].avatar = ct.avatar;
+					});
 				}
 			}
 		};
