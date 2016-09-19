@@ -9,7 +9,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 <div class="ng-scope" id="app" ng-app="OcSms" ng-controller="OcSmsController">
 	<div id="app-mailbox-peers">
 		<ul class="contact-list">
-			<li ng-repeat="contact in contacts | orderBy:'lastmsg'" peer-label="{{ contact.label }}" ng-click="loadConversation(contact);" href="#">
+			<li ng-repeat="contact in contacts | orderBy:'-lastmsg'" peer-label="{{ contact.label }}" ng-click="loadConversation(contact);" href="#">
 				<img class="ocsms-plavatar" data-ng-src="data:image/png;base64,{{ contact.avatar }}" ng-show="contact.avatar !== undefined" />
 				<div class="ocsms-plavatar" ng-show="contact.avatar === undefined" ng-style="{'background-color': (contact.label | peerColor)}">{{ contact.label | firstCharacter }}</div>
 				<a class="ocsms-plname" style="{{ contact.unread > 0 ? 'font-weight:bold;' : ''}}" mailbox-label="{{ contact.label }}" mailbox-navigation="{{ contact.nav }}">{{ contact.label }}{{ contact.unread > 0 ? ' (' + contact.unread + ') ' : '' }}</a>
@@ -64,7 +64,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 		</div>
 		<div id="app-content-wrapper">
 			<div ng-show="messages.length == 0" id="ocsms-empty-conversation">Please choose a conversation on the left menu</div>
-			<div ng-repeat="message in messages">
+			<div ng-repeat="message in messages | orderBy:'date'">
 				<div class="msg-{{ message.type }}">
 					<div>{{ message.content }}</div>
 					<div style="display: block;" id="ocsms-message-removal" class="icon-delete svn delete action" ng-click="removeConversationMessage(message.id);"></div>
