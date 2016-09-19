@@ -320,13 +320,9 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 
 		$scope.fetchInitialPeerList = function (jsondata) {
 			// Use a buffer for better jQuery performance
-			var photoPrefix = "";
 			var bufferedContacts = [];
 
 			$scope.photoVersion = jsondata["photo_version"];
-			if ($scope.photoVersion >= 2) {
-				photoPrefix = "data:image/png;base64,";
-			}
 
 			$.each(jsondata['phonelist'], function(id, val) {
 				var peerLabel, idxVal, idxVal2;
@@ -347,7 +343,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 					};
 
 					if (typeof(jsondata['photos'][peerLabel]) != 'undefined') {
-						contactObj['avatar'] = photoPrefix + jsondata['photos'][peerLabel];
+						contactObj['avatar'] = jsondata['photos'][peerLabel];
 					}
 					$scope.addContact(contactObj);
 					bufferedContacts.push(peerLabel);
@@ -446,7 +442,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 						if ($scope.selectedContact.nav === undefined) {
 							$scope.selectedContact.label = urlPhoneNumber;
 							$scope.selectedContact.nav = urlPhoneNumber;
-							$scope.selectedContact.avatar = "";
+							$scope.selectedContact.avatar = undefined;
 						}
 						$scope.fetchConversation(null);
 						changeSelectedConversation($("a[mailbox-navigation='" + urlPhoneNumber + "']"));

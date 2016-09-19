@@ -93,15 +93,9 @@ class ContactCache {
 				
 				if (isset ($r["PHOTO"])) {
 					// Remove useless prefix
-					// @TODO detect owncloud version
 					$ocversion = \OCP\Util::getVersion();
 					$photoURL = preg_replace("#^VALUE=uri:#","",$r["PHOTO"], 1);
-					if (version_compare($ocversion[0].".".$ocversion[1].".".$ocversion[2], "9.0.0", ">=")) {
-						$this->contactPhotos[$r["FN"]] = base64_encode($photoURL);
-					}
-					else {
-						$this->contactPhotos[$r["FN"]] = $photoURL;
-					}
+					$this->contactPhotos[$r["FN"]] = $photoURL;
 				}
 			}
 		}
