@@ -169,7 +169,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 					var bufferedContacts = [];
 
 					$.each(jsondata['phonelist'], function(id, val) {
-						var fn, peerLabel, idxVal;
+						var fn, peerLabel, idxVal, idxVal2;
 						idxVal = id.replace(/\//g,' ');
 						idxVal2 = idxVal.replace('/ /g','');
 						if (typeof jsondata['contacts'][id] == 'undefined') {
@@ -318,7 +318,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			}
 
 			$.each(jsondata['phonelist'], function(id, val) {
-				var peerLabel, idxVal;
+				var peerLabel, idxVal, idxVal2;
 				idxVal = id.replace(/\//g,' ');
 				idxVal2 = idxVal.replace('/ /g','');
 				if (typeof jsondata['contacts'][id] == 'undefined') {
@@ -328,7 +328,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 					peerLabel = jsondata['contacts'][id];
 				}
 				if (!inArray(peerLabel, bufferedContacts)) {
-					$scope.addContact({'label': peerLabel, 'nav': idxVal2, 'avatar': photoPrefix + jsondata['photos'][peerLabel], 'unread' : 0});
+					$scope.addContact({'label': peerLabel, 'nav': idxVal2, 'avatar': photoPrefix + jsondata['photos'][peerLabel], 'unread' : 0, 'lastmsg': val});
 					bufferedContacts.push(peerLabel);
 				}
 			});
