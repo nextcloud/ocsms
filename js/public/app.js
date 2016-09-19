@@ -33,8 +33,11 @@ function arrayUnique(arr) {
 // Imported from ownCloud contact app
 app.filter('peerColor', function() {
 	return function(input) {
+		if (typeof input == 'undefined') {
+			return '';
+		}
 		// Check if core has the new color generator
-		if(typeof input.toHsl === 'function') {
+		if (typeof input.toHsl === 'function') {
 			var hsl = input.toHsl();
 			return 'hsl('+hsl[0]+', '+hsl[1]+'%, '+hsl[2]+'%)';
 		} else {
