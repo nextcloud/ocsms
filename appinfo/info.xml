@@ -1,11 +1,12 @@
 <?xml version="1.0"?>
-<info>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+	      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
     <id>ocsms</id>
     <name>ownCloud SMS</name>
     <description>A app to sync SMS with your ownCloud</description>
-    <licence>AGPL</licence>
+    <licence>agpl</licence>
     <author>Loic Blot</author>
-    <version>1.8.0</version>
+    <version>1.8.1</version>
     <requiremin>8.1</requiremin>
     <requiremax>9.2</requiremax>
     <dependencies>
@@ -14,7 +15,7 @@
 
     <ocsid>167289</ocsid>
     
-    <website>https://apps.owncloud.com/content/show.php/ownCloud+SMS?content=167289</website>
+    <website>https://github.com/nerzhul/ocsms</website>
     <bugs>https://github.com/nerzhul/ocsms/issues</bugs>
     <repository type="git">https://github.com/nerzhul/ocsms</repository>
 </info>
