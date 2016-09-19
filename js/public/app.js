@@ -269,7 +269,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			var len = $scope.contacts.length;
 			for (var i=0; i < len; i++) {
 				if ($scope.contacts[i]['nav'] == ct['nav']) {
-					$scope.apply(function () {
+					$scope.$apply(function () {
 						$scope.contacts[i].unread = ct.unread;
 						if (typeof(ct.avatar) != 'undefined') {
 							$scope.contacts[i].avatar = ct.avatar;

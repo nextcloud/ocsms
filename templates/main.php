@@ -22,7 +22,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 		</div>
 		<div id="app-settings-content">
 			<div><label for="setting_msg_per_page">Max messages on tab loading</label>
-			<input type="number" min="10" max="10000" name="setting_msg_per_page" ng-model="setting_msgLimit" ng-change="setMessageLimit()"></input>
+			<input type="number" min="10" max="10000" name="setting_msg_per_page" ng-model="setting_msgLimit" ng-change="setMessageLimit()" />
 			<span class="label-invalid-input" ng-if="setting_msgLimit == null || setting_msgLimit == undefined">Invalid message limit</span>
 			</div>
 
