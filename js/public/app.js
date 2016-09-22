@@ -168,7 +168,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 						}
 
 						$scope.totalMessageCount = jsondata['msgCount'] !== undefined ? jsondata['msgCount'] : 0;
-					}
+					});
 
 					$('#app-content').scrollTop(1E10);
 				}
