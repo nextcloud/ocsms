@@ -211,7 +211,7 @@ class SmsMapper extends Mapper {
 		$phoneList = array();
 		while ($row = $result->fetchRow()) {
 			$phoneNumber = preg_replace("#[ ]#", "", $row["sms_address"]);
-			if (!in_array($phoneNumber, $phoneList)) {
+			if (!array_key_exists($phoneNumber, $phoneList)) {
 				$phoneList[$phoneNumber] = $row["mx"];
 			}
 			// Maybe duplicate due to spaces in database
@@ -235,9 +235,12 @@ class SmsMapper extends Mapper {
 		$phoneList = array();
 		while ($row = $result->fetchRow()) {
 			$phoneNumber = preg_replace("#[ ]#", "", $row["sms_address"]);
-			if (!in_array($phoneNumber, $phoneList)) {
-				if ($this->getLastReadDateForPhoneNumber($userId, $phoneNumber) < $lastDate) {
+			if ($this->getLastReadDateForPhoneNumber($userId, $row["sms_address"]) < $lastDate) {
+				if (!array_key_exists($phoneNumber, $phoneList)) {
 					$phoneList[$phoneNumber] = $row["ct"];
+				}
+				else {
+					$phoneList[$phoneNumber] += $row["ct"];
 				}
 			}
 		}
