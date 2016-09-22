@@ -8,7 +8,9 @@ use \OCA\OcSms\Lib\CountryCodes;
 
 <div class="ng-scope" id="app" ng-app="OcSms" ng-controller="OcSmsController">
 	<div id="app-mailbox-peers">
-		<ul class="contact-list">
+		<div id="app-contacts-loader" class="loader" ng-show="isContactsLoading">
+		</div>
+		<ul class="contact-list" ng-show="!isContactsLoading">
 			<li ng-repeat="contact in contacts | orderBy:setting_contactOrder:setting_contactOrderReverse" peer-label="{{ contact.label }}" ng-click="loadConversation(contact);" href="#">
 				<img class="ocsms-plavatar" ng-src="{{ contact.avatar }}" ng-show="contact.avatar !== undefined" />
 				<div class="ocsms-plavatar" ng-show="contact.avatar === undefined" ng-style="{'background-color': (contact.label | peerColor)}">{{ contact.label | firstCharacter }}</div>
@@ -56,9 +58,9 @@ use \OCA\OcSms\Lib\CountryCodes;
 	</div>
 
 	<div id="app-content">
-		<div id="app-content-loader" class="loader" ng-show="isLoading">
+		<div id="app-content-loader" class="loader" ng-show="isConvLoading">
 		</div>
-		<div id="app-content-header" ng-show="!isLoading && selectedContact.label !== undefined && selectedContact.label !== ''"
+		<div id="app-content-header" ng-show="!isConvLoading && selectedContact.label !== undefined && selectedContact.label !== ''"
 			 ng-style="{'background-color': (selectedContact.label | peerColor)}">
 			<div id="ocsms-contact-avatar">
 				<img class="ocsms-plavatar-big" ng-src="{{ selectedContact.avatar }}"
@@ -74,7 +76,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 			</div>
 			
 		</div>
-		<div id="app-content-wrapper" ng-show="!isLoading">
+		<div id="app-content-wrapper" ng-show="!isConvLoading">
 			<div ng-show="messages.length == 0" id="ocsms-empty-conversation">Please choose a conversation on the left menu</div>
 			<div ng-repeat="message in messages | orderBy:'date'">
 				<div class="msg-{{ message.type }}">

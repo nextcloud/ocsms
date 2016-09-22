@@ -85,7 +85,8 @@ app.filter('firstCharacter', function() {
 
 app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile',
 	function ($scope, $interval, $timeout, $compile) {
-		$scope.isLoading = true;
+		$scope.isConvLoading = true;
+		$scope.isContactsLoading = true;
 		$scope.buttons = [
 			{text: "Send"}
 		];
@@ -145,7 +146,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			// If contact is not null, we will fetch a conversation for a new contact
 			if (contact != null) {
 				$scope.selectedContact = contact;
-				$scope.isLoading = true;
+				$scope.isConvLoading = true;
 			}
 
 			$scope.messages = [];
@@ -173,7 +174,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 						}
 
 						$scope.totalMessageCount = jsondata['msgCount'] !== undefined ? jsondata['msgCount'] : 0;
-						$scope.isLoading = false;
+						$scope.isConvLoading = false;
 					});
 
 					$('#app-content').scrollTop(1E10);
@@ -391,6 +392,10 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 					$scope.addContact(contactObj);
 					bufferedContacts.push(peerLabel);
 				}
+			});
+
+			$scope.$apply(function() {
+				$scope.isContactsLoading = false;
 			});
 
 			g_lastMsgDate = jsondata["lastRead"];
