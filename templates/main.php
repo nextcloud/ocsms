@@ -56,7 +56,9 @@ use \OCA\OcSms\Lib\CountryCodes;
 	</div>
 
 	<div id="app-content">
-		<div id="app-content-header" ng-show="selectedContact.label !== undefined && selectedContact.label !== ''"
+		<div id="app-content-loader" class="loader" ng-show="isLoading">
+		</div>
+		<div id="app-content-header" ng-show="!isLoading && selectedContact.label !== undefined && selectedContact.label !== ''"
 			 ng-style="{'background-color': (selectedContact.label | peerColor)}">
 			<div id="ocsms-contact-avatar">
 				<img class="ocsms-plavatar-big" ng-src="{{ selectedContact.avatar }}"
@@ -72,7 +74,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 			</div>
 			
 		</div>
-		<div id="app-content-wrapper">
+		<div id="app-content-wrapper" ng-show="!isLoading">
 			<div ng-show="messages.length == 0" id="ocsms-empty-conversation">Please choose a conversation on the left menu</div>
 			<div ng-repeat="message in messages | orderBy:'date'">
 				<div class="msg-{{ message.type }}">

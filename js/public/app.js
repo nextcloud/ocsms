@@ -85,6 +85,7 @@ app.filter('firstCharacter', function() {
 
 app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile',
 	function ($scope, $interval, $timeout, $compile) {
+		$scope.isLoading = true;
 		$scope.buttons = [
 			{text: "Send"}
 		];
@@ -139,12 +140,16 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 				changeSelectedConversation($("a[mailbox-navigation='" + contact.nav + "']"));
 			}
 		};
+
 		$scope.fetchConversation = function (contact) {
 			// If contact is not null, we will fetch a conversation for a new contact
 			if (contact != null) {
 				$scope.selectedContact = contact;
+				$scope.isLoading = true;
 			}
+
 			$scope.messages = [];
+
 			$.getJSON(OC.generateUrl('/apps/ocsms/get/conversation'), {'phoneNumber': $scope.selectedContact.nav},
 				function(jsondata, status) {
 					var phoneNumberLabel = $scope.selectedContact.nav;
@@ -157,7 +162,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 					// Reinit messages before showing conversation
 					$scope.formatConversation(jsondata);
 
-					$scope.$apply(function () {
+					$scope.$apply(function() {
 						if (typeof jsondata['contactName'] == 'undefined' || jsondata['contactName'] == '') {
 							$scope.selectedContact.label = phoneNumberLabel;
 							$scope.selectedContact.opt_numbers = "";
@@ -168,6 +173,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 						}
 
 						$scope.totalMessageCount = jsondata['msgCount'] !== undefined ? jsondata['msgCount'] : 0;
+						$scope.isLoading = false;
 					});
 
 					$('#app-content').scrollTop(1E10);
