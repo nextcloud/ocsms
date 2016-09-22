@@ -215,18 +215,12 @@ class SmsController extends Controller {
 		$photos = array();
 
 		foreach ($phoneList as $number => $ts) {
-			$fmtPN = preg_replace("#[ ]#","/", $number);
+			$fmtPN = preg_replace("#[ ]#","", $number);
 			if (isset($contactsSrc[$fmtPN])) {
-				$fmtPN2 = preg_replace("#[/]#","", $fmtPN);
 				$contacts[$fmtPN] = $contactsSrc[$fmtPN];
-				$contacts[$fmtPN2] = $contactsSrc[$fmtPN];
 
 				if (isset($photosSrc[$contacts[$fmtPN]])) {
 					$photos[$contacts[$fmtPN]] = $photosSrc[$contacts[$fmtPN]];
-				}
-
-				if (isset($photosSrc[$contacts[$fmtPN2]])) {
-					$photos[$contacts[$fmtPN2]] = $photosSrc[$contacts[$fmtPN2]];
 				}
 			}
 		}

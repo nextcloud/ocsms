@@ -204,9 +204,8 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 					var bufferedContacts = [];
 
 					$.each(jsondata['phonelist'], function(id, val) {
-						var fn, peerLabel, idxVal, idxVal2;
-						idxVal = id.replace(/\//g,' ');
-						idxVal2 = idxVal.replace('/ /g','');
+						var fn, peerLabel, idxVal;
+						idxVal = id.replace(/\//g,'');
 						if (typeof jsondata['contacts'][id] == 'undefined') {
 							peerLabel = idxVal;
 						}
@@ -218,7 +217,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 						if (!inArray(peerLabel, bufferedContacts)) {
 							var contactObj = {
 								'label': peerLabel,
-								'nav': idxVal2,
+								'nav': idxVal,
 								'unread': val
 							};
 
