@@ -214,6 +214,10 @@ class SmsMapper extends Mapper {
 			if (!in_array($phoneNumber, $phoneList)) {
 				$phoneList[$phoneNumber] = $row["mx"];
 			}
+			// Maybe duplicate due to spaces in database
+			else if ($phoneList[$phoneNumber] < $row["mx"]) {
+				$phoneList[$phoneNumber] = $row["mx"];
+			}
 		}
 		return $phoneList;
 	}

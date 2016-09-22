@@ -155,7 +155,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 					var phoneNumberLabel = $scope.selectedContact.nav;
 
 					if (typeof jsondata['phoneNumbers'] != 'undefined') {
-						phoneNumberList = arrayUnique(jsondata['phoneNumbers']);
+						var phoneNumberList = arrayUnique(jsondata['phoneNumbers']);
 						phoneNumberLabel = phoneNumberList.toString();
 					}
 
@@ -491,7 +491,6 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 						changeSelectedConversation($("a[mailbox-navigation='" + urlPhoneNumber + "']"));
 					}
 				}
-
 			});
 			$scope.fetchInitialSettings();
 			$scope.initDesktopNotifies();
