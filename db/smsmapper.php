@@ -232,7 +232,9 @@ class SmsMapper extends Mapper {
 		while ($row = $result->fetchRow()) {
 			$phoneNumber = preg_replace("#[ ]#", "/", $row["sms_address"]);
 			if (!in_array($phoneNumber, $phoneList)) {
-				$phoneList[$phoneNumber] = $row["ct"];
+				if ($this->getLastReadDateForPhoneNumber($userId, $phoneNumber) < $lastDate) {
+					$phoneList[$phoneNumber] = $row["ct"];
+				}
 			}
 		}
 		return $phoneList;
@@ -248,6 +250,22 @@ class SmsMapper extends Mapper {
 		if ($row = $result->fetchRow()) {
 			return $row["mx"];
 		}
+
+		return 0;
+	}
+
+	public function getLastReadDateForPhoneNumber ($userId, $phoneNumber) {
+		$sql = 'SELECT MAX(datavalue) as mx FROM ' .
+			'*PREFIX*ocsms_user_datas WHERE user_id = ? AND datakey = ?';
+
+		$query = \OCP\DB::prepare($sql);
+		$result = $query->execute(array($userId, 'lastReadDate-' . $phoneNumber));
+
+		if ($row = $result->fetchRow()) {
+			return $row["mx"];
+		}
+
+		return 0;
 	}
 
 	public function setLastReadDate ($userId, $phoneNumber, $lastDate) {
