@@ -230,7 +230,7 @@ class SmsMapper extends Mapper {
 
 		$phoneList = array();
 		while ($row = $result->fetchRow()) {
-			$phoneNumber = preg_replace("#[ ]#", "/", $row["sms_address"]);
+			$phoneNumber = preg_replace("#[ ]#", "", $row["sms_address"]);
 			if (!in_array($phoneNumber, $phoneList)) {
 				if ($this->getLastReadDateForPhoneNumber($userId, $phoneNumber) < $lastDate) {
 					$phoneList[$phoneNumber] = $row["ct"];
