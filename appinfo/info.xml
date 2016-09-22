@@ -6,7 +6,7 @@
     <description>A app to sync SMS with your ownCloud</description>
     <licence>agpl</licence>
     <author>Loic Blot</author>
-    <version>1.8.3</version>
+    <version>1.8.5</version>
     <dependencies>
         <owncloud min-version="8.1" max-version="9.2" />
         <nextcloud min-version="9.0" />

@@ -26,8 +26,16 @@
 				<length>64</length>
 				<notnull>true</notnull>
 			</field>
+			<index>
+				<name>user_datas_user_datakey</name>
+				<field>
+					<name>user_id</name>
+				</field>
+				<field>
+					<name>datakey</name>
+				</field>
+			</index>
 		</declaration>
-
 	</table>
 	<table>
 		<name>*dbprefix*ocsms_smsdatas</name>
@@ -102,6 +110,54 @@
 				<notnull>true</notnull>
 				<length>1</length>
 			</field>
+			<index>
+				<name>smsdata_user_mailbox</name>
+				<field>
+					<name>user_id</name>
+				</field>
+				<field>
+					<name>sms_mailbox</name>
+				</field>
+			</index>
+			<index>
+				<name>smsdata_user_mailbox_date</name>
+				<field>
+					<name>user_id</name>
+				</field>
+				<field>
+					<name>sms_mailbox</name>
+				</field>
+				<field>
+					<name>sms_date</name>
+				</field>
+			</index>
+			<index>
+				<name>smsdata_user_mailbox_address</name>
+				<field>
+					<name>user_id</name>
+				</field>
+				<field>
+					<name>sms_mailbox</name>
+				</field>
+				<field>
+					<name>sms_address</name>
+				</field>
+			</index>
+			<index>
+				<name>smsdata_user_mailbox_address_date</name>
+				<field>
+					<name>user_id</name>
+				</field>
+				<field>
+					<name>sms_mailbox</name>
+				</field>
+				<field>
+					<name>sms_address</name>
+				</field>
+				<field>
+					<name>sms_date</name>
+				</field>
+			</index>
 		</declaration>
 	</table>
 	<table>
@@ -157,6 +213,15 @@
                 <notnull>false</notnull>
                 <length>10240</length>
             </field>
+			<index>
+				<name>config_user_key</name>
+				<field>
+					<name>user</name>
+				</field>
+				<field>
+					<name>key</name>
+				</field>
+			</index>
         </declaration>
     </table>
 </database>

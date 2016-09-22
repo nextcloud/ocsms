@@ -197,7 +197,7 @@ class SmsMapper extends Mapper {
 	}
 
 	public function getLastMessageTimestampForAllPhonesNumbers ($userId, $order = true) {
-		$sql = 'SELECT sms_address,MAX(sms_date) as mx FROM ' .
+		$sql = 'SELECT sms_address, MAX(sms_date) AS mx FROM ' .
 		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_mailbox IN (?,?) ' .
 		'GROUP BY sms_address';
 
@@ -210,7 +210,7 @@ class SmsMapper extends Mapper {
 
 		$phoneList = array();
 		while ($row = $result->fetchRow()) {
-			$phoneNumber = $row["sms_address"];
+			$phoneNumber = preg_replace("#[ ]#", "", $row["sms_address"]);
 			if (!in_array($phoneNumber, $phoneList)) {
 				$phoneList[$phoneNumber] = $row["mx"];
 			}
@@ -221,7 +221,7 @@ class SmsMapper extends Mapper {
 	public function getNewMessagesCountForAllPhonesNumbers($userId, $lastDate) {
 		$ld = ($lastDate == '') ? 0 : $lastDate;
 
-		$sql = 'SELECT sms_address,count(sms_date) as ct FROM ' .
+		$sql = 'SELECT sms_address, COUNT(sms_date) AS ct FROM ' .
 		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_mailbox IN (?,?) ' .
 		'AND sms_date > ? GROUP BY sms_address';
 

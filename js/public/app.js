@@ -204,10 +204,9 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 					var bufferedContacts = [];
 
 					$.each(jsondata['phonelist'], function(id, val) {
-						var fn, peerLabel, idxVal;
-						idxVal = id.replace(/\//g,'');
+						var fn, peerLabel;
 						if (typeof jsondata['contacts'][id] == 'undefined') {
-							peerLabel = idxVal;
+							peerLabel = id;
 						}
 						else {
 							fn = jsondata['contacts'][id];
@@ -217,7 +216,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 						if (!inArray(peerLabel, bufferedContacts)) {
 							var contactObj = {
 								'label': peerLabel,
-								'nav': idxVal,
+								'nav': id,
 								'unread': val
 							};
 
@@ -229,8 +228,8 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 							bufferedContacts.push(peerLabel);
 
 							// Re-set conversation because we reload the element
-							if (idxVal == $scope.selectedContact.nav) {
-								changeSelectedConversation($("a[mailbox-navigation='" + idxVal + "']"));
+							if (id == $scope.selectedContact.nav) {
+								changeSelectedConversation($("a[mailbox-navigation='" + id + "']"));
 							}
 
 							g_unreadCountAllConv += parseInt(val);
@@ -363,11 +362,9 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			$scope.photoVersion = jsondata["photo_version"];
 
 			$.each(jsondata['phonelist'], function(id, val) {
-				var peerLabel, idxVal, idxVal2;
-				idxVal = id.replace(/\//g,' ');
-				idxVal2 = idxVal.replace('/ /g','');
+				var peerLabel;
 				if (typeof jsondata['contacts'][id] == 'undefined') {
-					peerLabel = idxVal;
+					peerLabel = id;
 				}
 				else {
 					peerLabel = jsondata['contacts'][id];
@@ -375,7 +372,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 				if (!inArray(peerLabel, bufferedContacts)) {
 					var contactObj = {
 						'label': peerLabel,
-						'nav': idxVal2,
+						'nav': id,
 						'unread' : 0,
 						'lastmsg': val
 					};
