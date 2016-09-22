@@ -157,16 +157,18 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 					// Reinit messages before showing conversation
 					$scope.formatConversation(jsondata);
 
-					if (typeof jsondata['contactName'] == 'undefined' || jsondata['contactName'] == '') {
-						$scope.selectedContact.label = phoneNumberLabel;
-						$scope.selectedContact.opt_numbers = "";
-					}
-					else {
-						$scope.selectedContact.label = jsondata['contactName'];
-						$scope.selectedContact.opt_numbers = phoneNumberLabel;
-					}
+					$scope.$apply(function () {
+						if (typeof jsondata['contactName'] == 'undefined' || jsondata['contactName'] == '') {
+							$scope.selectedContact.label = phoneNumberLabel;
+							$scope.selectedContact.opt_numbers = "";
+						}
+						else {
+							$scope.selectedContact.label = jsondata['contactName'];
+							$scope.selectedContact.opt_numbers = phoneNumberLabel;
+						}
 
-					$scope.totalMessageCount = jsondata['msgCount'] !== undefined ? jsondata['msgCount'] : 0;
+						$scope.totalMessageCount = jsondata['msgCount'] !== undefined ? jsondata['msgCount'] : 0;
+					}
 
 					$('#app-content').scrollTop(1E10);
 				}
