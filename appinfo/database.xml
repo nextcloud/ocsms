@@ -120,6 +120,15 @@
 				</field>
 			</index>
 			<index>
+				<name>smsdata_user_smsid</name>
+				<field>
+					<name>user_id</name>
+				</field>
+				<field>
+					<name>sms_id</name>
+				</field>
+			</index>
+			<index>
 				<name>smsdata_user_mailbox_date</name>
 				<field>
 					<name>user_id</name>
