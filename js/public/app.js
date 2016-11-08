@@ -150,6 +150,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			}
 
 			$scope.messages = [];
+			g_lastMsgDate = 0;
 
 			$.getJSON(OC.generateUrl('/apps/ocsms/get/conversation'), {'phoneNumber': $scope.selectedContact.nav},
 				function(jsondata, status) {
@@ -437,12 +438,12 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 				// Note: we divide by 100 because number compare too large integers
 				if ((id/100) > (g_lastMsgDate/100)) {
 					g_lastMsgDate = id;
-				}
 
-				// Multiplicate ID to permit date to use it properly
-				$scope.addConversationMessage({'id': id, 'type': msgClass, 'date': new Date(id * 1), 'content': vals['msg']});
-				buf = true;
-				msgCount++;
+					// Multiplicate ID to permit date to use it properly
+					$scope.addConversationMessage({'id': id, 'type': msgClass, 'date': new Date(id * 1), 'content': vals['msg']});
+					buf = true;
+					msgCount++;
+				}
 
 			});
 			return [msgCount,buf];
