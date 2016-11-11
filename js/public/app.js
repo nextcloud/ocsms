@@ -11,7 +11,6 @@
 
 // Some global vars to improve performances
 var g_selectedConversation = null;
-var g_lastMsgDate = 0;
 var g_unreadCountCurrentConv = 0;
 var g_unreadCountAllConv = 0;
 var g_unreadCountNotifStep = 12;
@@ -85,6 +84,8 @@ app.filter('firstCharacter', function() {
 
 app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile',
 	function ($scope, $interval, $timeout, $compile) {
+		$scope.lastConvMessageDate = 0;
+		$scope.lastContactListMsgDate = 0;
 		$scope.isConvLoading = true;
 		$scope.isContactsLoading = true;
 		$scope.buttons = [
@@ -150,7 +151,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			}
 
 			$scope.messages = [];
-			g_lastMsgDate = 0;
+			$scope.lastConvMessageDate = 0;
 
 			$.getJSON(OC.generateUrl('/apps/ocsms/get/conversation'), {'phoneNumber': $scope.selectedContact.nav},
 				function(jsondata, status) {
@@ -186,7 +187,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			$.getJSON(OC.generateUrl('/apps/ocsms/get/conversation'),
 				{
 					'phoneNumber': $scope.selectedContact.nav,
-					"lastDate": g_lastMsgDate
+					"lastDate": $scope.lastConvMessageDate
 				},
 				function(jsondata, status) {
 					var fmt = $scope.formatConversation(jsondata);
@@ -209,7 +210,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 		$scope.checkNewMessages = function() {
 			g_unreadCountAllConv = 0;
 			$.getJSON(OC.generateUrl('/apps/ocsms/get/new_messages'),
-				{ 'lastDate': g_lastMsgDate },
+				{ 'lastDate': $scope.lastContactListMsgDate },
 				function(jsondata, status) {
 					var bufferedContacts = [];
 
@@ -399,7 +400,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 				$scope.isContactsLoading = false;
 			});
 
-			g_lastMsgDate = jsondata["lastRead"];
+			$scope.lastContactListMsgDate = jsondata["lastRead"];
 		};
 
 
@@ -436,8 +437,8 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 
 				// Store the greater msg date for refresher
 				// Note: we divide by 100 because number compare too large integers
-				if ((id/100) > (g_lastMsgDate/100)) {
-					g_lastMsgDate = id;
+				if ((id/100) > ($scope.lastConvMessageDate/100)) {
+					$scope.lastConvMessageDate = id;
 
 					// Multiplicate ID to permit date to use it properly
 					$scope.addConversationMessage({'id': id, 'type': msgClass, 'date': new Date(id * 1), 'content': vals['msg']});
