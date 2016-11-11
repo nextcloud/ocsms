@@ -84,11 +84,13 @@ class ContactCache {
 				if (is_array($phoneIds)) {
 					$countPhone = count($phoneIds);
 					for ($i=0; $i < $countPhone; $i++) {
-						$this->pushPhoneNumberToCache($phoneIds[$i], $r["FN"], $configuredCountry);
+						$phoneNumber = preg_replace("#[ ]#","", $phoneIds[$i]);
+						$this->pushPhoneNumberToCache($phoneNumber, $r["FN"], $configuredCountry);
 					}
 				}
 				else {
-					$this->pushPhoneNumberToCache($phoneIds, $r["FN"], $configuredCountry);
+					$phoneNumber = preg_replace("#[ ]#","", $phoneIds);
+					$this->pushPhoneNumberToCache($phoneNumber, $r["FN"], $configuredCountry);
 				}
 				
 				if (isset ($r["PHOTO"])) {
@@ -102,7 +104,6 @@ class ContactCache {
 	}
 
 	private function pushPhoneNumberToCache($rawPhone, $contactName, $country) {
-
 		$phoneNb = PhoneNumberFormatter::format($country, $rawPhone);
 		$this->contacts[$phoneNb] = $contactName;
 		// Inverted contacts
