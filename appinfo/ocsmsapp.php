@@ -22,8 +22,11 @@ use \OCA\OcSms\Controller\SmsController;
 
 use \OCA\OcSms\Db\Sms;
 use \OCA\OcSms\Db\SmsMapper;
+use \OCA\OcSms\Db\ConversationStateMapper;
 
 use \OCA\OcSms\Db\ConfigMapper;
+
+use \OCA\OcSms\Migration\FixConversationReadStates;
 
 class OcSmsApp extends App {
 
@@ -41,8 +44,8 @@ class OcSmsApp extends App {
 		});
 
 		/**
-         * Database Layer
-         */
+	         * Database Layer
+        	 */
 		$container->registerService('ConfigMapper', function (IContainer $c) use ($server) {
 			return new ConfigMapper(
 				$server->getDb(),
@@ -55,8 +58,15 @@ class OcSmsApp extends App {
 			return new Sms($server->getDb());
 		});
 
+		$container->registerService('ConversationStateMapper', function(IContainer $c) use ($server) {
+			return new ConversationStateMapper($server->getDb());
+		});
+
 		$container->registerService('SmsMapper', function(IContainer $c) use ($server) {
-			return new SmsMapper($server->getDb());
+			return new SmsMapper(
+				$server->getDb(),
+				$c->query('ConversationStateMapper')
+			);
 		});
 
 		/**
@@ -83,6 +93,7 @@ class OcSmsApp extends App {
 				$c->query('Request'),
 				$c->query('UserId'),
 				$c->query('SmsMapper'),
+				$c->query('ConversationStateMapper'),
 				$c->query('ConfigMapper'),
 				$server->getContactsManager(),
 				$server->getURLGenerator()
@@ -95,6 +106,16 @@ class OcSmsApp extends App {
 				$c->query('Request'),
 				$c->query('UserId'),
 				$c->query('SmsMapper')
+			);
+		});
+
+		/**
+		 * Migration services
+		 */
+		$container->registerService('OCA\OcSms\Migration\FixConversationReadStates', function ($c) {
+			return new FixConversationReadStates(
+				$c->query('ConversationStateMapper'),
+				$c->getServer()->getUserManager()
 			);
 		});
 	}

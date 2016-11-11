@@ -202,6 +202,38 @@
 		</declaration>
 	</table>
 	<table>
+		<name>*dbprefix*ocsms_conversation_read_states</name>
+		<declaration>
+			<field>
+				<name>user_id</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+			<field>
+				<name>phone_number</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+			<field>
+				<name>int_date</name>
+				<type>integer</type>
+				<length>32</length>
+				<notnull>true</notnull>
+			</field>
+			<index>
+				<name>sms_conversation_rs_pkey</name>
+				<field>
+					<name>user_id</name>
+				</field>
+				<field>
+					<name>phone_number</name>
+				</field>
+			</index>
+		</declaration>
+	</table>
+	<table>
         <name>*dbprefix*ocsms_config</name>
         <declaration>
             <field>

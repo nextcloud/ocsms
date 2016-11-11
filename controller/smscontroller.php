@@ -22,6 +22,7 @@ use \OCP\AppFramework\Http;
 
 use \OCA\OcSms\Db\ConfigMapper;
 use \OCA\OcSms\Db\SmsMapper;
+use \OCA\OcSms\Db\ConversationStateMapper;
 
 use \OCA\OcSms\Lib\ContactCache;
 use \OCA\OcSms\Lib\PhoneNumberFormatter;
@@ -31,6 +32,7 @@ class SmsController extends Controller {
 	private $userId;
 	private $configMapper;
 	private $smsMapper;
+	private $convStateMapper;
 	private $urlGenerator;
 	private $contactCache;
 
@@ -44,11 +46,14 @@ class SmsController extends Controller {
 	 * @param IContactsManager $contactsManager
 	 * @param $urlGenerator
 	 */
-	public function __construct ($appName, IRequest $request, $userId, SmsMapper $mapper, ConfigMapper $cfgMapper,
-								 IContactsManager $contactsManager, IURLGenerator $urlGenerator) {
+	public function __construct ($appName, IRequest $request, $userId,
+			SmsMapper $mapper, ConversationStateMapper $cmapper,
+			ConfigMapper $cfgMapper,
+			IContactsManager $contactsManager, IURLGenerator $urlGenerator) {
 		parent::__construct($appName, $request);
 		$this->userId = $userId;
 		$this->smsMapper = $mapper;
+		$this->convStateMapper = $cmapper;
 		$this->configMapper = $cfgMapper;
 		$this->urlGenerator = $urlGenerator;
 		$this->contactCache = new ContactCache($cfgMapper, $contactsManager);
@@ -103,7 +108,7 @@ class SmsController extends Controller {
 				$contacts[$number] = $fmtPN;
 			}
 		}
-		$lastRead = $this->smsMapper->getLastReadDate($this->userId);
+		$lastRead = $this->convStateMapper->getLast($this->userId);
 		$ocversion = \OCP\Util::getVersion();
 		$photoversion = 1;
 		if (version_compare($ocversion[0].".".$ocversion[1].".".$ocversion[2], "9.0.0", ">=")) {
@@ -160,7 +165,7 @@ class SmsController extends Controller {
 		if (count($messages) > 0) {
 			$maxDate = max(array_keys($messages));
 			for ($i=0;$i<count($phoneNumbers);$i++) {
-				$this->smsMapper->setLastReadDate($this->userId, $phoneNumbers[$i], $maxDate);
+				$this->convStateMapper->setLast($this->userId, $phoneNumbers[$i], $maxDate);
 			}
 		}
 

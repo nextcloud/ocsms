@@ -17,6 +17,7 @@ use \OCP\AppFramework\Db\Mapper;
 
 use \OCA\OcSms\AppInfo\OcSmsApp;
 use \OCA\OcSms\Lib\PhoneNumberFormatter;
+use \OCA\OcSms\Db\ConversationStateMapper;
 
 class SmsMapper extends Mapper {
 	/*
@@ -30,9 +31,11 @@ class SmsMapper extends Mapper {
 		4 => "outbox", 5 => "failed",
 		6 => "queued"
 	);
+	private $convStateMapper;
 
-	public function __construct (IDb $db) {
+	public function __construct (IDb $db, ConversationStateMapper $cmapper) {
 		parent::__construct($db, 'ocsms_smsdatas');
+		$this->convStateMapper = $cmapper;
 	}
 
 	public function getAllIds ($userId) {
@@ -235,7 +238,7 @@ class SmsMapper extends Mapper {
 		$phoneList = array();
 		while ($row = $result->fetchRow()) {
 			$phoneNumber = preg_replace("#[ ]#", "", $row["sms_address"]);
-			if ($this->getLastReadDateForPhoneNumber($userId, $phoneNumber) < $lastDate) {
+			if ($this->convStateMapper->getLastForPhoneNumber($userId, $phoneNumber) < $lastDate) {
 				if (!array_key_exists($phoneNumber, $phoneList)) {
 					$phoneList[$phoneNumber] = $row["ct"];
 				}
@@ -245,47 +248,6 @@ class SmsMapper extends Mapper {
 			}
 		}
 		return $phoneList;
-	}
-
-	public function getLastReadDate ($userId) {
-		$sql = 'SELECT MAX(datavalue) as mx FROM ' .
-		'*PREFIX*ocsms_user_datas WHERE user_id = ?';
-
-		$query = \OCP\DB::prepare($sql);
-		$result = $query->execute(array($userId));
-
-		if ($row = $result->fetchRow()) {
-			return $row["mx"];
-		}
-
-		return 0;
-	}
-
-	public function getLastReadDateForPhoneNumber ($userId, $phoneNumber) {
-		$sql = 'SELECT MAX(datavalue) as mx FROM ' .
-			'*PREFIX*ocsms_user_datas WHERE user_id = ? AND datakey = ?';
-
-		$query = \OCP\DB::prepare($sql);
-		$result = $query->execute(array($userId, 'lastReadDate-' . $phoneNumber));
-
-		if ($row = $result->fetchRow()) {
-			return $row["mx"];
-		}
-
-		return 0;
-	}
-
-	public function setLastReadDate ($userId, $phoneNumber, $lastDate) {
-		\OCP\DB::beginTransaction();
-		$query = \OCP\DB::prepare('DELETE FROM *PREFIX*ocsms_user_datas ' .
-			'WHERE user_id = ? AND datakey = ?');
-		$query->execute(array($userId, 'lastReadDate-' . $phoneNumber));
-
-		$query = \OCP\DB::prepare('INSERT INTO *PREFIX*ocsms_user_datas' .
-			'(user_id, datakey, datavalue) VALUES ' .
-			'(?,?,?)');
-		$query->execute(array($userId, 'lastReadDate-' . $phoneNumber, $lastDate));
-		\OCP\DB::commit();
 	}
 
 	public function writeToDB ($userId, $smsList, $purgeAllSmsBeforeInsert = false) {
