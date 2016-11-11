@@ -86,7 +86,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 	function ($scope, $interval, $timeout, $compile) {
 		$scope.lastConvMessageDate = 0;
 		$scope.lastContactListMsgDate = 0;
-		$scope.isConvLoading = true;
+		$scope.isConvLoading = false;
 		$scope.isContactsLoading = true;
 		$scope.buttons = [
 			{text: "Send"}
