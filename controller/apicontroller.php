@@ -195,8 +195,12 @@ class ApiController extends Controller {
 		}
 
 		$messages = $this->smsMapper->getMessages($this->userId, $start, $limit);
+		$last_id = 0;
+		if (count($messages) > 0) {
+			$last_id = max(array_keys($messages));
+		}
 
-		return new JSONResponse(array("messages" => $messages, "last_id" => max(array_keys($messages))));
+		return new JSONResponse(array("messages" => $messages, "last_id" => $last_id));
 	}
 
 	/**
