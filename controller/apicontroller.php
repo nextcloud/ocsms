@@ -207,26 +207,7 @@ class ApiController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 *
-	 * APIv2
-	 * @param $phoneNumber
-	 * @param $start
-	 * @param $limit
-	 * @return JSONResponse
-	 */
-	public function fetchMessagesForNumber($phoneNumber, $start, $limit) {
-		if (!is_numeric($start) || !is_numeric($limit) || $start < 0 || $limit <= 0) {
-			return new JSONResponse(array("msg" => "Invalid request"), \OCP\AppFramework\Http::STATUS_BAD_REQUEST);
-		}
-
-		// @TODO because multiple phone numbers can be same number with different formatting
-		return new JSONResponse(array("messages" => array(), "last_id" => $start));
-	}
-
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 *
-	 * APIv2
+	 * APIv3
 	 */
 	public function fetchMessagesToSend() {
 		// @TODO
