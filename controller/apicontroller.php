@@ -195,7 +195,7 @@ class ApiController extends Controller {
 		}
 
 		$messages = $this->smsMapper->getMessages($this->userId, $start, $limit);
-		$last_id = 0;
+		$last_id = $start;
 		if (count($messages) > 0) {
 			$last_id = max(array_keys($messages));
 		}
@@ -219,7 +219,7 @@ class ApiController extends Controller {
 		}
 
 		// @TODO because multiple phone numbers can be same number with different formatting
-		return new JSONResponse(array("messages" => array(), "last_id" => 0));
+		return new JSONResponse(array("messages" => array(), "last_id" => $start));
 	}
 
 	/**
