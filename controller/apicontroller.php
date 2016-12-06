@@ -194,7 +194,9 @@ class ApiController extends Controller {
 			return new JSONResponse(array("msg" => "Too many messages requested"), 413);
 		}
 
-		return new JSONResponse(array("messages" => $this->smsMapper->getMessages($this->userId, $start, $limit)));
+		$messages = $this->smsMapper->getMessages($this->userId, $start, $limit);
+
+		return new JSONResponse(array("messages" => $messages, "last_id" => max(array_keys($messages))));
 	}
 
 	/**
@@ -213,7 +215,7 @@ class ApiController extends Controller {
 		}
 
 		// @TODO because multiple phone numbers can be same number with different formatting
-		return new JSONResponse(array("messages" => array()));
+		return new JSONResponse(array("messages" => array(), "last_id" => 0));
 	}
 
 	/**
