@@ -3,11 +3,15 @@
 	      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
     <id>ocsms</id>
     <name>ownCloud SMS</name>
-    <description>A app to sync SMS with your ownCloud</description>
+    <summary>An app to sync SMS with your cloud</summary>
+    <description>An app to sync SMS with your cloud</description>
     <licence>agpl</licence>
-    <author>Loic Blot</author>
+    <author homepage="https://www.unix-experience.fr">Loic Blot</author>
     <version>1.11.1</version>
+    <category>multimedia</category>
+    <category>tools</category>
     <dependencies>
+        <php min-version="5.6" min-int-size="64"/>
         <owncloud min-version="8.1" max-version="9.2" />
         <nextcloud min-version="9.0" max-version="11.0" />
     </dependencies>
