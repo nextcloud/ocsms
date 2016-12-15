@@ -39,31 +39,6 @@ function toBool(str) {
 	return null;
 }
 
-var SearchProxy = {};
-
-(function(OC, _) {
-	'use strict';
-
-	var filter = function() {};
-
-	SearchProxy = {
-		attach: function(search) {
-			search.setFilter('phone', this.filterProxy);
-		},
-		filterProxy: function(query) {
-			filter(query);
-		},
-		setFilter: function(newFilter) {
-			filter = newFilter;
-		}
-	};
-
-	if (!_.isUndefined(OC.Plugins)) {
-		OC.Plugins.register('OCA.Search', SearchProxy);
-	}
-
-})(OC, _);
-
 app.directive('toInt', function() {
 	return {
 		require: 'ngModel',
@@ -127,6 +102,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 		$scope.totalMessageCount = 0;
 		$scope.photoVersion = 1;
 		$scope.selectedContact = {};
+		$scope.lastSearch = '';
 
 		// Settings
 		$scope.sendCountry = function () {
@@ -313,9 +289,14 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 		};
 
 		$scope.filterSms = function (query) {
-			alert('scope filter');
+			if (query != $scope.lastSearch) {
+			}
 		};
-		SearchProxy.setFilter($scope.filterSms);
+		OC.Plugins.register('OCA.Search', {
+			attach: function(search) {
+				search.setFilter('sms', $scope.filterSms);
+			}
+		});
 
 		/*
 		* Contact list management
