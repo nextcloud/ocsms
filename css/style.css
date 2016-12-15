@@ -62,13 +62,14 @@
 
 #app-content-header {
 	background-color: #E6E6E6;
-	min-height: 30px;
+	min-height: 100px;
 	width: 80%;
 	float: left;
 	position: fixed;
 	top: 45px;
-	padding: 15px;
+	padding: 12.5px;
 	box-shadow: 0 1px 0 0 #CCC;
+	z-index: 1;
 }
 
 @media screen and (max-width : 770px) {
@@ -82,7 +83,7 @@
 	height: 75px;
 	width: 75px;
 	font-size: 2.5em;
-	line-height: 75px;
+	margin-right: 1rem;
 }
 
 #ocsms-contact-details,
@@ -97,20 +98,22 @@
 }
 
 #ocsms-phone-label {
-	font-weight: bold;
-	color: #555;
+	font-weight: normal;
+	color: #fff;
 	float: left;
+	font-size: 20px;
+	margin-bottom: .5rem;
 }
 
 #ocsms-phone-opt-number {
-	color: #999;
-	padding-left: 15px;
+	color: #fff;
 	float: left;
 	width: 100%;
+	margin-bottom: .5rem;
 }
 
 #ocsms-phone-msg-nb {
-	color: #555;
+	color: #fff;
 	float: left;
 	width: 100%;
 }
@@ -163,9 +166,28 @@
 }
 
 .msg-date {
+	color: #666;
 	font-style: italic;
 	font-size: 90%;
 	float: right;
+	line-height: 16px;
+	margin-top: .5rem;
+	font-size: smaller;
+	transition: color .3s ease;
+}
+
+.msg-recv:hover .msg-date,
+.msg-sent:hover .msg-date{
+	color: #333;
+}
+
+#app-content-wrapper .icon-delete {
+	opacity: .2;
+	margin-top: .5rem;
+}
+
+#app-content-wrapper .icon-delete:hover {
+	opacity: 1;
 }
 
 .msg-spacer {
@@ -188,8 +210,8 @@
 }
 
 .ocsms-plavatar-big {
-	height: 55px;
-	width: 55px;
+	height: 75px;
+	width: 75px;
 	line-height: 55px;
 }
 
@@ -214,14 +236,5 @@ label {
 }
 
 .icon-loading {
-	color: #646464;
-	text-indent: -9999em;
 	margin: 88px auto;
-	position: relative;
-	font-size: 11px;
-	-webkit-transform: translateZ(0);
-	-ms-transform: translateZ(0);
-	transform: translateZ(0);
-	-webkit-animation-delay: -0.16s;
-	animation-delay: -0.16s;
 }
