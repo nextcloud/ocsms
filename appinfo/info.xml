@@ -2,12 +2,12 @@
 <info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
 	      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
     <id>ocsms</id>
-    <name>ownCloud SMS</name>
+    <name>Nextcloud SMS</name>
     <summary>An app to sync SMS with your cloud</summary>
     <description>An app to sync SMS with your cloud</description>
     <licence>agpl</licence>
     <author homepage="https://www.unix-experience.fr">Loic Blot</author>
-    <version>1.11.1</version>
+    <version>1.11.2</version>
     <category>multimedia</category>
     <category>tools</category>
     <dependencies>
@@ -21,6 +21,7 @@
     <website>https://github.com/nerzhul/ocsms</website>
     <bugs>https://github.com/nerzhul/ocsms/issues</bugs>
     <repository type="git">https://github.com/nerzhul/ocsms</repository>
+    <screenshot small-thumbnail="https://raw.githubusercontent.com/nerzhul/ocsms/master/screenshots/1-small.png">https://raw.githubusercontent.com/nerzhul/ocsms/master/screenshots/1.png</screenshot>
 
     <repair-steps>
         <post-migration>
