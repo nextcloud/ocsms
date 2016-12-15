@@ -41,12 +41,9 @@
 	padding: 0 12px;
 }
 #app-mailbox-peers li > a {
-	display: inline-block;
 	overflow: hidden;
-	box-sizing: border-box;
 	white-space: nowrap;
 	text-overflow: ellipsis;
-	color: #333;
 }
 
 #ocsms-empty-peers {
@@ -64,12 +61,13 @@
 	background-color: #E6E6E6;
 	min-height: 100px;
 	width: 80%;
-	float: left;
 	position: fixed;
 	top: 45px;
 	padding: 12.5px;
 	box-shadow: 0 1px 0 0 #CCC;
 	z-index: 1;
+	display: flex;
+	align-items: center;
 }
 
 @media screen and (max-width : 770px) {
@@ -86,15 +84,8 @@
 	margin-right: 1rem;
 }
 
-#ocsms-contact-details,
-#ocsms-contact-actions,
-#ocsms-contact-avatar {
-	display: inline-block;
-	float: left;
-}
-
-#ocsms-contact-actions {
-	float: right;
+#ocsms-contact-details {
+	flex-grow: 1;
 }
 
 #ocsms-phone-label {
@@ -201,6 +192,7 @@
 	line-height: 40px;
 	border-radius: 50%;
 	vertical-align: middle;
+	/*! margin-right: 10px; */
 	color: white;
 	text-align: center;
 	font-size: 1.5em;
@@ -237,3 +229,4 @@ label {
 .icon-loading {
 	margin: 88px auto;
 }
+
