@@ -39,6 +39,31 @@ function toBool(str) {
 	return null;
 }
 
+var SearchProxy = {};
+
+(function(OC, _) {
+	'use strict';
+
+	var filter = function() {};
+
+	SearchProxy = {
+		attach: function(search) {
+			search.setFilter('phone', this.filterProxy);
+		},
+		filterProxy: function(query) {
+			filter(query);
+		},
+		setFilter: function(newFilter) {
+			filter = newFilter;
+		}
+	};
+
+	if (!_.isUndefined(OC.Plugins)) {
+		OC.Plugins.register('OCA.Search', SearchProxy);
+	}
+
+})(OC, _);
+
 app.directive('toInt', function() {
 	return {
 		require: 'ngModel',
@@ -196,14 +221,14 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 						$('#app-content').scrollTop(1E10);
 						// This will blink the tab because there is new messages
 						if (document.hasFocus() == false) {
-							g_unreadCountCurrentConv += fmt[0];
+							g_unreadCountCurrentConv += parseInt(fmt[0]);
 							document.title = g_originalTitle + " (" + g_unreadCountCurrentConv + ")";
 							$scope.desktopNotify(g_unreadCountCurrentConv + " unread message(s) in conversation with " + $scope.selectedContact.label);
 						}
-						
+
 					}
-					
-					$scope.totalMessageCount = jsondata['msgCount'] !== undefined ? jsondata['msgCount'] : 0;
+
+					$scope.totalMessageCount = jsondata['msgCount'] !== undefined ? parseInt(jsondata['msgCount']) : 0;
 				}
 			);
 		};
@@ -228,7 +253,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 							var contactObj = {
 								'label': peerLabel,
 								'nav': id,
-								'unread': val
+								'unread': parseInt(val)
 							};
 
 							if (typeof jsondata['photos'][peerLabel] != 'undefined') {
@@ -252,11 +277,11 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 					* Stop at zero permit to notify instanly the user when 
 					* there is new messages in all conversations
 					*/
-					
+
 					if (g_unreadCountNotifStep > 0) {
 						g_unreadCountNotifStep--;
 					}
-					
+
 					if (g_unreadCountAllConv > 0) {
 						/*
 						* We notify user every two minutes for all messages
@@ -287,6 +312,11 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			});
 		};
 
+		$scope.filterSms = function (query) {
+			alert('scope filter');
+		};
+		SearchProxy.setFilter($scope.filterSms);
+
 		/*
 		* Contact list management
 		*/
@@ -314,7 +344,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			for (var i=0; i < len; i++) {
 				if ($scope.contacts[i]['nav'] == ct['nav']) {
 					$scope.$apply(function () {
-						$scope.contacts[i].unread = ct.unread;
+						$scope.contacts[i].unread = parseInt(ct.unread);
 						if (typeof(ct.avatar) != 'undefined') {
 							$scope.contacts[i].avatar = ct.avatar;
 						}
@@ -353,12 +383,12 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 				if (jsondata['status'] == true) {
 					$('#sel_intl_phone').val(jsondata["country"]);
 
-					$('input[name=setting_msg_per_page]').val(jsondata["message_limit"]);
+					$('input[name=setting_msg_per_page]').val(parseInt(jsondata["message_limit"]));
 					$('select[name=setting_notif]').val(jsondata["notification_state"]);
 					$('select[name=setting_contact_order]').val(jsondata["contact_order"]);
 					$('input[name=setting_contact_order_reverse').val(toBool(jsondata["contact_order_reverse"]));
 
-					$scope.setting_msgLimit = jsondata["message_limit"];
+					$scope.setting_msgLimit = parseInt(jsondata["message_limit"]);
 					$scope.setting_enableNotifications = jsondata["notification_state"];
 					$scope.setting_contactOrder = jsondata["contact_order"];
 					$scope.setting_contactOrderReverse = toBool(jsondata["contact_order_reverse"]);
@@ -385,7 +415,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 						'label': peerLabel,
 						'nav': id,
 						'unread' : 0,
-						'lastmsg': val
+						'lastmsg': parseInt(val)
 					};
 
 					if (typeof(jsondata['photos'][peerLabel]) != 'undefined') {
@@ -408,7 +438,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			if (!("Notification" in window)) {
 				return;
 			}
-			
+
 			Notification.requestPermission(function (permission) {
 				if(!('permission' in Notification)) {
 					Notification.permission = permission;
@@ -537,3 +567,4 @@ function changeSelectedConversation(item) {
 		document.title = g_originalTitle;
 	};
 })(jQuery, OC);
+

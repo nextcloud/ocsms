@@ -42,7 +42,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 				<select name="setting_contact_order" ng-model="setting_contactOrder" ng-change="setContactOrderSetting()">
 					<option value="lastmsg">Last message</option>
 					<option value="label">Label</option>
-				</select>				
+				</select>
 				<label for "setting_contact_order_reverse">Reverse ?</label>
 				<input type="checkbox" ng-model="setting_contactOrderReverse" ng-change="setContactOrderSetting()" />
 			</div>
@@ -74,7 +74,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 			<div id="ocsms-contact-actions">
 				<div id="ocsms-conversation-removal" class="icon-delete svn delete action" ng-click="removeConversation();"></div>
 			</div>
-			
+
 		</div>
 		<div id="app-content-wrapper" ng-show="!isConvLoading">
 			<div ng-show="messages.length == 0" id="ocsms-empty-conversation">Please choose a conversation on the left menu</div>
