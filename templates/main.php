@@ -8,7 +8,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 
 <div class="ng-scope" id="app" ng-app="OcSms" ng-controller="OcSmsController">
 	<div id="app-mailbox-peers">
-		<div id="app-contacts-loader" class="loader" ng-show="isContactsLoading">
+		<div id="app-contacts-loader" class="icon-loading" ng-show="isContactsLoading">
 		</div>
 		<ul class="contact-list" ng-show="!isContactsLoading">
 			<li ng-repeat="contact in contacts | orderBy:setting_contactOrder:setting_contactOrderReverse" peer-label="{{ contact.label }}" ng-click="loadConversation(contact);" href="#">
@@ -58,7 +58,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 	</div>
 
 	<div id="app-content">
-		<div id="app-content-loader" class="loader" ng-show="isConvLoading">
+		<div id="app-content-loader" class="icon-loading" ng-show="isConvLoading">
 		</div>
 		<div id="app-content-header" ng-show="!isConvLoading && selectedContact.label !== undefined && selectedContact.label !== ''"
 			 ng-style="{'background-color': (selectedContact.label | peerColor)}">
