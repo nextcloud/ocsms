@@ -292,6 +292,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			if (query != $scope.lastSearch) {
 			}
 		};
+
 		OC.Plugins.register('OCA.Search', {
 			attach: function(search) {
 				search.setFilter('sms', $scope.filterSms);
