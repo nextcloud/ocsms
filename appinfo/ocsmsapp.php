@@ -40,7 +40,12 @@ class OcSmsApp extends App {
 		$server = $container->query('ServerContainer');
 
 		$container->registerService('UserId', function($c) use ($server) {
-			return $server->getUserSession()->getUser()->getUID();
+			if ($server->getUserSession()->getUser()) {
+				return $server->getUserSession()->getUser()->getUID();
+			}
+			else {
+				return null;
+			}
 		});
 
 		/**
