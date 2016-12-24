@@ -1,39 +1,28 @@
-## ownCloud SMS
+# ownCloud SMS
 
+ownCloud SMS provides a webinterface to display your SMS conversations. SMS conversations are pushed by your Android devices using the [Android client](https://github.com/nerzhul/ownCloud-SMS-App), available on [Google Play Store](https://play.google.com/store/apps/details?id=fr.unix_experience.owncloud_sms).
 
-### Introduction
-ownCloud SMS provides a webinterface to display your SMS conversations.
+## :arrow_forward: Access
 
-SMS conversations are pushed by your Android devices using ownCloud SMS app, available on Google Play Store.
+The app is available in both, [Nextcloud appstore](https://apps.nextcloud.com/apps/ocsms) and [ownCloud appstore](https://apps.owncloud.com/content/show.php/ownCloud+SMS?content=167289). So installing is as easy as
 
-Android download link: https://play.google.com/store/apps/details?id=fr.unix_experience.owncloud_sms
+1. Navigate in your Nextcloud / ownCloud instance to the "apps"
+2. Enable "experimental apps" in the settings
+3. Select the category "Multimedia"
+4. Click "activate"
 
-ownCloud SMS Android App sources are partially available here: https://github.com/nerzhul/ownCloud-SMS-App
+## :eyes: Screenshot
 
+![Screenshot](https://raw.githubusercontent.com/nerzhul/ocsms/master/appinfo/screenshots/1.png)
 
-### Licence
-ownCloud SMS (OcSMS) web application is currently under AGPL licence but this free licence can be modificated to a better free licence.
-
-
-### Requirements
-- An ownCloud instance
+## :link: Requirements
+- A [Nextcloud](https://nextcloud.com) or [ownCloud](https://owncloud.com) instance
 - An Android phone
 
+## :exclamation: Reporting issues
 
-### Installation
-1. Download the [latest release](https://github.com/nerzhul/ocsms/releases)
-2. Place this app in **owncloud/apps/** and unpack it
-3. Rename folder to ocsms if it's not the correct name
-4. Activate the app in https://your-owncloud/index.php/settings/apps?installed
-5. Download the Android client from [Google Play](https://play.google.com/store/apps/details?id=fr.unix_experience.owncloud_sms)
-6. Activate the Android client by adding an account in your phone settings
-7. Choose your language into ocsms ownCloud app setting at the bottom of the contact list
+- **Client:** https://github.com/nerzhul/ownCloud-SMS-App/issues
+- **Server:** https://github.com/nerzhul/ocsms/issues
 
-
-### Owncloud SMS core issues
-*Please create your core issues here:*
-https://github.com/nerzhul/ocsms/issues
-
-### Android client issues
-*Please create your issues for the Android client here:*
-https://github.com/nerzhul/ownCloud-SMS-App/issues
+## :notebook: License
+ownCloud SMS (ocsms) web application is currently licensed under [AGPL license](https://github.com/nerzhul/ocsms/blob/master/LICENSE.md).
