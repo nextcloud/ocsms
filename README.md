@@ -21,8 +21,8 @@ The app is available in both, [Nextcloud appstore](https://apps.nextcloud.com/ap
 
 ## :exclamation: Reporting issues
 
-- **Client:** https://github.com/nerzhul/ownCloud-SMS-App/issues
 - **Server:** https://github.com/nerzhul/ocsms/issues
+- **Client:** https://github.com/nerzhul/ownCloud-SMS-App/issues
 
 ## :notebook: License
 ownCloud SMS (ocsms) web application is currently licensed under [AGPL license](https://github.com/nerzhul/ocsms/blob/master/LICENSE.md).
