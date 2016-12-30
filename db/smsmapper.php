@@ -151,11 +151,9 @@ class SmsMapper extends Mapper {
 	public function getMessages ($userId, $start, $limit) {
 		$messageList = array();
 
-		$limit_i = (int) $limit;
-
 		$query = \OCP\DB::prepare('SELECT sms_address, sms_date, sms_msg, sms_type, sms_mailbox FROM ' .
-			'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_date > ? ORDER BY sms_date LIMIT ?');
-		$result = $query->execute(array($userId, $start, $limit_i));
+			'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_date > ? ORDER BY sms_date LIMIT ?', (int) $limit);
+		$result = $query->execute(array($userId, $start));
 		while ($row = $result->fetchRow()) {
 			$messageList[$row["sms_date"]] = array(
 				"address" => $row["sms_address"],
