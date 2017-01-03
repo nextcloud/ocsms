@@ -23,6 +23,7 @@ class ContactCache {
 	private $contacts;
 	private $contactsInverted;
 	private $contactPhotos;
+	private $contactUids;
 
 	private $cfgMapper;
 	private $contactsManager;
@@ -30,6 +31,7 @@ class ContactCache {
 	public function __construct (ConfigMapper $cfgMapper, IContactsManager $contactsManager) {
 		$this->contacts = array();
 		$this->contactPhotos = array();
+		$this->contactUids = array();
 		$this->contactsInverted = array();
 
 		$this->cfgMapper = $cfgMapper;
@@ -58,6 +60,14 @@ class ContactCache {
 			$this->loadContacts();
 		}
 		return $this->contactPhotos;
+	}
+
+	public function getContactUids() {
+		// Only load contacts if they aren't in the buffer
+		if(count($this->contactUids) == 0) {
+			$this->loadContacts();
+		}
+		return $this->contactUids;
 	}
 
 	/**
@@ -98,6 +108,10 @@ class ContactCache {
 					$ocversion = \OCP\Util::getVersion();
 					$photoURL = preg_replace("#^VALUE=uri:#","",$r["PHOTO"], 1);
 					$this->contactPhotos[$r["FN"]] = $photoURL;
+				}
+				
+				if (isset ($r["UID"])) {
+					$this->contactUids[$r["FN"]] = $r["UID"];
 				}
 			}
 		}

@@ -13,7 +13,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 		<ul class="contact-list" ng-show="!isContactsLoading">
 			<li ng-repeat="contact in contacts | orderBy:setting_contactOrder:setting_contactOrderReverse" peer-label="{{ contact.label }}" ng-click="loadConversation(contact);" href="#">
 				<img class="ocsms-plavatar" ng-src="{{ contact.avatar }}" ng-show="contact.avatar !== undefined" />
-				<div class="ocsms-plavatar" ng-show="contact.avatar === undefined" ng-style="{'background-color': (contact.label | peerColor)}">{{ contact.label | firstCharacter }}</div>
+				<div class="ocsms-plavatar" ng-show="contact.avatar === undefined" ng-style="{'background-color': (contact.uid | peerColor)}">{{ contact.label | firstCharacter }}</div>
 				<a class="ocsms-plname" style="{{ contact.unread > 0 ? 'font-weight:bold;' : ''}}" mailbox-label="{{ contact.label }}" mailbox-navigation="{{ contact.nav }}">{{ contact.label }}{{ contact.unread > 0 ? ' (' + contact.unread + ') ' : '' }}</a>
 			</li>
 		</ul>
@@ -61,7 +61,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 		<div id="app-content-loader" class="icon-loading" ng-show="isConvLoading">
 		</div>
 		<div id="app-content-header" ng-show="!isConvLoading && selectedContact.label !== undefined && selectedContact.label !== ''"
-			 ng-style="{'background-color': (selectedContact.label | peerColor)}">
+			 ng-style="{'background-color': (selectedContact.uid | peerColor)}">
 			<div id="ocsms-contact-avatar">
 				<img class="ocsms-plavatar-big" ng-src="{{ selectedContact.avatar }}"
 					 ng-show="selectedContact.avatar !== undefined" />
