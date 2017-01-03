@@ -2,7 +2,7 @@
 <info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
 	      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
     <id>ocsms</id>
-    <name>Nextcloud SMS</name>
+    <name>Phone Sync</name>
     <summary>An app to sync SMS with your cloud</summary>
     <description>An app to sync SMS with your cloud</description>
     <licence>agpl</licence>

@@ -1,11 +1,11 @@
 /**
- * ownCloud - ocsms
+ * NextCloud - Phone Sync
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
  *
  * @author Loic Blot <loic.blot@unix-experience.fr>
- * @copyright Loic Blot 2014-2016
+ * @copyright Loic Blot 2014-2017
  */
 
 
@@ -50,7 +50,7 @@ app.directive('toInt', function() {
 	};
 });
 
-// Imported from ownCloud contact app
+// Imported from contact app
 app.filter('peerColor', function() {
 	return function(input) {
 		if (typeof input == 'undefined') {
@@ -484,7 +484,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 				return;
 			}
 			else if (Notification.permission === "granted") {
-				new Notification("ownCloud SMS - " + msg);
+				new Notification("Phone Sync - " + msg);
 			}
 			else if (Notification.permission !== 'denied') {
 				Notification.requestPermission(function (permission) {
@@ -492,7 +492,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 						Notification.permission = permission;
 					}
 					if (permission === "granted") {
-						new Notification("ownCloud SMS - " + msg);
+						new Notification("Phone Sync - " + msg);
 					}
 				});
 			}

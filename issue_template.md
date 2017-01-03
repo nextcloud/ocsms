@@ -1,8 +1,8 @@
 <!--
-Thanks for reporting issues back to us! 
+Thanks for reporting issues back to us!
 
 To make it possible for us to help you please fill out below information carefully.
---> 
+-->
 
 ### Steps to reproduce
 1.
@@ -17,7 +17,7 @@ Tell us what happens instead
 
 ### Server configuration
 
-**ownCloud version:** 
+**NextCloud/ownCloud version:**
 
 **PHP version:**
 
