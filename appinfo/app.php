@@ -29,7 +29,7 @@ if (class_exists('\OCP\AppFramework\App')) {
 
 	    // the title of your application. This will be used in the
 	    // navigation or on the settings page of your app
-	    'name' => \OCP\Util::getL10N('ocsms')->t('SMS')
+	    'name' => \OCP\Util::getL10N('ocsms')->t('Phone Sync')
 	));
 } else {
 	$msg = 'Can not enable the OcSms app because the App Framework App is disabled';
