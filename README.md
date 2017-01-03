@@ -1,6 +1,6 @@
 # Phone Sync (for NextCloud & ownCloud)
 
-ownCloud SMS provides a webinterface to display your SMS conversations. SMS conversations are pushed by your Android devices using the [Android client](https://github.com/nerzhul/ownCloud-SMS-App), available on [Google Play Store](https://play.google.com/store/apps/details?id=fr.unix_experience.owncloud_sms).
+Phone Sync provides a webinterface to display your SMS conversations. SMS conversations are pushed by your Android devices using the [Android client](https://github.com/nerzhul/ownCloud-SMS-App), available on [Google Play Store](https://play.google.com/store/apps/details?id=fr.unix_experience.owncloud_sms).
 
 ## :arrow_forward: Access
 
