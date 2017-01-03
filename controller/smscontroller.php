@@ -92,6 +92,7 @@ class SmsController extends Controller {
 		$contactsSrc = $this->contactCache->getContacts();
 		$contacts = array();
 		$photos = $this->contactCache->getContactPhotos();
+		$uids = $this->contactCache->getContactUids();
 
 		// Cache country because of loops
 		$configuredCountry = $this->configMapper->getCountry();
@@ -115,7 +116,7 @@ class SmsController extends Controller {
 			$photoversion = 2;
 		}
 
-		return new JSONResponse(array("phonelist" => $phoneList, "contacts" => $contacts, "lastRead" => $lastRead, "photos" => $photos, "photo_version" => $photoversion));
+		return new JSONResponse(array("phonelist" => $phoneList, "contacts" => $contacts, "lastRead" => $lastRead, "photos" => $photos, "uids" => $uids, "photo_version" => $photoversion));
 	}
 
 	/**
@@ -216,13 +217,16 @@ class SmsController extends Controller {
 		$phoneList = $this->smsMapper->getNewMessagesCountForAllPhonesNumbers($this->userId, $lastDate);
 		$contactsSrc = $this->contactCache->getContacts();
 		$photosSrc = $this->contactCache->getContactPhotos();
+		$uidsSrc = $this->contactCache->getContactUids();
 		$contacts = array();
 		$photos = array();
+		$uids = array();
 
 		foreach ($phoneList as $number => $ts) {
 			$fmtPN = preg_replace("#[ ]#","", $number);
 			if (isset($contactsSrc[$fmtPN])) {
 				$contacts[$fmtPN] = $contactsSrc[$fmtPN];
+				$uids[$fmtPN] = $uidsSrc[$fmtPN];
 
 				if (isset($photosSrc[$contacts[$fmtPN]])) {
 					$photos[$contacts[$fmtPN]] = $photosSrc[$contacts[$fmtPN]];
@@ -230,7 +234,7 @@ class SmsController extends Controller {
 			}
 		}
 
-		return new JSONResponse(array("phonelist" => $phoneList, "contacts" => $contacts, "photos" => $photos));
+		return new JSONResponse(array("phonelist" => $phoneList, "contacts" => $contacts, "photos" => $photos, "uids" => $uids));
 	}
 
 	/**

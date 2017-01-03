@@ -236,6 +236,12 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 								contactObj.avatar = jsondata['photos'][peerLabel];
 							}
 
+							if (typeof jsondata['uids'][peerLabel] != 'undefined') {
+								contactObj.uid = jsondata['uids'][peerLabel];
+							} else {
+								contactObj.uid = peerLabel;
+							}
+
 							$scope.modifyContact(contactObj);
 							bufferedContacts.push(peerLabel);
 
@@ -403,6 +409,13 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 					if (typeof(jsondata['photos'][peerLabel]) != 'undefined') {
 						contactObj['avatar'] = jsondata['photos'][peerLabel];
 					}
+
+					if (typeof jsondata['uids'][peerLabel] != 'undefined') {
+						contactObj.uid = jsondata['uids'][peerLabel];
+					} else {
+						contactObj.uid = peerLabel;
+					}
+
 					$scope.addContact(contactObj);
 					bufferedContacts.push(peerLabel);
 				}
