@@ -13,7 +13,7 @@ The app is available in both, [Nextcloud appstore](https://apps.nextcloud.com/ap
 
 ## :eyes: Screenshot
 
-![Screenshot](https://raw.githubusercontent.com/nerzhul/ocsms/master/appinfo/screenshots/1.png)
+![Screenshot](https://raw.githubusercontent.com/nextcloud/ocsms/master/appinfo/screenshots/1.png)
 
 ## :link: Requirements
 - A [Nextcloud](https://nextcloud.com) or [ownCloud](https://owncloud.com) instance
@@ -21,8 +21,8 @@ The app is available in both, [Nextcloud appstore](https://apps.nextcloud.com/ap
 
 ## :exclamation: Reporting issues
 
-- **Server:** https://github.com/nerzhul/ocsms/issues
+- **Server:** https://github.com/nextcloud/ocsms/issues
 - **Client:** https://github.com/nerzhul/ownCloud-SMS-App/issues
 
 ## :notebook: License
-Phone Sync web application is currently licensed under [AGPL license](https://github.com/nerzhul/ocsms/blob/master/LICENSE.md).
+Phone Sync web application is currently licensed under [AGPL license](https://github.com/nextcloud/ocsms/blob/master/LICENSE.md).

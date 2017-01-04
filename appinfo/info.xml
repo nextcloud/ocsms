@@ -18,10 +18,10 @@
 
     <ocsid>167289</ocsid>
 
-    <website>https://github.com/nerzhul/ocsms</website>
-    <bugs>https://github.com/nerzhul/ocsms/issues</bugs>
-    <repository type="git">https://github.com/nerzhul/ocsms</repository>
-    <screenshot small-thumbnail="https://raw.githubusercontent.com/nerzhul/ocsms/master/appinfo/screenshots/1-small.png">https://raw.githubusercontent.com/nerzhul/ocsms/master/appinfo/screenshots/1.png</screenshot>
+    <website>https://github.com/nextcloud/ocsms</website>
+    <bugs>https://github.com/nextcloud/ocsms/issues</bugs>
+    <repository type="git">https://github.com/nextcloud/ocsms</repository>
+    <screenshot small-thumbnail="https://raw.githubusercontent.com/nextcloud/ocsms/master/appinfo/screenshots/1-small.png">https://raw.githubusercontent.com/nextcloud/ocsms/master/appinfo/screenshots/1.png</screenshot>
 
     <repair-steps>
         <post-migration>
