@@ -83,7 +83,7 @@
 				<name>sms_msg</name>
 				<type>text</type>
 				<notnull>true</notnull>
-				<length>20480</length>
+				<length>10240</length>
 			</field>
 			<field>
 				<name>sms_date</name>
