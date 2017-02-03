@@ -154,7 +154,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			$scope.messages = [];
 			$scope.lastConvMessageDate = 0;
 
-			$.getJSON(OC.generateUrl('/apps/ocsms/get/conversation'), {'phoneNumber': $scope.selectedContact.nav},
+			$.getJSON(OC.generateUrl('/apps/ocsms/front-api/v1/conversation'), {'phoneNumber': $scope.selectedContact.nav},
 				function(jsondata, status) {
 					var phoneNumberLabel = $scope.selectedContact.nav;
 
@@ -185,7 +185,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			);
 		};
 		$scope.refreshConversation = function() {
-			$.getJSON(OC.generateUrl('/apps/ocsms/get/conversation'),
+			$.getJSON(OC.generateUrl('/apps/ocsms/front-api/v1/conversation'),
 				{
 					'phoneNumber': $scope.selectedContact.nav,
 					"lastDate": $scope.lastConvMessageDate
@@ -210,7 +210,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 		};
 		$scope.checkNewMessages = function() {
 			g_unreadCountAllConv = 0;
-			$.getJSON(OC.generateUrl('/apps/ocsms/get/new_messages'),
+			$.getJSON(OC.generateUrl('/apps/ocsms/front-api/v1/new_messages'),
 				{ 'lastDate': $scope.lastContactListMsgDate },
 				function(jsondata, status) {
 					var bufferedContacts = [];
@@ -367,7 +367,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 		};
 
 		$scope.fetchInitialSettings = function () {
-			$.getJSON(OC.generateUrl('/apps/ocsms/get/settings'), function(jsondata, status) {
+			$.getJSON(OC.generateUrl('/apps/ocsms/front-api/v1/settings'), function(jsondata, status) {
 				if (jsondata['status'] == true) {
 					$('#sel_intl_phone').val(jsondata["country"]);
 
@@ -506,7 +506,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			g_originalTitle = document.title;
 
 			// Now bind the events when we click on the phone number
-			$.getJSON(OC.generateUrl('/apps/ocsms/get/peerlist'), function(jsondata, status) {
+			$.getJSON(OC.generateUrl('/apps/ocsms/front-api/v1/peerlist'), function(jsondata, status) {
 				$scope.fetchInitialPeerList(jsondata);
 
 				var pnParam = $.urlParam('phonenumber');
