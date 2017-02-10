@@ -12,7 +12,7 @@ The app is available in both, [Nextcloud appstore](https://apps.nextcloud.com/ap
 4. Click "activate"
 
 ## :question: Solve encoding errors on MySQL
-If you are on MySQL or MariaDB and have issues with the databse, the cause may be that you have to enable 4-byte support. Here is a guide: https://docs.nextcloud.com/server/11/admin_manual/maintenance/mysql_4byte_support.html
+If you are on MySQL or MariaDB and have issues with the database, the cause may be that you have to enable 4-byte support. Here is a guide: https://docs.nextcloud.com/server/11/admin_manual/maintenance/mysql_4byte_support.html
 
 ## :eyes: Screenshot
 
