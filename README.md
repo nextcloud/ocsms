@@ -11,6 +11,9 @@ The app is available in both, [Nextcloud appstore](https://apps.nextcloud.com/ap
 3. Select the category "Multimedia"
 4. Click "activate"
 
+## :question: Solve encoding errors on MySQL
+If you are on MySQL or MariaDB and have issues with the databse, the cause may be that you have to enable 4-byte support. Here is a guide: https://docs.nextcloud.com/server/11/admin_manual/maintenance/mysql_4byte_support.html
+
 ## :eyes: Screenshot
 
 ![Screenshot](https://raw.githubusercontent.com/nextcloud/ocsms/master/appinfo/screenshots/1.png)
