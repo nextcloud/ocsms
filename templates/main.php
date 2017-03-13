@@ -72,7 +72,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 				<div id="ocsms-phone-msg-nb">{{ messages.length }} message(s) shown. {{ totalMessageCount }} message(s) stored in database.</div>
 			</div>
 			<div id="ocsms-contact-actions">
-				<div id="ocsms-conversation-removal" class="icon-delete svn delete action" ng-click="removeConversation();"></div>
+				<div id="ocsms-conversation-removal" class="icon-delete icon-delete-white svn delete action" ng-click="removeConversation();"></div>
 			</div>
 
 		</div>
