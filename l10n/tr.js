@@ -1,6 +1,6 @@
 OC.L10N.register(
     "ocsms",
     {
-    "Phone Sync" : "Telefon Sync"
+    "Phone Sync" : "Telefon Eşitleme"
 },
 "nplurals=2; plural=(n > 1);");
