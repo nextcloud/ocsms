@@ -46,13 +46,13 @@ class PhoneNumberFormatter {
 
 		$ignrxp = array(					// match non digits and +
 			'#[^\d\+\(\)\[\]\{\}]#',			// everything but digit, +, (), [] or {}
-			'#(.+)([\(\[\{]\d*[\)\]\}])#',			// braces inside the number: +49 (0) 123 456789
+			'#([\(\[\{]0[\)\]\}])#',			// braces inside the number: +49 (0) 123 456789
 			'#[^\d\+]#'					// everything but digits and +
 		);
 
 		$ignrpl = array(					// replacements
 			'',
-			'$1',
+			'',
 			''
 		);
 		
