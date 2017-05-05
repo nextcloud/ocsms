@@ -11,7 +11,7 @@
 
 namespace OCA\OcSms\Db;
 
-use \OCP\IDb;
+use \OCP\IDBConnection;
 
 use \OCP\AppFramework\Db\Mapper;
 
@@ -19,7 +19,7 @@ use \OCA\OcSms\AppInfo\OcSmsApp;
 use \OCA\OcSms\Lib\PhoneNumberFormatter;
 
 class ConversationStateMapper extends Mapper {
-	public function __construct (IDb $db) {
+	public function __construct (IDBConnection $db) {
 		parent::__construct($db, 'ocsms_smsdatas');
 	}
 

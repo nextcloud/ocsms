@@ -11,7 +11,7 @@
 
 namespace OCA\OcSms\Db;
 
-use \OCP\IDb;
+use \OCP\IDBConnection;
 
 use \OCP\AppFramework\Db\Mapper;
 
@@ -33,7 +33,7 @@ class SmsMapper extends Mapper {
 	);
 	private $convStateMapper;
 
-	public function __construct (IDb $db, ConversationStateMapper $cmapper) {
+	public function __construct (IDBConnection $db, ConversationStateMapper $cmapper) {
 		parent::__construct($db, 'ocsms_smsdatas');
 		$this->convStateMapper = $cmapper;
 	}

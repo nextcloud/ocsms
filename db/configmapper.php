@@ -11,7 +11,7 @@
 
 namespace OCA\OcSms\Db;
 
-use \OCP\IDb;
+use \OCP\IDBConnection;
 
 use \OCP\AppFramework\Db\Mapper;
 use \OCP\AppFramework\Db\DoesNotExistException;
@@ -28,7 +28,7 @@ class ConfigMapper extends Mapper {
 	 */
 	private $crypto;
 
-	public function __construct (IDb $db, $user, $crypto){
+	public function __construct (IDBConnection $db, $user, $crypto){
 		parent::__construct($db, 'ocsms_config');
 		$this->user = $user;
 		$this->crypto = $crypto;
