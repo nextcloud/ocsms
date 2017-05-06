@@ -226,7 +226,9 @@ class SmsController extends Controller {
 			$fmtPN = preg_replace("#[ ]#","", $number);
 			if (isset($contactsSrc[$fmtPN])) {
 				$contacts[$fmtPN] = $contactsSrc[$fmtPN];
-				$uids[$fmtPN] = $uidsSrc[$fmtPN];
+				if (isset($uidsSrc[$fmtPN])) {
+					$uids[$fmtPN] = $uidsSrc[$fmtPN];
+				}
 
 				if (isset($photosSrc[$contacts[$fmtPN]])) {
 					$photos[$contacts[$fmtPN]] = $photosSrc[$contacts[$fmtPN]];
