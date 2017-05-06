@@ -53,7 +53,7 @@ class OcSmsApp extends App {
         	 */
 		$container->registerService('ConfigMapper', function (IContainer $c) use ($server) {
 			return new ConfigMapper(
-				$server->getDb(),
+				$server->getDatabaseConnection(),
 				$c->query('UserId'),
 				$server->getCrypto()
 			);
@@ -64,12 +64,12 @@ class OcSmsApp extends App {
 		});
 
 		$container->registerService('ConversationStateMapper', function(IContainer $c) use ($server) {
-			return new ConversationStateMapper($server->getDb());
+			return new ConversationStateMapper($server->getDatabaseConnection());
 		});
 
 		$container->registerService('SmsMapper', function(IContainer $c) use ($server) {
 			return new SmsMapper(
-				$server->getDb(),
+				$server->getDatabaseConnection(),
 				$c->query('ConversationStateMapper')
 			);
 		});
