@@ -23,7 +23,7 @@ Tell us what happens instead
 
 **HTTPd server:**
 
-**HTTPS:**
+**Database engine & version: ** <!-- MySQL 5.6.14 / PostgreSQL 9.6.1 ... -->
 
 ### Client configuration
 
@@ -31,7 +31,7 @@ Tell us what happens instead
 
 **Phone:**
 
-**ownCloud SMS app version:**
+**NextCloud SMS app version:**
 
 ### Logs
 
