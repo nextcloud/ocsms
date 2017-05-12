@@ -23,7 +23,7 @@ Tell us what happens instead
 
 **HTTPd server:**
 
-**Database engine & version: ** <!-- MySQL 5.6.14 / PostgreSQL 9.6.1 ... -->
+**Database engine & version:** <!-- MySQL 5.6.14 / PostgreSQL 9.6.1 ... -->
 
 ### Client configuration
 
