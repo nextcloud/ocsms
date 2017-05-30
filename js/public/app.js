@@ -191,6 +191,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 					"lastDate": $scope.lastConvMessageDate
 				},
 				function(jsondata, status) {
+					$scope.messages = [];
 					var fmt = $scope.formatConversation(jsondata);
 					var conversationBuf = fmt[1];
 					if (conversationBuf == true) {
