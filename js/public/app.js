@@ -105,7 +105,12 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 		$scope.lastSearch = '';
 
 		$scope.generateUrl = function (endpoint) {
-			return OC.generateUrl('/apps/ocsms' + endpoint);
+			var winRegexp = /(.*)\/ocsms.*/;
+			var match = winRegexp.exec(window.location.href);
+			if (match.length != 2) {
+				console.log("A very bad error happened when parsing window location");
+			}
+			return match[1] + '/ocsms' + endpoint;
 		};
 
 		// Settings
