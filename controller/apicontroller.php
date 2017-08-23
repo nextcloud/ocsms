@@ -104,6 +104,16 @@ class ApiController extends Controller {
 	 * @return bool
      */
 	private function checkPushStructure ($smsCount, $smsDatas) {
+		if ($smsCount === NULL) {
+			$this->errorMsg = "Error: smsCount field is NULL";
+			return false;
+		}
+
+		if ($smsDatas === NULL) {
+			$this->errorMsg = "Error: smsDatas field is NULL";
+			return false;
+		}
+
 		if ($smsCount != count($smsDatas)) {
 			$this->errorMsg = "Error: sms count invalid";
 			return false;
