@@ -50,26 +50,17 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 		$scope.selectedContact = {};
 		$scope.lastSearch = '';
 
-		$scope.generateUrl = function (endpoint) {
-			var winRegexp = /(.*)\/ocsms.*/;
-			var match = winRegexp.exec(window.location.href);
-			if (match.length !== 2) {
-				console.log("A very bad error happened when parsing window location");
-			}
-			return match[1] + '/ocsms' + endpoint;
-		};
-
 		// Settings
 		$scope.sendCountry = function () {
-			$.post($scope.generateUrl('/set/country'), {'country': $('select[name=intl_phone]').val()});
+			$.post(Sms.generateURL('/set/country'), {'country': $('select[name=intl_phone]').val()});
 		};
 
 		$scope.setMessageLimit = function () {
-			$.post($scope.generateUrl('/set/msglimit'), {'limit': SmsSettings.messageLimit});
+			$.post(Sms.generateURL('/set/msglimit'), {'limit': SmsSettings.messageLimit});
 		};
 
 		$scope.setNotificationSetting = function () {
-			$.post($scope.generateUrl('/set/notification_state'),
+			$.post(Sms.generateURL('/set/notification_state'),
 				{
 					'notification': SmsSettings.enableNotifications ? 1 : 0
 				}
@@ -77,7 +68,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 		};
 
 		$scope.setContactOrderSetting = function () {
-			$.post($scope.generateUrl('/set/contact_order'),
+			$.post(Sms.generateURL('/set/contact_order'),
 				{
 					'attribute': SmsSettings.contactOrderBy,
 					'reverse': SmsSettings.reverseContactOrder
@@ -106,7 +97,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			$scope.messages = [];
 			$scope.lastConvMessageDate = 0;
 
-			$.getJSON($scope.generateUrl('/front-api/v1/conversation'), {'phoneNumber': $scope.selectedContact.nav},
+			$.getJSON(Sms.generateURL('/front-api/v1/conversation'), {'phoneNumber': $scope.selectedContact.nav},
 				function (jsondata, status) {
 					var phoneNumberLabel = $scope.selectedContact.nav;
 
@@ -137,7 +128,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			);
 		};
 		$scope.refreshConversation = function () {
-			$.getJSON($scope.generateUrl('/ocsms/front-api/v1/conversation'),
+			$.getJSON(Sms.generateURL('/ocsms/front-api/v1/conversation'),
 				{
 					'phoneNumber': $scope.selectedContact.nav,
 					"lastDate": $scope.lastConvMessageDate
@@ -151,7 +142,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 						if (document.hasFocus() === false) {
 							Sms.unreadCountCurrentConv += parseInt(fmt[0]);
 							document.title = Sms.originalTitle + " (" + Sms.unreadCountCurrentConv + ")";
-							$scope.desktopNotify(Sms.unreadCountCurrentConv + " unread message(s) in conversation with " + $scope.selectedContact.label);
+							SmsNotifications.notify(Sms.unreadCountCurrentConv + " unread message(s) in conversation with " + $scope.selectedContact.label);
 						}
 
 					}
@@ -162,7 +153,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 		};
 		$scope.checkNewMessages = function () {
 			Sms.unreadCountAllConv = 0;
-			$.getJSON($scope.generateUrl('/front-api/v1/new_messages'),
+			$.getJSON(Sms.generateURL('/front-api/v1/new_messages'),
 				{'lastDate': $scope.lastContactListMsgDate},
 				function (jsondata, status) {
 					var bufferedContacts = [];
@@ -222,7 +213,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 						* or if unreadCount changes
 						*/
 						if (Sms.unreadCountNotifStep === 0 || Sms.lastUnreadCountAllConv !== Sms.unreadCountAllConv) {
-							$scope.desktopNotify(Sms.unreadCountAllConv + " unread message(s) for all conversations");
+							SmsNotifications.notify(Sms.unreadCountAllConv + " unread message(s) for all conversations");
 							Sms.unreadCountNotifStep = 12;
 							Sms.lastUnreadCountAllConv = Sms.unreadCountAllConv;
 						}
@@ -232,7 +223,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 		};
 
 		$scope.removeConversation = function () {
-			$.post($scope.generateUrl('/delete/conversation'), {"contact": $scope.selectedContact.label}, function (data) {
+			$.post(Sms.generateURL('/delete/conversation'), {"contact": $scope.selectedContact.label}, function (data) {
 				// Reinit main window
 				$scope.selectedContact.label = "";
 				$scope.selectedContact.opt_numbers = "";
@@ -307,7 +298,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			for (var i = 0; i < len; i++) {
 				var curMsg = $scope.messages[i];
 				if (curMsg['id'] === msgId) {
-					$.post($scope.generateUrl('/delete/message'),
+					$.post(Sms.generateURL('/delete/message'),
 						{"messageId": msgId, "phoneNumber": $scope.selectedContact.label}, function (data) {
 							$scope.$apply(function () {
 								$scope.messages.splice(i, 1);
@@ -316,24 +307,6 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 					return;
 				}
 			}
-		};
-
-		$scope.fetchInitialSettings = function () {
-			$.getJSON($scope.generateUrl('/front-api/v1/settings'), function (jsondata, status) {
-				if (jsondata['status'] === true) {
-					$('#sel_intl_phone').val(jsondata["country"]);
-
-					$('input[name=setting_msg_per_page]').val(parseInt(jsondata["message_limit"]));
-					$('select[name=setting_notif]').val(jsondata["notification_state"]);
-					$('select[name=setting_contact_order]').val(jsondata["contact_order"]);
-					$('input[name=setting_contact_order_reverse]').val(toBool(jsondata["contact_order_reverse"]));
-
-					SmsSettings.messageLimit = parseInt(jsondata["message_limit"]);
-					SmsSettings.enableNotifications = parseInt(jsondata["notification_state"]) !== 0;
-					SmsSettings.contactOrderBy = jsondata["contact_order"];
-					SmsSettings.reverseContactOrder = toBool(jsondata["contact_order_reverse"]);
-				}
-			});
 		};
 
 		$scope.fetchInitialPeerList = function (jsondata) {
@@ -419,14 +392,6 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			return [msgCount, buf];
 		};
 
-		$scope.desktopNotify = function (msg) {
-			if (!SmsSettings.enableNotifications) {
-				return;
-			}
-
-			SmsNotifications.notify(msg);
-		};
-
 		$interval($scope.refreshConversation, 10000);
 		$interval($scope.checkNewMessages, 10000);
 
@@ -435,7 +400,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			Sms.originalTitle = document.title;
 
 			// Now bind the events when we click on the phone number
-			$.getJSON($scope.generateUrl('/front-api/v1/peerlist'), function (jsondata, status) {
+			$.getJSON(Sms.generateURL('/front-api/v1/peerlist'), function (jsondata, status) {
 				$scope.fetchInitialPeerList(jsondata);
 
 				var pnParam = $.urlParam('phonenumber');
@@ -453,7 +418,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 					}
 				}
 			});
-			$scope.fetchInitialSettings();
+			SmsSettings.init();
 			SmsNotifications.init();
 			$scope.checkNewMessages();
 		});

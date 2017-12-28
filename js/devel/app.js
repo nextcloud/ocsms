@@ -9,12 +9,24 @@
  */
 
 var Sms = {
+	// Attributes
 	selectedConversation: null,
 	unreadCountCurrentConv: 0,
 	unreadCountAllConv: 0,
 	unreadCountNotifStep: 12,
 	lastUnreadCountAllConv: 0,
-	originalTitle: document.title
+	originalTitle: document.title,
+
+	_winRegexp: /(.*)\/ocsms.*/,
+
+	// Functions
+	generateURL: function (endpoint) {
+		var match = this._winRegexp.exec(window.location.href);
+		if (match.length !== 2) {
+			console.log("A very bad error happened when parsing window location");
+		}
+		return match[1] + '/ocsms' + endpoint;
+	}
 };
 
 var ContactRenderer = {

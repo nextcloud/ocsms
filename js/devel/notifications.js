@@ -21,6 +21,10 @@ var SmsNotifications = {
 		});
 	},
 	notify: function (message) {
+		if (!SmsSettings.enableNotifications) {
+			return;
+		}
+
 		if (!("Notification" in window)) {
 			return;
 		}
