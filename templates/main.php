@@ -25,7 +25,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 		</div>
 		<div id="app-settings-content">
 			<div><label for="setting_msg_per_page">Max messages on tab loading</label>
-				<input type="number" min="10" max="10000" name="setting_msg_per_page" ng-model="vsettings.messageLimit" ng-change="setMessageLimit()" to-int />
+				<input type="number" min="10" max="10000" name="setting_msg_per_page" ng-model="vsettings.messageLimit" ng-change="vsettings.sendMessageLimit()" to-int />
 				<span class="label-invalid-input" ng-if="vsettings.messageLimit == null || vsettings.messageLimit == undefined">Invalid message limit</span>
 			</div>
 
@@ -35,7 +35,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 					<option><?php p($code); ?></option>
 				<?php } ?>
 				</select>
-				<button class="new-button primary icon-checkmark-white" ng-click="sendCountry();"></button>
+				<button class="new-button primary icon-checkmark-white" ng-click="vsettings.sendCountry();"></button>
 			</div>
 
 			<div>

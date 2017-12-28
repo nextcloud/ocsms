@@ -32,6 +32,23 @@ var SmsSettings = {
 		});
 	},
 
+	sendMessageLimit: function () {
+		var self = this;
+		$.post(Sms.generateURL('/set/msglimit'),
+			{
+				'limit': self.messageLimit
+			}
+		);
+	},
+
+	sendCountry: function () {
+		$.post(Sms.generateURL('/set/country'),
+			{
+				'country': $('select[name=intl_phone]').val()
+			}
+		);
+	},
+
 	// This function should be moved to a renderer or something else
 	updateView: function () {
 		$('#sel_intl_phone').val(this.country);

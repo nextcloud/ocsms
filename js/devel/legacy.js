@@ -50,15 +50,6 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 		$scope.selectedContact = {};
 		$scope.lastSearch = '';
 
-		// Settings
-		$scope.sendCountry = function () {
-			$.post(Sms.generateURL('/set/country'), {'country': $('select[name=intl_phone]').val()});
-		};
-
-		$scope.setMessageLimit = function () {
-			$.post(Sms.generateURL('/set/msglimit'), {'limit': SmsSettings.messageLimit});
-		};
-
 		$scope.setNotificationSetting = function () {
 			$.post(Sms.generateURL('/set/notification_state'),
 				{
