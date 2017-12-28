@@ -76,7 +76,10 @@ class ApiController extends Controller {
 	 */
 	public function push ($smsCount, $smsDatas) {
 		if ($this->checkPushStructure($smsCount, $smsDatas) === false) {
-			return new JSONResponse(array("status" => false, "msg" => $this->errorMsg));
+			return new JSONResponse(
+				array("status" => false, "msg" => $this->errorMsg),
+				Http::STATUS_BAD_REQUEST
+			);
 		}
 
 		$this->smsMapper->writeToDB($this->userId, $smsDatas);
@@ -90,8 +93,11 @@ class ApiController extends Controller {
 	 * @return JSONResponse
 	 */
 	 public function replace($smsCount, $smsDatas) {
-		 if ($this->checkPushStructure($smsCount, $smsDatas) === false) {
-			return new JSONResponse(array("status" => false, "msg" => $this->errorMsg));
+		if ($this->checkPushStructure($smsCount, $smsDatas) === false) {
+			return new JSONResponse(
+				array("status" => false, "msg" => $this->errorMsg),
+				Http::STATUS_BAD_REQUEST
+			);
 		}
 
 		$this->smsMapper->writeToDB($this->userId, $smsDatas, true);
@@ -103,7 +109,7 @@ class ApiController extends Controller {
 	 * @param $smsDatas
 	 * @return bool
      */
-	private function checkPushStructure ($smsCount, $smsDatas) {
+	private function checkPushStructure (&$smsCount, &$smsDatas) {
 		if ($smsCount === NULL) {
 			$this->errorMsg = "Error: smsCount field is NULL";
 			return false;
