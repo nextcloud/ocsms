@@ -17,7 +17,7 @@ Tell us what happens instead
 
 ### Server configuration
 
-**NextCloud/ownCloud version:**
+**Nextcloud/ownCloud version:**
 
 **PHP version:**
 
@@ -31,7 +31,7 @@ Tell us what happens instead
 
 **Phone:**
 
-**NextCloud SMS app version:**
+**Nextcloud SMS app version:**
 
 ### Logs
 
