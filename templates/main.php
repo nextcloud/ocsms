@@ -58,7 +58,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 		</div> <!-- app-settings-content -->
 	</div>
 
-	<div id="app-content">
+	<div id="ocsms-app-content">
 		<div id="app-content-loader" class="icon-loading" ng-show="isConvLoading">
 		</div>
 		<div id="app-content-header" ng-show="!isConvLoading && selectedContact.label !== undefined && selectedContact.label !== ''"

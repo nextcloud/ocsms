@@ -11,6 +11,8 @@
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+	resize: horizontal;
+	overflow-x: auto;
 }
 
 #app-mailbox-peers > ul {
@@ -49,6 +51,11 @@
 #ocsms-empty-peers {
 	color: #666;
 	text-align: center;
+}
+
+#ocsms-app-content {
+	height: 100%;
+	overflow-y: auto;
 }
 
 #app-content-wrapper {
