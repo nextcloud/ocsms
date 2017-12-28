@@ -20,12 +20,12 @@ var g_originalTitle = document.title;
 var app = angular.module('OcSms', []);
 
 function inArray(val, arr) {
-	return ($.inArray(val, arr) != -1);
+	return ($.inArray(val, arr) !== -1);
 }
 
 function arrayUnique(arr) {
 	return arr.filter(function (item, i, arr) {
-		return i == arr.indexOf(item);
+		return i === arr.indexOf(item);
 	});
 }
 
@@ -53,7 +53,7 @@ app.directive('toInt', function() {
 // Imported from contact app
 app.filter('peerColor', function() {
 	return function(input) {
-		if (typeof input == 'undefined') {
+		if (typeof input === 'undefined') {
 			return '';
 		}
 		// Check if core has the new color generator
@@ -73,7 +73,7 @@ app.filter('peerColor', function() {
 
 app.filter('firstCharacter', function() {
 		return function(input) {
-			if (input.charAt(0) == '+') {
+			if (input.charAt(0) === '+') {
 				return '#';
 			}
 
@@ -107,7 +107,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 		$scope.generateUrl = function (endpoint) {
 			var winRegexp = /(.*)\/ocsms.*/;
 			var match = winRegexp.exec(window.location.href);
-			if (match.length != 2) {
+			if (match.length !== 2) {
 				console.log("A very bad error happened when parsing window location");
 			}
 			return match[1] + '/ocsms' + endpoint;
@@ -167,7 +167,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 				function(jsondata, status) {
 					var phoneNumberLabel = $scope.selectedContact.nav;
 
-					if (typeof jsondata['phoneNumbers'] != 'undefined') {
+					if (typeof jsondata['phoneNumbers'] !== 'undefined') {
 						var phoneNumberList = arrayUnique(jsondata['phoneNumbers']);
 						phoneNumberLabel = phoneNumberList.toString();
 					}
@@ -176,7 +176,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 					$scope.formatConversation(jsondata);
 
 					$scope.$apply(function() {
-						if (typeof jsondata['contactName'] == 'undefined' || jsondata['contactName'] == '') {
+						if (typeof jsondata['contactName'] === 'undefined' || jsondata['contactName'] === '') {
 							$scope.selectedContact.label = phoneNumberLabel;
 							$scope.selectedContact.opt_numbers = "";
 						}
@@ -202,10 +202,10 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 				function(jsondata, status) {
 					var fmt = $scope.formatConversation(jsondata);
 					var conversationBuf = fmt[1];
-					if (conversationBuf == true) {
+					if (conversationBuf === true) {
 						$('#app-content').scrollTop(1E10);
 						// This will blink the tab because there is new messages
-						if (document.hasFocus() == false) {
+						if (document.hasFocus() === false) {
 							g_unreadCountCurrentConv += parseInt(fmt[0]);
 							document.title = g_originalTitle + " (" + g_unreadCountCurrentConv + ")";
 							$scope.desktopNotify(g_unreadCountCurrentConv + " unread message(s) in conversation with " + $scope.selectedContact.label);
@@ -226,7 +226,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 
 					$.each(jsondata['phonelist'], function(id, val) {
 						var fn, peerLabel;
-						if (typeof jsondata['contacts'][id] == 'undefined') {
+						if (typeof jsondata['contacts'][id] === 'undefined') {
 							peerLabel = id;
 						}
 						else {
@@ -241,11 +241,11 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 								'unread': parseInt(val)
 							};
 
-							if (typeof jsondata['photos'][peerLabel] != 'undefined') {
+							if (typeof jsondata['photos'][peerLabel] !== 'undefined') {
 								contactObj.avatar = jsondata['photos'][peerLabel];
 							}
 
-							if (typeof jsondata['uids'][peerLabel] != 'undefined') {
+							if (typeof jsondata['uids'][peerLabel] !== 'undefined') {
 								contactObj.uid = jsondata['uids'][peerLabel];
 							} else {
 								contactObj.uid = peerLabel;
@@ -255,7 +255,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 							bufferedContacts.push(peerLabel);
 
 							// Re-set conversation because we reload the element
-							if (id == $scope.selectedContact.nav) {
+							if (id === $scope.selectedContact.nav) {
 								changeSelectedConversation($("a[mailbox-navigation='" + id + "']"));
 							}
 
@@ -278,7 +278,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 						* We notify user every two minutes for all messages
 						* or if unreadCount changes
 						*/
-						if (g_unreadCountNotifStep == 0 || g_lastUnreadCountAllConv != g_unreadCountAllConv) {
+						if (g_unreadCountNotifStep === 0 || g_lastUnreadCountAllConv !== g_unreadCountAllConv) {
 							$scope.desktopNotify(g_unreadCountAllConv + " unread message(s) for all conversations");
 							g_unreadCountNotifStep = 12;
 							g_lastUnreadCountAllConv = g_unreadCountAllConv;
@@ -304,7 +304,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 		};
 
 		$scope.filterSms = function (query) {
-			if (query != $scope.lastSearch) {
+			if (query !== $scope.lastSearch) {
 			}
 		};
 
@@ -327,7 +327,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			var len = $scope.contacts.length;
 			for (var i=0; i < len; i++) {
 				var curCt = $scope.contacts[i];
-				if (curCt['nav'] == ct['nav']) {
+				if (curCt['nav'] === ct['nav']) {
 					$scope.$apply(function () {
 						$scope.contacts.splice(i, 1);
 					});
@@ -339,10 +339,10 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 		$scope.modifyContact = function (ct) {
 			var len = $scope.contacts.length;
 			for (var i=0; i < len; i++) {
-				if ($scope.contacts[i]['nav'] == ct['nav']) {
+				if ($scope.contacts[i]['nav'] === ct['nav']) {
 					$scope.$apply(function () {
 						$scope.contacts[i].unread = parseInt(ct.unread);
-						if (typeof(ct.avatar) != 'undefined') {
+						if (typeof(ct.avatar) !== 'undefined') {
 							$scope.contacts[i].avatar = ct.avatar;
 						}
 					});
@@ -363,7 +363,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			var len = $scope.messages.length;
 			for (var i=0; i < len; i++) {
 				var curMsg = $scope.messages[i];
-				if (curMsg['id'] == msgId) {
+				if (curMsg['id'] === msgId) {
 					$.post($scope.generateUrl('/delete/message'),
 						{"messageId": msgId, "phoneNumber": $scope.selectedContact.label}, function(data) {
 						$scope.$apply(function () {
@@ -377,7 +377,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 
 		$scope.fetchInitialSettings = function () {
 			$.getJSON($scope.generateUrl('/front-api/v1/settings'), function(jsondata, status) {
-				if (jsondata['status'] == true) {
+				if (jsondata['status'] === true) {
 					$('#sel_intl_phone').val(jsondata["country"]);
 
 					$('input[name=setting_msg_per_page]').val(parseInt(jsondata["message_limit"]));
@@ -401,7 +401,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 
 			$.each(jsondata['phonelist'], function(id, val) {
 				var peerLabel;
-				if (typeof jsondata['contacts'][id] == 'undefined') {
+				if (typeof jsondata['contacts'][id] === 'undefined') {
 					peerLabel = id;
 				}
 				else {
@@ -415,11 +415,11 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 						'lastmsg': parseInt(val)
 					};
 
-					if (typeof(jsondata['photos'][peerLabel]) != 'undefined') {
+					if (typeof(jsondata['photos'][peerLabel]) !== 'undefined') {
 						contactObj['avatar'] = jsondata['photos'][peerLabel];
 					}
 
-					if (typeof jsondata['uids'][peerLabel] != 'undefined') {
+					if (typeof jsondata['uids'][peerLabel] !== 'undefined') {
 						contactObj.uid = jsondata['uids'][peerLabel];
 					} else {
 						contactObj.uid = peerLabel;
@@ -459,10 +459,10 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			var msgCount = 0;
 
 			$.each(jsondata["conversation"], function(id, vals) {
-				if (vals["type"] == 1) {
+				if (vals["type"] === 1) {
 					msgClass = "recv";
 				}
-				else if (vals["type"] == 2) {
+				else if (vals["type"] === 2) {
 					msgClass = "sent";
 				}
 				else {
@@ -485,7 +485,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 		};
 
 		$scope.desktopNotify = function (msg) {
-			if ($scope.setting_enableNotifications == 0) {
+			if ($scope.setting_enableNotifications === 0) {
 				return;
 			}
 

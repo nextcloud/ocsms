@@ -1,8 +1,9 @@
 <?php
 use \OCA\OcSms\Lib\CountryCodes;
 
-\OCP\Util::addScript('ocsms', 'angular/angular.min');
-\OCP\Util::addScript('ocsms', 'public/app');
+\OCP\Util::addScript('ocsms', 'angular.min');
+\OCP\Util::addScript('ocsms', 'app');
+\OCP\Util::addScript('ocsms', 'vue.min');
 \OCP\Util::addStyle('ocsms', 'style');
 ?>
 
