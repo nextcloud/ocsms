@@ -386,19 +386,6 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			$scope.lastContactListMsgDate = jsondata["lastRead"];
 		};
 
-
-		$scope.initDesktopNotifies = function () {
-			if (!("Notification" in window)) {
-				return;
-			}
-
-			Notification.requestPermission(function (permission) {
-				if (!('permission' in Notification)) {
-					Notification.permission = permission;
-				}
-			});
-		};
-
 		// Return (int) msgCount, (str) htmlConversation
 		$scope.formatConversation = function (jsondata) {
 			// Improve jQuery performance
@@ -443,22 +430,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 				return;
 			}
 
-			if (!("Notification" in window)) {
-				return;
-			}
-			else if (Notification.permission === "granted") {
-				new Notification("Phone Sync - " + msg);
-			}
-			else if (Notification.permission !== 'denied') {
-				Notification.requestPermission(function (permission) {
-					if (!('permission' in Notification)) {
-						Notification.permission = permission;
-					}
-					if (permission === "granted") {
-						new Notification("Phone Sync - " + msg);
-					}
-				});
-			}
+			SmsNotifications.notify(msg);
 		};
 
 		$interval($scope.refreshConversation, 10000);
@@ -488,7 +460,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 				}
 			});
 			$scope.fetchInitialSettings();
-			$scope.initDesktopNotifies();
+			SmsNotifications.init();
 			$scope.checkNewMessages();
 		});
 	}
