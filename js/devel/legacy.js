@@ -8,41 +8,12 @@
  * @copyright Loic Blot 2014-2017
  */
 
-
-// Some global vars to improve performances
-var g_selectedConversation = null;
-var g_unreadCountCurrentConv = 0;
-var g_unreadCountAllConv = 0;
-var g_unreadCountNotifStep = 12;
-var g_lastUnreadCountAllConv = 0;
-var g_originalTitle = document.title;
-
 var app = angular.module('OcSms', []);
 
-function inArray(val, arr) {
-	return ($.inArray(val, arr) !== -1);
-}
-
-function arrayUnique(arr) {
-	return arr.filter(function (item, i, arr) {
-		return i === arr.indexOf(item);
-	});
-}
-
-function toBool(str) {
-	if (str === "true") {
-		return true;
-	}
-	else if (str === "false") {
-		return false;
-	}
-	return null;
-}
-
-app.directive('toInt', function() {
+app.directive('toInt', function () {
 	return {
 		require: 'ngModel',
-		link: function(scope, element, attrs, modelCtrl) {
+		link: function (scope, element, attrs, modelCtrl) {
 			modelCtrl.$parsers.push(function (inputValue) {
 				return parseInt(inputValue, 10);
 			});
@@ -51,35 +22,13 @@ app.directive('toInt', function() {
 });
 
 // Imported from contact app
-app.filter('peerColor', function() {
-	return function(input) {
-		if (typeof input === 'undefined') {
-			return '';
-		}
-		// Check if core has the new color generator
-		if (typeof input.toHsl === 'function') {
-			var hsl = input.toHsl();
-			return 'hsl('+hsl[0]+', '+hsl[1]+'%, '+hsl[2]+'%)';
-		} else {
-			// If not, we use the old one
-			/* global md5 */
-			var hash = md5(input).substring(0, 4),
-				maxRange = parseInt('ffff', 16),
-				hue = parseInt(hash, 16) / maxRange * 256;
-			return 'hsl(' + hue + ', 90%, 65%)';
-		}
-	};
+app.filter('peerColor', function () {
+	return ContactRenderer.generateColor;
 });
 
-app.filter('firstCharacter', function() {
-		return function(input) {
-			if (input.charAt(0) === '+') {
-				return '#';
-			}
-
-			return input.charAt(0);
-		};
-	});
+app.filter('firstCharacter', function () {
+	return ContactRenderer.generateFirstCharacter;
+});
 
 
 app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile',
@@ -115,14 +64,14 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 
 		// Settings
 		$scope.sendCountry = function () {
-			$.post($scope.generateUrl('/set/country'),{'country': $('select[name=intl_phone]').val()});
+			$.post($scope.generateUrl('/set/country'), {'country': $('select[name=intl_phone]').val()});
 		};
 
 		$scope.setMessageLimit = function () {
 			if ($scope.setting_msgLimit === null || $scope.setting_msgLimit === undefined) {
 				return;
 			}
-			$.post($scope.generateUrl('/set/msglimit'),{'limit': $scope.setting_msgLimit});
+			$.post($scope.generateUrl('/set/msglimit'), {'limit': $scope.setting_msgLimit});
 		};
 
 		$scope.setNotificationSetting = function () {
@@ -130,7 +79,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 				$scope.setting_enableNotifications = 0;
 				return;
 			}
-			$.post($scope.generateUrl('/set/notification_state'),{'notification': $scope.setting_enableNotifications});
+			$.post($scope.generateUrl('/set/notification_state'), {'notification': $scope.setting_enableNotifications});
 		};
 
 		$scope.setContactOrderSetting = function () {
@@ -164,7 +113,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			$scope.lastConvMessageDate = 0;
 
 			$.getJSON($scope.generateUrl('/front-api/v1/conversation'), {'phoneNumber': $scope.selectedContact.nav},
-				function(jsondata, status) {
+				function (jsondata, status) {
 					var phoneNumberLabel = $scope.selectedContact.nav;
 
 					if (typeof jsondata['phoneNumbers'] !== 'undefined') {
@@ -175,7 +124,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 					// Reinit messages before showing conversation
 					$scope.formatConversation(jsondata);
 
-					$scope.$apply(function() {
+					$scope.$apply(function () {
 						if (typeof jsondata['contactName'] === 'undefined' || jsondata['contactName'] === '') {
 							$scope.selectedContact.label = phoneNumberLabel;
 							$scope.selectedContact.opt_numbers = "";
@@ -193,22 +142,22 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 				}
 			);
 		};
-		$scope.refreshConversation = function() {
+		$scope.refreshConversation = function () {
 			$.getJSON($scope.generateUrl('/ocsms/front-api/v1/conversation'),
 				{
 					'phoneNumber': $scope.selectedContact.nav,
 					"lastDate": $scope.lastConvMessageDate
 				},
-				function(jsondata, status) {
+				function (jsondata, status) {
 					var fmt = $scope.formatConversation(jsondata);
 					var conversationBuf = fmt[1];
 					if (conversationBuf === true) {
 						$('#app-content').scrollTop(1E10);
 						// This will blink the tab because there is new messages
 						if (document.hasFocus() === false) {
-							g_unreadCountCurrentConv += parseInt(fmt[0]);
-							document.title = g_originalTitle + " (" + g_unreadCountCurrentConv + ")";
-							$scope.desktopNotify(g_unreadCountCurrentConv + " unread message(s) in conversation with " + $scope.selectedContact.label);
+							Sms.unreadCountCurrentConv += parseInt(fmt[0]);
+							document.title = Sms.originalTitle + " (" + Sms.unreadCountCurrentConv + ")";
+							$scope.desktopNotify(Sms.unreadCountCurrentConv + " unread message(s) in conversation with " + $scope.selectedContact.label);
 						}
 
 					}
@@ -217,14 +166,14 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 				}
 			);
 		};
-		$scope.checkNewMessages = function() {
-			g_unreadCountAllConv = 0;
+		$scope.checkNewMessages = function () {
+			Sms.unreadCountAllConv = 0;
 			$.getJSON($scope.generateUrl('/front-api/v1/new_messages'),
-				{ 'lastDate': $scope.lastContactListMsgDate },
-				function(jsondata, status) {
+				{'lastDate': $scope.lastContactListMsgDate},
+				function (jsondata, status) {
 					var bufferedContacts = [];
 
-					$.each(jsondata['phonelist'], function(id, val) {
+					$.each(jsondata['phonelist'], function (id, val) {
 						var fn, peerLabel;
 						if (typeof jsondata['contacts'][id] === 'undefined') {
 							peerLabel = id;
@@ -259,7 +208,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 								changeSelectedConversation($("a[mailbox-navigation='" + id + "']"));
 							}
 
-							g_unreadCountAllConv += parseInt(val);
+							Sms.unreadCountAllConv += parseInt(val);
 						}
 					});
 
@@ -269,27 +218,27 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 					* there is new messages in all conversations
 					*/
 
-					if (g_unreadCountNotifStep > 0) {
-						g_unreadCountNotifStep--;
+					if (Sms.unreadCountNotifStep > 0) {
+						Sms.unreadCountNotifStep--;
 					}
 
-					if (g_unreadCountAllConv > 0) {
+					if (Sms.unreadCountAllConv > 0) {
 						/*
 						* We notify user every two minutes for all messages
 						* or if unreadCount changes
 						*/
-						if (g_unreadCountNotifStep === 0 || g_lastUnreadCountAllConv !== g_unreadCountAllConv) {
-							$scope.desktopNotify(g_unreadCountAllConv + " unread message(s) for all conversations");
-							g_unreadCountNotifStep = 12;
-							g_lastUnreadCountAllConv = g_unreadCountAllConv;
+						if (Sms.unreadCountNotifStep === 0 || Sms.lastUnreadCountAllConv !== Sms.unreadCountAllConv) {
+							$scope.desktopNotify(Sms.unreadCountAllConv + " unread message(s) for all conversations");
+							Sms.unreadCountNotifStep = 12;
+							Sms.lastUnreadCountAllConv = Sms.unreadCountAllConv;
 						}
 					}
 				}
 			);
 		};
 
-		$scope.removeConversation = function() {
-			$.post($scope.generateUrl('/delete/conversation'), {"contact": $scope.selectedContact.label}, function(data) {
+		$scope.removeConversation = function () {
+			$.post($scope.generateUrl('/delete/conversation'), {"contact": $scope.selectedContact.label}, function (data) {
 				// Reinit main window
 				$scope.selectedContact.label = "";
 				$scope.selectedContact.opt_numbers = "";
@@ -309,7 +258,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 		};
 
 		OC.Plugins.register('OCA.Search', {
-			attach: function(search) {
+			attach: function (search) {
 				search.setFilter('sms', $scope.filterSms);
 			}
 		});
@@ -325,7 +274,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 
 		$scope.removeContact = function (ct) {
 			var len = $scope.contacts.length;
-			for (var i=0; i < len; i++) {
+			for (var i = 0; i < len; i++) {
 				var curCt = $scope.contacts[i];
 				if (curCt['nav'] === ct['nav']) {
 					$scope.$apply(function () {
@@ -338,7 +287,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 
 		$scope.modifyContact = function (ct) {
 			var len = $scope.contacts.length;
-			for (var i=0; i < len; i++) {
+			for (var i = 0; i < len; i++) {
 				if ($scope.contacts[i]['nav'] === ct['nav']) {
 					$scope.$apply(function () {
 						$scope.contacts[i].unread = parseInt(ct.unread);
@@ -361,22 +310,22 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 
 		$scope.removeConversationMessage = function (msgId) {
 			var len = $scope.messages.length;
-			for (var i=0; i < len; i++) {
+			for (var i = 0; i < len; i++) {
 				var curMsg = $scope.messages[i];
 				if (curMsg['id'] === msgId) {
 					$.post($scope.generateUrl('/delete/message'),
-						{"messageId": msgId, "phoneNumber": $scope.selectedContact.label}, function(data) {
-						$scope.$apply(function () {
-							$scope.messages.splice(i, 1);
+						{"messageId": msgId, "phoneNumber": $scope.selectedContact.label}, function (data) {
+							$scope.$apply(function () {
+								$scope.messages.splice(i, 1);
+							});
 						});
-					});
 					return;
 				}
 			}
 		};
 
 		$scope.fetchInitialSettings = function () {
-			$.getJSON($scope.generateUrl('/front-api/v1/settings'), function(jsondata, status) {
+			$.getJSON($scope.generateUrl('/front-api/v1/settings'), function (jsondata, status) {
 				if (jsondata['status'] === true) {
 					$('#sel_intl_phone').val(jsondata["country"]);
 
@@ -399,7 +348,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 
 			$scope.photoVersion = jsondata["photo_version"];
 
-			$.each(jsondata['phonelist'], function(id, val) {
+			$.each(jsondata['phonelist'], function (id, val) {
 				var peerLabel;
 				if (typeof jsondata['contacts'][id] === 'undefined') {
 					peerLabel = id;
@@ -411,7 +360,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 					var contactObj = {
 						'label': peerLabel,
 						'nav': id,
-						'unread' : 0,
+						'unread': 0,
 						'lastmsg': parseInt(val)
 					};
 
@@ -430,7 +379,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 				}
 			});
 
-			$scope.$apply(function() {
+			$scope.$apply(function () {
 				$scope.isContactsLoading = false;
 			});
 
@@ -444,7 +393,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			}
 
 			Notification.requestPermission(function (permission) {
-				if(!('permission' in Notification)) {
+				if (!('permission' in Notification)) {
 					Notification.permission = permission;
 				}
 			});
@@ -458,7 +407,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			var msgClass = '';
 			var msgCount = 0;
 
-			$.each(jsondata["conversation"], function(id, vals) {
+			$.each(jsondata["conversation"], function (id, vals) {
 				if (vals["type"] === 1) {
 					msgClass = "recv";
 				}
@@ -471,17 +420,22 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 
 				// Store the greater msg date for refresher
 				// Note: we divide by 100 because number compare too large integers
-				if ((id/100) > ($scope.lastConvMessageDate/100)) {
+				if ((id / 100) > ($scope.lastConvMessageDate / 100)) {
 					$scope.lastConvMessageDate = id;
 
 					// Multiplicate ID to permit date to use it properly
-					$scope.addConversationMessage({'id': id, 'type': msgClass, 'date': new Date(id * 1), 'content': vals['msg']});
+					$scope.addConversationMessage({
+						'id': id,
+						'type': msgClass,
+						'date': new Date(id * 1),
+						'content': vals['msg']
+					});
 					buf = true;
 					msgCount++;
 				}
 
 			});
-			return [msgCount,buf];
+			return [msgCount, buf];
 		};
 
 		$scope.desktopNotify = function (msg) {
@@ -497,7 +451,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			}
 			else if (Notification.permission !== 'denied') {
 				Notification.requestPermission(function (permission) {
-					if(!('permission' in Notification)) {
+					if (!('permission' in Notification)) {
 						Notification.permission = permission;
 					}
 					if (permission === "granted") {
@@ -512,10 +466,10 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 
 		$timeout(function () {
 			// Register real title
-			g_originalTitle = document.title;
+			Sms.originalTitle = document.title;
 
 			// Now bind the events when we click on the phone number
-			$.getJSON($scope.generateUrl('/front-api/v1/peerlist'), function(jsondata, status) {
+			$.getJSON($scope.generateUrl('/front-api/v1/peerlist'), function (jsondata, status) {
 				$scope.fetchInitialPeerList(jsondata);
 
 				var pnParam = $.urlParam('phonenumber');
@@ -540,7 +494,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 	}
 ]);
 
-$.urlParam = function(name){
+$.urlParam = function (name) {
 	var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
 	if (results == null) {
 		return null;
@@ -555,20 +509,20 @@ function changeSelectedConversation(item) {
 		return;
 	}
 
-	if (g_selectedConversation != null) {
-		g_selectedConversation.parent().removeClass('selected');
+	if (Sms.selectedConversation != null) {
+		Sms.selectedConversation.parent().removeClass('selected');
 	}
-	g_selectedConversation = item;
-	g_selectedConversation.parent().addClass('selected');
-	g_selectedConversation.css("font-weight", "normal");
-	g_selectedConversation.html(g_selectedConversation.attr("mailbox-label"));
+	Sms.selectedConversation = item;
+	Sms.selectedConversation.parent().addClass('selected');
+	Sms.selectedConversation.css("font-weight", "normal");
+	Sms.selectedConversation.html(Sms.selectedConversation.attr("mailbox-label"));
 }
 
 (function ($, OC) {
 	// reset count and title
 	window.onfocus = function () {
-		g_unreadCountCurrentConv = 0;
-		document.title = g_originalTitle;
+		Sms.unreadCountCurrentConv = 0;
+		document.title = Sms.originalTitle;
 	};
 })(jQuery, OC);
 
