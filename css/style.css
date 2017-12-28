@@ -67,10 +67,9 @@
 #app-content-header {
 	background-color: #E6E6E6;
 	min-height: 100px;
-	width: 80%;
-	position: fixed;
+	width: auto;
 	top: 45px;
-	padding: 12.5px;
+	padding: 12px;
 	box-shadow: 0 1px 0 0 #CCC;
 	z-index: 1;
 	display: flex;
