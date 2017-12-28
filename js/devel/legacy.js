@@ -41,10 +41,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			{text: "Send"}
 		];
 
-		$scope.setting_msgLimit = 100;
-		$scope.setting_enableNotifications = 1;
-		$scope.setting_contactOrder = 'lastmsg';
-		$scope.setting_contactOrderReverse = true;
+		$scope.vsettings = SmsSettings;
 
 		$scope.contacts = [];
 		$scope.messages = [];
@@ -68,25 +65,22 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 		};
 
 		$scope.setMessageLimit = function () {
-			if ($scope.setting_msgLimit === null || $scope.setting_msgLimit === undefined) {
-				return;
-			}
-			$.post($scope.generateUrl('/set/msglimit'), {'limit': $scope.setting_msgLimit});
+			$.post($scope.generateUrl('/set/msglimit'), {'limit': SmsSettings.messageLimit});
 		};
 
 		$scope.setNotificationSetting = function () {
-			if ($scope.setting_enableNotifications < 0 || $scope.setting_enableNotifications > 2) {
-				$scope.setting_enableNotifications = 0;
-				return;
-			}
-			$.post($scope.generateUrl('/set/notification_state'), {'notification': $scope.setting_enableNotifications});
+			$.post($scope.generateUrl('/set/notification_state'),
+				{
+					'notification': SmsSettings.enableNotifications ? 1 : 0
+				}
+			);
 		};
 
 		$scope.setContactOrderSetting = function () {
 			$.post($scope.generateUrl('/set/contact_order'),
 				{
-					'attribute': $scope.setting_contactOrder,
-					'reverse': $scope.setting_contactOrderReverse
+					'attribute': SmsSettings.contactOrderBy,
+					'reverse': SmsSettings.reverseContactOrder
 				}
 			);
 		};
@@ -334,10 +328,10 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 					$('select[name=setting_contact_order]').val(jsondata["contact_order"]);
 					$('input[name=setting_contact_order_reverse]').val(toBool(jsondata["contact_order_reverse"]));
 
-					$scope.setting_msgLimit = parseInt(jsondata["message_limit"]);
-					$scope.setting_enableNotifications = jsondata["notification_state"];
-					$scope.setting_contactOrder = jsondata["contact_order"];
-					$scope.setting_contactOrderReverse = toBool(jsondata["contact_order_reverse"]);
+					SmsSettings.messageLimit = parseInt(jsondata["message_limit"]);
+					SmsSettings.enableNotifications = parseInt(jsondata["notification_state"]) !== 0;
+					SmsSettings.contactOrderBy = jsondata["contact_order"];
+					SmsSettings.reverseContactOrder = toBool(jsondata["contact_order_reverse"]);
 				}
 			});
 		};
@@ -426,7 +420,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 		};
 
 		$scope.desktopNotify = function (msg) {
-			if ($scope.setting_enableNotifications === 0) {
+			if (!SmsSettings.enableNotifications) {
 				return;
 			}
 

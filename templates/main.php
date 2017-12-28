@@ -12,7 +12,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 		<div id="app-contacts-loader" class="icon-loading" ng-show="isContactsLoading">
 		</div>
 		<ul class="contact-list" ng-show="!isContactsLoading">
-			<li ng-repeat="contact in contacts | orderBy:setting_contactOrder:setting_contactOrderReverse" peer-label="{{ contact.label }}" ng-click="loadConversation(contact);" href="#">
+			<li ng-repeat="contact in contacts | orderBy:vsettings.contactOrderBy:vsettings.reverseContactOrder" peer-label="{{ contact.label }}" ng-click="loadConversation(contact);" href="#">
 				<img class="ocsms-plavatar" ng-src="{{ contact.avatar }}" ng-show="contact.avatar !== undefined" />
 				<div class="ocsms-plavatar" ng-show="contact.avatar === undefined" ng-style="{'background-color': (contact.uid | peerColor)}">{{ contact.label | firstCharacter }}</div>
 				<a class="ocsms-plname" style="{{ contact.unread > 0 ? 'font-weight:bold;' : ''}}" mailbox-label="{{ contact.label }}" mailbox-navigation="{{ contact.nav }}">{{ contact.label }}{{ contact.unread > 0 ? ' (' + contact.unread + ') ' : '' }}</a>
@@ -25,8 +25,8 @@ use \OCA\OcSms\Lib\CountryCodes;
 		</div>
 		<div id="app-settings-content">
 			<div><label for="setting_msg_per_page">Max messages on tab loading</label>
-				<input type="number" min="10" max="10000" name="setting_msg_per_page" ng-model="setting_msgLimit" ng-change="setMessageLimit()" to-int />
-				<span class="label-invalid-input" ng-if="setting_msgLimit == null || setting_msgLimit == undefined">Invalid message limit</span>
+				<input type="number" min="10" max="10000" name="setting_msg_per_page" ng-model="vsettings.messageLimit" ng-change="setMessageLimit()" to-int />
+				<span class="label-invalid-input" ng-if="vsettings.messageLimit == null || vsettings.messageLimit == undefined">Invalid message limit</span>
 			</div>
 
 			<div><label for="intl_phone">Country code</label>
@@ -40,17 +40,17 @@ use \OCA\OcSms\Lib\CountryCodes;
 
 			<div>
 				<label for="setting_contact_order">Contact ordering</label>
-				<select name="setting_contact_order" ng-model="setting_contactOrder" ng-change="setContactOrderSetting()">
+				<select name="setting_contact_order" ng-model="vsettings.contactOrderBy" ng-change="setContactOrderSetting()">
 					<option value="lastmsg">Last message</option>
 					<option value="label">Label</option>
 				</select>
 				<label for "setting_contact_order_reverse">Reverse ?</label>
-				<input type="checkbox" ng-model="setting_contactOrderReverse" ng-change="setContactOrderSetting()" />
+				<input type="checkbox" ng-model="vsettings.reverseContactOrder" ng-change="setContactOrderSetting()" />
 			</div>
 
 			<div>
 				<label for"setting_notif">Notification settings</label>
-				<select name="setting_notif" ng-model="setting_enableNotifications" ng-change="setNotificationSetting()">
+				<select name="setting_notif" ng-model="vsetting.enableNotifications" ng-change="setNotificationSetting()">
 					<option value="1">Enable</option>
 					<option value="0">Disable</option>
 				</select>
