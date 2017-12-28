@@ -332,7 +332,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 					$('input[name=setting_msg_per_page]').val(parseInt(jsondata["message_limit"]));
 					$('select[name=setting_notif]').val(jsondata["notification_state"]);
 					$('select[name=setting_contact_order]').val(jsondata["contact_order"]);
-					$('input[name=setting_contact_order_reverse').val(toBool(jsondata["contact_order_reverse"]));
+					$('input[name=setting_contact_order_reverse]').val(toBool(jsondata["contact_order_reverse"]));
 
 					$scope.setting_msgLimit = parseInt(jsondata["message_limit"]);
 					$scope.setting_enableNotifications = jsondata["notification_state"];
