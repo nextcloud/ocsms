@@ -18,15 +18,16 @@ var SmsSettings = {
 
 	// Functions
 	init: function () {
+		var self = this;
 		$.getJSON(Sms.generateURL('/front-api/v1/settings'), function (jsondata, status) {
 			if (jsondata['status'] === true) {
-				this.messageLimit = parseInt(jsondata["message_limit"]);
-				this.enableNotifications = parseInt(jsondata["notification_state"]) !== 0;
-				this.contactOrderBy = jsondata["contact_order"];
-				this.reverseContactOrder = toBool(jsondata["contact_order_reverse"]);
-				this.country = jsondata["country"];
+				self.messageLimit = parseInt(jsondata["message_limit"]);
+				self.enableNotifications = parseInt(jsondata["notification_state"]) !== 0;
+				self.contactOrderBy = jsondata["contact_order"];
+				self.reverseContactOrder = toBool(jsondata["contact_order_reverse"]);
+				self.country = jsondata["country"];
 
-				this.updateView();
+				self.updateView();
 			}
 		});
 	},
