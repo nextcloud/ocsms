@@ -15,7 +15,9 @@ var Sms = {
 	unreadCountAllConv: 0,
 	unreadCountNotifStep: 12,
 	lastUnreadCountAllConv: 0,
+	lastContactListMsgDate: 0,
 	originalTitle: document.title,
+	photoVersion: 1,
 
 	_winRegexp: /(.*)\/ocsms.*/,
 
@@ -26,6 +28,19 @@ var Sms = {
 			console.log("A very bad error happened when parsing window location");
 		}
 		return match[1] + '/ocsms' + endpoint;
+	},
+	selectConversation: function (item) {
+		if (item === 'undefined' || item == null) {
+			return;
+		}
+
+		if (this.selectedConversation != null) {
+			this.selectedConversation.parent().removeClass('selected');
+		}
+		this.selectedConversation = item;
+		this.selectedConversation.parent().addClass('selected');
+		this.selectedConversation.css("font-weight", "normal");
+		this.selectedConversation.html(this.selectedConversation.attr("mailbox-label"));
 	}
 };
 

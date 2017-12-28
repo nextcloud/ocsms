@@ -34,7 +34,6 @@ app.filter('firstCharacter', function () {
 app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile',
 	function ($scope, $interval, $timeout, $compile) {
 		$scope.lastConvMessageDate = 0;
-		$scope.lastContactListMsgDate = 0;
 		$scope.isConvLoading = false;
 		$scope.isContactsLoading = true;
 		$scope.buttons = [
@@ -46,7 +45,6 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 		$scope.contacts = [];
 		$scope.messages = [];
 		$scope.totalMessageCount = 0;
-		$scope.photoVersion = 1;
 		$scope.selectedContact = {};
 		$scope.lastSearch = '';
 
@@ -57,7 +55,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			// phoneNumber must exist
 			if (contact.nav !== null) {
 				$scope.fetchConversation(contact);
-				changeSelectedConversation($("a[mailbox-navigation='" + contact.nav + "']"));
+				Sms.selectConversation($("a[mailbox-navigation='" + contact.nav + "']"));
 			}
 		};
 
@@ -128,7 +126,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 		$scope.checkNewMessages = function () {
 			Sms.unreadCountAllConv = 0;
 			$.getJSON(Sms.generateURL('/front-api/v1/new_messages'),
-				{'lastDate': $scope.lastContactListMsgDate},
+				{'lastDate': Sms.lastContactListMsgDate},
 				function (jsondata, status) {
 					var bufferedContacts = [];
 
@@ -164,7 +162,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 
 							// Re-set conversation because we reload the element
 							if (id === $scope.selectedContact.nav) {
-								changeSelectedConversation($("a[mailbox-navigation='" + id + "']"));
+								Sms.selectConversation($("a[mailbox-navigation='" + id + "']"));
 							}
 
 							Sms.unreadCountAllConv += parseInt(val);
@@ -287,7 +285,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			// Use a buffer for better jQuery performance
 			var bufferedContacts = [];
 
-			$scope.photoVersion = jsondata["photo_version"];
+			Sms.photoVersion = jsondata["photo_version"];
 
 			$.each(jsondata['phonelist'], function (id, val) {
 				var peerLabel;
@@ -324,7 +322,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 				$scope.isContactsLoading = false;
 			});
 
-			$scope.lastContactListMsgDate = jsondata["lastRead"];
+			Sms.lastContactListMsgDate = jsondata["lastRead"];
 		};
 
 		// Return (int) msgCount, (str) htmlConversation
@@ -388,7 +386,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 							$scope.selectedContact.avatar = undefined;
 						}
 						$scope.fetchConversation(null);
-						changeSelectedConversation($("a[mailbox-navigation='" + urlPhoneNumber + "']"));
+						Sms.selectConversation($("a[mailbox-navigation='" + urlPhoneNumber + "']"));
 					}
 				}
 			});
@@ -408,20 +406,6 @@ $.urlParam = function (name) {
 		return results[1] || 0;
 	}
 };
-
-function changeSelectedConversation(item) {
-	if (item === 'undefined' || item == null) {
-		return;
-	}
-
-	if (Sms.selectedConversation != null) {
-		Sms.selectedConversation.parent().removeClass('selected');
-	}
-	Sms.selectedConversation = item;
-	Sms.selectedConversation.parent().addClass('selected');
-	Sms.selectedConversation.css("font-weight", "normal");
-	Sms.selectedConversation.html(Sms.selectedConversation.attr("mailbox-label"));
-}
 
 (function ($, OC) {
 	// reset count and title
