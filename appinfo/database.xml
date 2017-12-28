@@ -77,7 +77,7 @@
 				<name>sms_address</name>
 				<type>text</type>
 				<notnull>true</notnull>
-				<length>64</length>
+				<length>512</length>
 			</field>
 			<field>
 				<name>sms_msg</name>
