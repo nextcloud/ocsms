@@ -50,23 +50,6 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 		$scope.selectedContact = {};
 		$scope.lastSearch = '';
 
-		$scope.setNotificationSetting = function () {
-			$.post(Sms.generateURL('/set/notification_state'),
-				{
-					'notification': SmsSettings.enableNotifications ? 1 : 0
-				}
-			);
-		};
-
-		$scope.setContactOrderSetting = function () {
-			$.post(Sms.generateURL('/set/contact_order'),
-				{
-					'attribute': SmsSettings.contactOrderBy,
-					'reverse': SmsSettings.reverseContactOrder
-				}
-			);
-		};
-
 		// Conversations
 		$scope.loadConversation = function (contact) {
 			OC.Util.History.pushState('phonenumber=' + contact.nav);

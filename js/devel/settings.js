@@ -33,6 +33,10 @@ var SmsSettings = {
 	},
 
 	sendMessageLimit: function () {
+		if (this.messageLimit === null) {
+			return;
+		}
+
 		var self = this;
 		$.post(Sms.generateURL('/set/msglimit'),
 			{
@@ -40,7 +44,23 @@ var SmsSettings = {
 			}
 		);
 	},
-
+	sendNotificationFlag: function () {
+		var self = this;
+		$.post(Sms.generateURL('/set/notification_state'),
+			{
+				'notification': self.enableNotifications ? 1 : 0
+			}
+		);
+	},
+	sendContactOrder: function () {
+		var self = this;
+		$.post(Sms.generateURL('/set/contact_order'),
+			{
+				'attribute': self.contactOrderBy,
+				'reverse': self.reverseContactOrder
+			}
+		);
+	},
 	sendCountry: function () {
 		$.post(Sms.generateURL('/set/country'),
 			{

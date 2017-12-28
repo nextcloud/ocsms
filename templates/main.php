@@ -40,17 +40,17 @@ use \OCA\OcSms\Lib\CountryCodes;
 
 			<div>
 				<label for="setting_contact_order">Contact ordering</label>
-				<select name="setting_contact_order" ng-model="vsettings.contactOrderBy" ng-change="setContactOrderSetting()">
+				<select name="setting_contact_order" ng-model="vsettings.contactOrderBy" ng-change="vsettings.sendContactOrder()">
 					<option value="lastmsg">Last message</option>
 					<option value="label">Label</option>
 				</select>
 				<label for "setting_contact_order_reverse">Reverse ?</label>
-				<input type="checkbox" ng-model="vsettings.reverseContactOrder" ng-change="setContactOrderSetting()" />
+				<input type="checkbox" ng-model="vsettings.reverseContactOrder" ng-change="vsettings.sendContactOrder()" />
 			</div>
 
 			<div>
 				<label for"setting_notif">Notification settings</label>
-				<select name="setting_notif" ng-model="vsetting.enableNotifications" ng-change="setNotificationSetting()">
+				<select name="setting_notif" ng-model="vsetting.enableNotifications" ng-change="vsettings.sendNotificationFlag()">
 					<option value="1">Enable</option>
 					<option value="0">Disable</option>
 				</select>
