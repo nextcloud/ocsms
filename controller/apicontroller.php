@@ -202,7 +202,7 @@ class ApiController extends Controller {
 	 */
 	public function fetchMessages($start, $limit) {
 		if (!is_numeric($start) || !is_numeric($limit) || $start < 0 || $limit <= 0) {
-			return new JSONResponse(array("msg" => "Invalid request"), \OCP\AppFramework\Http::STATUS_BAD_REQUEST);
+			return new JSONResponse(array("msg" => "Invalid request"), Http::STATUS_BAD_REQUEST);
 		}
 
 		// Limit messages per fetch to prevent phone garbage collecting due to too many datas
