@@ -22,6 +22,13 @@ The cause may be that you have to enable 4-byte support.
 
 Here is a guide: https://docs.nextcloud.com/server/11/admin_manual/maintenance/mysql_4byte_support.html
 
+## :question: Solve the synchronisation issues
+If you are using FastCGI you must enable buffering in FastCGI but commenting the following line:
+
+```
+fastcgi_request_buffering off;
+```
+
 ## :question: Using the Android App With 2FA Enabled
 If you've enabled 2FA (Two Factor Authentication) logins you may be hit with an incorrect password error. The android client doesn't support logging in with 2FA credentials. Here is a guide to do so, although it says Managing Devices it is the same process for App Passwords: https://docs.nextcloud.com/server/11/user_manual/session_management.html#managing-devices
 
