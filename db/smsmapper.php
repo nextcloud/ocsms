@@ -122,10 +122,10 @@ class SmsMapper extends Mapper {
 		$messageList = array();
 		$query = \OCP\DB::prepare('SELECT sms_date, sms_msg, sms_type FROM ' .
 		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_address = ? ' .
-		'AND sms_mailbox IN (?,?) AND sms_date > ?');
+		'AND sms_mailbox IN (?,?,?) AND sms_date > ?');
 
 		foreach ($phlst as $pn => $val) {
-			$result = $query->execute(array($userId, $pn, 0, 1, $minDate));
+			$result = $query->execute(array($userId, $pn, 0, 1, 3, $minDate));
 
 			while ($row = $result->fetchRow()) {
 				$messageList[$row["sms_date"]] = array(
