@@ -46,7 +46,7 @@ class SmsMapper extends Mapper {
 		$smsList = array();
 		while($row = $result->fetchRow()) {
 			// This case may not arrive, but we test if the DB is consistent
-			if (!in_array($row["sms_mailbox"], SmsMapper::$mailboxNames)) {
+			if (!in_array((int) $row["sms_mailbox"], SmsMapper::$mailboxNames)) {
 				continue;
 			}
 			$mbox = SmsMapper::$mailboxNames[$row["sms_mailbox"]];
