@@ -60,8 +60,9 @@
 
 #app-content-wrapper {
 	padding: 15px;
-	margin-top: 100px;
-	min-height: auto !important;
+	margin-top: 100px !important;
+	min-height: 50% !important;
+	height: 80%;
 }
 
 #app-content-header {
