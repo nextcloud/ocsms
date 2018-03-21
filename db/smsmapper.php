@@ -182,23 +182,23 @@ class SmsMapper extends Mapper {
 	}
 
 	public function removeMessagesForPhoneNumber ($userId, $phoneNumber) {
-		\OCP\DB::beginTransaction();
+		$this->db->beginTransaction();
 		$query = \OCP\DB::prepare('DELETE FROM ' .
 		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_address = ?');
 		$query->execute(array($userId, $phoneNumber));
-		\OCP\DB::commit();
+		$this->db->commit();
 	}
 
 	/*
 	* WARN: messageId is sms_date here
 	*/
 	public function removeMessage ($userId, $phoneNumber, $messageId)  {
-		\OCP\DB::beginTransaction();
+		$this->db->beginTransaction();
 		$query = \OCP\DB::prepare('DELETE FROM ' .
 		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_address = ? ' .
 		'AND sms_date = ?');
 		$query->execute(array($userId, $phoneNumber, $messageId));
-		\OCP\DB::commit();
+		$this->db->commit();
 	}
 
 	public function getLastMessageTimestampForAllPhonesNumbers ($userId, $order = true) {
@@ -253,7 +253,7 @@ class SmsMapper extends Mapper {
 	}
 
 	public function writeToDB ($userId, $smsList, $purgeAllSmsBeforeInsert = false) {
-		\OCP\DB::beginTransaction();
+		$this->db->beginTransaction();
 
 		if ($purgeAllSmsBeforeInsert === true) {
 			$query = \OCP\DB::prepare('DELETE FROM *PREFIX*ocsms_smsdatas ' .
@@ -292,7 +292,7 @@ class SmsMapper extends Mapper {
 
 		}
 
-		\OCP\DB::commit();
+		$this->db->commit();
 	}
 }
 
