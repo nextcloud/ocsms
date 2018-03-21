@@ -52,7 +52,7 @@ class ConversationStateMapper extends Mapper {
 	}
 
 	public function setLast ($userId, $phoneNumber, $lastDate) {
-		\OCP\DB::beginTransaction();
+		$this->db->beginTransaction();
 		$query = \OCP\DB::prepare('DELETE FROM *PREFIX*ocsms_conversation_read_states ' .
 			'WHERE user_id = ? AND phone_number = ?');
 		$query->execute(array($userId, $phoneNumber));
@@ -61,7 +61,7 @@ class ConversationStateMapper extends Mapper {
 			'(user_id, phone_number, int_date) VALUES ' .
 			'(?,?,?)');
 		$query->execute(array($userId, $phoneNumber, $lastDate));
-		\OCP\DB::commit();
+		$this->db->commit();
 	}
 
 	/*
