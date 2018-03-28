@@ -174,7 +174,7 @@ class SmsMapper extends Mapper {
 		'AND sms_mailbox IN (?,?,?)');
 
 		foreach($phlst as $pn => $val) {
-			$result = $query->execute(array($userId, $pn, 0, 1, 2));
+			$result = $query->execute(array($userId, $pn, 0, 1, 3));
 			if ($row = $result->fetchRow())
 				$cnt += $row["ct"];
 		}
