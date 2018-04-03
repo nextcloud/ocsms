@@ -46,7 +46,7 @@ class SmsMapper extends Mapper {
 		$smsList = array();
 		while($row = $result->fetchRow()) {
 			// This case may not arrive, but we test if the DB is consistent
-			if (!in_array($row["sms_mailbox"], SmsMapper::$mailboxNames)) {
+			if (!in_array((int) $row["sms_mailbox"], SmsMapper::$mailboxNames)) {
 				continue;
 			}
 			$mbox = SmsMapper::$mailboxNames[$row["sms_mailbox"]];
@@ -75,8 +75,8 @@ class SmsMapper extends Mapper {
 
 	public function getAllPhoneNumbers ($userId) {
 		$query = \OCP\DB::prepare('SELECT sms_address FROM ' .
-		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_mailbox IN (?,?)');
-		$result = $query->execute(array($userId, 0, 1));
+		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_mailbox IN (?,?,?)');
+		$result = $query->execute(array($userId, 0, 1, 3));
 
 		$phoneList = array();
 		while($row = $result->fetchRow()) {
@@ -93,8 +93,8 @@ class SmsMapper extends Mapper {
 	 */
 	public function getAllPhoneNumbersForFPN ($userId, $phoneNumber, $country) {
 		$query = \OCP\DB::prepare('SELECT sms_address FROM ' .
-		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_mailbox IN (?,?)');
-		$result = $query->execute(array($userId, 0, 1));
+		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_mailbox IN (?,?,?)');
+		$result = $query->execute(array($userId, 0, 1, 3));
 		$phoneList = array();
 		while($row = $result->fetchRow()) {
 			$pn = $row["sms_address"];
@@ -122,10 +122,10 @@ class SmsMapper extends Mapper {
 		$messageList = array();
 		$query = \OCP\DB::prepare('SELECT sms_date, sms_msg, sms_type FROM ' .
 		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_address = ? ' .
-		'AND sms_mailbox IN (?,?) AND sms_date > ?');
+		'AND sms_mailbox IN (?,?,?) AND sms_date > ?');
 
 		foreach ($phlst as $pn => $val) {
-			$result = $query->execute(array($userId, $pn, 0, 1, $minDate));
+			$result = $query->execute(array($userId, $pn, 0, 1, 3, $minDate));
 
 			while ($row = $result->fetchRow()) {
 				$messageList[$row["sms_date"]] = array(
@@ -171,10 +171,10 @@ class SmsMapper extends Mapper {
 
 		$query = \OCP\DB::prepare('SELECT count(*) as ct FROM ' .
 		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_address = ? ' .
-		'AND sms_mailbox IN (?,?)');
+		'AND sms_mailbox IN (?,?,?)');
 
 		foreach($phlst as $pn => $val) {
-			$result = $query->execute(array($userId, $pn, 0, 1));
+			$result = $query->execute(array($userId, $pn, 0, 1, 3));
 			if ($row = $result->fetchRow())
 				$cnt += $row["ct"];
 		}
@@ -203,7 +203,7 @@ class SmsMapper extends Mapper {
 
 	public function getLastMessageTimestampForAllPhonesNumbers ($userId, $order = true) {
 		$sql = 'SELECT sms_address, MAX(sms_date) AS mx FROM ' .
-		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_mailbox IN (?,?) ' .
+		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_mailbox IN (?,?,?) ' .
 		'GROUP BY sms_address';
 
 		if ($order === true) {
@@ -211,7 +211,7 @@ class SmsMapper extends Mapper {
 		}
 
 		$query = \OCP\DB::prepare($sql);
-		$result = $query->execute(array($userId, 0, 1));
+		$result = $query->execute(array($userId, 0, 1, 3));
 
 		$phoneList = array();
 		while ($row = $result->fetchRow()) {
@@ -231,11 +231,11 @@ class SmsMapper extends Mapper {
 		$ld = ($lastDate == '') ? 0 : $lastDate;
 
 		$sql = 'SELECT sms_address, COUNT(sms_date) AS ct FROM ' .
-		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_mailbox IN (?,?) ' .
+		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_mailbox IN (?,?,?) ' .
 		'AND sms_date > ? GROUP BY sms_address';
 
 		$query = \OCP\DB::prepare($sql);
-		$result = $query->execute(array($userId, 0, 1, $ld));
+		$result = $query->execute(array($userId, 0, 1, 3, $ld));
 
 		$phoneList = array();
 		while ($row = $result->fetchRow()) {
