@@ -21,11 +21,11 @@ if (class_exists('\OCP\AppFramework\App')) {
 	    'order' => 10,
 
 	    // the route that will be shown on startup
-	    'href' => \OCP\Util::linkToRoute('ocsms.sms.index'),
+	    'href' => \OC::$server->getURLGenerator()->linkToRoute('ocsms.sms.index'),
 
 	    // the icon that will be shown in the navigation
 	    // this file needs to exist in img/
-	    'icon' => \OCP\Util::imagePath('ocsms', 'app.svg'),
+	    'icon' => \OC::$server->getURLGenerator()->imagePath('ocsms', 'app.svg'),
 
 	    // the title of your application. This will be used in the
 	    // navigation or on the settings page of your app
@@ -33,5 +33,5 @@ if (class_exists('\OCP\AppFramework\App')) {
 	));
 } else {
 	$msg = 'Can not enable the OcSms app because the App Framework App is disabled';
-	\OCP\Util::writeLog('ocsms', $msg, \OCP\Util::ERROR);
+	\OC::$server->getLogger()->error($msg, array('ocsms'));
 }
