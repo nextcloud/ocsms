@@ -39,12 +39,14 @@ class SmsMapper extends Mapper {
 	}
 
 	public function getAllIds ($userId) {
-		$query = \OCP\DB::prepare('SELECT sms_id, sms_mailbox FROM ' .
-			'*PREFIX*ocsms_smsdatas WHERE user_id = ?');
-		$result = $query->execute(array($userId));
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('sms_id, sms_mailbox')
+			->from('ocsms_smsdatas')
+			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId)));
+		$result = $qb->execute();
 
 		$smsList = array();
-		while($row = $result->fetchRow()) {
+		while($row = $result->fetch()) {
 			// This case may not arrive, but we test if the DB is consistent
 			if (!in_array((int) $row["sms_mailbox"], SmsMapper::$mailboxNames)) {
 				continue;
@@ -58,6 +60,7 @@ class SmsMapper extends Mapper {
 				array_push($smsList[$mbox], $row["sms_id"]);
 			}
 		}
+		$result->closeCursor();
 		return $smsList;
 	}
 
