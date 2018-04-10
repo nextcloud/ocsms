@@ -11,6 +11,7 @@
 
 namespace OCA\OcSms\Db;
 
+use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use \OCP\IDBConnection;
 
 use \OCP\AppFramework\Db\Mapper;
@@ -57,18 +58,30 @@ class ConfigMapper extends Mapper {
 			return true;
 		} catch (DoesNotExistException $e){
 			return false;
+		} catch (MultipleObjectsReturnedException $e) {
+			return true;
 		}
 	}
 
 	public function getKey ($key) {
 		try {
-			$query = \OCP\DB::prepare("SELECT `value` FROM `*PREFIX*ocsms_config` WHERE `key` = ? AND `user` = ?");
-			$result = $query->execute(array($key, $this->user));
-			while($row = $result->fetchRow()) {
+			$qb = $this->db->getQueryBuilder();
+			$qb->select('value')
+				->from('ocsms_config')
+				->where(
+					$qb->expr()->andX(
+						$qb->expr()->eq('key', $qb->createNamedParameter($key)),
+						$qb->expr()->eq('user', $qb->createNamedParameter($this->user))
+					)
+				);
+			$result = $qb->execute();
+			if ($row = $result->fetch()) {
 				return $this->crypto->decrypt($row["value"]);
 			}
 			return false;
 		} catch (DoesNotExistException $e){
+			return false;
+		} catch (\Exception $e) {
 			return false;
 		}
 	}
