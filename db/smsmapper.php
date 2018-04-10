@@ -85,7 +85,9 @@ class SmsMapper extends Mapper {
 			->from('ocsms_smsdatas')
 			->where($qb->expr()->andX(
 				$qb->expr()->eq('user_id', $qb->createNamedParameter($userId)),
-				$qb->expr()->in('sms_mailbox', array(0, 1, 3))
+				$qb->expr()->in('sms_mailbox', array_map(function($mbid) use ($qb) {
+					return $qb->createNamedParameter($mbid);
+				}, array(0, 1, 3)))
 			)
 		);
 
@@ -111,7 +113,9 @@ class SmsMapper extends Mapper {
 			->from('ocsms_smsdatas')
 			->where($qb->expr()->andX(
 				$qb->expr()->eq('user_id', $qb->createNamedParameter($userId)),
-				$qb->expr()->in('sms_mailbox', array(0, 1, 3))
+				$qb->expr()->in('sms_mailbox', array_map(function($mbid) use ($qb) {
+					return $qb->createNamedParameter($mbid);
+				}, array(0, 1, 3)))
 			)
 		);
 		$result = $qb->execute();
