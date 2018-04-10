@@ -65,11 +65,14 @@ class SmsMapper extends Mapper {
 	}
 
 	public function getLastTimestamp ($userId) {
-		$query = \OCP\DB::prepare('SELECT max(sms_date) as mx FROM ' .
-			'*PREFIX*ocsms_smsdatas WHERE user_id = ?');
-		$result = $query->execute(array($userId));
+		$qb = $this->db->getQueryBuilder();
 
-		if ($row = $result->fetchRow()) {
+		$qb->select('MAX(sms_date) as mx')
+			->from('ocsms_smsdatas')
+			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId)));
+		$result = $qb->execute();
+
+		if ($row = $result->fetch()) {
 			return $row["mx"];
 		}
 
@@ -77,17 +80,25 @@ class SmsMapper extends Mapper {
 	}
 
 	public function getAllPhoneNumbers ($userId) {
-		$query = \OCP\DB::prepare('SELECT sms_address FROM ' .
-		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_mailbox IN (?,?,?)');
-		$result = $query->execute(array($userId, 0, 1, 3));
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('sms_address')
+			->from('ocsms_smsdatas')
+			->where($qb->expr()->andX(
+				$qb->expr()->eq('user_id', $qb->createNamedParameter($userId)),
+				$qb->expr()->in('sms_mailbox', array(0, 1, 3))
+			)
+		);
+
+		$result = $qb->execute();
 
 		$phoneList = array();
-		while($row = $result->fetchRow()) {
+		while($row = $result->fetch()) {
 			$pn = $row["sms_address"];
 			if (!in_array($pn, $phoneList)) {
 				array_push($phoneList, $pn);
 			}
 		}
+		$result->closeCursor();
 		return $phoneList;
 	}
 
@@ -95,11 +106,18 @@ class SmsMapper extends Mapper {
 	 *	get all possible SMS_adresses for a given formated phonenumber
 	 */
 	public function getAllPhoneNumbersForFPN ($userId, $phoneNumber, $country) {
-		$query = \OCP\DB::prepare('SELECT sms_address FROM ' .
-		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_mailbox IN (?,?,?)');
-		$result = $query->execute(array($userId, 0, 1, 3));
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('sms_address')
+			->from('ocsms_smsdatas')
+			->where($qb->expr()->andX(
+				$qb->expr()->eq('user_id', $qb->createNamedParameter($userId)),
+				$qb->expr()->in('sms_mailbox', array(0, 1, 3))
+			)
+		);
+		$result = $qb->execute();
+
 		$phoneList = array();
-		while($row = $result->fetchRow()) {
+		while($row = $result->fetch()) {
 			$pn = $row["sms_address"];
 			$fmtPN = PhoneNumberFormatter::format($country, $pn);
 			if (!isset($phoneList[$fmtPN])) {
@@ -141,10 +159,14 @@ class SmsMapper extends Mapper {
 	}
 
 	public function getMessageCount ($userId) {
-		$query = \OCP\DB::prepare('SELECT count(*) AS count FROM ' .
-			'*PREFIX*ocsms_smsdatas WHERE user_id = ?');
-		$result = $query->execute(array($userId));
-		if ($row = $result->fetchRow()) {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('COUNT(*) AS count')
+			->from('ocsms_smsdatas')
+			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId))
+		);
+		$result = $qb->execute();
+
+		if ($row = $result->fetch()) {
 			return $row["count"];
 		}
 
