@@ -40,7 +40,7 @@ class SmsMapper extends Mapper {
 
 	public function getAllIds ($userId) {
 		$qb = $this->db->getQueryBuilder();
-		$qb->select('sms_id, sms_mailbox')
+		$qb->select('sms_id', 'sms_mailbox')
 			->from('ocsms_smsdatas')
 			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId)));
 		$result = $qb->execute();
@@ -67,7 +67,7 @@ class SmsMapper extends Mapper {
 	public function getLastTimestamp ($userId) {
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select('MAX(sms_date) as mx')
+		$qb->selectAlias('MAX(sms_date)', 'mx')
 			->from('ocsms_smsdatas')
 			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId)));
 		$result = $qb->execute();
@@ -164,7 +164,7 @@ class SmsMapper extends Mapper {
 
 	public function getMessageCount ($userId) {
 		$qb = $this->db->getQueryBuilder();
-		$qb->select('COUNT(*) AS count')
+		$qb->selectAlias('COUNT(*)', 'count')
 			->from('ocsms_smsdatas')
 			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId))
 		);
@@ -181,7 +181,7 @@ class SmsMapper extends Mapper {
 		$messageList = array();
 
 		$qb = $this->db->getQueryBuilder();
-		$qb->select('sms_address, sms_date, sms_msg, sms_type, sms_mailbox')
+		$qb->select('sms_address', 'sms_date', 'sms_msg', 'sms_type', 'sms_mailbox')
 			->from('ocsms_smsdatas')
 			->where($qb->expr()->andX(
 				$qb->expr()->eq('user_id', $qb->createNamedParameter($userId)),
@@ -209,7 +209,7 @@ class SmsMapper extends Mapper {
 		$qb = $this->db->getQueryBuilder();
 
 		foreach($phlst as $pn => $val) {
-			$qb->select('COUNT(*) AS ct')
+			$qb->selectAlias('COUNT(*)', 'ct')
 				->from('ocsms_smsdatas')
 				->where($qb->expr()->andX(
 					$qb->expr()->eq('user_id', $qb->createNamedParameter($userId)),
@@ -230,7 +230,7 @@ class SmsMapper extends Mapper {
 	public function removeMessagesForPhoneNumber ($userId, $phoneNumber) {
 		$this->db->beginTransaction();
 		$qb = $this->db->getQueryBuilder();
-		$qb->delete('COUNT(*) AS ct')
+		$qb->delete()
 			->from('ocsms_smsdatas')
 			->where($qb->expr()->andX(
 				$qb->expr()->eq('user_id', $qb->createNamedParameter($userId)),
