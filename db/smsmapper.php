@@ -180,21 +180,17 @@ class SmsMapper extends Mapper {
 	public function getMessages ($userId, $start, $limit) {
 		$messageList = array();
 
-		$query = \OCP\DB::prepare('SELECT sms_address, sms_date, sms_msg, sms_type, sms_mailbox FROM ' .
-			'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_date > ? ORDER BY sms_date', (int) $limit);
-		$result = $query->execute(array($userId, $start));
-
-//		$qb = $this->db->getQueryBuilder();
-//		$qb->select('sms_address, sms_date, sms_msg, sms_type, sms_mailbox')
-//			->from('ocsms_smsdatas')
-//			->where($qb->expr()->andX(
-//				$qb->expr()->eq('user_id', $qb->createNamedParameter($userId)),
-//				$qb->expr()->gt('sms_date', $qb->createNamedParameter($start))
-//			)
-//			)
-//			->orderBy('sms_date');
-//		$result = $qb->execute();
-// How to do limit ?
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('sms_address, sms_date, sms_msg, sms_type, sms_mailbox')
+			->from('ocsms_smsdatas')
+			->where($qb->expr()->andX(
+				$qb->expr()->eq('user_id', $qb->createNamedParameter($userId)),
+				$qb->expr()->gt('sms_date', $qb->createNamedParameter($start))
+				)
+			)
+			->orderBy('sms_date')
+			->setMaxResults((int) $limit);
+		$result = $qb->execute();
 
 		while ($row = $result->fetchRow()) {
 			$messageList[$row["sms_date"]] = array(
@@ -210,13 +206,21 @@ class SmsMapper extends Mapper {
 	public function countMessagesForPhoneNumber ($userId, $phoneNumber, $country) {
 		$cnt = 0;
 		$phlst = $this->getAllPhoneNumbersForFPN ($userId, $phoneNumber, $country);
-
-		$query = \OCP\DB::prepare('SELECT count(*) as ct FROM ' .
-		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_address = ? ' .
-		'AND sms_mailbox IN (?,?,?)');
+		$qb = $this->db->getQueryBuilder();
 
 		foreach($phlst as $pn => $val) {
-			$result = $query->execute(array($userId, $pn, 0, 1, 3));
+			$qb->select('COUNT(*) AS ct')
+				->from('ocsms_smsdatas')
+				->where($qb->expr()->andX(
+					$qb->expr()->eq('user_id', $qb->createNamedParameter($userId)),
+					$qb->expr()->eq('sms_address', $qb->createNamedParameter($pn)),
+					$qb->expr()->in('sms_mailbox', array_map(function($mbid) use ($qb) {
+						return $qb->createNamedParameter($mbid);
+					}, array(0, 1, 3)))
+				)
+			);
+			$result = $qb->execute();
+
 			if ($row = $result->fetchRow())
 				$cnt += $row["ct"];
 		}
@@ -225,9 +229,15 @@ class SmsMapper extends Mapper {
 
 	public function removeMessagesForPhoneNumber ($userId, $phoneNumber) {
 		$this->db->beginTransaction();
-		$query = \OCP\DB::prepare('DELETE FROM ' .
-		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_address = ?');
-		$query->execute(array($userId, $phoneNumber));
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete('COUNT(*) AS ct')
+			->from('ocsms_smsdatas')
+			->where($qb->expr()->andX(
+				$qb->expr()->eq('user_id', $qb->createNamedParameter($userId)),
+				$qb->expr()->eq('sms_address', $qb->createNamedParameter($phoneNumber))
+			)
+			);
+		$qb->execute();
 		$this->db->commit();
 	}
 
@@ -236,10 +246,16 @@ class SmsMapper extends Mapper {
 	*/
 	public function removeMessage ($userId, $phoneNumber, $messageId)  {
 		$this->db->beginTransaction();
-		$query = \OCP\DB::prepare('DELETE FROM ' .
-		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_address = ? ' .
-		'AND sms_date = ?');
-		$query->execute(array($userId, $phoneNumber, $messageId));
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete()
+			->from('ocsms_smsdatas')
+			->where($qb->expr()->andX(
+				$qb->expr()->eq('user_id', $qb->createNamedParameter($userId)),
+				$qb->expr()->eq('sms_address', $qb->createNamedParameter($phoneNumber)),
+				$qb->expr()->eq('sms_date', $qb->createNamedParameter($messageId))
+			)
+			);
+		$qb->execute();
 		$this->db->commit();
 	}
 
@@ -296,11 +312,14 @@ class SmsMapper extends Mapper {
 
 	public function writeToDB ($userId, $smsList, $purgeAllSmsBeforeInsert = false) {
 		$this->db->beginTransaction();
+		$qb = $this->db->getQueryBuilder();
 
 		if ($purgeAllSmsBeforeInsert === true) {
-			$query = \OCP\DB::prepare('DELETE FROM *PREFIX*ocsms_smsdatas ' .
-			'WHERE user_id = ?');
-			$result = $query->execute(array($userId));
+			$qb->delete()
+				->from('ocsms_smsdatas')
+				->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId))
+			);
+			$qb->execute();
 		}
 
 		foreach ($smsList as $sms) {
@@ -312,12 +331,14 @@ class SmsMapper extends Mapper {
 			// Only delete if we haven't purged the DB
 			if ($purgeAllSmsBeforeInsert === false) {
 				// Remove previous record
-				// @ TODO: only update the required fields, getAllIds can be useful
-				$query = \OCP\DB::prepare('DELETE FROM *PREFIX*ocsms_smsdatas ' .
-				'WHERE user_id = ? AND sms_id = ?');
-				$result = $query->execute(array(
-					$userId, (int) $sms["_id"]
-				));
+				$qb->delete()
+					->from('ocsms_smsdatas')
+					->where($qb->expr()->andX(
+						$qb->expr()->eq('user_id', $qb->createNamedParameter($userId)),
+						$qb->expr()->eq('sms_id', $qb->createNamedParameter((int) $sms["_id"]))
+					)
+				);
+				$qb->execute();
 			}
 			$now = date("Y-m-d H:i:s");
 			$query = \OCP\DB::prepare('INSERT INTO *PREFIX*ocsms_smsdatas ' .
