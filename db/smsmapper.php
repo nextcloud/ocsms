@@ -192,7 +192,7 @@ class SmsMapper extends Mapper {
 			->setMaxResults((int) $limit);
 		$result = $qb->execute();
 
-		while ($row = $result->fetchRow()) {
+		while ($row = $result->fetch()) {
 			$messageList[$row["sms_date"]] = array(
 				"address" => $row["sms_address"],
 				"mailbox" => $row["sms_mailbox"],
@@ -221,7 +221,7 @@ class SmsMapper extends Mapper {
 			);
 			$result = $qb->execute();
 
-			if ($row = $result->fetchRow())
+			if ($row = $result->fetch())
 				$cnt += $row["ct"];
 		}
 		return $cnt;
