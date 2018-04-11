@@ -67,7 +67,7 @@ class SmsMapper extends Mapper {
 	public function getLastTimestamp ($userId) {
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->selectAlias('MAX(sms_date)', 'mx')
+		$qb->selectAlias($qb->createFunction('MAX(sms_date)'), 'mx')
 			->from('ocsms_smsdatas')
 			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId)));
 		$result = $qb->execute();
@@ -164,7 +164,7 @@ class SmsMapper extends Mapper {
 
 	public function getMessageCount ($userId) {
 		$qb = $this->db->getQueryBuilder();
-		$qb->selectAlias('COUNT(*)', 'count')
+		$qb->selectAlias($qb->createFunction('COUNT(*)'), 'count')
 			->from('ocsms_smsdatas')
 			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId))
 		);
@@ -209,7 +209,7 @@ class SmsMapper extends Mapper {
 		$qb = $this->db->getQueryBuilder();
 
 		foreach($phlst as $pn => $val) {
-			$qb->selectAlias('COUNT(*)', 'ct')
+			$qb->selectAlias($qb->createFunction('COUNT(*)'), 'ct')
 				->from('ocsms_smsdatas')
 				->where($qb->expr()->andX(
 					$qb->expr()->eq('user_id', $qb->createNamedParameter($userId)),
