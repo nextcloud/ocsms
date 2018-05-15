@@ -195,9 +195,9 @@ class SmsMapper extends Mapper {
 		while ($row = $result->fetch()) {
 			$messageList[$row["sms_date"]] = array(
 				"address" => $row["sms_address"],
-				"mailbox" => $row["sms_mailbox"],
+				"mailbox" => intval($row["sms_mailbox"]),
 				"msg" => $row["sms_msg"],
-				"type" => $row["sms_type"]
+				"type" => intval($row["sms_type"])SMS
 			);
 		}
 		return $messageList;
