@@ -25,3 +25,4 @@ wget https://github.com/nextcloud/ocsms/archive/${RELEASE_VERSION}.tar.gz
 tar xzf ${RELEASE_VERSION}.tar.gz
 mv ocsms-${RELEASE_VERSION} ocsms
 tar cfz ocsms-${RELEASE_VERSION}.tar.gz ocsms
+echo "Release version "${RELEASE_VERSION}" is now ready."
