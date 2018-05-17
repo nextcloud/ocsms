@@ -177,15 +177,22 @@
 				<type>text</type>
 				<notnull>true</notnull>
 				<length>64</length>
+				<primary>true</primary>
 			</field>
 			<field>
-				<name>sms_address</name>
+				<name>user_id</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+			<field>
+				<name>phone_number</name>
 				<type>text</type>
 				<notnull>true</notnull>
 				<length>512</length>
 			</field>
 			<index>
-				<name>smsdata_conversations_id_address</name>
+				<name>smsdata_conversations_user_id_address</name>
 				<field>
 					<name>id</name>
 				</field>

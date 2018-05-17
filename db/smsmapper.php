@@ -308,6 +308,16 @@ class SmsMapper extends Mapper {
 		return $phoneList;
 	}
 
+	private function getConversationForUserAndPhone($userId, $phoneNumber) {
+        $qb->select('id')
+            ->from('ocsms_conversations')
+            ->where($qb->expr()->andX(
+                $qb->expr()->eq('user_id', $qb->createNamedParameter($userId)),
+                $qb->expr()->in('phone_number', $qb->createNamedParameter($phoneNumber))
+		);
+        $result = $qb->execute();
+	}
+
 	public function writeToDB ($userId, $smsList, $purgeAllSmsBeforeInsert = false) {
 		$this->db->beginTransaction();
 		$qb = $this->db->getQueryBuilder();
@@ -348,7 +358,7 @@ class SmsMapper extends Mapper {
 				(int) $sms["type"]
 			));
 
-
+			$this->getConversationForUserAndPhone($userId, $sms["address"]);
 		}
 
 		$this->db->commit();
