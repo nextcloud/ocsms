@@ -33,10 +33,12 @@ class SmsMapper extends Mapper {
 		6 => "queued"
 	);
 	private $convStateMapper;
+	private $configMapper;
 
-	public function __construct (IDBConnection $db, ConversationStateMapper $cmapper) {
+	public function __construct (IDBConnection $db, ConversationStateMapper $cmapper, ConfigMapper $configMapper) {
 		parent::__construct($db, 'ocsms_smsdatas');
 		$this->convStateMapper = $cmapper;
+		$this->configMapper = $configMapper;
 	}
 
 	public function getAllIds ($userId) {
@@ -379,12 +381,13 @@ class SmsMapper extends Mapper {
 				(int) $sms["type"]
 			));
 
-			/*
-			$conversation = $this->getConversationForUserAndPhone($userId, $sms["address"]);
+			$configuredCountry = $this->configMapper->getCountry();
+			$fmtPhoneNumber = PhoneNumberFormatter::format($configuredCountry, $sms["address"]);
+
+			$conversation = $this->getConversationForUserAndPhone($userId, $fmtPhoneNumber);
 			if ($conversation === null) {
-				$this->registerConversation($userId, $sms["address"]);
+				$this->registerConversation($userId, $fmtPhoneNumber);
 			}
-			*/
 		}
 
 		$this->db->commit();
