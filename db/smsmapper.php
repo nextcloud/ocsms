@@ -11,6 +11,7 @@
 
 namespace OCA\OcSms\Db;
 
+use lib\UUIDGenerator;
 use \OCP\IDBConnection;
 
 use \OCP\AppFramework\Db\Mapper;
@@ -309,13 +310,33 @@ class SmsMapper extends Mapper {
 	}
 
 	private function getConversationForUserAndPhone($userId, $phoneNumber) {
+        $qb = $this->db->getQueryBuilder();
+
         $qb->select('id')
             ->from('ocsms_conversations')
             ->where($qb->expr()->andX(
                 $qb->expr()->eq('user_id', $qb->createNamedParameter($userId)),
                 $qb->expr()->in('phone_number', $qb->createNamedParameter($phoneNumber))
-		);
+		));
         $result = $qb->execute();
+
+        if ($row = $result->fetch()) {
+        	$conversation = new Conversation($userId, $phoneNumber);
+            $conversation->id = $row["id"];
+            return $conversation;
+        }
+        return null;
+	}
+
+	private function registerConversation($userId, $phoneNumber) {
+		$qb = $this->db->getQueryBuilder();
+		$qb->insert('ocsms_conversations')
+			->values([
+				'id' => $qb->createNamedParameter(UUIDGenerator::generate()),
+				'user_id' => $qb->createNamedParameter($userId),
+				'phone_number' => $qb->createNamedParameter($phoneNumber),
+			])
+			->execute();
 	}
 
 	public function writeToDB ($userId, $smsList, $purgeAllSmsBeforeInsert = false) {
@@ -351,14 +372,19 @@ class SmsMapper extends Mapper {
 			'(user_id, added, lastmodified, sms_flags, sms_date, sms_id,' .
 			'sms_address, sms_msg, sms_mailbox, sms_type) VALUES ' .
 			'(?,?,?,?,?,?,?,?,?,?)');
-			$result = $query->execute(array(
+			$query->execute(array(
 				$userId, $now, $now, $smsFlags,
 				$sms["date"], (int) $sms["_id"],
 				$sms["address"], $sms["body"], (int) $sms["mbox"],
 				(int) $sms["type"]
 			));
 
-			$this->getConversationForUserAndPhone($userId, $sms["address"]);
+			/*
+			$conversation = $this->getConversationForUserAndPhone($userId, $sms["address"]);
+			if ($conversation === null) {
+				$this->registerConversation($userId, $sms["address"]);
+			}
+			*/
 		}
 
 		$this->db->commit();
