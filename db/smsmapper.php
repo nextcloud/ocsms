@@ -230,8 +230,7 @@ class SmsMapper extends Mapper {
 	public function removeMessagesForPhoneNumber ($userId, $phoneNumber) {
 		$this->db->beginTransaction();
 		$qb = $this->db->getQueryBuilder();
-		$qb->delete()
-			->from('ocsms_smsdatas')
+		$qb->delete('ocsms_smsdatas')
 			->where($qb->expr()->andX(
 				$qb->expr()->eq('user_id', $qb->createNamedParameter($userId)),
 				$qb->expr()->eq('sms_address', $qb->createNamedParameter($phoneNumber))
@@ -247,8 +246,7 @@ class SmsMapper extends Mapper {
 	public function removeMessage ($userId, $phoneNumber, $messageId)  {
 		$this->db->beginTransaction();
 		$qb = $this->db->getQueryBuilder();
-		$qb->delete()
-			->from('ocsms_smsdatas')
+		$qb->delete('ocsms_smsdatas')
 			->where($qb->expr()->andX(
 				$qb->expr()->eq('user_id', $qb->createNamedParameter($userId)),
 				$qb->expr()->eq('sms_address', $qb->createNamedParameter($phoneNumber)),
@@ -315,8 +313,7 @@ class SmsMapper extends Mapper {
 		$qb = $this->db->getQueryBuilder();
 
 		if ($purgeAllSmsBeforeInsert === true) {
-			$qb->delete()
-				->from('ocsms_smsdatas')
+			$qb->delete('ocsms_smsdatas')
 				->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId))
 			);
 			$qb->execute();
@@ -331,8 +328,7 @@ class SmsMapper extends Mapper {
 			// Only delete if we haven't purged the DB
 			if ($purgeAllSmsBeforeInsert === false) {
 				// Remove previous record
-				$qb->delete()
-					->from('ocsms_smsdatas')
+				$qb->delete('ocsms_smsdatas')
 					->where($qb->expr()->andX(
 						$qb->expr()->eq('user_id', $qb->createNamedParameter($userId)),
 						$qb->expr()->eq('sms_id', $qb->createNamedParameter((int) $sms["_id"]))
