@@ -170,6 +170,32 @@
 		</declaration>
 	</table>
 	<table>
+		<name>*dbprefix*ocsms_conversations</name>
+		<declaration>
+			<field>
+				<name>id</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+			<field>
+				<name>sms_address</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>512</length>
+			</field>
+			<index>
+				<name>smsdata_conversations_id_address</name>
+				<field>
+					<name>id</name>
+				</field>
+				<field>
+					<name>sms_address</name>
+				</field>
+			</index>
+		</declaration>
+	</table>
+	<table>
 		<name>*dbprefix*ocsms_sendmessage_queue</name>
 		<declaration>
 			<field>
