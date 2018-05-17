@@ -197,7 +197,7 @@ class SmsMapper extends Mapper {
 				"address" => $row["sms_address"],
 				"mailbox" => intval($row["sms_mailbox"]),
 				"msg" => $row["sms_msg"],
-				"type" => intval($row["sms_type"])SMS
+				"type" => intval($row["sms_type"])
 			);
 		}
 		return $messageList;
