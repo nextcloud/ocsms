@@ -14,58 +14,40 @@ namespace OCA\OcSms\Lib;
 
 use \OCA\OcSms\Lib\CountryCodes;
 
+// Load the PhoneNumberUtil class and dependencies.
+include( dirname(__FILE__) . '/vendor/autoload.php');
+
 class PhoneNumberFormatter {
-	public static $intlPhoneNumber_rxp = array(					// match international numbers with 1,2,3 digits
-		'#^(00|\+)(1\d\d\d)#',				// NANP
-		'#^(00|\+)(2[1|2|3|4|5|6|8|9]\d)#',		// +2(1|2|3|4|5|6|8|9)x
-		'#^(00|\+)(2[0|7])#',				// +2x
-		'#^(00|\+)(3[5|7|8]\d)#',			// +3(5|7|8)x
-		'#^(00|\+)(3[0|1|2|3|4|6|9])#',			// +3x
-		'#^(00|\+)(4[2]\d)#',				// +4(2)x
-		'#^(00|\+)(4[0|1|3|4|5|6|7|8|9])#',		// +4x
-		'#^(00|\+)(5[0|9]\d)#',				// +5(0|9)x
-		'#^(00|\+)(5[1|2|3|4|5|6|7|8])#',		// +5x
-		'#^(00|\+)(6[7|8|9]\d)#',			// +6(7|8|9)x
-		'#^(00|\+)(6[0|1|2|3|4|5|6])#',			// +6x
-		'#^(00|\+)(7)#',				// +7
-		'#^(00|\+)(8[5|7|8|9]\d)#',			// +8(5|7|8|9)x
-		'#^(00|\+)(8[1|2|3|4|6])#',			// +8x
-		'#^(00|\+)(9[6|7|9]\d)#',			// +9(6|7|9)x
-		'#^(00|\+)(9[0|1|2|3|4|5|8])#'			// +9x
-	);
-
-	public static $localPrePhoneNumber_rxp = array(
-		'#(^0)([^0])#'						// in germany : 0-xx[x[x]]-123456
-	);								//
-
 	public static function format ($country, $pn) {
-		// If no country or country not found into mapper, return original number
-		if ($country === false || !array_key_exists($country, CountryCodes::$codes)) {
-			return trim($pn);	
+		// Trim the phone number.
+		$pn = trim($pn);
+
+		// If no country, country not found into mapper, or the phone number is shorter than six characters
+		// (aka most likely a "short" SMS service, just return the original number.
+		if ($country === false || !array_key_exists($country, CountryCodes::$codes) || strlen($pn) < 6) {
+			return $pn;
 		}
 
-		$ignrxp = array(					// match non digits and +
-			'#[^\d\+\(\)\[\]\{\}]#',			// everything but digit, +, (), [] or {}
-			'#(.+)([\(\[\{]\d*[\)\]\}])#',			// braces inside the number: +49 (0) 123 456789
-			'#[^\d\+]#'					// everything but digits and +
-		);
+		// Make sure the passed in phone number looks like it could be a phone number, otherwise just return it.
+		if (preg_match('#^[\d\+\(\[\{].*#',$pn)) {							// start with digit, +, (, [ or {
+			// Get an instance of the PhoneNumber Util class.
+			$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
 
-		$ignrpl = array(					// replacements
-			'',
-			'$1',
-			''
-		);
-		
-		$lpnrpl = CountryCodes::$codes[$country].'$2';		// replace with +{countryCode} -xx[x[x]]-123456
+			// Try and parse the phone number
+			try {
+			    $NumberProto = $phoneUtil->parse($pn, CountryCodes::$countries[$country]);
 
-		$tpn = trim($pn);
+			    // Reformat the returned result as an international phone number.
+				$ypn = $phoneUtil->format( $NumberProto, \libphonenumber\PhoneNumberFormat::INTERNATIONAL );
 
-		if (preg_match('#^[\d\+\(\[\{].*#',$tpn)) {							// start with digit, +, (, [ or {
-			$fpn = preg_replace($ignrxp, $ignrpl, $tpn);						// replace everything but digits/+ with ''
-			$xpn = preg_replace(PhoneNumberFormatter::$localPrePhoneNumber_rxp, $lpnrpl, $fpn);	// replace local prenumbers
-			$ypn = preg_replace(PhoneNumberFormatter::$intlPhoneNumber_rxp, '+$2', $xpn);		// format to international coding +x[x[x]].....
+				// Strip out everything but the digits.
+				$ypn = preg_replace( '#[^\d]#', '', $ypn );
+			} catch (\libphonenumber\NumberParseException $e) {
+				// If something failed, just return the original string.
+			    $ypn = $pn;
+			}
 		} else {
-			$ypn = $tpn;										// some SMS_adresses are strings
+			$ypn = $pn;										// some SMS_adresses are strings
 		}
 
 		return $ypn;
