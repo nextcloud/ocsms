@@ -334,14 +334,14 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			var msgCount = 0;
 
 			$.each(jsondata["conversation"], function (id, vals) {
-				if (vals["type"] === 1) {
+				if (vals["type"] == 1) {
 					msgClass = "recv";
 				}
-				else if (vals["type"] === 2) {
+				else if (vals["type"] == 2) {
 					msgClass = "sent";
 				}
 				else {
-					msgClass = '';
+					msgClass = 'unknown';
 				}
 
 				// Store the greater msg date for refresher
