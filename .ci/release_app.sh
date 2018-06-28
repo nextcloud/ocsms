@@ -13,6 +13,7 @@ RELEASE_VERSION=${1}
 echo "Release version set to ${RELEASE_VERSION}"
 
 sed -ri 's/(.*)<version>(.+)<\/version>/\1<version>'${RELEASE_VERSION}'<\/version>/g' ${SRC_DIR}/appinfo/info.xml
+uglifyjs js/devel/*.js > js/app.min.js
 git commit -am "Release "${RELEASE_VERSION}
 git tag ${RELEASE_VERSION}
 git push
