@@ -68,7 +68,8 @@
 	background-color: #E6E6E6;
 	min-height: 100px;
 	width: auto;
-	top: 45px;
+	top: 0px;
+	position: sticky;
 	padding: 12px;
 	box-shadow: 0 1px 0 0 #CCC;
 	z-index: 1;
