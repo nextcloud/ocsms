@@ -79,7 +79,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 		</div>
 		<div id="app-content-wrapper" ng-show="!isConvLoading">
 			<div ng-show="messages.length == 0" id="ocsms-empty-conversation">Please choose a conversation on the left menu</div>
-			<div ng-show="messages.length > 0">
+			<div ng-show="messages.length > 0" class="ocsms-messages-container">
 				<div ng-repeat="message in messages | orderBy:'date'">
 					<div class="msg-{{ message.type }}">
 						<div>{{ message.content }}</div>

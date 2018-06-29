@@ -187,6 +187,10 @@
 	opacity: 1;
 }
 
+.ocsms-messages-container {
+        width: 100%;
+}
+
 .msg-spacer {
 	clear: both;
 }
