@@ -95,7 +95,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 						$scope.isConvLoading = false;
 					});
 
-					$('#app-content').scrollTop(1E10);
+					$('#ocsms-app-content').scrollTop(1E10);
 				}
 			);
 		};
@@ -109,7 +109,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 					var fmt = $scope.formatConversation(jsondata);
 					var conversationBuf = fmt[1];
 					if (conversationBuf === true) {
-						$('#app-content').scrollTop(1E10);
+						$('#ocsms-app-content').scrollTop(1E10);
 						// This will blink the tab because there is new messages
 						if (document.hasFocus() === false) {
 							Sms.unreadCountCurrentConv += parseInt(fmt[0]);
@@ -171,7 +171,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 
 					/*
 					* Decrement notification step counter, but stop it a zero
-					* Stop at zero permit to notify instanly the user when 
+					* Stop at zero permit to notify instanly the user when
 					* there is new messages in all conversations
 					*/
 
