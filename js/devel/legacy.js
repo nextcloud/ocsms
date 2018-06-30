@@ -386,8 +386,8 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 							$scope.selectedContact.avatar = undefined;
 
 							// Now let's loop through the contact list and see if we can find the rest of the details
-							for ( let i = 0; i < $scope.contacts.length; i++ ) {
-								if ( $scope.contacts[i].nav == urlPhoneNumber ) {
+							for (let i = 0; i < $scope.contacts.length; i++) {
+								if ($scope.contacts[i].nav == urlPhoneNumber) {
 									$scope.selectedContact = $scope.contacts[i];
 									break;
 								}
