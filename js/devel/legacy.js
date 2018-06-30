@@ -384,8 +384,16 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 							$scope.selectedContact.label = urlPhoneNumber;
 							$scope.selectedContact.nav = urlPhoneNumber;
 							$scope.selectedContact.avatar = undefined;
+
+							// Now let's loop through the contact list and see if we can find the rest of the details
+							for (let i = 0; i < $scope.contacts.length; i++) {
+								if ($scope.contacts[i].nav == urlPhoneNumber) {
+									$scope.selectedContact = $scope.contacts[i];
+									break;
+								}
+							}
 						}
-						$scope.fetchConversation(null);
+						$scope.fetchConversation($scope.selectedContact);
 						Sms.selectConversation($("a[mailbox-navigation='" + urlPhoneNumber + "']"));
 					}
 				}
@@ -393,6 +401,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			SmsSettings.init();
 			SmsNotifications.init();
 			$scope.checkNewMessages();
+			$scope.refreshConversation();
 		});
 	}
 ]);
