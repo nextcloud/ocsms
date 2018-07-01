@@ -202,7 +202,13 @@ class SmsController extends Controller {
 			}
 		}
 		else {
-			$this->smsMapper->removeMessagesForPhoneNumber($this->userId, $contact);
+			// If we didn't match a contact we need to lookup the raw sms phone numbers associated with the formatted phone number that was passed in as $contact.
+			$phlist = $this->smsMapper->getAllPhoneNumbersForFPN($this->userId, $contact, $configuredCountry);
+
+			// Loop through the returned list of phone numbers and delete them.
+			foreach( $phlist as $phnumber => $value) {
+				$this->smsMapper->removeMessagesForPhoneNumber($this->userId, $phnumber);
+			}
 		}
 		return new JSONResponse(array());
 	}
