@@ -145,7 +145,7 @@ class SmsController extends Controller {
 		// Contact resolved
 		if ($contactName != "" && isset($iContacts[$contactName])) {
 			// forall numbers in iContacts
-			foreach($iContacts[$contactName] as $cnumber) {
+			foreach ($iContacts[$contactName] as $cnumber) {
 				$messages = $messages +	$this->smsMapper->getAllMessagesForPhoneNumber($this->userId, $cnumber, $configuredCountry, $lastDate);
 				$msgCount += $this->smsMapper->countMessagesForPhoneNumber($this->userId, $cnumber, $configuredCountry);
 				$phoneNumbers[] = PhoneNumberFormatter::format($configuredCountry, $cnumber);
@@ -197,7 +197,7 @@ class SmsController extends Controller {
 		// Contact resolved
 		if ($contactName != "" && isset($iContacts[$contactName])) {
 			// forall numbers in iContacts
-			foreach($iContacts[$contactName] as $cnumber) {
+			foreach ($iContacts[$contactName] as $cnumber) {
 				$this->smsMapper->removeMessagesForPhoneNumber($this->userId, $cnumber);
 			}
 		}
@@ -206,7 +206,7 @@ class SmsController extends Controller {
 			$phlist = $this->smsMapper->getAllPhoneNumbersForFPN($this->userId, $contact, $configuredCountry);
 
 			// Loop through the returned list of phone numbers and delete them.
-			foreach( $phlist as $phnumber => $value) {
+			foreach ($phlist as $phnumber => $value) {
 				$this->smsMapper->removeMessagesForPhoneNumber($this->userId, $phnumber);
 			}
 		}
