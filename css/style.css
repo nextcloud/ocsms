@@ -222,6 +222,14 @@
 	display: inline-block;
 }
 
+#app-settings {
+	width: 20%;
+}
+
+#app-settings-header {
+	width: auto;
+}
+
 #app-settings-content .new-button {
 	width: 32px;
 	background-size: 16px;

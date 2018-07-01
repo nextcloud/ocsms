@@ -21,7 +21,9 @@ use \OCA\OcSms\Lib\CountryCodes;
 	</div>
 	<div id="app-settings" class="ng-scope">
 		<div id="app-settings-header">
-			<button name="app settings" class="settings-button" data-apps-slide-toggle="#app-settings-content"></button>
+			<button name="app settings" class="settings-button" data-apps-slide-toggle="#app-settings-content">
+				<?php p($l->t('Settings'));?>
+			</button>
 		</div>
 		<div id="app-settings-content">
 			<div><label for="setting_msg_per_page">Max messages on tab loading</label>
