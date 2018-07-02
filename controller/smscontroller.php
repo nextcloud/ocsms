@@ -221,6 +221,7 @@ class SmsController extends Controller {
 	 */
 	public function checkNewMessages($lastDate) {
 		$phoneList = $this->smsMapper->getNewMessagesCountForAllPhonesNumbers($this->userId, $lastDate);
+		$formatedPhoneList = array();
 		$contactsSrc = $this->contactCache->getContacts();
 		$photosSrc = $this->contactCache->getContactPhotos();
 		$uidsSrc = $this->contactCache->getContactUids();
@@ -228,8 +229,12 @@ class SmsController extends Controller {
 		$photos = array();
 		$uids = array();
 
+		// Cache country because of loops
+		$configuredCountry = $this->configMapper->getCountry();
+
 		foreach ($phoneList as $number => $ts) {
-			$fmtPN = preg_replace("#[ ]#","", $number);
+			$fmtPN = PhoneNumberFormatter::format($configuredCountry, $number);
+			$formatedPhoneList[] = $fmtPN;
 			if (isset($contactsSrc[$fmtPN])) {
 				$contacts[$fmtPN] = $contactsSrc[$fmtPN];
 				if (isset($uidsSrc[$fmtPN])) {
@@ -242,7 +247,7 @@ class SmsController extends Controller {
 			}
 		}
 
-		return new JSONResponse(array("phonelist" => $phoneList, "contacts" => $contacts, "photos" => $photos, "uids" => $uids));
+		return new JSONResponse(array("phonelist" => $formatedPhoneList, "contacts" => $contacts, "photos" => $photos, "uids" => $uids));
 	}
 
 	/**
