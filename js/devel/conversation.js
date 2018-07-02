@@ -97,11 +97,12 @@ var Conversation = new Vue({
 		// Return (int) msgCount, (str) htmlConversation
 		formatConversation: function (jsondata) {
 			// Improve jQuery performance
-            let buf = false;
-            // Improve JS performance
-            let msgClass = '';
-            let msgCount = 0;
+      let buf = false;
+      // Improve JS performance
+      let msgClass = '';
+      let msgCount = 0;
 			let self = this;
+			let twemojiOptions = { base: OC.generateUrl('/apps/ocsms/js/twemoji/')};
 
 			$.each(jsondata["conversation"], function (id, vals) {
 				if (vals["type"] == 1) {
@@ -124,7 +125,7 @@ var Conversation = new Vue({
 						'id': id,
 						'type': msgClass,
 						'date': new Date(id * 1),
-						'content': vals['msg']
+						'content': twemoji.parse(escapeHTML(vals['msg']), twemojiOptions)
 					});
 					buf = true;
 					msgCount++;

@@ -13,7 +13,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 \OCP\Util::addScript('ocsms', 'devel/conversation');
 \OCP\Util::addScript('ocsms', 'devel/helpers');
 \OCP\Util::addScript('ocsms', 'devel/notifications');
-
+\OCP\Util::addScript('ocsms', 'twemoji/twemoji.min');
 ?>
 
 <script type="text/x-template" id="modal-template" xmlns:v-on="http://www.w3.org/1999/xhtml"
@@ -129,7 +129,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 			<div v-if="messages.length > 0" class="ocsms-messages-container">
 				<div v-for="message in orderedMessages">
 					<div v-bind:class="['msg-'+  message.type]">
-						<div>{{ message.content }}</div>
+						<div v-html="message.content"></div>
 						<div style="display: block;" id="ocsms-message-removal" class="icon-delete svn delete action" v-on:click="removeConversationMessage(message.id);"></div>
 						<div class="msg-date">{{ message.date | date:'medium' }}</div>
 					</div>
