@@ -226,7 +226,7 @@
 	width: 20%;
 }
 
-#app-settings-header {
+#app-settings-header, #app-settings-content {
 	width: auto;
 }
 
