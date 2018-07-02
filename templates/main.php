@@ -6,6 +6,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 \OCP\Util::addScript('ocsms', 'vue.min');
 \OCP\Util::addStyle('ocsms', 'style');
 ?>
+<script src="https://twemoji.maxcdn.com/2/twemoji.min.js?11.0"></script>
 
 <div class="ng-scope" id="app" ng-app="OcSms" ng-controller="OcSmsController">
 	<div id="app-mailbox-peers">
@@ -84,7 +85,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 			<div ng-show="messages.length > 0" class="ocsms-messages-container">
 				<div ng-repeat="message in messages | orderBy:'date'">
 					<div class="msg-{{ message.type }}">
-						<div>{{ message.content }}</div>
+						<div ng-bind-html="message.content"></div>
 						<div style="display: block;" id="ocsms-message-removal" class="icon-delete svn delete action" ng-click="removeConversationMessage(message.id);"></div>
 						<div class="msg-date">{{ message.date | date:'medium' }}</div>
 					</div>

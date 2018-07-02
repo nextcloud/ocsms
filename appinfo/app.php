@@ -35,3 +35,11 @@ if (class_exists('\OCP\AppFramework\App')) {
 	$msg = 'Can not enable the OcSms app because the App Framework App is disabled';
 	\OC::$server->getLogger()->error($msg, array('ocsms'));
 }
+
+if (class_exists('\\OCP\\AppFramework\\Http\\EmptyContentSecurityPolicy')) {
+	$manager = \OC::$server->getContentSecurityPolicyManager();
+	$policy = new \OCP\AppFramework\Http\EmptyContentSecurityPolicy();
+	$policy->addAllowedScriptDomain('twemoji.maxcdn.com');
+	$policy->addAllowedImageDomain('twemoji.maxcdn.com');
+	$manager->addDefaultPolicy($policy);
+}
