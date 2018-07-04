@@ -11,7 +11,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 	<div id="app-mailbox-peers">
 		<div id="app-contacts-loader" class="icon-loading" ng-show="isContactsLoading">
 		</div>
-		<ul class="contact-list" ng-show="!isContactsLoading">
+		<ul class="ng-cloak contact-list" ng-show="!isContactsLoading">
 			<li ng-repeat="contact in contacts | orderBy:vsettings.contactOrderBy:vsettings.reverseContactOrder" peer-label="{{ contact.label }}" ng-click="loadConversation(contact);" href="#">
 				<img class="ocsms-plavatar" ng-src="{{ contact.avatar }}" ng-show="contact.avatar !== undefined" />
 				<div class="ocsms-plavatar" ng-show="contact.avatar === undefined" ng-style="{'background-color': (contact.uid | peerColor)}">{{ contact.label | firstCharacter }}</div>
