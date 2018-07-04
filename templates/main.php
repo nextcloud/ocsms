@@ -26,12 +26,12 @@ use \OCA\OcSms\Lib\CountryCodes;
 			</button>
 		</div>
 		<div id="app-settings-content">
-			<div><label for="setting_msg_per_page">Max messages on tab loading</label>
+			<div><label for="setting_msg_per_page">Max messages to load per conversation</label>
 				<input type="number" min="10" max="10000" name="setting_msg_per_page" ng-model="vsettings.messageLimit" ng-change="vsettings.sendMessageLimit()" to-int />
 				<span class="label-invalid-input" ng-if="vsettings.messageLimit == null || vsettings.messageLimit == undefined">Invalid message limit</span>
 			</div>
 
-			<div><label for="intl_phone">Country code</label>
+			<div><label for="intl_phone">Default country code</label>
 				<select name="intl_phone" id="sel_intl_phone">
 				<?php foreach (CountryCodes::$codes as $code => $cval) { ?>
 					<option><?php p($code); ?></option>
@@ -80,7 +80,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 
 		</div>
 		<div id="app-content-wrapper" ng-show="!isConvLoading">
-			<div ng-show="messages.length == 0" id="ocsms-empty-conversation">Please choose a conversation on the left menu</div>
+			<div ng-show="messages.length == 0" id="ocsms-empty-conversation">Please select a conversation from the list to load it.</div>
 			<div ng-show="messages.length > 0" class="ocsms-messages-container">
 				<div ng-repeat="message in messages | orderBy:'date'">
 					<div class="msg-{{ message.type }}">
