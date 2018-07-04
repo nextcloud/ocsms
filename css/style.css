@@ -241,6 +241,7 @@
 
 #app-settings-content input[type="checkbox"] {
 	vertical-align: middle;
+	cursor: pointer;
 }
 
 .label-invalid-input {
