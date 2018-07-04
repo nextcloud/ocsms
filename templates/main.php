@@ -28,33 +28,33 @@ use \OCA\OcSms\Lib\CountryCodes;
 		<div id="app-settings-content">
 			<div><label for="setting_msg_per_page">Max messages to load per conversation</label>
 				<input type="number" min="10" max="10000" name="setting_msg_per_page" ng-model="vsettings.messageLimit" ng-change="vsettings.sendMessageLimit()" to-int />
-				<span class="label-invalid-input" ng-if="vsettings.messageLimit == null || vsettings.messageLimit == undefined">Invalid message limit</span>
+				<span class="label-invalid-input" ng-if="vsettings.messageLimit == null || vsettings.messageLimit == undefined"><?php p($l->t('Invalid message limit'));?></span>
 			</div>
 
-			<div><label for="intl_phone">Default country code</label>
+			<div><label for="intl_phone"><?php p($l->t('Default country code'));?></label>
 				<select name="intl_phone" id="sel_intl_phone">
 				<?php foreach (CountryCodes::$codes as $code => $cval) { ?>
-					<option><?php p($code); ?></option>
+					<option><?php p($l->t($code)); ?></option>
 				<?php } ?>
 				</select>
 				<button class="new-button primary icon-checkmark-white" ng-click="vsettings.sendCountry();"></button>
 			</div>
 
 			<div>
-				<label for="setting_contact_order">Contact ordering</label>
+				<label for="setting_contact_order"><?php p($l->t('Contact ordering'));?></label>
 				<select name="setting_contact_order" ng-model="vsettings.contactOrderBy" ng-change="vsettings.sendContactOrder()">
-					<option value="lastmsg">Last message</option>
-					<option value="label">Label</option>
+					<option value="lastmsg"><?php p($l->t('Last message'));?></option>
+					<option value="label"><?php p($l->t('Label'));?></option>
 				</select>
-				<label for "setting_contact_order_reverse">Reverse ?</label>
+				<label for "setting_contact_order_reverse"><?php p($l->t('Reverse ?'));?></label>
 				<input type="checkbox" ng-model="vsettings.reverseContactOrder" ng-change="vsettings.sendContactOrder()" />
 			</div>
 
 			<div>
-				<label for"setting_notif">Notification settings</label>
+				<label for"setting_notif"><?php p($l->t('Notification settings'));?></label>
 				<select name="setting_notif" ng-model="vsetting.enableNotifications" ng-change="vsettings.sendNotificationFlag()">
-					<option value="1">Enable</option>
-					<option value="0">Disable</option>
+					<option value="1"><?php p($l->t('Enable'));?></option>
+					<option value="0"><?php p($l->t('Disable'));?></option>
 				</select>
 			</div>
 		</div> <!-- app-settings-content -->
@@ -72,7 +72,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 			<div id="ocsms-contact-details">
 				<div id="ocsms-phone-label">{{ selectedContact.label }} </div>
 				<div id="ocsms-phone-opt-number">{{ selectedContact.opt_numbers }}</div>
-				<div id="ocsms-phone-msg-nb">{{ messages.length }} message(s) shown. {{ totalMessageCount }} message(s) stored in database.</div>
+				<div id="ocsms-phone-msg-nb"><?php p($l->t('%s message(s) shown of %s message(s) stored in database.', array( '{{ messages.length }}', '{{ totalMessageCount }}')));?></div>
 			</div>
 			<div id="ocsms-contact-actions">
 				<div id="ocsms-conversation-removal" class="icon-delete icon-delete-white svn delete action" ng-click="removeConversation();"></div>
@@ -80,7 +80,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 
 		</div>
 		<div id="app-content-wrapper" ng-show="!isConvLoading">
-			<div ng-show="messages.length == 0" id="ocsms-empty-conversation">Please select a conversation from the list to load it.</div>
+			<div ng-show="messages.length == 0" id="ocsms-empty-conversation"><?php p($l->t('Please select a conversation from the list to load it.'));?></div>
 			<div ng-show="messages.length > 0" class="ocsms-messages-container">
 				<div ng-repeat="message in messages | orderBy:'date'">
 					<div class="msg-{{ message.type }}">
