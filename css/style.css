@@ -236,6 +236,11 @@
 	background-position: center;
 	background-repeat: no-repeat;
 	height: 34px;
+	vertical-align: middle;
+}
+
+#app-settings-content input[type="checkbox"] {
+	vertical-align: middle;
 }
 
 .label-invalid-input {
