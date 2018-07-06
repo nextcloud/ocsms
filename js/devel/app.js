@@ -63,6 +63,10 @@ var ContactRenderer = {
 		}
 	},
 	generateFirstCharacter: function (input) {
+		if (typeof input !== 'string') {
+			return '?';
+		}
+
 		if (input.charAt(0) === '+') {
 			return '#';
 		}
