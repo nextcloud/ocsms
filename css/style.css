@@ -141,6 +141,7 @@
 	padding: 20px;
 	color: #666;
 	font-size: 32px;
+	line-height: normal;
 }
 
 .msg-sent, .msg-recv {
@@ -200,7 +201,9 @@
 .ocsms-plavatar, .ocsms-plavatar-big {
 	display: inline-block;
 	height: 40px;
+	min-height: 40px;
 	width: 40px;
+	min-width: 40px;
 	line-height: 40px;
 	border-radius: 50%;
 	vertical-align: middle;
@@ -214,7 +217,9 @@
 
 .ocsms-plavatar-big {
 	height: 75px;
+	min-height: 75px;
 	width: 75px;
+	min-width: 75px;
 	line-height: 55px;
 }
 
@@ -226,7 +231,7 @@
 	width: 20%;
 }
 
-#app-settings-header {
+#app-settings-header, #app-settings-content {
 	width: auto;
 }
 
@@ -236,6 +241,12 @@
 	background-position: center;
 	background-repeat: no-repeat;
 	height: 34px;
+	vertical-align: middle;
+}
+
+#app-settings-content input[type="checkbox"] {
+	vertical-align: middle;
+	cursor: pointer;
 }
 
 .label-invalid-input {
@@ -248,6 +259,10 @@ label {
 
 .icon-loading {
 	margin: 88px auto;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+	display: none !important;
 }
 
 img.emoji {
