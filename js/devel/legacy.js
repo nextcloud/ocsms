@@ -126,7 +126,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 		$scope.checkNewMessages = function () {
 			Sms.unreadCountAllConv = 0;
 			$.getJSON(Sms.generateURL('/front-api/v1/new_messages'),
-				{'lastDate': Sms.lastContactListMsgDate},
+				{'lastDate': Sms.lastMessageDate},
 				function (jsondata, status) {
 					var bufferedContacts = [];
 
@@ -323,6 +323,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			});
 
 			Sms.lastContactListMsgDate = jsondata["lastRead"];
+			Sms.lastMessageDate = jsondata["lastMessage"];
 		};
 
 		// Return (int) msgCount, (str) htmlConversation
