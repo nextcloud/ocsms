@@ -16,6 +16,7 @@ var Sms = {
 	unreadCountNotifStep: 12,
 	lastUnreadCountAllConv: 0,
 	lastContactListMsgDate: 0,
+	lastMessageDate: 0,
 	originalTitle: document.title,
 	photoVersion: 1,
 
