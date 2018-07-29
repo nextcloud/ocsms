@@ -31,8 +31,8 @@ app.filter('firstCharacter', function () {
 });
 
 
-app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile',
-	function ($scope, $interval, $timeout, $compile) {
+app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile', '$sce',
+	function ($scope, $interval, $timeout, $compile, $sce) {
 		$scope.lastConvMessageDate = 0;
 		$scope.isConvLoading = false;
 		$scope.isContactsLoading = true;
@@ -355,7 +355,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 						'id': id,
 						'type': msgClass,
 						'date': new Date(id * 1),
-						'content': vals['msg']
+						'content': $sce.trustAsHtml(twemoji.parse(escapeHTML(vals['msg'])))
 					});
 					buf = true;
 					msgCount++;

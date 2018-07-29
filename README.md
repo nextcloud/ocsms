@@ -47,3 +47,9 @@ If you've enabled 2FA (Two Factor Authentication) logins you may be hit with an 
 
 ## :notebook: License
 Phone Sync web application is currently licensed under [AGPL license](https://github.com/nextcloud/ocsms/blob/master/LICENSE.md).
+
+## :notebook: External Libraries
+[Twemoji](https://github.com/twitter/twemoji) Code licensed under the [MIT License](http://opensource.org/licenses/MIT), Graphics licensed under [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+[libphonenumber-for-php](https://github.com/giggsey/libphonenumber-for-php) Code licensed under the [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0).
+
+
