@@ -8,73 +8,68 @@
  * @copyright Loic Blot 2014-2017
  */
 
-var SmsSettings = {
-	// Attributes
-	messageLimit: 100,
-	enableNotifications: true,
-	contactOrderBy: 'lastmsg',
-	reverseContactOrder: true,
-	country: '',
+var SmsSettings = new Vue({
+	el: '#app-settings-content',
+	data: {
+		// Attributes
+		messageLimit: 100,
+		enableNotifications: true,
+		contactOrderBy: 'lastmsg',
+		reverseContactOrder: true,
+		country: ''
+	},
 
 	// Functions
-	init: function () {
+	created: function () {
 		var self = this;
 		$.getJSON(Sms.generateURL('/front-api/v1/settings'), function (jsondata, status) {
 			if (jsondata['status'] === true) {
 				self.messageLimit = parseInt(jsondata["message_limit"]);
-				self.enableNotifications = parseInt(jsondata["notification_state"]) !== 0;
+				self.enableNotifications = parseInt(jsondata["notification_state"]) !== 0 ? 1 : 0;
 				self.contactOrderBy = jsondata["contact_order"];
 				self.reverseContactOrder = toBool(jsondata["contact_order_reverse"]);
 				self.country = jsondata["country"];
-
-				self.updateView();
 			}
 		});
 	},
 
-	sendMessageLimit: function () {
-		if (this.messageLimit === null) {
-			return;
+	methods: {
+		sendMessageLimit: function () {
+			if (this.messageLimit === null) {
+				return;
+			}
+
+			var self = this;
+			$.post(Sms.generateURL('/set/msglimit'),
+				{
+					'limit': self.messageLimit
+				}
+			);
+		},
+		sendNotificationFlag: function () {
+			var self = this;
+			$.post(Sms.generateURL('/set/notification_state'),
+				{
+					'notification': parseInt(self.enableNotifications)
+				}
+			);
+		},
+		sendContactOrder: function () {
+			var self = this;
+			$.post(Sms.generateURL('/set/contact_order'),
+				{
+					'attribute': self.contactOrderBy,
+					'reverse': self.reverseContactOrder
+				}
+			);
+		},
+		sendCountry: function () {
+			var self = this;
+			$.post(Sms.generateURL('/set/country'),
+				{
+					'country': self.country
+				}
+			);
 		}
-
-		var self = this;
-		$.post(Sms.generateURL('/set/msglimit'),
-			{
-				'limit': self.messageLimit
-			}
-		);
-	},
-	sendNotificationFlag: function () {
-		var self = this;
-		$.post(Sms.generateURL('/set/notification_state'),
-			{
-				'notification': self.enableNotifications ? 1 : 0
-			}
-		);
-	},
-	sendContactOrder: function () {
-		var self = this;
-		$.post(Sms.generateURL('/set/contact_order'),
-			{
-				'attribute': self.contactOrderBy,
-				'reverse': self.reverseContactOrder
-			}
-		);
-	},
-	sendCountry: function () {
-		$.post(Sms.generateURL('/set/country'),
-			{
-				'country': $('select[name=intl_phone]').val()
-			}
-		);
-	},
-
-	// This function should be moved to a renderer or something else
-	updateView: function () {
-		$('#sel_intl_phone').val(this.country);
-		$('input[name=setting_msg_per_page]').val(this.messageLimit);
-		$('select[name=setting_notif]').val(this.enableNotifications ? 1 : 0);
-		$('select[name=setting_contact_order]').val(this.contactOrderBy);
-		$('input[name=setting_contact_order_reverse]').val(this.reverseContactOrder);
 	}
-};
+});

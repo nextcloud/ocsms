@@ -10,17 +10,6 @@
 
 var app = angular.module('OcSms', []);
 
-app.directive('toInt', function () {
-	return {
-		require: 'ngModel',
-		link: function (scope, element, attrs, modelCtrl) {
-			modelCtrl.$parsers.push(function (inputValue) {
-				return parseInt(inputValue, 10);
-			});
-		}
-	};
-});
-
 // Imported from contact app
 app.filter('peerColor', function () {
 	return ContactRenderer.generateColor;
@@ -39,8 +28,6 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 		$scope.buttons = [
 			{text: "Send"}
 		];
-
-		$scope.vsettings = SmsSettings;
 
 		$scope.contacts = [];
 		$scope.messages = [];
@@ -256,6 +243,14 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			}
 		};
 
+		$scope.getContactOrderBy = function(ct) {
+			return SmsSettings.data.contactOrderBy;
+		};
+
+		$scope.getReverseContactOrder = function(ct) {
+			return SmsSettings.data.reverseContactOrder;
+		}
+
 		/*
 		* Conversation messagelist management
 		*/
@@ -387,7 +382,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 							$scope.selectedContact.avatar = undefined;
 
 							// Now let's loop through the contact list and see if we can find the rest of the details
-							for (let i = 0; i < $scope.contacts.length; i++) {
+							for (var i = 0; i < $scope.contacts.length; i++) {
 								if ($scope.contacts[i].nav == urlPhoneNumber) {
 									$scope.selectedContact = $scope.contacts[i];
 									break;
@@ -399,7 +394,6 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 					}
 				}
 			});
-			SmsSettings.init();
 			SmsNotifications.init();
 			$scope.checkNewMessages();
 			$scope.refreshConversation();

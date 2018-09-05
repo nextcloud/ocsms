@@ -2,17 +2,24 @@
 use \OCA\OcSms\Lib\CountryCodes;
 
 \OCP\Util::addScript('ocsms', 'angular.min');
-\OCP\Util::addScript('ocsms', 'app.min');
 \OCP\Util::addScript('ocsms', 'vue.min');
+// Production
+//\OCP\Util::addScript('ocsms', 'app.min');
+// Develop
+\OCP\Util::addScript('ocsms', 'devel/app');
+\OCP\Util::addScript('ocsms', 'devel/helpers');
+\OCP\Util::addScript('ocsms', 'devel/legacy');
+\OCP\Util::addScript('ocsms', 'devel/notifications');
+\OCP\Util::addScript('ocsms', 'devel/settings');
 \OCP\Util::addStyle('ocsms', 'style');
 ?>
 
-<div class="ng-scope" id="app" ng-app="OcSms" ng-controller="OcSmsController">
+<div class="ng-scope" id="app" ng-app="OcSms" ng-controller="OcSmsController" xmlns:v-on="http://www.w3.org/1999/xhtml">
 	<div id="app-mailbox-peers">
 		<div id="app-contacts-loader" class="icon-loading" ng-show="isContactsLoading">
 		</div>
 		<ul class="ng-cloak contact-list" ng-show="!isContactsLoading">
-			<li ng-repeat="contact in contacts | orderBy:vsettings.contactOrderBy:vsettings.reverseContactOrder" peer-label="{{ contact.label }}" ng-click="loadConversation(contact);" href="#">
+			<li ng-repeat="contact in contacts | orderBy:getContactOrderBy:getReverseContactOrder" peer-label="{{ contact.label }}" ng-click="loadConversation(contact);" href="#">
 				<img class="ocsms-plavatar" ng-src="{{ contact.avatar }}" ng-show="contact.avatar !== undefined" />
 				<div class="ocsms-plavatar" ng-show="contact.avatar === undefined" ng-style="{'background-color': (contact.uid | peerColor)}">{{ contact.label | firstCharacter }}</div>
 				<a class="ocsms-plname" style="{{ contact.unread > 0 ? 'font-weight:bold;' : ''}}" mailbox-label="{{ contact.label }}" mailbox-navigation="{{ contact.nav }}">{{ contact.label }}{{ contact.unread > 0 ? ' (' + contact.unread + ') ' : '' }}</a>
@@ -27,32 +34,32 @@ use \OCA\OcSms\Lib\CountryCodes;
 		</div>
 		<div id="app-settings-content">
 			<div><label for="setting_msg_per_page">Max messages to load per conversation</label>
-				<input type="number" min="10" max="10000" name="setting_msg_per_page" ng-model="vsettings.messageLimit" ng-change="vsettings.sendMessageLimit()" to-int />
-				<span class="label-invalid-input" ng-if="vsettings.messageLimit == null || vsettings.messageLimit == undefined"><?php p($l->t('Invalid message limit'));?></span>
+				<input type="number" min="10" max="10000" name="setting_msg_per_page" v-model="messageLimit" v-on:change="sendMessageLimit()" to-int />
+				<span class="label-invalid-input" v-if="messageLimit == null || messageLimit == undefined"><?php p($l->t('Invalid message limit'));?></span>
 			</div>
 
 			<div><label for="intl_phone"><?php p($l->t('Default country code'));?></label>
-				<select name="intl_phone" id="sel_intl_phone">
+				<select name="intl_phone" id="sel_intl_phone" v-model="country">
 				<?php foreach (CountryCodes::$codes as $code => $cval) { ?>
 					<option><?php p($l->t($code)); ?></option>
 				<?php } ?>
 				</select>
-				<button class="new-button primary icon-checkmark-white" ng-click="vsettings.sendCountry();"></button>
+				<button class="new-button primary icon-checkmark-white" v-on:click="sendCountry();"></button>
 			</div>
 
 			<div>
 				<label for="setting_contact_order"><?php p($l->t('Contact ordering'));?></label>
-				<select name="setting_contact_order" ng-model="vsettings.contactOrderBy" ng-change="vsettings.sendContactOrder()">
+				<select name="setting_contact_order" v-model="contactOrderBy" v-on:change="sendContactOrder()">
 					<option value="lastmsg"><?php p($l->t('Last message'));?></option>
 					<option value="label"><?php p($l->t('Label'));?></option>
 				</select>
-				<label for "setting_contact_order_reverse"><?php p($l->t('Reverse ?'));?></label>
-				<input type="checkbox" ng-model="vsettings.reverseContactOrder" ng-change="vsettings.sendContactOrder()" />
+				<label for="setting_contact_order_reverse"><?php p($l->t('Reverse ?'));?></label>
+				<input type="checkbox" v-model="reverseContactOrder" v-on:change="sendContactOrder()" />
 			</div>
 
 			<div>
-				<label for"setting_notif"><?php p($l->t('Notification settings'));?></label>
-				<select name="setting_notif" ng-model="vsetting.enableNotifications" ng-change="vsettings.sendNotificationFlag()">
+				<label for="setting_notif"><?php p($l->t('Notification settings'));?></label>
+				<select name="setting_notif" v-model="enableNotifications" v-on:change="sendNotificationFlag()">
 					<option value="1"><?php p($l->t('Enable'));?></option>
 					<option value="0"><?php p($l->t('Disable'));?></option>
 				</select>
