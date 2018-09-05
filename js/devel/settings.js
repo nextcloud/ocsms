@@ -9,7 +9,7 @@
  */
 
 var SmsSettings = new Vue({
-	el: '#app-settings-content',
+	el: '#app-settings',
 	data: {
 		// Attributes
 		messageLimit: 100,
