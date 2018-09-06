@@ -75,3 +75,5 @@ var ContactRenderer = {
 		return input.charAt(0);
 	}
 };
+
+Vue.filter('firstCharacter', ContactRenderer.generateFirstCharacter);

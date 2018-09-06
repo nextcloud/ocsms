@@ -68,24 +68,27 @@ var ContactList = new Vue({
 					var urlPhoneNumber = decodeURIComponent(pnParam);
 					if (urlPhoneNumber != null) {
 						// If no contact when loading, creating a new contact from urlPhoneNumber
-						if (app.selectedContact.nav === undefined) {
-							app.selectedContact.label = urlPhoneNumber;
-							app.selectedContact.nav = urlPhoneNumber;
-							app.selectedContact.avatar = undefined;
+						if (Conversation.selectedContact.nav === undefined) {
+							Conversation.selectedContact.label = urlPhoneNumber;
+							Conversation.selectedContact.nav = urlPhoneNumber;
+							Conversation.selectedContact.avatar = undefined;
 
 							// Now let's loop through the contact list and see if we can find the rest of the details
 							for (var i = 0; i < self.contacts.length; i++) {
 								if (self.contacts[i].nav === urlPhoneNumber) {
-									app.selectedContact = self.contacts[i];
+									Conversation.selectedContact = self.contacts[i];
 									break;
 								}
 							}
 						}
-						app.fetchConversation(app.selectedContact);
+						Conversation.fetch(Conversation.selectedContact);
 						Sms.selectConversation($("a[mailbox-navigation='" + urlPhoneNumber + "']"));
 					}
 				}
 			});
+		},
+		getContactColor: function(contact_id) {
+			return ContactRenderer.generateColor(contact_id);
 		},
 		// Conversations
 		loadConversation: function (contact) {
@@ -93,7 +96,7 @@ var ContactList = new Vue({
 
 			// phoneNumber must exist
 			if (contact.nav !== null) {
-				app.fetchConversation(contact);
+				Conversation.fetch(contact);
 				Sms.selectConversation($("a[mailbox-navigation='" + contact.nav + "']"));
 			}
 		},
