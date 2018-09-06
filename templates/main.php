@@ -22,7 +22,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 		<ul class="ng-cloak contact-list" v-if="!isContactsLoading">
 			<li v-for="contact in orderedContacts" peer-label="{{ contact.label }}" v-on:click="loadConversation(contact);" href="#">
 				<img class="ocsms-plavatar" ng-src="{{ contact.avatar }}" ng-show="contact.avatar !== undefined" />
-				<div class="ocsms-plavatar" ng-show="contact.avatar === undefined" ng-style="{'background-color': (contact.uid | peerColor)}">{{ contact.label | firstCharacter }}</div>
+				<div class="ocsms-plavatar" v-if="contact.avatar === undefined" ng-style="{'background-color': (contact.uid | peerColor)}">{{ contact.label | firstCharacter }}</div>
 				<a class="ocsms-plname" style="{{ contact.unread > 0 ? 'font-weight:bold;' : ''}}" mailbox-label="{{ contact.label }}" mailbox-navigation="{{ contact.nav }}">{{ contact.label }}{{ contact.unread > 0 ? ' (' + contact.unread + ') ' : '' }}</a>
 			</li>
 		</ul>
@@ -69,13 +69,13 @@ use \OCA\OcSms\Lib\CountryCodes;
 	</div>
 
 	<div id="ocsms-app-content">
-		<div id="app-content-loader" class="ng-cloak icon-loading" ng-show="isConvLoading">
+		<div id="app-content-loader" class="ng-cloak icon-loading" v-if="isConvLoading">
 		</div>
-		<div id="app-content-header" class="ng-cloak" ng-show="!isConvLoading && selectedContact.label !== undefined && selectedContact.label !== ''"
+		<div id="app-content-header" class="ng-cloak" v-if="!isConvLoading && selectedContact.label !== undefined && selectedContact.label !== ''"
 			 ng-style="{'background-color': (selectedContact.uid | peerColor)}">
 			<div id="ocsms-contact-avatar">
-				<img class="ocsms-plavatar-big" ng-show="selectedContact.avatar !== undefined" ng-src="{{ selectedContact.avatar }}" />
-				<div class="ocsms-plavatar-big" ng-show="selectedContact.avatar === undefined">{{ selectedContact.label | firstCharacter }}</div>
+				<img class="ocsms-plavatar-big" v-if="selectedContact.avatar !== undefined" ng-src="{{ selectedContact.avatar }}" />
+				<div class="ocsms-plavatar-big" v-if="selectedContact.avatar === undefined">{{ selectedContact.label | firstCharacter }}</div>
 			</div>
 			<div id="ocsms-contact-details">
 				<div id="ocsms-phone-label">{{ selectedContact.label }} </div>
@@ -83,17 +83,17 @@ use \OCA\OcSms\Lib\CountryCodes;
 				<div id="ocsms-phone-msg-nb"><?php p($l->t('%s message(s) shown of %s message(s) stored in database.', array( '{{ messages.length }}', '{{ totalMessageCount }}')));?></div>
 			</div>
 			<div id="ocsms-contact-actions">
-				<div id="ocsms-conversation-removal" class="icon-delete icon-delete-white svn delete action" ng-click="removeConversation();"></div>
+				<div id="ocsms-conversation-removal" class="icon-delete icon-delete-white svn delete action" v-on:click="removeConversation();"></div>
 			</div>
 
 		</div>
-		<div id="app-content-wrapper" ng-show="!isConvLoading">
-			<div ng-show="messages.length == 0" id="ocsms-empty-conversation"><?php p($l->t('Please select a conversation from the list to load it.'));?></div>
-			<div ng-show="messages.length > 0" class="ng-cloak ocsms-messages-container">
-				<div ng-repeat="message in messages | orderBy:'date'">
+		<div id="app-content-wrapper" v-if="!isConvLoading">
+			<div v-if="messages.length == 0" id="ocsms-empty-conversation"><?php p($l->t('Please select a conversation from the list to load it.'));?></div>
+			<div v-if="messages.length > 0" class="ng-cloak ocsms-messages-container">
+				<div v-for="message in messages | orderBy:'date'">
 					<div class="msg-{{ message.type }}">
 						<div>{{ message.content }}</div>
-						<div style="display: block;" id="ocsms-message-removal" class="icon-delete svn delete action" ng-click="removeConversationMessage(message.id);"></div>
+						<div style="display: block;" id="ocsms-message-removal" class="icon-delete svn delete action" v-on:click="removeConversationMessage(message.id);"></div>
 						<div class="msg-date">{{ message.date | date:'medium' }}</div>
 					</div>
 					<div class="msg-spacer"></div>
