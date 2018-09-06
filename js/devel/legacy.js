@@ -133,7 +133,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 								contactObj.uid = peerLabel;
 							}
 
-							$scope.modifyContact(contactObj);
+							ContactList.modifyContact(contactObj);
 							bufferedContacts.push(peerLabel);
 
 							// Re-set conversation because we reload the element
@@ -176,7 +176,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 				$scope.selectedContact.label = "";
 				$scope.selectedContact.opt_numbers = "";
 				$scope.selectedContact.avatar = undefined;
-				$scope.removeContact($scope.selectedContact);
+				ContactList.removeContact($scope.selectedContact);
 				$scope.$apply(function () {
 					$scope.messages = [];
 				});
@@ -196,49 +196,13 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			}
 		});
 
-		/*
-		* Contact list management
-		*/
-		$scope.addContact = function (ct) {
-			$scope.$apply(function () {
-				$scope.contacts.push(ct);
-			});
-		};
-
-		$scope.removeContact = function (ct) {
-			var len = $scope.contacts.length;
-			for (var i = 0; i < len; i++) {
-				var curCt = $scope.contacts[i];
-				if (curCt['nav'] === ct['nav']) {
-					$scope.$apply(function () {
-						$scope.contacts.splice(i, 1);
-					});
-					return;
-				}
-			}
-		};
-
-		$scope.modifyContact = function (ct) {
-			var len = $scope.contacts.length;
-			for (var i = 0; i < len; i++) {
-				if ($scope.contacts[i]['nav'] === ct['nav']) {
-					$scope.$apply(function () {
-						$scope.contacts[i].unread = parseInt(ct.unread);
-						if (typeof(ct.avatar) !== 'undefined') {
-							$scope.contacts[i].avatar = ct.avatar;
-						}
-					});
-				}
-			}
-		};
-
 		$scope.getContactOrderBy = function(ct) {
 			return SmsSettings.data.contactOrderBy;
 		};
 
 		$scope.getReverseContactOrder = function(ct) {
 			return SmsSettings.data.reverseContactOrder;
-		}
+		};
 
 		/*
 		* Conversation messagelist management
@@ -297,7 +261,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 						contactObj.uid = peerLabel;
 					}
 
-					$scope.addContact(contactObj);
+					ContactList.addContact(contactObj);
 					bufferedContacts.push(peerLabel);
 				}
 			});
@@ -356,33 +320,6 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			// Register real title
 			Sms.originalTitle = document.title;
 
-			// Now bind the events when we click on the phone number
-			$.getJSON(Sms.generateURL('/front-api/v1/peerlist'), function (jsondata, status) {
-				$scope.fetchInitialPeerList(jsondata);
-
-				var pnParam = $.urlParam('phonenumber');
-				if (pnParam != null) {
-					var urlPhoneNumber = decodeURIComponent(pnParam);
-					if (urlPhoneNumber != null) {
-						// If no contact when loading, creating a new contact from urlPhoneNumber
-						if ($scope.selectedContact.nav === undefined) {
-							$scope.selectedContact.label = urlPhoneNumber;
-							$scope.selectedContact.nav = urlPhoneNumber;
-							$scope.selectedContact.avatar = undefined;
-
-							// Now let's loop through the contact list and see if we can find the rest of the details
-							for (var i = 0; i < $scope.contacts.length; i++) {
-								if ($scope.contacts[i].nav == urlPhoneNumber) {
-									$scope.selectedContact = $scope.contacts[i];
-									break;
-								}
-							}
-						}
-						$scope.fetchConversation($scope.selectedContact);
-						Sms.selectConversation($("a[mailbox-navigation='" + urlPhoneNumber + "']"));
-					}
-				}
-			});
 			SmsNotifications.init();
 			$scope.checkNewMessages();
 			$scope.refreshConversation();
