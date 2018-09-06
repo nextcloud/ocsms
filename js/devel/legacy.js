@@ -35,17 +35,6 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 		$scope.selectedContact = {};
 		$scope.lastSearch = '';
 
-		// Conversations
-		$scope.loadConversation = function (contact) {
-			OC.Util.History.pushState('phonenumber=' + contact.nav);
-
-			// phoneNumber must exist
-			if (contact.nav !== null) {
-				$scope.fetchConversation(contact);
-				Sms.selectConversation($("a[mailbox-navigation='" + contact.nav + "']"));
-			}
-		};
-
 		$scope.fetchConversation = function (contact) {
 			// If contact is not null, we will fetch a conversation for a new contact
 			if (contact != null) {

@@ -24,12 +24,9 @@ var ContactList = new Vue({
 
 			// phoneNumber must exist
 			if (contact.nav !== null) {
-				this.fetchConversation(contact);
+				ContactList.fetchConversation(contact);
 				Sms.selectConversation($("a[mailbox-navigation='" + contact.nav + "']"));
 			}
-		},
-		fetchConversation: function (contact) {
-			// @TODO
 		}
 	},
 	computed: {
