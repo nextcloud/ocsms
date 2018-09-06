@@ -67,12 +67,13 @@ var Conversation = new Vue({
 			// Improve JS performance
 			var msgClass = '';
 			var msgCount = 0;
+			var self = this;
 
 			$.each(jsondata["conversation"], function (id, vals) {
-				if (vals["type"] === 1) {
+				if (vals["type"] == 1) {
 					msgClass = "recv";
 				}
-				else if (vals["type"] === 2) {
+				else if (vals["type"] == 2) {
 					msgClass = "sent";
 				}
 				else {
@@ -81,11 +82,11 @@ var Conversation = new Vue({
 
 				// Store the greater msg date for refresher
 				// Note: we divide by 100 because number compare too large integers
-				if ((id / 100) > (this.lastConvMessageDate / 100)) {
-					this.lastConvMessageDate = id;
+				if ((id / 100) > (self.lastConvMessageDate / 100)) {
+					self.lastConvMessageDate = id;
 
 					// Multiplicate ID to permit date to use it properly
-					this.addConversationMessage({
+					self.addConversationMessage({
 						'id': id,
 						'type': msgClass,
 						'date': new Date(id * 1),
@@ -105,7 +106,7 @@ var Conversation = new Vue({
 			this.messages.push(msg);
 		},
 		removeConversationMessage: function (msgId) {
-			var len = $scope.messages.length;
+			var len = this.messages.length;
 			var self = this;
 			for (var i = 0; i < len; i++) {
 				var curMsg = this.messages[i];
@@ -120,6 +121,24 @@ var Conversation = new Vue({
 					return;
 				}
 			}
+		},
+		removeConversation: function () {
+			var self = this;
+			$.post(Sms.generateURL('/delete/conversation'), {"contact": self.selectedContact.label}, function (data) {
+				// Reinit main window
+				self.selectedContact.label = "";
+				self.selectedContact.opt_numbers = "";
+				self.selectedContact.avatar = undefined;
+				ContactList.removeContact(self.selectedContact);
+				self.messages = [];
+				self.selectedContact = {};
+				OC.Util.History.pushState('');
+			});
+		}
+	},
+	computed: {
+		orderedMessages: function () {
+			return _.orderBy(this.messages, ['date'], ['desc'])
 		}
 	}
 });
