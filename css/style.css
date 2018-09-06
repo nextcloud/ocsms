@@ -264,3 +264,10 @@ label {
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
 	display: none !important;
 }
+
+.contact-list-no-contact {
+	padding: 1em;
+	font-size: 1.5em;
+	font-weight: bold;
+	color: #666;
+}

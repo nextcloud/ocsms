@@ -2,6 +2,7 @@
 use \OCA\OcSms\Lib\CountryCodes;
 
 \OCP\Util::addScript('ocsms', 'angular.min');
+\OCP\Util::addScript('ocsms', 'lodash.min');
 \OCP\Util::addScript('ocsms', 'vue.min');
 // Production
 //\OCP\Util::addScript('ocsms', 'app.min');
@@ -19,13 +20,16 @@ use \OCA\OcSms\Lib\CountryCodes;
 	<div id="app-mailbox-peers">
 		<div id="app-contacts-loader" class="icon-loading" v-if="isContactsLoading">
 		</div>
-		<ul class="ng-cloak contact-list" v-if="!isContactsLoading">
-			<li v-for="contact in orderedContacts" peer-label="{{ contact.label }}" v-on:click="loadConversation(contact);" href="#">
-				<img class="ocsms-plavatar" ng-src="{{ contact.avatar }}" ng-show="contact.avatar !== undefined" />
-				<div class="ocsms-plavatar" v-if="contact.avatar === undefined" ng-style="{'background-color': (contact.uid | peerColor)}">{{ contact.label | firstCharacter }}</div>
-				<a class="ocsms-plname" style="{{ contact.unread > 0 ? 'font-weight:bold;' : ''}}" mailbox-label="{{ contact.label }}" mailbox-navigation="{{ contact.nav }}">{{ contact.label }}{{ contact.unread > 0 ? ' (' + contact.unread + ') ' : '' }}</a>
-			</li>
-		</ul>
+        <div v-if="!isContactsLoading">
+            <div class="contact-list-no-contact" v-if="orderedContacts | length == 0 && !isContactsLoading"><?php p($l->t('No contact found.'));?></div>
+            <ul class="ng-cloak contact-list" v-if="orderedContacts | length > 0">
+                <li v-for="contact in orderedContacts" peer-label="{{ contact.label }}" v-on:click="loadConversation(contact);" href="#">
+                    <img class="ocsms-plavatar" ng-src="{{ contact.avatar }}" ng-show="contact.avatar !== undefined" />
+                    <div class="ocsms-plavatar" v-if="contact.avatar === undefined" ng-style="{'background-color': (contact.uid | peerColor)}">{{ contact.label | firstCharacter }}</div>
+                    <a class="ocsms-plname" style="{{ contact.unread > 0 ? 'font-weight:bold;' : ''}}" mailbox-label="{{ contact.label }}" mailbox-navigation="{{ contact.nav }}">{{ contact.label }}{{ contact.unread > 0 ? ' (' + contact.unread + ') ' : '' }}</a>
+                </li>
+            </ul>
+        </div>
 	</div>
 	<div id="app-settings" class="ng-scope">
 		<div id="app-settings-header">

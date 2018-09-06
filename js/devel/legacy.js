@@ -229,51 +229,6 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			}
 		};
 
-		$scope.fetchInitialPeerList = function (jsondata) {
-			// Use a buffer for better jQuery performance
-			var bufferedContacts = [];
-
-			Sms.photoVersion = jsondata["photo_version"];
-
-			$.each(jsondata['phonelist'], function (id, val) {
-				var peerLabel;
-				if (typeof jsondata['contacts'][id] === 'undefined') {
-					peerLabel = id;
-				}
-				else {
-					peerLabel = jsondata['contacts'][id];
-				}
-				if (!inArray(peerLabel, bufferedContacts)) {
-					var contactObj = {
-						'label': peerLabel,
-						'nav': id,
-						'unread': 0,
-						'lastmsg': parseInt(val)
-					};
-
-					if (typeof(jsondata['photos'][peerLabel]) !== 'undefined') {
-						contactObj['avatar'] = jsondata['photos'][peerLabel];
-					}
-
-					if (typeof jsondata['uids'][peerLabel] !== 'undefined') {
-						contactObj.uid = jsondata['uids'][peerLabel];
-					} else {
-						contactObj.uid = peerLabel;
-					}
-
-					ContactList.addContact(contactObj);
-					bufferedContacts.push(peerLabel);
-				}
-			});
-
-			$scope.$apply(function () {
-				$scope.isContactsLoading = false;
-			});
-
-			Sms.lastContactListMsgDate = jsondata["lastRead"];
-			Sms.lastMessageDate = jsondata["lastMessage"];
-		};
-
 		// Return (int) msgCount, (str) htmlConversation
 		$scope.formatConversation = function (jsondata) {
 			// Improve jQuery performance
