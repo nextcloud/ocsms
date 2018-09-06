@@ -15,7 +15,37 @@ var ContactList = new Vue({
 		contacts: []
 	},
 	created: function () {
+		this.contacts = [];
 
+		var self = this;
+
+		// Now bind the events when we click on the phone number
+		$.getJSON(Sms.generateURL('/front-api/v1/peerlist'), function (jsondata, status) {
+			app.fetchInitialPeerList(jsondata);
+
+			var pnParam = $.urlParam('phonenumber');
+			if (pnParam != null) {
+				var urlPhoneNumber = decodeURIComponent(pnParam);
+				if (urlPhoneNumber != null) {
+					// If no contact when loading, creating a new contact from urlPhoneNumber
+					if (app.selectedContact.nav === undefined) {
+						app.selectedContact.label = urlPhoneNumber;
+						app.selectedContact.nav = urlPhoneNumber;
+						app.selectedContact.avatar = undefined;
+
+						// Now let's loop through the contact list and see if we can find the rest of the details
+						for (var i = 0; i < $scope.contacts.length; i++) {
+							if (self.contacts[i].nav === urlPhoneNumber) {
+								app.selectedContact = self.contacts[i];
+								break;
+							}
+						}
+					}
+					app.fetchConversation(app.selectedContact);
+					Sms.selectConversation($("a[mailbox-navigation='" + urlPhoneNumber + "']"));
+				}
+			}
+		});
 	},
 	methods: {
 		// Conversations
@@ -26,6 +56,33 @@ var ContactList = new Vue({
 			if (contact.nav !== null) {
 				app.fetchConversation(contact);
 				Sms.selectConversation($("a[mailbox-navigation='" + contact.nav + "']"));
+			}
+		},
+		/*
+		* Contact list management
+		*/
+		addContact: function (ct) {
+			this.contacts.push(ct);
+		},
+		removeContact: function (ct) {
+			var len = this.contacts.length;
+			for (var i = 0; i < len; i++) {
+				var curCt = this.contacts[i];
+				if (curCt['nav'] === ct['nav']) {
+					this.contacts.splice(i, 1);
+					return;
+				}
+			}
+		},
+		modifyContact: function (ct) {
+			var len = this.contacts.length;
+			for (var i = 0; i < len; i++) {
+				if (this.contacts[i]['nav'] === ct['nav']) {
+					this.contacts[i].unread = parseInt(ct.unread);
+					if (typeof(ct.avatar) !== 'undefined') {
+						this.contacts[i].avatar = ct.avatar;
+					}
+				}
 			}
 		}
 	},
