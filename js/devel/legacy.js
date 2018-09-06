@@ -117,21 +117,6 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			);
 		};
 
-		$scope.removeConversation = function () {
-			$.post(Sms.generateURL('/delete/conversation'), {"contact": $scope.selectedContact.label}, function (data) {
-				// Reinit main window
-				$scope.selectedContact.label = "";
-				$scope.selectedContact.opt_numbers = "";
-				$scope.selectedContact.avatar = undefined;
-				ContactList.removeContact($scope.selectedContact);
-				$scope.$apply(function () {
-					$scope.messages = [];
-				});
-				$scope.selectedContact.nav = "";
-				OC.Util.History.pushState('');
-			});
-		};
-
 		$scope.filterSms = function (query) {
 			if (query !== $scope.lastSearch) {
 			}
