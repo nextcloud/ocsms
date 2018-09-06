@@ -7,6 +7,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 //\OCP\Util::addScript('ocsms', 'app.min');
 // Develop
 \OCP\Util::addScript('ocsms', 'devel/app');
+\OCP\Util::addScript('ocsms', 'devel/contactlist');
 \OCP\Util::addScript('ocsms', 'devel/helpers');
 \OCP\Util::addScript('ocsms', 'devel/legacy');
 \OCP\Util::addScript('ocsms', 'devel/notifications');
@@ -16,10 +17,10 @@ use \OCA\OcSms\Lib\CountryCodes;
 
 <div class="ng-scope" id="app" ng-app="OcSms" ng-controller="OcSmsController" xmlns:v-on="http://www.w3.org/1999/xhtml">
 	<div id="app-mailbox-peers">
-		<div id="app-contacts-loader" class="icon-loading" ng-show="isContactsLoading">
+		<div id="app-contacts-loader" class="icon-loading" v-if="isContactsLoading">
 		</div>
-		<ul class="ng-cloak contact-list" ng-show="!isContactsLoading">
-			<li ng-repeat="contact in contacts | orderBy:getContactOrderBy:getReverseContactOrder" peer-label="{{ contact.label }}" ng-click="loadConversation(contact);" href="#">
+		<ul class="ng-cloak contact-list" v-if="!isContactsLoading">
+			<li v-for="contact in orderedContacts" peer-label="{{ contact.label }}" v-on:click="loadConversation(contact);" href="#">
 				<img class="ocsms-plavatar" ng-src="{{ contact.avatar }}" ng-show="contact.avatar !== undefined" />
 				<div class="ocsms-plavatar" ng-show="contact.avatar === undefined" ng-style="{'background-color': (contact.uid | peerColor)}">{{ contact.label | firstCharacter }}</div>
 				<a class="ocsms-plname" style="{{ contact.unread > 0 ? 'font-weight:bold;' : ''}}" mailbox-label="{{ contact.label }}" mailbox-navigation="{{ contact.nav }}">{{ contact.label }}{{ contact.unread > 0 ? ' (' + contact.unread + ') ' : '' }}</a>
