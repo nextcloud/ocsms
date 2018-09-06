@@ -10,71 +10,18 @@
 
 var app = angular.module('OcSms', []);
 
-// Imported from contact app
-app.filter('peerColor', function () {
-	return ContactRenderer.generateColor;
-});
-
-app.filter('firstCharacter', function () {
-	return ContactRenderer.generateFirstCharacter;
-});
-
-
 app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile',
 	function ($scope, $interval, $timeout, $compile) {
 		$scope.lastConvMessageDate = 0;
-		$scope.isConvLoading = false;
-		$scope.isContactsLoading = true;
 		$scope.buttons = [
 			{text: "Send"}
 		];
 
-		$scope.contacts = [];
 		$scope.messages = [];
 		$scope.totalMessageCount = 0;
 		$scope.selectedContact = {};
 		$scope.lastSearch = '';
 
-		$scope.fetchConversation = function (contact) {
-			// If contact is not null, we will fetch a conversation for a new contact
-			if (contact != null) {
-				$scope.selectedContact = contact;
-				$scope.isConvLoading = true;
-			}
-
-			$scope.messages = [];
-			$scope.lastConvMessageDate = 0;
-
-			$.getJSON(Sms.generateURL('/front-api/v1/conversation'), {'phoneNumber': $scope.selectedContact.nav},
-				function (jsondata, status) {
-					var phoneNumberLabel = $scope.selectedContact.nav;
-
-					if (typeof jsondata['phoneNumbers'] !== 'undefined') {
-						var phoneNumberList = arrayUnique(jsondata['phoneNumbers']);
-						phoneNumberLabel = phoneNumberList.toString();
-					}
-
-					// Reinit messages before showing conversation
-					$scope.formatConversation(jsondata);
-
-					$scope.$apply(function () {
-						if (typeof jsondata['contactName'] === 'undefined' || jsondata['contactName'] === '') {
-							$scope.selectedContact.label = phoneNumberLabel;
-							$scope.selectedContact.opt_numbers = "";
-						}
-						else {
-							$scope.selectedContact.label = jsondata['contactName'];
-							$scope.selectedContact.opt_numbers = phoneNumberLabel;
-						}
-
-						$scope.totalMessageCount = jsondata['msgCount'] !== undefined ? jsondata['msgCount'] : 0;
-						$scope.isConvLoading = false;
-					});
-
-					$('#ocsms-app-content').scrollTop(1E10);
-				}
-			);
-		};
 		$scope.refreshConversation = function () {
 			$.getJSON(Sms.generateURL('/ocsms/front-api/v1/conversation'),
 				{
@@ -85,7 +32,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 					var fmt = $scope.formatConversation(jsondata);
 					var conversationBuf = fmt[1];
 					if (conversationBuf === true) {
-						$('#ocsms-app-content').scrollTop(1E10);
+						$('#app-conversation').scrollTop(1E10);
 						// This will blink the tab because there is new messages
 						if (document.hasFocus() === false) {
 							Sms.unreadCountCurrentConv += parseInt(fmt[0]);
@@ -195,78 +142,6 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 				search.setFilter('sms', $scope.filterSms);
 			}
 		});
-
-		$scope.getContactOrderBy = function(ct) {
-			return SmsSettings.data.contactOrderBy;
-		};
-
-		$scope.getReverseContactOrder = function(ct) {
-			return SmsSettings.data.reverseContactOrder;
-		};
-
-		/*
-		* Conversation messagelist management
-		*/
-		$scope.addConversationMessage = function (msg) {
-			$scope.$apply(function () {
-				$scope.messages.push(msg);
-			});
-		};
-
-		$scope.removeConversationMessage = function (msgId) {
-			var len = $scope.messages.length;
-			for (var i = 0; i < len; i++) {
-				var curMsg = $scope.messages[i];
-				if (curMsg['id'] === msgId) {
-					$.post(Sms.generateURL('/delete/message'),
-						{"messageId": msgId, "phoneNumber": $scope.selectedContact.label}, function (data) {
-							$scope.$apply(function () {
-								$scope.messages.splice(i, 1);
-							});
-						});
-					return;
-				}
-			}
-		};
-
-		// Return (int) msgCount, (str) htmlConversation
-		$scope.formatConversation = function (jsondata) {
-			// Improve jQuery performance
-			var buf = false;
-			// Improve JS performance
-			var msgClass = '';
-			var msgCount = 0;
-
-			$.each(jsondata["conversation"], function (id, vals) {
-				if (vals["type"] == 1) {
-					msgClass = "recv";
-				}
-				else if (vals["type"] == 2) {
-					msgClass = "sent";
-				}
-				else {
-					msgClass = 'unknown';
-				}
-
-				// Store the greater msg date for refresher
-				// Note: we divide by 100 because number compare too large integers
-				if ((id / 100) > ($scope.lastConvMessageDate / 100)) {
-					$scope.lastConvMessageDate = id;
-
-					// Multiplicate ID to permit date to use it properly
-					$scope.addConversationMessage({
-						'id': id,
-						'type': msgClass,
-						'date': new Date(id * 1),
-						'content': vals['msg']
-					});
-					buf = true;
-					msgCount++;
-				}
-
-			});
-			return [msgCount, buf];
-		};
 
 		$interval($scope.refreshConversation, 10000);
 		$interval($scope.checkNewMessages, 10000);
