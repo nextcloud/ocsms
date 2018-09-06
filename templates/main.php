@@ -21,8 +21,8 @@ use \OCA\OcSms\Lib\CountryCodes;
 		<div id="app-contacts-loader" class="icon-loading" v-if="isContactsLoading">
 		</div>
         <div v-if="!isContactsLoading">
-            <div class="contact-list-no-contact" v-if="orderedContacts | length == 0 && !isContactsLoading"><?php p($l->t('No contact found.'));?></div>
-            <ul class="ng-cloak contact-list" v-if="orderedContacts | length > 0">
+            <div class="contact-list-no-contact" v-if="orderedContacts.length == 0 && !isContactsLoading"><?php p($l->t('No contact found.'));?></div>
+            <ul class="contact-list" v-if="orderedContacts.length > 0">
                 <li v-for="contact in orderedContacts" peer-label="{{ contact.label }}" v-on:click="loadConversation(contact);" href="#">
                     <img class="ocsms-plavatar" ng-src="{{ contact.avatar }}" ng-show="contact.avatar !== undefined" />
                     <div class="ocsms-plavatar" v-if="contact.avatar === undefined" ng-style="{'background-color': (contact.uid | peerColor)}">{{ contact.label | firstCharacter }}</div>
