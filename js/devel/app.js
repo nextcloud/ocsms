@@ -77,3 +77,21 @@ var ContactRenderer = {
 };
 
 Vue.filter('firstCharacter', ContactRenderer.generateFirstCharacter);
+
+$.urlParam = function (name) {
+	var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+	if (results == null) {
+		return null;
+	}
+	else {
+		return results[1] || 0;
+	}
+};
+
+(function ($, OC) {
+	// reset count and title
+	window.onfocus = function () {
+		Sms.unreadCountCurrentConv = 0;
+		document.title = Sms.originalTitle;
+	};
+})(jQuery, OC);

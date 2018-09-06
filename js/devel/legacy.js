@@ -12,21 +12,18 @@ var app = angular.module('OcSms', []);
 
 app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile',
 	function ($scope, $interval, $timeout, $compile) {
-		$scope.lastConvMessageDate = 0;
 		$scope.buttons = [
 			{text: "Send"}
 		];
 
-		$scope.messages = [];
 		$scope.totalMessageCount = 0;
-		$scope.selectedContact = {};
 		$scope.lastSearch = '';
 
 		$scope.refreshConversation = function () {
 			$.getJSON(Sms.generateURL('/ocsms/front-api/v1/conversation'),
 				{
-					'phoneNumber': $scope.selectedContact.nav,
-					"lastDate": $scope.lastConvMessageDate
+					'phoneNumber': Conversation.selectedContact.nav,
+					"lastDate": Conversation.lastConvMessageDate
 				},
 				function (jsondata, status) {
 					var fmt = $scope.formatConversation(jsondata);
@@ -37,7 +34,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 						if (document.hasFocus() === false) {
 							Sms.unreadCountCurrentConv += parseInt(fmt[0]);
 							document.title = Sms.originalTitle + " (" + Sms.unreadCountCurrentConv + ")";
-							SmsNotifications.notify(Sms.unreadCountCurrentConv + " unread message(s) in conversation with " + $scope.selectedContact.label);
+							SmsNotifications.notify(Sms.unreadCountCurrentConv + " unread message(s) in conversation with " + Conversation.selectedContact.label);
 						}
 
 					}
@@ -84,7 +81,7 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 							bufferedContacts.push(peerLabel);
 
 							// Re-set conversation because we reload the element
-							if (id === $scope.selectedContact.nav) {
+							if (id === Conversation.selectedContact.nav) {
 								Sms.selectConversation($("a[mailbox-navigation='" + id + "']"));
 							}
 
@@ -142,21 +139,4 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 	}
 ]);
 
-$.urlParam = function (name) {
-	var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-	if (results == null) {
-		return null;
-	}
-	else {
-		return results[1] || 0;
-	}
-};
-
-(function ($, OC) {
-	// reset count and title
-	window.onfocus = function () {
-		Sms.unreadCountCurrentConv = 0;
-		document.title = Sms.originalTitle;
-	};
-})(jQuery, OC);
 
