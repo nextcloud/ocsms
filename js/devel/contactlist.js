@@ -54,7 +54,7 @@ var ContactList = new Vue({
 							contactObj.uid = peerLabel;
 						}
 
-						ContactList.addContact(contactObj);
+						self.addContact(contactObj);
 						bufferedContacts.push(peerLabel);
 					}
 				});
