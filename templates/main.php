@@ -1,7 +1,6 @@
 <?php
 use \OCA\OcSms\Lib\CountryCodes;
 
-\OCP\Util::addScript('ocsms', 'angular.min');
 \OCP\Util::addScript('ocsms', 'lodash.min');
 \OCP\Util::addScript('ocsms', 'vue.min');
 // Production
@@ -11,7 +10,6 @@ use \OCA\OcSms\Lib\CountryCodes;
 \OCP\Util::addScript('ocsms', 'devel/contactlist');
 \OCP\Util::addScript('ocsms', 'devel/conversation');
 \OCP\Util::addScript('ocsms', 'devel/helpers');
-\OCP\Util::addScript('ocsms', 'devel/legacy');
 \OCP\Util::addScript('ocsms', 'devel/notifications');
 \OCP\Util::addScript('ocsms', 'devel/settings');
 \OCP\Util::addStyle('ocsms', 'style');
