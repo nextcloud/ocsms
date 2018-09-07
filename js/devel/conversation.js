@@ -15,7 +15,8 @@ var Conversation = new Vue({
 		isConvLoading: false,
 		messages: [],
 		lastConvMessageDate: 0,
-		totalMessageCount: 0
+		totalMessageCount: 0,
+		refreshIntervalId: null
 	},
 	methods: {
 		fetch: function (contact) {
@@ -54,6 +55,39 @@ var Conversation = new Vue({
 					self.isConvLoading = false;
 
 					$('#app-conversation').scrollTop(1E10);
+
+					// If refreshInterval is already bound, clear previous
+					if (self.refreshIntervalId !== null) {
+						clearInterval(self.refreshIntervalId);
+					}
+
+					self.refreshIntervalId = setInterval(self.refresh, 10000);
+				}
+			);
+		},
+		refresh: function () {
+			var self = this;
+			$.getJSON(Sms.generateURL('/front-api/v1/conversation'),
+				{
+					'phoneNumber': Conversation.selectedContact.nav,
+					"lastDate": Conversation.lastConvMessageDate
+				},
+				function (jsondata, status) {
+					var fmt = self.formatConversation(jsondata);
+					var conversationBuf = fmt[1];
+					if (conversationBuf === true) {
+						$('#app-conversation').scrollTop(1E10);
+						// This will blink the tab because there is new messages
+						if (document.hasFocus() === false) {
+							Sms.unreadCountCurrentConv += parseInt(fmt[0]);
+							document.title = Sms.originalTitle + " (" + Sms.unreadCountCurrentConv + ")";
+							SmsNotifications.notify(Sms.unreadCountCurrentConv + " unread message(s) in conversation with "
+								+ Conversation.selectedContact.label);
+						}
+
+					}
+
+					self.totalMessageCount = jsondata['msgCount'] !== undefined ? parseInt(jsondata['msgCount']) : 0;
 				}
 			);
 		},
@@ -117,6 +151,9 @@ var Conversation = new Vue({
 							"phoneNumber": this.selectedContact.label
 						}, function (data) {
 							self.messages.splice(i, 1);
+							if (self.messages.length === 0) {
+								self.clear();
+							}
 						});
 					return;
 				}
@@ -125,15 +162,20 @@ var Conversation = new Vue({
 		removeConversation: function () {
 			var self = this;
 			$.post(Sms.generateURL('/delete/conversation'), {"contact": self.selectedContact.label}, function (data) {
-				// Reinit main window
-				self.selectedContact.label = "";
-				self.selectedContact.opt_numbers = "";
-				self.selectedContact.avatar = undefined;
-				ContactList.removeContact(self.selectedContact);
-				self.messages = [];
-				self.selectedContact = {};
-				OC.Util.History.pushState('');
+				self.clear();
 			});
+		},
+		clear: function () {
+			// Reinit main window
+			this.selectedContact.label = "";
+			this.selectedContact.opt_numbers = "";
+			this.selectedContact.avatar = undefined;
+			ContactList.removeContact(this.selectedContact);
+			this.messages = [];
+			this.selectedContact = {};
+			OC.Util.History.pushState('');
+			clearInterval(this.refreshIntervalId);
+			this.refreshIntervalId = null;
 		}
 	},
 	computed: {

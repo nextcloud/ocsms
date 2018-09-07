@@ -16,33 +16,8 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			{text: "Send"}
 		];
 
-		$scope.totalMessageCount = 0;
 		$scope.lastSearch = '';
 
-		$scope.refreshConversation = function () {
-			$.getJSON(Sms.generateURL('/ocsms/front-api/v1/conversation'),
-				{
-					'phoneNumber': Conversation.selectedContact.nav,
-					"lastDate": Conversation.lastConvMessageDate
-				},
-				function (jsondata, status) {
-					var fmt = $scope.formatConversation(jsondata);
-					var conversationBuf = fmt[1];
-					if (conversationBuf === true) {
-						$('#app-conversation').scrollTop(1E10);
-						// This will blink the tab because there is new messages
-						if (document.hasFocus() === false) {
-							Sms.unreadCountCurrentConv += parseInt(fmt[0]);
-							document.title = Sms.originalTitle + " (" + Sms.unreadCountCurrentConv + ")";
-							SmsNotifications.notify(Sms.unreadCountCurrentConv + " unread message(s) in conversation with " + Conversation.selectedContact.label);
-						}
-
-					}
-
-					$scope.totalMessageCount = jsondata['msgCount'] !== undefined ? parseInt(jsondata['msgCount']) : 0;
-				}
-			);
-		};
 		$scope.checkNewMessages = function () {
 			Sms.unreadCountAllConv = 0;
 			$.getJSON(Sms.generateURL('/front-api/v1/new_messages'),
@@ -125,7 +100,6 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 			}
 		});
 
-		$interval($scope.refreshConversation, 10000);
 		$interval($scope.checkNewMessages, 10000);
 
 		$timeout(function () {
@@ -134,7 +108,6 @@ app.controller('OcSmsController', ['$scope', '$interval', '$timeout', '$compile'
 
 			SmsNotifications.init();
 			$scope.checkNewMessages();
-			$scope.refreshConversation();
 		});
 	}
 ]);

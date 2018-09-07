@@ -22,14 +22,18 @@ use \OCA\OcSms\Lib\CountryCodes;
 		<div id="app-contacts-loader" class="icon-loading" v-if="isContactsLoading">
 		</div>
         <div v-if="!isContactsLoading">
-            <div class="contact-list-no-contact" v-if="orderedContacts.length == 0 && !isContactsLoading"><?php p($l->t('No contact found.'));?></div>
-            <ul class="contact-list" v-if="orderedContacts.length > 0">
+            <div class="contact-list-no-contact" v-if="orderedContacts.length == 0">
+                <?php p($l->t('No contact found.'));?>
+            </div>
+            <div v-if="orderedContacts.length > 0">
+            <ul class="contact-list">
                 <li v-for="contact in orderedContacts" peer-label="{{ contact.label }}" v-on:click="loadConversation(contact);" href="#">
-                    <img class="ocsms-plavatar" v-bind:src="{{ contact.avatar }}" v-if="contact.avatar !== undefined" />
+                    <img class="ocsms-plavatar" :src="contact.avatar" v-if="contact.avatar !== undefined" />
                     <div class="ocsms-plavatar" v-if="contact.avatar === undefined" v-bind:style="{'backgroundColor': getContactColor(contact.uid) }">{{ contact.label | firstCharacter }}</div>
                     <a class="ocsms-plname" style="{{ contact.unread > 0 ? 'font-weight:bold;' : ''}}" mailbox-label="{{ contact.label }}" mailbox-navigation="{{ contact.nav }}">{{ contact.label }}{{ contact.unread > 0 ? ' (' + contact.unread + ') ' : '' }}</a>
                 </li>
             </ul>
+            </div>
         </div>
 	</div>
 	<div id="app-settings">
@@ -77,7 +81,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 		<div id="app-content-header" v-if="!isConvLoading && messages.length > 0"
              v-bind:style="{'backgroundColor': getContactColor(selectedContact.uid) }">
 			<div id="ocsms-contact-avatar">
-				<img class="ocsms-plavatar-big" v-if="selectedContact.avatar !== undefined" v-bind:src="{{ selectedContact.avatar }}" />
+				<img class="ocsms-plavatar-big" v-if="selectedContact.avatar !== undefined" :src="selectedContact.avatar" />
 				<div class="ocsms-plavatar-big" v-if="selectedContact.avatar === undefined">{{ selectedContact.label | firstCharacter }}</div>
 			</div>
 			<div id="ocsms-contact-details">
