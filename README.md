@@ -22,6 +22,18 @@ The cause may be that you have to enable 4-byte support.
 
 Here is a guide: https://docs.nextcloud.com/server/11/admin_manual/maintenance/mysql_4byte_support.html
 
+## :question: Solve InnoDB 'Index column size too large' error on MySQL
+
+If you are on MySQL or MariaDB and have the following issue with the database:
+
+```
+Index column size too large. The maximum column size is 767 bytes.
+```
+
+You should reconfigure your MySQL server to support a such column size.
+
+Here are some informations: https://stackoverflow.com/questions/30761867/mysql-error-the-maximum-column-size-is-767-bytes/30767600
+
 ## :question: Solve the synchronisation issues
 If you are using FastCGI you must enable buffering in FastCGI but commenting the following line:
 
