@@ -235,7 +235,7 @@ class SmsController extends Controller {
 
 		foreach ($phoneList as $number => $ts) {
 			$fmtPN = PhoneNumberFormatter::format($configuredCountry, $number);
-			$formatedPhoneList[] = $fmtPN;
+			$formatedPhoneList[$number] = $ts;
 			if (isset($contactsSrc[$fmtPN])) {
 				$contacts[$fmtPN] = $contactsSrc[$fmtPN];
 				if (isset($uidsSrc[$fmtPN])) {
@@ -248,7 +248,7 @@ class SmsController extends Controller {
 			}
 		}
 
-		return new JSONResponse(array("phonelist" => $formatedPhoneList, "contacts" => $contacts, "photos" => $photos, "uids" => $uids));
+		return new JSONResponse(array("phonelist" => $phoneList, "contacts" => $contacts, "photos" => $photos, "uids" => $uids));
 	}
 
 	/**
