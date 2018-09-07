@@ -227,6 +227,15 @@ class SmsMapper extends Mapper {
 		return $cnt;
 	}
 
+	public function removeAllMessagesForUser ($userId) {
+		$this->db->beginTransaction();
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete('ocsms_smsdatas')
+			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId)));
+		$qb->execute();
+		$this->db->commit();
+	}
+
 	public function removeMessagesForPhoneNumber ($userId, $phoneNumber) {
 		$this->db->beginTransaction();
 		$qb = $this->db->getQueryBuilder();

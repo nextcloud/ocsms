@@ -27,6 +27,7 @@ $application->registerRoutes($this, array('routes' => array(
 	array('name' => 'sms#retrieve_all_peers', 'url' => '/front-api/v1/peerlist', 'verb' => 'GET'),
 	array('name' => 'sms#get_conversation', 'url' => '/front-api/v1/conversation', 'verb' => 'GET'),
 	array('name' => 'sms#check_new_messages', 'url' => '/front-api/v1/new_messages', 'verb' => 'GET'),
+	array('name' => 'sms#wipe_all_user_messages', 'url' => '/front-api/v1/delete/all', 'verb' => 'POST'),
 	array('name' => 'settings#get_settings', 'url'=> '/front-api/v1/settings', 'verb' => 'GET'),
 
 	// Android API v1 doesn't have a version in the URL, be careful

@@ -211,7 +211,7 @@ class SmsController extends Controller {
 				$this->smsMapper->removeMessagesForPhoneNumber($this->userId, $phnumber);
 			}
 		}
-		return new JSONResponse(array());
+		return new JSONResponse(array("status" => "ok"));
 	}
 
 	/**
@@ -263,6 +263,16 @@ class SmsController extends Controller {
 			return new JSONResponse(array(), Http::STATUS_BAD_REQUEST);
 		}
 		$this->smsMapper->removeMessage($this->userId, $phoneNumber, $messageId);
-		return new JSONResponse(array());
+		return new JSONResponse(array("status" => "ok"));
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 * @return JSONResponse
+	 */
+	public function wipeAllUserMessages () {
+		$this->smsMapper->removeAllMessagesForUser($this->userId);
+		return new JSONResponse(array("status" => "ok"));
 	}
 }
