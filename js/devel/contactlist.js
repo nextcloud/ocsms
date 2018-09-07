@@ -18,12 +18,18 @@ var ContactList = new Vue({
 		lastTotalUnreadCount: 0
 	},
 	created: function () {
-		this.contacts = [];
+		this.reset();
 		this.fetch();
 		this.checkNewMessages();
 		setInterval(this.checkNewMessages, 10000);
 	},
 	methods: {
+		reset: function () {
+			this.contacts = [];
+			this.lastRetrievedMessageDate = 0;
+			this.totalUnreadMessages = 0;
+			this.lastTotalUnreadCount = 0;
+		},
 		fetch: function () {
 			var self = this;
 			// Now bind the events when we click on the phone number

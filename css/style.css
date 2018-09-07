@@ -235,14 +235,24 @@
 	width: auto;
 }
 
-#app-settings-content .new-button {
-	width: 32px;
+#app-settings-content .new-button, #app-settings-content .crit-button {
+	height: 34px;
+	vertical-align: middle;
 	background-size: 16px;
 	background-position: center;
 	background-repeat: no-repeat;
-	height: 34px;
-	vertical-align: middle;
 }
+
+#app-settings-content .new-button {
+	width: 32px;
+}
+
+#app-settings-content .crit-button {
+	width: 200px;
+	background-color: #822C19;
+	padding: 0 2em;
+}
+
 
 #app-settings-content input[type="checkbox"] {
 	vertical-align: middle;

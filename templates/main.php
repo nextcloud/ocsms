@@ -72,6 +72,9 @@ use \OCA\OcSms\Lib\CountryCodes;
 					<option value="0"><?php p($l->t('Disable'));?></option>
 				</select>
 			</div>
+            <div>
+                <button class="crit-button primary" v-on:click="wipeAllMessages();">Reset all messages</button>
+            </div>
 		</div> <!-- app-settings-content -->
 	</div>
 	<div id="app-conversation">

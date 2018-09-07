@@ -70,6 +70,12 @@ var SmsSettings = new Vue({
 					'country': self.country
 				}
 			);
+		},
+		wipeAllMessages: function () {
+			$.post(Sms.generateURL('/front-api/v1/delete/all'), {}, function () {
+				ContactList.reset();
+				Conversation.clear();
+			});
 		}
 	}
 });
