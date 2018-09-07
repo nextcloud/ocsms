@@ -76,6 +76,9 @@ var SmsSettings = new Vue({
 				ContactList.reset();
 				Conversation.clear();
 			});
+		},
+		isContactListEmpty: function () {
+			return ContactList.contacts.length === 0;
 		}
 	}
 });
