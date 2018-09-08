@@ -99,7 +99,10 @@ use \OCA\OcSms\Lib\CountryCodes;
 			</div>
 <!--            <div v-if="!isContactListEmpty()">-->
             <div>
-                <button class="crit-button primary" v-confirm="['wipe ?', wipeAllMessages]">Reset all messages</button>
+                <button class="crit-button primary"
+                        v-confirm="['<?php p($l->t('Are you sure you want to wipe all your messages ?'));?>', wipeAllMessages]">
+					<?php p($l->t('Reset all messages'));?>
+                </button>
             </div>
 		</div> <!-- app-settings-content -->
 	</div>
