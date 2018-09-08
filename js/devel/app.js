@@ -73,8 +73,6 @@ var ContactRenderer = {
 	}
 };
 
-Vue.filter('firstCharacter', ContactRenderer.generateFirstCharacter);
-
 $.urlParam = function (name) {
 	var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
 	if (results == null) {
@@ -84,6 +82,32 @@ $.urlParam = function (name) {
 		return results[1] || 0;
 	}
 };
+
+Vue.filter('firstCharacter', ContactRenderer.generateFirstCharacter);
+const Dialog = Vue.extend({
+	template: '#modal-template'
+});
+
+Vue.directive('confirm', {
+	bind(el, binding, vnode) {
+		const yesMethod = binding.value[1];
+		const bodyMessage = binding.value[0];
+		console.log(bodyMessage);
+		el.handleClick = (e) => {
+			const data = {
+				doYes: function () { yesMethod(); data.show = false; },
+				show: true,
+				bodyMessage: bodyMessage
+			};
+			let dialog = new Dialog({ data: data }).$mount();
+			document.getElementById('app').appendChild(dialog.$el);
+		}
+		el.addEventListener('click', el.handleClick);
+	},
+	unbind(el) {
+		el.removeEventListener('click', el.handleClick);
+	}
+});
 
 (function ($, OC) {
 	// reset count and title

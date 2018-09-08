@@ -15,6 +15,31 @@ use \OCA\OcSms\Lib\CountryCodes;
 \OCP\Util::addStyle('ocsms', 'style');
 ?>
 
+<script type="text/x-template" id="modal-template">
+    <transition name="modal" v-if="show">
+        <div class="modal-mask">
+            <div class="modal-wrapper">
+                <div class="modal-container">
+                    <div class="modal-body">
+                        {{ bodyMessage }}
+                    </div>
+
+                    <div class="modal-footer">
+                        <slot name="footer">
+                            <button class="modal-default-button" @click="show = false">
+                                <slot name="button-cancel">Cancel</slot>
+                            </button>
+                            <button class="modal-default-button modal-crit-button" @click="doYes">
+                                <slot name="button-ok">Confirm</slot>
+                            </button>
+                        </slot>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </transition>
+</script>
+
 <div id="app">
 	<div id="app-mailbox-peers">
 		<div id="app-contacts-loader" class="icon-loading" v-if="isContactsLoading">
@@ -72,8 +97,9 @@ use \OCA\OcSms\Lib\CountryCodes;
 					<option value="0"><?php p($l->t('Disable'));?></option>
 				</select>
 			</div>
-            <div v-if="!isContactListEmpty()">
-                <button class="crit-button primary" v-on:click="wipeAllMessages();">Reset all messages</button>
+<!--            <div v-if="!isContactListEmpty()">-->
+            <div>
+                <button class="crit-button primary" v-confirm="['wipe ?', wipeAllMessages]">Reset all messages</button>
             </div>
 		</div> <!-- app-settings-content -->
 	</div>
