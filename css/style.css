@@ -60,6 +60,7 @@
 
 #app-content-wrapper {
 	padding: 15px;
+	min-width: auto !important;
 	min-height: auto !important;
 	height: auto;
 }
