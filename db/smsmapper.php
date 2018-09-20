@@ -11,6 +11,7 @@
 
 namespace OCA\OcSms\Db;
 
+use lib\UUIDGenerator;
 use \OCP\IDBConnection;
 
 use \OCP\AppFramework\Db\Mapper;
@@ -32,10 +33,12 @@ class SmsMapper extends Mapper {
 		6 => "queued"
 	);
 	private $convStateMapper;
+	private $configMapper;
 
-	public function __construct (IDBConnection $db, ConversationStateMapper $cmapper) {
+	public function __construct (IDBConnection $db, ConversationStateMapper $cmapper, ConfigMapper $configMapper) {
 		parent::__construct($db, 'ocsms_smsdatas');
 		$this->convStateMapper = $cmapper;
+		$this->configMapper = $configMapper;
 	}
 
 	public function getAllIds ($userId) {
@@ -317,6 +320,36 @@ class SmsMapper extends Mapper {
 		return $phoneList;
 	}
 
+	private function getConversationForUserAndPhone($userId, $phoneNumber) {
+        $qb = $this->db->getQueryBuilder();
+
+        $qb->select('id')
+            ->from('ocsms_conversations')
+            ->where($qb->expr()->andX(
+                $qb->expr()->eq('user_id', $qb->createNamedParameter($userId)),
+                $qb->expr()->in('phone_number', $qb->createNamedParameter($phoneNumber))
+		));
+        $result = $qb->execute();
+
+        if ($row = $result->fetch()) {
+        	$conversation = new Conversation($userId, $phoneNumber);
+            $conversation->id = $row["id"];
+            return $conversation;
+        }
+        return null;
+	}
+
+	private function registerConversation($userId, $phoneNumber) {
+		$qb = $this->db->getQueryBuilder();
+		$qb->insert('ocsms_conversations')
+			->values([
+				'id' => $qb->createNamedParameter(UUIDGenerator::generate()),
+				'user_id' => $qb->createNamedParameter($userId),
+				'phone_number' => $qb->createNamedParameter($phoneNumber),
+			])
+			->execute();
+	}
+
 	public function writeToDB ($userId, $smsList, $purgeAllSmsBeforeInsert = false) {
 		$this->db->beginTransaction();
 		$qb = $this->db->getQueryBuilder();
@@ -350,14 +383,20 @@ class SmsMapper extends Mapper {
 			'(user_id, added, lastmodified, sms_flags, sms_date, sms_id,' .
 			'sms_address, sms_msg, sms_mailbox, sms_type) VALUES ' .
 			'(?,?,?,?,?,?,?,?,?,?)');
-			$result = $query->execute(array(
+			$query->execute(array(
 				$userId, $now, $now, $smsFlags,
 				$sms["date"], (int) $sms["_id"],
 				$sms["address"], $sms["body"], (int) $sms["mbox"],
 				(int) $sms["type"]
 			));
 
+			$configuredCountry = $this->configMapper->getCountry();
+			$fmtPhoneNumber = PhoneNumberFormatter::format($configuredCountry, $sms["address"]);
 
+			$conversation = $this->getConversationForUserAndPhone($userId, $fmtPhoneNumber);
+			if ($conversation === null) {
+				$this->registerConversation($userId, $fmtPhoneNumber);
+			}
 		}
 
 		$this->db->commit();

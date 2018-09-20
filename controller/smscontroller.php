@@ -42,9 +42,10 @@ class SmsController extends Controller {
 	 * @param IRequest $request
 	 * @param $userId
 	 * @param SmsMapper $mapper
+	 * @param ConversationStateMapper $cmapper
 	 * @param ConfigMapper $cfgMapper
 	 * @param IContactsManager $contactsManager
-	 * @param $urlGenerator
+	 * @param IURLGenerator $urlGenerator
 	 */
 	public function __construct ($appName, IRequest $request, $userId,
 			SmsMapper $mapper, ConversationStateMapper $cmapper,

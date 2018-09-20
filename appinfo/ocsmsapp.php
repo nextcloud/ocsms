@@ -33,6 +33,7 @@ class OcSmsApp extends App {
 	/**
 	 * OcSmsApp constructor.
 	 * @param array $urlParams
+	 * @throws \OCP\AppFramework\QueryException
 	 */
 	public function __construct (array $urlParams=array()) {
 		parent::__construct('ocsms', $urlParams);
@@ -60,7 +61,7 @@ class OcSmsApp extends App {
 		});
 
 		$container->registerService('Sms', function(IContainer $c) use ($server) {
-			return new Sms($server->getDb());
+			return new Sms();
 		});
 
 		$container->registerService('ConversationStateMapper', function(IContainer $c) use ($server) {
@@ -70,7 +71,8 @@ class OcSmsApp extends App {
 		$container->registerService('SmsMapper', function(IContainer $c) use ($server) {
 			return new SmsMapper(
 				$server->getDatabaseConnection(),
-				$c->query('ConversationStateMapper')
+				$c->query('ConversationStateMapper'),
+				$c->query('ConfigMapper')
 			);
 		});
 
@@ -117,10 +119,10 @@ class OcSmsApp extends App {
 		/**
 		 * Migration services
 		 */
-		$container->registerService('OCA\OcSms\Migration\FixConversationReadStates', function ($c) {
+		$container->registerService('OCA\OcSms\Migration\FixConversationReadStates', function (IContainer $c) use($server) {
 			return new FixConversationReadStates(
 				$c->query('ConversationStateMapper'),
-				$c->getServer()->getUserManager()
+				$server->getUserManager()
 			);
 		});
 	}
