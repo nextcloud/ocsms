@@ -145,14 +145,23 @@ class SmsMapper extends Mapper {
 
 		$phlst = $this->getAllPhoneNumbersForFPN($userId, $phoneNumber, $country);
 		$messageList = array();
-		$query = \OCP\DB::prepare('SELECT sms_date, sms_msg, sms_type FROM ' .
-		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_address = ? ' .
-		'AND sms_mailbox IN (?,?,?) AND sms_date > ?');
 
 		foreach ($phlst as $pn => $val) {
-			$result = $query->execute(array($userId, $pn, 0, 1, 3, $minDate));
+			$qb = $this->db->getQueryBuilder();
+			$qb->select('sms_date', 'sms_msg', 'sms_type')
+				->from('ocsms_smsdatas')
+				->where($qb->expr()->andX(
+					$qb->expr()->eq('user_id', $qb->createNamedParameter($userId)),
+					$qb->expr()->eq('sms_address', $qb->createNamedParameter($pn)),
+					$qb->expr()->in('sms_mailbox', array_map(function($mbid) use ($qb) {
+						return $qb->createNamedParameter($mbid);
+					}, array(0, 1, 3))),
+					$qb->expr()->gt('sms_date', $qb->createNamedParameter($minDate))
+				)
+			);
+			$result = $qb->execute();
 
-			while ($row = $result->fetchRow()) {
+			while ($row = $result->fetch()) {
 				$messageList[$row["sms_date"]] = array(
 					"msg" =>  $row["sms_msg"],
 					"type" => $row["sms_type"]
@@ -267,19 +276,26 @@ class SmsMapper extends Mapper {
 	}
 
 	public function getLastMessageTimestampForAllPhonesNumbers ($userId, $order = true) {
-		$sql = 'SELECT sms_address, MAX(sms_date) AS mx FROM ' .
-		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_mailbox IN (?,?,?) ' .
-		'GROUP BY sms_address';
+		$qb = $this->db->getQueryBuilder();
+		$qb->selectAlias($qb->createFunction('MAX(sms_date)'), 'mx')
+			->addSelect('sms_address')
+			->from('ocsms_smsdatas')
+			->where($qb->expr()->andX(
+				$qb->expr()->eq('user_id', $qb->createNamedParameter($userId)),
+				$qb->expr()->in('sms_mailbox', array_map(function($mbid) use ($qb) {
+					return $qb->createNamedParameter($mbid);
+				}, array(0, 1, 3)))
+			))
+			->groupBy('sms_address');
 
 		if ($order === true) {
-			$sql .= ' ORDER BY mx DESC';
+			$qb->orderBy('mx', 'DESC');
 		}
 
-		$query = \OCP\DB::prepare($sql);
-		$result = $query->execute(array($userId, 0, 1, 3));
+		$result = $qb->execute();
 
 		$phoneList = array();
-		while ($row = $result->fetchRow()) {
+		while ($row = $result->fetch()) {
 			$phoneNumber = preg_replace("#[ ]#", "", $row["sms_address"]);
 			if (!array_key_exists($phoneNumber, $phoneList)) {
 				$phoneList[$phoneNumber] = $row["mx"];
@@ -295,15 +311,21 @@ class SmsMapper extends Mapper {
 	public function getNewMessagesCountForAllPhonesNumbers($userId, $lastDate) {
 		$ld = ($lastDate == '') ? 0 : $lastDate;
 
-		$sql = 'SELECT sms_address, COUNT(sms_date) AS ct FROM ' .
-		'*PREFIX*ocsms_smsdatas WHERE user_id = ? AND sms_mailbox IN (?,?,?) ' .
-		'AND sms_date > ? GROUP BY sms_address';
-
-		$query = \OCP\DB::prepare($sql);
-		$result = $query->execute(array($userId, 0, 1, 3, $ld));
+		$qb = $this->db->getQueryBuilder();
+		$qb->selectAlias($qb->createFunction('COUNT(sms_date)'), 'ct')
+			->addSelect('sms_address')
+			->from('ocsms_smsdatas')
+			->where($qb->expr()->andX(
+				$qb->expr()->eq('user_id', $qb->createNamedParameter($userId)),
+				$qb->expr()->in('sms_mailbox', array_map(function($mbid) use ($qb) {
+					return $qb->createNamedParameter($mbid);
+				}, array(0, 1, 3))),
+				$qb->expr()->gt('sms_date', $qb->createNamedParameter($ld))))
+			->groupBy('sms_address');
+		$result = $qb->execute();
 
 		$phoneList = array();
-		while ($row = $result->fetchRow()) {
+		while ($row = $result->fetch()) {
 			$phoneNumber = preg_replace("#[ ]#", "", $row["sms_address"]);
 			if ($this->convStateMapper->getLastForPhoneNumber($userId, $phoneNumber) < $lastDate) {
 				if (!array_key_exists($phoneNumber, $phoneList)) {
