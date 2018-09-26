@@ -24,13 +24,15 @@ class ConversationStateMapper extends Mapper {
 	}
 
 	public function getLast ($userId) {
-		$sql = 'SELECT MAX(int_date) as mx FROM ' .
-		'*PREFIX*ocsms_conversation_read_states WHERE user_id = ?';
+		$qb = $this->db->getQueryBuilder();
+		$qb->selectAlias($qb->createFunction('MAX(int_date)'), 'mx')
+			->from('ocsms_conversation_read_states')
+			->where($qb->expr()->andX(
+				$qb->expr()->eq('user_id', $qb->createNamedParameter($userId))
+			));
+		$result = $qb->execute();
 
-		$query = \OCP\DB::prepare($sql);
-		$result = $query->execute(array($userId));
-
-		if ($row = $result->fetchRow()) {
+		if ($row = $result->fetch()) {
 			return $row["mx"];
 		}
 
@@ -38,13 +40,16 @@ class ConversationStateMapper extends Mapper {
 	}
 
 	public function getLastForPhoneNumber ($userId, $phoneNumber) {
-		$sql = 'SELECT MAX(int_date) as mx FROM ' .
-			'*PREFIX*ocsms_conversation_read_states WHERE user_id = ? AND phone_number = ?';
+		$qb = $this->db->getQueryBuilder();
+		$qb->selectAlias($qb->createFunction('MAX(int_date)'), 'mx')
+			->from('ocsms_conversation_read_states')
+			->where($qb->expr()->andX(
+				$qb->expr()->eq('user_id', $qb->createNamedParameter($userId)),
+				$qb->expr()->eq('phone_number', $qb->createNamedParameter($phoneNumber))
+			));
+		$result = $qb->execute();
 
-		$query = \OCP\DB::prepare($sql);
-		$result = $query->execute(array($userId, $phoneNumber));
-
-		if ($row = $result->fetchRow()) {
+		if ($row = $result->fetch()) {
 			return $row["mx"];
 		}
 
@@ -53,14 +58,21 @@ class ConversationStateMapper extends Mapper {
 
 	public function setLast ($userId, $phoneNumber, $lastDate) {
 		$this->db->beginTransaction();
-		$query = \OCP\DB::prepare('DELETE FROM *PREFIX*ocsms_conversation_read_states ' .
-			'WHERE user_id = ? AND phone_number = ?');
-		$query->execute(array($userId, $phoneNumber));
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete('ocsms_conversation_read_states')
+			->where($qb->expr()->andX(
+				$qb->expr()->eq('user_id', $qb->createNamedParameter($userId)),
+				$qb->expr()->eq('phone_number', $qb->createNamedParameter($phoneNumber))
+			));
+		$qb->execute();
 
-		$query = \OCP\DB::prepare('INSERT INTO *PREFIX*ocsms_conversation_read_states' .
-			'(user_id, phone_number, int_date) VALUES ' .
-			'(?,?,?)');
-		$query->execute(array($userId, $phoneNumber, $lastDate));
+		$qb = $this->db->getQueryBuilder();
+		$qb->insert('ocsms_conversation_read_states')
+			->values(array(
+				'user_id' => $userId,
+				'phone_number' => $phoneNumber,
+				'int_date' => $lastDate
+			));
 		$this->db->commit();
 	}
 
