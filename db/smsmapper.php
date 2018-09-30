@@ -368,18 +368,20 @@ class SmsMapper extends Mapper {
 				$qb->execute();
 			}
 			$now = date("Y-m-d H:i:s");
-			$query = \OCP\DB::prepare('INSERT INTO *PREFIX*ocsms_smsdatas ' .
-			'(user_id, added, lastmodified, sms_flags, sms_date, sms_id,' .
-			'sms_address, sms_msg, sms_mailbox, sms_type) VALUES ' .
-			'(?,?,?,?,?,?,?,?,?,?)');
-			$result = $query->execute(array(
-				$userId, $now, $now, $smsFlags,
-				$sms["date"], (int) $sms["_id"],
-				$sms["address"], $sms["body"], (int) $sms["mbox"],
-				(int) $sms["type"]
-			));
-
-
+			$qb->insert('ocsms_smsdatas')
+				->values(array(
+					'user_id' => $qb->createNamedParameter($userId),
+					'added' => $qb->createNamedParameter($now),
+					'lastmodified' => $qb->createNamedParameter($now),
+					'sms_flags' => $qb->createNamedParameter($smsFlags),
+					'sms_date' => $qb->createNamedParameter($sms["date"]),
+					'sms_id' => $qb->createNamedParameter((int) $sms["_id"]),
+					'sms_address' => $qb->createNamedParameter($sms["address"]),
+					'sms_msg' => $qb->createNamedParameter($sms["body"]),
+					'sms_mailbox' => $qb->createNamedParameter((int) $sms["mbox"]),
+					'sms_type' => $qb->createNamedParameter((int) $sms["type"])
+				));
+			$qb->execute();
 		}
 
 		$this->db->commit();
