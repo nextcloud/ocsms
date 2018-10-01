@@ -69,9 +69,9 @@ class ConversationStateMapper extends Mapper {
 		$qb = $this->db->getQueryBuilder();
 		$qb->insert('ocsms_conversation_read_states')
 			->values(array(
-				'user_id' => $userId,
-				'phone_number' => $phoneNumber,
-				'int_date' => $lastDate
+				'user_id' => $qb->createNamedParameter($userId),
+				'phone_number' => $qb->createNamedParameter($phoneNumber),
+				'int_date' => $qb->createNamedParameter($lastDate)
 			));
 		$this->db->commit();
 	}
