@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Phone Sync" : "Телефонска синхронизација",
     "An app to sync SMS with your cloud" : "Апликација за синхронизацију СМС-ова са Вашим сервером",
+    "No contact found." : "Није нађен ниједан контакт.",
     "Settings" : "Поставке",
     "Invalid message limit" : "Неисправни лимит поруке",
     "Default country code" : "Подразумевани позивни број државе",
@@ -13,6 +14,8 @@ OC.L10N.register(
     "Notification settings" : "Поставке обавештења",
     "Enable" : "Укључи",
     "Disable" : "Искључи",
+    "Are you sure you want to wipe all your messages ?" : "Да ли сте сигурни да желите да побришете све поруке?",
+    "Reset all messages" : "Ресетовање свих порука",
     "%s message(s) shown of %s message(s) stored in database." : "Приказана %s порука(е) од укупно %s поруке(а) ускладиштених у бази.",
     "Please select a conversation from the list to load it." : "Одаберите конверзацију из списка да бисте је учитали."
 },
