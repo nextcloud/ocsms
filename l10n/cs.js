@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Phone Sync" : "Synchronizace s telefonem",
     "An app to sync SMS with your cloud" : "Aplikace pro synchronizaci SMS s vaším cloudem",
+    "No contact found." : "Nebyl nalezen žádný kontakt.",
     "Settings" : "Nastavení",
     "Invalid message limit" : "Neplatný limit zprávy",
     "Default country code" : "Kód výchozí země",
@@ -13,6 +14,8 @@ OC.L10N.register(
     "Notification settings" : "Nastavení oznamování",
     "Enable" : "Zapnout",
     "Disable" : "Vypnout",
+    "Are you sure you want to wipe all your messages ?" : "Opravdu chcete vymazat všechny své zprávy?",
+    "Reset all messages" : "Resetovat všechny zprávy",
     "%s message(s) shown of %s message(s) stored in database." : "Zobrazeno %s zpráv z %s uložených v databázi.",
     "Please select a conversation from the list to load it." : "Pro načtení konverzace ji vyberte ze seznamu."
 },
