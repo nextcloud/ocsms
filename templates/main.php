@@ -41,73 +41,71 @@ use \OCA\OcSms\Lib\CountryCodes;
 </script>
 
 <div id="app">
-    <div id="app-leftpane">
-        <div id="app-mailbox-peers">
-            <div id="app-contacts-loader" class="icon-loading" v-if="isContactsLoading">
+	<div id="app-mailbox-peers">
+		<div id="app-contacts-loader" class="icon-loading" v-if="isContactsLoading">
+		</div>
+        <div v-if="!isContactsLoading">
+            <div class="contact-list-no-contact" v-if="orderedContacts.length == 0">
+                <?php p($l->t('No contact found.'));?>
             </div>
-            <div v-if="!isContactsLoading">
-                <div class="contact-list-no-contact" v-if="orderedContacts.length == 0">
-                    <?php p($l->t('No contact found.'));?>
-                </div>
-                <div v-if="orderedContacts.length > 0">
-                <ul class="contact-list">
-                    <li v-for="contact in orderedContacts" peer-label="{{ contact.label }}" v-on:click="loadConversation(contact);" href="#">
-                        <img class="ocsms-plavatar" :src="contact.avatar" v-if="contact.avatar !== undefined" />
-                        <div class="ocsms-plavatar" v-if="contact.avatar === undefined" v-bind:style="{'backgroundColor': getContactColor(contact.uid) }">{{ contact.label | firstCharacter }}</div>
-                        <a class="ocsms-plname" style="{{ contact.unread > 0 ? 'font-weight:bold;' : ''}}" mailbox-label="{{ contact.label }}" mailbox-navigation="{{ contact.nav }}">{{ contact.label }}{{ contact.unread > 0 ? ' (' + contact.unread + ') ' : '' }}</a>
-                    </li>
-                </ul>
-                </div>
+            <div v-if="orderedContacts.length > 0">
+            <ul class="contact-list">
+                <li v-for="contact in orderedContacts" peer-label="{{ contact.label }}" v-on:click="loadConversation(contact);" href="#">
+                    <img class="ocsms-plavatar" :src="contact.avatar" v-if="contact.avatar !== undefined" />
+                    <div class="ocsms-plavatar" v-if="contact.avatar === undefined" v-bind:style="{'backgroundColor': getContactColor(contact.uid) }">{{ contact.label | firstCharacter }}</div>
+                    <a class="ocsms-plname" style="{{ contact.unread > 0 ? 'font-weight:bold;' : ''}}" mailbox-label="{{ contact.label }}" mailbox-navigation="{{ contact.nav }}">{{ contact.label }}{{ contact.unread > 0 ? ' (' + contact.unread + ') ' : '' }}</a>
+                </li>
+            </ul>
             </div>
         </div>
-        <div id="app-settings">
-            <div id="app-settings-header">
-                <button name="app settings" class="settings-button" data-apps-slide-toggle="#app-settings-content">
-                    <?php p($l->t('Settings'));?>
+	</div>
+	<div id="app-settings">
+		<div id="app-settings-header">
+			<button name="app settings" class="settings-button" data-apps-slide-toggle="#app-settings-content">
+				<?php p($l->t('Settings'));?>
+			</button>
+		</div>
+		<div id="app-settings-content">
+			<div><label for="setting_msg_per_page">Max messages to load per conversation</label>
+				<input type="number" min="10" max="10000" name="setting_msg_per_page" v-model="messageLimit" v-on:change="sendMessageLimit()" to-int />
+				<span class="label-invalid-input" v-if="messageLimit == null || messageLimit == undefined"><?php p($l->t('Invalid message limit'));?></span>
+			</div>
+
+			<div><label for="intl_phone"><?php p($l->t('Default country code'));?></label>
+				<select name="intl_phone" id="sel_intl_phone" v-model="country">
+				<?php foreach (CountryCodes::$codes as $code => $cval) { ?>
+					<option><?php p($l->t($code)); ?></option>
+				<?php } ?>
+				</select>
+				<button class="new-button primary icon-checkmark-white" v-on:click="sendCountry();"></button>
+			</div>
+
+			<div>
+				<label for="setting_contact_order"><?php p($l->t('Contact ordering'));?></label>
+				<select name="setting_contact_order" v-model="contactOrderBy" v-on:change="sendContactOrder()">
+					<option value="lastmsg"><?php p($l->t('Last message'));?></option>
+					<option value="label"><?php p($l->t('Label'));?></option>
+				</select>
+				<label for="setting_contact_order_reverse"><?php p($l->t('Reverse ?'));?></label>
+				<input type="checkbox" v-model="reverseContactOrder" v-on:change="sendContactOrder()" />
+			</div>
+
+			<div>
+				<label for="setting_notif"><?php p($l->t('Notification settings'));?></label>
+				<select name="setting_notif" v-model="enableNotifications" v-on:change="sendNotificationFlag()">
+					<option value="1"><?php p($l->t('Enable'));?></option>
+					<option value="0"><?php p($l->t('Disable'));?></option>
+				</select>
+			</div>
+<!--            <div v-if="!isContactListEmpty()">-->
+            <div>
+                <button class="crit-button primary"
+                        v-confirm="['<?php p($l->t('Are you sure you want to wipe all your messages ?'));?>', wipeAllMessages]">
+					<?php p($l->t('Reset all messages'));?>
                 </button>
             </div>
-            <div id="app-settings-content">
-                <div><label for="setting_msg_per_page">Max messages to load per conversation</label>
-                    <input type="number" min="10" max="10000" name="setting_msg_per_page" v-model="messageLimit" v-on:change="sendMessageLimit()" to-int />
-                    <span class="label-invalid-input" v-if="messageLimit == null || messageLimit == undefined"><?php p($l->t('Invalid message limit'));?></span>
-                </div>
-
-                <div><label for="intl_phone"><?php p($l->t('Default country code'));?></label>
-                    <select name="intl_phone" id="sel_intl_phone" v-model="country">
-                    <?php foreach (CountryCodes::$codes as $code => $cval) { ?>
-                        <option><?php p($l->t($code)); ?></option>
-                    <?php } ?>
-                    </select>
-                    <button class="new-button primary icon-checkmark-white" v-on:click="sendCountry();"></button>
-                </div>
-
-                <div>
-                    <label for="setting_contact_order"><?php p($l->t('Contact ordering'));?></label>
-                    <select name="setting_contact_order" v-model="contactOrderBy" v-on:change="sendContactOrder()">
-                        <option value="lastmsg"><?php p($l->t('Last message'));?></option>
-                        <option value="label"><?php p($l->t('Label'));?></option>
-                    </select>
-                    <label for="setting_contact_order_reverse"><?php p($l->t('Reverse ?'));?></label>
-                    <input type="checkbox" v-model="reverseContactOrder" v-on:change="sendContactOrder()" />
-                </div>
-
-                <div>
-                    <label for="setting_notif"><?php p($l->t('Notification settings'));?></label>
-                    <select name="setting_notif" v-model="enableNotifications" v-on:change="sendNotificationFlag()">
-                        <option value="1"><?php p($l->t('Enable'));?></option>
-                        <option value="0"><?php p($l->t('Disable'));?></option>
-                    </select>
-                </div>
-    <!--            <div v-if="!isContactListEmpty()">-->
-                <div>
-                    <button class="crit-button primary"
-                            v-confirm="['<?php p($l->t('Are you sure you want to wipe all your messages ?'));?>', wipeAllMessages]">
-                        <?php p($l->t('Reset all messages'));?>
-                    </button>
-                </div>
-            </div> <!-- app-settings-content -->
-        </div>
-    </div>
+		</div> <!-- app-settings-content -->
+	</div>
 	<div id="app-conversation">
 		<div id="app-content-loader" class="icon-loading" v-if="isConvLoading"></div>
 		<div id="app-content-header" v-if="!isConvLoading && messages.length > 0"

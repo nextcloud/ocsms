@@ -1,14 +1,8 @@
 /* Navigation: folder like structure */
-#app {
-        width: 100%;
-}
-#app-leftpane {
-        width: 20%;
-        float: left;
-}
 #app-mailbox-peers {
-	width: 100%;
+	width: 20%;
 	height: 100%;
+	float: left;
 	box-sizing: border-box;
 	padding-bottom: 44px;
 	border-left: 1px solid #ddd;
@@ -235,7 +229,7 @@
 }
 
 #app-settings {
-	width: 100%;
+	width: 20%;
 }
 
 #app-settings-header, #app-settings-content {
