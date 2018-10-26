@@ -1,7 +1,12 @@
 /* Navigation: folder like structure */
+#app {
+        width: 100%;
+}
 #app-mailbox-peers {
 	width: 20%;
-	height: 100%;
+	top: 50px;
+	bottom: 40px;
+	position: fixed;
 	float: left;
 	box-sizing: border-box;
 	padding-bottom: 44px;
@@ -11,7 +16,6 @@
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-	resize: horizontal;
 	overflow-x: auto;
 }
 
@@ -55,7 +59,9 @@
 
 #app-conversation {
 	height: 100%;
+	width: 80%;
 	overflow-y: auto;
+	float: right; 
 }
 
 #app-content-wrapper {
@@ -230,6 +236,8 @@
 
 #app-settings {
 	width: 20%;
+	position: fixed;
+	bottom: 0px;
 }
 
 #app-settings-header, #app-settings-content {
