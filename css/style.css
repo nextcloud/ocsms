@@ -1,5 +1,6 @@
 #app {
 	display: flex;
+    width: 100%;
 }
 
 /* Navigation: folder like structure */
@@ -60,7 +61,7 @@
 #app-conversation {
 	height: 100%;
 	overflow-y: auto;
-	flex: 1;
+	flex: 4;
 	flex-direction: column;
 }
 
