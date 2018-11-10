@@ -35,9 +35,9 @@ var ContactList = new Vue({
 			// Now bind the events when we click on the phone number
 			$.getJSON(Sms.generateURL('/front-api/v1/peerlist'), function (jsondata, status) {
 				// Use a buffer for better jQuery performance
-				var bufferedContacts = [];
+                let bufferedContacts = [];
 
-				Sms.photoVersion = jsondata["photo_version"];
+                Sms.photoVersion = jsondata["photo_version"];
 
 				$.each(jsondata['phonelist'], function (id, val) {
 					var peerLabel;
@@ -144,11 +144,11 @@ var ContactList = new Vue({
 			$.getJSON(Sms.generateURL('/front-api/v1/new_messages'),
 				{'lastDate': this.lastRetrievedMessageDate},
 				function (jsondata, status) {
-					var bufferedContacts = [];
+                    let bufferedContacts = [];
 
-					$.each(jsondata['phonelist'], function (id, val) {
-						var fn, peerLabel;
-						if (typeof jsondata['contacts'][id] === 'undefined') {
+                    $.each(jsondata['phonelist'], function (id, val) {
+                        let fn, peerLabel;
+                        if (typeof jsondata['contacts'][id] === 'undefined') {
 							peerLabel = id;
 						}
 						else {
@@ -157,13 +157,13 @@ var ContactList = new Vue({
 						}
 
 						if (!inArray(peerLabel, bufferedContacts)) {
-							var contactObj = {
-								'label': peerLabel,
-								'nav': id,
-								'unread': parseInt(val)
-							};
+                            let contactObj = {
+                                'label': peerLabel,
+                                'nav': id,
+                                'unread': parseInt(val)
+                            };
 
-							if (typeof jsondata['photos'][peerLabel] !== 'undefined') {
+                            if (typeof jsondata['photos'][peerLabel] !== 'undefined') {
 								contactObj.avatar = jsondata['photos'][peerLabel];
 							}
 
