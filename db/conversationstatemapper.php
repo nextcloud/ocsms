@@ -84,7 +84,7 @@ class ConversationStateMapper extends Mapper {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('user_id', 'datakey', 'datavalue')
 			->from('ocsms_user_datas')
-			->where($qb->expr()->like('datakey', 'lastReadDate-%'));
+			->where($qb->expr()->like('datakey', $qb->createNamedParameter('lastReadDate-%')));
 
 		$result = $qb->execute();
 		while($row = $result->fetch()) {
@@ -94,7 +94,7 @@ class ConversationStateMapper extends Mapper {
 
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete('ocsms_user_datas')
-			->where($qb->expr()->like('datakey', 'lastReadDate-%'));
+			->where($qb->expr()->like('datakey', $qb->createNamedParameter('lastReadDate-%')));
 		$qb->execute();
 	}
 }
