@@ -81,19 +81,21 @@ class ConversationStateMapper extends Mapper {
 	 */
 
 	public function migrate () {
-		$sql = 'SELECT user_id, datakey, datavalue FROM ' .
-			'*PREFIX*ocsms_user_datas WHERE datakey LIKE \'lastReadDate-%\'';
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('user_id', 'datakey', 'datavalue')
+			->from('ocsms_user_datas')
+			->where($qb->expr()->like('datakey', 'lastReadDate-%'));
 
-		$query = \OCP\DB::prepare($sql);
-		$result = $query->execute(array());
-
-		while ($row = $result->fetchRow()) {
+		$result = $qb->execute();
+		while($row = $result->fetch()) {
 			$pn = preg_replace("#lastReadDate[-]#", "", $row["datakey"]);
 			$this->setLast($row["user_id"], $pn, $row["datavalue"]);
 		};
 
-		$query = \OCP\DB::prepare("DELETE FROM *PREFIX*ocsms_user_datas WHERE datakey LIKE 'lastReadDate-%'");
-		$query->execute(array());
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete('ocsms_user_datas')
+			->where($qb->expr()->like('datakey', 'lastReadDate-%'));
+		$qb->execute();
 	}
 }
 
