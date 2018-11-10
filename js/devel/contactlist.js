@@ -31,8 +31,8 @@ var ContactList = new Vue({
 			this.lastTotalUnreadCount = 0;
 		},
 		fetch: function () {
-			var self = this;
-			// Now bind the events when we click on the phone number
+            let self = this;
+            // Now bind the events when we click on the phone number
 			$.getJSON(Sms.generateURL('/front-api/v1/peerlist'), function (jsondata, status) {
 				// Use a buffer for better jQuery performance
                 let bufferedContacts = [];

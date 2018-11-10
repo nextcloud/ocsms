@@ -29,14 +29,14 @@ var Conversation = new Vue({
 			this.messages = [];
 			this.lastConvMessageDate = 0;
 
-			var self = this;
-			$.getJSON(Sms.generateURL('/front-api/v1/conversation'), {'phoneNumber': self.selectedContact.nav},
+            let self = this;
+            $.getJSON(Sms.generateURL('/front-api/v1/conversation'), {'phoneNumber': self.selectedContact.nav},
 				function (jsondata, status) {
-					var phoneNumberLabel = self.selectedContact.nav;
+                    let phoneNumberLabel = self.selectedContact.nav;
 
-					if (typeof jsondata['phoneNumbers'] !== 'undefined') {
-						var phoneNumberList = arrayUnique(jsondata['phoneNumbers']);
-						phoneNumberLabel = phoneNumberList.toString();
+                    if (typeof jsondata['phoneNumbers'] !== 'undefined') {
+                        const phoneNumberList = arrayUnique(jsondata['phoneNumbers']);
+                        phoneNumberLabel = phoneNumberList.toString();
 					}
 
 					// Reinit messages before showing conversation
@@ -97,11 +97,11 @@ var Conversation = new Vue({
 		// Return (int) msgCount, (str) htmlConversation
 		formatConversation: function (jsondata) {
 			// Improve jQuery performance
-			var buf = false;
-			// Improve JS performance
-			var msgClass = '';
-			var msgCount = 0;
-			var self = this;
+            let buf = false;
+            // Improve JS performance
+            let msgClass = '';
+            let msgCount = 0;
+			let self = this;
 
 			$.each(jsondata["conversation"], function (id, vals) {
 				if (vals["type"] == 1) {
@@ -138,10 +138,11 @@ var Conversation = new Vue({
 		*/
 		addConversationMessage: function (msg) {
 			this.messages.push(msg);
+			console.log(this.messages);
 		},
 		removeConversationMessage: function (msgId) {
-			var len = this.messages.length;
-			var self = this;
+			const len = this.messages.length;
+			let self = this;
 			for (var i = 0; i < len; i++) {
 				var curMsg = this.messages[i];
 				if (curMsg['id'] === msgId) {
