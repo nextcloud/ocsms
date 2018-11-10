@@ -7,7 +7,7 @@
     <description>An app to sync SMS with your cloud</description>
     <licence>agpl</licence>
     <author homepage="https://www.unix-experience.fr">Loic Blot</author>
-    <version>1.13.1</version>
+    <version>1.99.0</version>
     <category>multimedia</category>
     <category>tools</category>
     <dependencies>
