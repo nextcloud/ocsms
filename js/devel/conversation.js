@@ -138,7 +138,6 @@ var Conversation = new Vue({
 		*/
 		addConversationMessage: function (msg) {
 			this.messages.push(msg);
-			console.log(this.messages);
 		},
 		removeConversationMessage: function (msgId) {
 			const len = this.messages.length;
