@@ -6,7 +6,6 @@
 #app-navigation {
 	min-width: 20em;
 	box-sizing: border-box;
-	padding-bottom: 44px;
 	border-left: 1px solid #ddd;
 	border-right: 1px solid #ddd;
 	resize: horizontal;
