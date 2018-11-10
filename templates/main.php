@@ -16,7 +16,8 @@ use \OCA\OcSms\Lib\CountryCodes;
 ?>
 
 <script type="text/x-template" id="modal-template" xmlns:v-on="http://www.w3.org/1999/xhtml"
-        xmlns:v-bind="http://www.w3.org/1999/xhtml">
+        xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml"
+        xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
     <transition name="modal" v-if="show">
         <div class="modal-mask">
             <div class="modal-wrapper">
@@ -46,19 +47,17 @@ use \OCA\OcSms\Lib\CountryCodes;
         <div id="app-mailbox-peers">
             <div id="app-contacts-loader" class="icon-loading" v-if="isContactsLoading">
             </div>
-            <div v-if="!isContactsLoading">
-                <div cl            ass="contact-list-no-contact" v-if="orderedContacts.length == 0">
-                    <?php p($l->t('No contact found.'));?>
-                </div>
-                <div v-if="orderedContacts.length > 0">
-                    <ul class="contact-list">
-                        <li v-for="contact in orderedContacts" peer-label="{{ contact.label }}" v-on:click="loadConversation(contact);" href="#">
-                            <img class="ocsms-plavatar" :src="contact.avatar" v-if="contact.avatar !== undefined" />
-                            <div class="ocsms-plavatar" v-if="contact.avatar === undefined" v-bind:style="{'backgroundColor': getContactColor(contact.uid) }">{{ contact.label | firstCharacter }}</div>
-                            <a class="ocsms-plname" style="{{ contact.unread > 0 ? 'font-weight:bold;' : ''}}" mailbox-label="{{ contact.label }}" mailbox-navigation="{{ contact.nav }}">{{ contact.label }}{{ contact.unread > 0 ? ' (' + contact.unread + ') ' : '' }}</a>
-                        </li>
-                    </ul>
-                </div>
+            <div class="contact-list-no-contact" v-if="orderedContacts.length === 0 && !isContactsLoading">
+                <?php p($l->t('No contact found.'));?>
+            </div>
+            <div v-if="orderedContacts.length > 0 && !isContactsLoading">
+                <ul class="contact-list">
+                    <li v-for="contact in orderedContacts" peer-label="{{ contact.label }}" v-on:click="loadConversation(contact);" href="#">
+                        <img class="ocsms-plavatar" :src="contact.avatar" v-if="contact.avatar !== undefined" />
+                        <div class="ocsms-plavatar" v-if="contact.avatar === undefined" v-bind:style="{'backgroundColor': getContactColor(contact.uid) }">{{ contact.label | firstCharacter }}</div>
+                        <a class="ocsms-plname" style="{{ contact.unread > 0 ? 'font-weight:bold;' : ''}}" mailbox-label="{{ contact.label }}" mailbox-navigation="{{ contact.nav }}">{{ contact.label }}{{ contact.unread > 0 ? ' (' + contact.unread + ') ' : '' }}</a>
+                    </li>
+                </ul>
             </div>
         </div>
         <div id="app-settings">
@@ -70,7 +69,7 @@ use \OCA\OcSms\Lib\CountryCodes;
             <div id="app-settings-content">
                 <div><label for="setting_msg_per_page">Max messages to load per conversation</label>
                     <input type="number" min="10" max="10000" name="setting_msg_per_page" v-model="messageLimit" v-on:change="sendMessageLimit()" to-int />
-                    <span class="label-invalid-input" v-if="messageLimit == null || messageLimit == undefined"><?php p($l->t('Invalid message limit'));?></span>
+                    <span class="label-invalid-input" v-if="messageLimit == null || messageLimit === undefined"><?php p($l->t('Invalid message limit'));?></span>
                 </div>
 
                 <div><label for="intl_phone"><?php p($l->t('Default country code'));?></label>
@@ -99,7 +98,6 @@ use \OCA\OcSms\Lib\CountryCodes;
                         <option value="0"><?php p($l->t('Disable'));?></option>
                     </select>
                 </div>
-                <!--            <div v-if="!isContactListEmpty()">-->
                 <div>
                     <button class="crit-button primary"
                             v-confirm="['<?php p($l->t('Are you sure you want to wipe all your messages ?'));?>', wipeAllMessages]">
