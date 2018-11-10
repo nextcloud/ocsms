@@ -1,5 +1,6 @@
 /* Navigation: folder like structure */
 #app-mailbox-peers {
+	min-width: 20em;
 	height: 100%;
 	float: left;
 	box-sizing: border-box;
