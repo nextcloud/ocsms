@@ -92,7 +92,6 @@ Vue.directive('confirm', {
 	bind(el, binding, vnode) {
 		const yesMethod = binding.value[1];
 		const bodyMessage = binding.value[0];
-		console.log(bodyMessage);
 		el.handleClick = (e) => {
 			const data = {
 				doYes: function () { yesMethod(); data.show = false; },
@@ -101,7 +100,7 @@ Vue.directive('confirm', {
 			};
 			let dialog = new Dialog({ data: data }).$mount();
 			document.getElementById('app').appendChild(dialog.$el);
-		}
+		};
 		el.addEventListener('click', el.handleClick);
 	},
 	unbind(el) {

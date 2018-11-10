@@ -147,8 +147,6 @@ var ContactList = new Vue({
 					var bufferedContacts = [];
 
 					$.each(jsondata['phonelist'], function (id, val) {
-						console.log(id);
-						console.log(val);
 						var fn, peerLabel;
 						if (typeof jsondata['contacts'][id] === 'undefined') {
 							peerLabel = id;
