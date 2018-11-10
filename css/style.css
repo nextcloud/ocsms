@@ -3,19 +3,21 @@
     width: 100%;
 }
 
-/* Navigation: folder like structure */
-#app-mailbox-peers {
+#app-navigation {
 	min-width: 20em;
 	height: 100%;
 	box-sizing: border-box;
 	padding-bottom: 44px;
 	border-left: 1px solid #ddd;
 	border-right: 1px solid #ddd;
+	resize: horizontal;
+}
+/* Navigation: folder like structure */
+#app-mailbox-peers {
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-	resize: horizontal;
 	overflow-x: auto;
 	flex: 1;
 }
@@ -236,7 +238,7 @@
 }
 
 #app-settings {
-	width: 20%;
+	width: 100%;
 }
 
 #app-settings-header, #app-settings-content {
