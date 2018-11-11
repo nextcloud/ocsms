@@ -50,15 +50,13 @@ use \OCA\OcSms\Lib\CountryCodes;
             <div class="contact-list-no-contact" v-if="orderedContacts.length === 0 && !isContactsLoading">
                 <?php p($l->t('No contact found.'));?>
             </div>
-            <div v-if="orderedContacts.length > 0 && !isContactsLoading">
-                <ul class="contact-list">
-                    <li v-for="contact in orderedContacts" peer-label="{{ contact.label }}" v-on:click="loadConversation(contact);" href="#">
-                        <img class="ocsms-plavatar" :src="contact.avatar" v-if="contact.avatar !== undefined" />
-                        <div class="ocsms-plavatar" v-if="contact.avatar === undefined" v-bind:style="{'backgroundColor': getContactColor(contact.uid) }">{{ contact.label | firstCharacter }}</div>
-                        <a class="ocsms-plname" style="{{ contact.unread > 0 ? 'font-weight:bold;' : ''}}" mailbox-label="{{ contact.label }}" mailbox-navigation="{{ contact.nav }}">{{ contact.label }}{{ contact.unread > 0 ? ' (' + contact.unread + ') ' : '' }}</a>
-                    </li>
-                </ul>
-            </div>
+            <ul class="contact-list" v-if="orderedContacts.length > 0 && !isContactsLoading">
+                <li v-for="contact in orderedContacts" peer-label="{{ contact.label }}" v-on:click="loadConversation(contact);" href="#">
+                    <img class="ocsms-plavatar" :src="contact.avatar" v-if="contact.avatar !== undefined" />
+                    <div class="ocsms-plavatar" v-if="contact.avatar === undefined" v-bind:style="{'backgroundColor': getContactColor(contact.uid) }">{{ contact.label | firstCharacter }}</div>
+                    <a class="ocsms-plname" style="{{ contact.unread > 0 ? 'font-weight:bold;' : ''}}" mailbox-label="{{ contact.label }}" mailbox-navigation="{{ contact.nav }}">{{ contact.label }}{{ contact.unread > 0 ? ' (' + contact.unread + ') ' : '' }}</a>
+                </li>
+            </ul>
         </div>
         <div id="app-settings">
             <div id="app-settings-header">
