@@ -106,7 +106,7 @@ use \OCA\OcSms\Lib\CountryCodes;
         </div>
 	</div>
 
-	<div id="app-conversation">
+	<div id="app-content">
 		<div id="app-content-loader" class="icon-loading" v-if="isConvLoading"></div>
 		<div id="app-content-header" v-if="!isConvLoading && messages.length > 0" v-bind:style="{backgroundColor: getContactColor(selectedContact.uid) }">
 			<div id="ocsms-contact-avatar">

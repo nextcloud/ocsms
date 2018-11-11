@@ -4,15 +4,11 @@
 }
 
 #app-navigation {
-	min-width: 20em;
 	box-sizing: border-box;
 	border-left: 1px solid #ddd;
 	border-right: 1px solid #ddd;
-	resize: horizontal;
-	position: relative;
+	overflow-x: auto;
 	flex: 1;
-	top: 0;
-	height: 100vh;
 }
 /* Navigation: folder like structure */
 #app-mailbox-peers {
@@ -60,13 +56,6 @@
 #ocsms-empty-peers {
 	color: #666;
 	text-align: center;
-}
-
-#app-conversation {
-	height: 100vh;
-	overflow-y: auto;
-	flex: 5;
-	flex-direction: column;
 }
 
 #app-content-wrapper {

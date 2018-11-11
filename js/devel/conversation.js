@@ -9,7 +9,7 @@
  */
 
 var Conversation = new Vue({
-	el: '#app-conversation',
+	el: '#app-content',
 	data: {
 		selectedContact: {},
 		isConvLoading: false,
@@ -54,7 +54,7 @@ var Conversation = new Vue({
 					self.totalMessageCount = jsondata['msgCount'] !== undefined ? jsondata['msgCount'] : 0;
 					self.isConvLoading = false;
 
-					$('#app-conversation').scrollTop(1E10);
+					$('#app-content').scrollTop(1E10);
 
 					// If refreshInterval is already bound, clear previous
 					if (self.refreshIntervalId !== null) {
@@ -76,7 +76,7 @@ var Conversation = new Vue({
 					var fmt = self.formatConversation(jsondata);
 					var conversationBuf = fmt[1];
 					if (conversationBuf === true) {
-						$('#app-conversation').scrollTop(1E10);
+						$('#app-content').scrollTop(1E10);
 						// This will blink the tab because there is new messages
 						if (document.hasFocus() === false) {
 							Sms.unreadCountCurrentConv += parseInt(fmt[0]);
