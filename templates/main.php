@@ -124,7 +124,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 
 		</div>
 		<div id="app-content-wrapper" v-if="!isConvLoading">
-			<div v-if="messages.length == 0" id="ocsms-empty-conversation"><?php p($l->t('Please select a conversation from the list to load it.'));?></div>
+			<div v-if="messages.length === 0" id="ocsms-empty-conversation"><?php p($l->t('Please select a conversation from the list to load it.'));?></div>
 			<div v-if="messages.length > 0" class="ocsms-messages-container">
 				<div v-for="message in orderedMessages">
 					<div v-bind:class="['msg-'+  message.type]">
