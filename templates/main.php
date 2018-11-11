@@ -4,15 +4,15 @@ use \OCA\OcSms\Lib\CountryCodes;
 \OCP\Util::addScript('ocsms', 'lodash.min');
 \OCP\Util::addScript('ocsms', 'vue.min');
 // Production
-//\OCP\Util::addScript('ocsms', 'app.min');
+\OCP\Util::addScript('ocsms', 'app.min');
 // Develop
-\OCP\Util::addScript('ocsms', 'devel/app');
-\OCP\Util::addScript('ocsms', 'devel/settings');
-\OCP\Util::addScript('ocsms', 'devel/contactlist');
-\OCP\Util::addScript('ocsms', 'devel/conversation');
-\OCP\Util::addScript('ocsms', 'devel/helpers');
-\OCP\Util::addScript('ocsms', 'devel/notifications');
-\OCP\Util::addStyle('ocsms', 'style');
+//\OCP\Util::addScript('ocsms', 'devel/app');
+//\OCP\Util::addScript('ocsms', 'devel/settings');
+//\OCP\Util::addScript('ocsms', 'devel/contactlist');
+//\OCP\Util::addScript('ocsms', 'devel/conversation');
+//\OCP\Util::addScript('ocsms', 'devel/helpers');
+//\OCP\Util::addScript('ocsms', 'devel/notifications');
+//\OCP\Util::addStyle('ocsms', 'style');
 ?>
 
 <script type="text/x-template" id="modal-template" xmlns:v-on="http://www.w3.org/1999/xhtml"
