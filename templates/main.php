@@ -12,7 +12,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 //\OCP\Util::addScript('ocsms', 'devel/conversation');
 //\OCP\Util::addScript('ocsms', 'devel/helpers');
 //\OCP\Util::addScript('ocsms', 'devel/notifications');
-//\OCP\Util::addStyle('ocsms', 'style');
+\OCP\Util::addStyle('ocsms', 'style');
 ?>
 
 <script type="text/x-template" id="modal-template" xmlns:v-on="http://www.w3.org/1999/xhtml"
