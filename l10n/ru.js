@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Phone Sync" : "Синхр. телефона",
     "An app to sync SMS with your cloud" : "Приложение для синхронизации SMS с облаком",
+    "No contact found." : "Контактов не найдено",
     "Settings" : "Параметры",
     "Invalid message limit" : "Неправильный лимит сообщения",
     "Default country code" : "Код страны по умолчанию",
@@ -13,6 +14,8 @@ OC.L10N.register(
     "Notification settings" : "Настройки уведомлений",
     "Enable" : "Включить",
     "Disable" : "Отключить",
+    "Are you sure you want to wipe all your messages ?" : "Действительно удалить все сообщения?",
+    "Reset all messages" : "Удалить все сообщения",
     "%s message(s) shown of %s message(s) stored in database." : "Показ %s сообщений(я) из %sсохранённых в базе данных.",
     "Please select a conversation from the list to load it." : "Для загрузки разговора выберите его в списке."
 },
