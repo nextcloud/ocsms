@@ -4,6 +4,7 @@ OC.L10N.register(
     "Phone Sync" : "Mobilaus telefono SMS žinučių sinchronizacija",
     "An app to sync SMS with your cloud" : "Programėlė, skirta sinchronizuoti SMS žinutes su debesija",
     "Settings" : "Nustatymai",
+    "Label" : "Etiketė",
     "Enable" : "Įjungti",
     "Disable" : "Išjungti"
 },
