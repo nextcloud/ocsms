@@ -12,7 +12,7 @@
     <category>tools</category>
     <dependencies>
         <php min-version="5.6" min-int-size="32"/>
-        <nextcloud min-version="14.0" max-version="14.0" />
+        <nextcloud min-version="14.0" max-version="15.0" />
     </dependencies>
 
     <ocsid>167289</ocsid>
