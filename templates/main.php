@@ -14,6 +14,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 \OCP\Util::addScript('ocsms', 'devel/helpers');
 \OCP\Util::addScript('ocsms', 'devel/notifications');
 \OCP\Util::addScript('ocsms', 'twemoji/twemoji.min');
+\OCP\Util::addScript('ocsms', 'anchorme.min');
 ?>
 
 <script type="text/x-template" id="modal-template" xmlns:v-on="http://www.w3.org/1999/xhtml"

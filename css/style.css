@@ -166,6 +166,10 @@
 	float: left;
 }
 
+.msg-sent a:link, .msg-sent a:visited, .msg-recv a:link, .msg-recv a:visited {
+        text-decoration: underline;
+}
+
 .msg-date {
 	color: #666;
 	font-style: italic;
