@@ -24,3 +24,35 @@ paths:
             properties:
               version:
                 type: integer
+  # TODO: complete this
+  /push:
+    post:
+      summary: Push messages to server
+      description: Push a list of messages to the server
+      responses:
+        200:
+  # TODO: complete this
+  /replace:
+    post:
+      summary: Replace messages to server
+      description: Push a list of messages to replace on the server
+      responses:
+        200:
+  # TODO: complete this
+  /get/smsidlist:
+    get:
+  # TODO: complete this
+  /get/lastmsgtime:
+    get:
+  # TODO: complete this
+  /api/v2/phones/list:
+    get:
+  # TODO: complete this
+  /api/v2/messages/{start}/{limit}:
+    get:
+  # TODO: complete this
+  /api/v2/messages/count:
+    get:
+  # Not implemented
+  /api/v4/messages/sendqueue:
+    get:
