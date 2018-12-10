@@ -43,7 +43,7 @@ $application->registerRoutes($this, array('routes' => array(
 	array('name' => 'api#fetch_messages_count', 'url' => '/api/v2/messages/count', 'verb' => 'GET'), // Android APIv2
 
 	// Android API v3
-	// @TODO
+	array('name' => 'api#generate_sms_test_data', 'url' => '/api/v3/test/generate_sms_data', 'verb' => 'POST'), // Android APIv3
 
 	// Android API v4
 	// @TODO future calls to sending calls recorded on the phone

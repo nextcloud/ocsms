@@ -229,4 +229,25 @@ class ApiController extends Controller {
 		// @TODO
 		return new JSONResponse(array("messages" => array()));
 	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 *
+	 * @param $smsCount
+	 * @param $smsDatas
+	 * @return JSONResponse
+	 *
+	 * produce a bunch of data to test application
+	 */
+	public function generateSmsTestData () {
+	 	return $this->push(2, array(
+			 array("_id" => 702, "type" => 1, "mbox" => 0, "read" => "true",
+			 "seen" => "true", "date" => 1654777777, "address" => "+33123456789",
+			 "body" => "hello dude"),
+			 array("_id" => 685, "type" => 1, "mbox" => 1, "read" => "true",
+			 "seen" => "true", "date" => 1654777777, "address" => "+33123456789",
+			 "body" => "😀🌍⭐🌎🌔🌒🐕🍖🥂🍻🎮🤸‍♂️🚇🈲❕📘📚📈🇸🇨🇮🇲"),
+		 ));
+	 }
 }
