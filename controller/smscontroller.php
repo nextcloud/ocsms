@@ -80,7 +80,21 @@ class SmsController extends Controller {
 		$params = array('user' => $this->userId,
 			'mailboxes' => $mboxes
 		);
-		return new TemplateResponse($this->appName, 'main', $params);
+		$response = new TemplateResponse($this->appName, 'main', $params);
+		$this->addContentSecurityToResponse($response);
+		return $response;
+	}
+
+	/**
+	 * Adds the domain "data:" to the allowed image domains
+	 * this function is called by reference
+	 *
+	 * @param TemplateResponse $response
+	 */
+	private function addContentSecurityToResponse($response) {
+		$csp = new Http\ContentSecurityPolicy();
+		$csp->allowEvalScript(true);
+		$response->setContentSecurityPolicy($csp);
 	}
 
 	/**
