@@ -242,8 +242,8 @@ class ApiController extends Controller {
 	 */
 	public function generateSmsTestData () {
 	 	return $this->push(2, array(
-			 array("_id" => 702, "type" => 1, "mbox" => 0, "read" => "true",
-			 "seen" => "true", "date" => 1654777777, "address" => "+33123456789",
+			 array("_id" => 702, "type" => 1, "mbox" => 2, "read" => "true",
+			 "seen" => "true", "date" => 1654777747, "address" => "+33123456789",
 			 "body" => "hello dude"),
 			 array("_id" => 685, "type" => 1, "mbox" => 1, "read" => "true",
 			 "seen" => "true", "date" => 1654777777, "address" => "+33123456789",
