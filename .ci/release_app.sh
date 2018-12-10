@@ -35,7 +35,8 @@ rm -Rf \
     ocsms/gulpfile.js \
     ocsms/package.json \
     ocsms/.ci \
-    ocsms/.tx
+    ocsms/.tx \
+	ocsms/doc
 
 tar cfz ocsms-${RELEASE_VERSION}.tar.gz ocsms
 echo "Release version "${RELEASE_VERSION}" is now ready."
