@@ -1,0 +1,26 @@
+swagger: "2.0"
+
+info:
+  version: 2.0.0
+  title: OcSMS API
+  description: OcSMS API specification
+
+schemes:
+  - https
+host: nextcloud.example.org
+basePath: /apps/ocsms
+
+paths:
+  /get/apiversion:
+    get:
+      summary: Retrieve API version
+      description: Returns the current API version.
+      responses:
+        200:
+          description: OcSMS API version
+          schema:
+            required:
+              - version
+            properties:
+              version:
+                type: integer
