@@ -2,6 +2,13 @@ OC.L10N.register(
     "ocsms",
     {
     "Phone Sync" : "Telefon szinkronizáció",
+    "dwa" : "dwa",
+    "binary" : "bináris",
+    "a" : "egy",
+    "big" : "nagy",
+    "blink" : "villog",
+    "small" : "kicsi",
+    "\n" : "\n",
     "An app to sync SMS with your cloud" : "Az alkalmazás szinkronizálja az SMS-eket a felhőddel",
     "No contact found." : "Nem található névjegy.",
     "Settings" : "Beállítások",
