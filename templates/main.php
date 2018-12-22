@@ -4,6 +4,8 @@ use \OCA\OcSms\Lib\CountryCodes;
 \OCP\Util::addStyle('ocsms', 'style');
 \OCP\Util::addScript('ocsms', 'lodash.min');
 \OCP\Util::addScript('ocsms', 'vue.min');
+\OCP\Util::addScript('ocsms', 'twemoji/twemoji.min');
+\OCP\Util::addScript('ocsms', 'anchorme.min');
 // Production
 //\OCP\Util::addScript('ocsms', 'app.min');
 // Develop
@@ -13,8 +15,6 @@ use \OCA\OcSms\Lib\CountryCodes;
 \OCP\Util::addScript('ocsms', 'devel/conversation');
 \OCP\Util::addScript('ocsms', 'devel/helpers');
 \OCP\Util::addScript('ocsms', 'devel/notifications');
-\OCP\Util::addScript('ocsms', 'twemoji/twemoji.min');
-\OCP\Util::addScript('ocsms', 'anchorme.min');
 ?>
 
 <script type="text/x-template" id="modal-template" xmlns:v-on="http://www.w3.org/1999/xhtml"
