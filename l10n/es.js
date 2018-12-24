@@ -12,7 +12,6 @@ OC.L10N.register(
     "strike" : "golpe",
     "sub" : "inferior",
     "sup" : "superior",
-    "\n" : "\n",
     "An app to sync SMS with your cloud" : "Una app para sincronizar tus SMS con la nube",
     "No contact found." : "Contacto no encontrado",
     "Settings" : "Configuración",
