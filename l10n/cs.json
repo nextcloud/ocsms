@@ -1,8 +1,12 @@
 { "translations": {
     "Phone Sync" : "Synchronizace s telefonem",
+    "captured" : "zachycené",
+    "binary" : "binární",
     "utf-8" : "utf-8",
     "big" : "velké",
     "font" : "písmo",
+    "small" : "malé",
+    "\n" : "\n",
     "An app to sync SMS with your cloud" : "Aplikace pro synchronizaci SMS s vaším cloudem",
     "No contact found." : "Nebyl nalezen žádný kontakt.",
     "Settings" : "Nastavení",
