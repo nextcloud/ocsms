@@ -12,7 +12,7 @@ OC.L10N.register(
     "sub" : "sub",
     "sup" : "super",
     "\n" : "\n",
-    "An app to sync SMS with your cloud" : "Unha aplicación para sincronizar os SMS co a súa nube",
+    "An app to sync SMS with your cloud" : "Un aplicativo para sincronizar os SMS co a súa nube",
     "No contact found." : "Non se atopaou ningún contacto.",
     "Settings" : "Axustes",
     "Invalid message limit" : "Límite incorrecto de mensaxes",
