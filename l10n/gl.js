@@ -32,7 +32,7 @@ OC.L10N.register(
     "Enable" : "Activar",
     "Disable" : "Desactivar",
     "Are you sure you want to wipe all your messages ?" : "Confirma que quere limpar todas as súas mensaxes?",
-    "Reset all messages" : "Restaurar todas as mensaxes",
+    "Reset all messages" : "Restabelecer todas as mensaxes",
     "%s message(s) shown of %s message(s) stored in database." : "%s mensaxe(s) amosada(s) de %s mensaxe(s) almacenada(s) na base de datos.",
     "Please select a conversation from the list to load it." : "Seleccione unha conversa da lista para cargala."
 },
