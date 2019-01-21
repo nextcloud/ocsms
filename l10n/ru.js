@@ -2,6 +2,7 @@ OC.L10N.register(
     "ocsms",
     {
     "Phone Sync" : "Синхр. телефона",
+    "font" : "шрифт",
     "An app to sync SMS with your cloud" : "Приложение для синхронизации SMS с облаком",
     "No contact found." : "Контактов не найдено",
     "Settings" : "Параметры",
