@@ -3,6 +3,11 @@ OC.L10N.register(
     {
     "Phone Sync" : "Synchronisation du téléphone",
     "utf-8" : "utf-8",
+    "b" : "b",
+    "tt" : "tt",
+    "font" : "font",
+    "i" : "i",
+    "sup" : "sup",
     "An app to sync SMS with your cloud" : "Une application pour synchroniser avec votre cloud",
     "No contact found." : "Aucun contact trouvé.",
     "Settings" : "Paramètres",
