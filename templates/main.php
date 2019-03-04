@@ -31,10 +31,10 @@ use \OCA\OcSms\Lib\CountryCodes;
                     <div class="modal-footer">
                         <slot name="footer">
                             <button class="modal-default-button" @click="show = false">
-                                <slot name="button-cancel">Cancel</slot>
+                                <slot name="button-cancel"><?php p($l->t('Cancel'));?></slot>
                             </button>
                             <button class="modal-default-button modal-crit-button" @click="doYes">
-                                <slot name="button-ok">Confirm</slot>
+                                <slot name="button-ok"><?php p($l->t('Confirm'));?></slot>
                             </button>
                         </slot>
                     </div>
