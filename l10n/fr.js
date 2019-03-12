@@ -11,7 +11,7 @@ OC.L10N.register(
     "i" : "i",
     "small" : "petit",
     "sup" : "sup",
-    "An app to sync SMS with your cloud" : "Une application pour synchroniser avec votre cloud",
+    "An app to sync SMS with your cloud" : "Une application pour synchroniser les SMS avec votre cloud",
     "No contact found." : "Aucun contact trouvé.",
     "Settings" : "Paramètres",
     "Invalid message limit" : "Limite de message invalide",
