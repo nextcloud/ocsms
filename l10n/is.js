@@ -2,6 +2,7 @@ OC.L10N.register(
     "ocsms",
     {
     "Phone Sync" : "Símasamstilling",
+    "utf-8" : "utf-8",
     "An app to sync SMS with your cloud" : "Forrit til að samstilla SMS við tölvuskýið þitt",
     "No contact found." : "Enginn tengiliður fannst.",
     "Settings" : "Stillingar",
