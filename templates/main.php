@@ -67,7 +67,7 @@ use \OCA\OcSms\Lib\CountryCodes;
                 </button>
             </div>
             <div id="app-settings-content">
-                <div><label for="setting_msg_per_page">Max messages to load per conversation</label>
+                <div><label for="setting_msg_per_page"><?php p($l->t('Max messages to load per conversation'));?></label>
                     <input type="number" min="10" max="10000" name="setting_msg_per_page" v-model="messageLimit" v-on:change="sendMessageLimit()" to-int />
                     <span class="label-invalid-input" v-if="messageLimit == null || messageLimit === undefined"><?php p($l->t('Invalid message limit'));?></span>
                 </div>
