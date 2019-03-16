@@ -10,6 +10,8 @@ OC.L10N.register(
     "small" : "kicsi",
     "\n" : "\n",
     "An app to sync SMS with your cloud" : "Az alkalmazás szinkronizálja az SMS-eket a felhőddel",
+    "Cancel" : "Mégse",
+    "Confirm" : "Megerősít",
     "No contact found." : "Nem található névjegy.",
     "Settings" : "Beállítások",
     "Invalid message limit" : "Érvénytelen üzenet korlát",
