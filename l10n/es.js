@@ -4,6 +4,7 @@ OC.L10N.register(
     "Phone Sync" : "Sincronizar teléfono",
     "dwa" : "dwa",
     "captured" : "capturado",
+    "bubbled" : "en bocadillo",
     "binary" : "binario",
     "utf-8" : "UTF-8",
     "a" : "a",
