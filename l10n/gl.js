@@ -2,10 +2,6 @@ OC.L10N.register(
     "ocsms",
     {
     "Phone Sync" : "Sincronizar o teléfono",
-    "dwa" : "dwa",
-    "captured" : "capturado",
-    "bubbled" : "burbullado",
-    "binary" : "binary",
     "utf-8" : "utf-8",
     "a" : "a",
     "big" : "grande",

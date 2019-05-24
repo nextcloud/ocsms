@@ -2,9 +2,6 @@ OC.L10N.register(
     "ocsms",
     {
     "Phone Sync" : "Synchronizace s telefonem",
-    "captured" : "zachycené",
-    "bubbled" : "bublinkové",
-    "binary" : "binární",
     "utf-8" : "utf-8",
     "big" : "velké",
     "blink" : "blik",

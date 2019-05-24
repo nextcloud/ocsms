@@ -2,8 +2,6 @@ OC.L10N.register(
     "ocsms",
     {
     "Phone Sync" : "Telefon szinkronizáció",
-    "dwa" : "dwa",
-    "binary" : "bináris",
     "a" : "egy",
     "big" : "nagy",
     "blink" : "villog",

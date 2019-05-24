@@ -2,8 +2,6 @@ OC.L10N.register(
     "ocsms",
     {
     "Phone Sync" : "Synchronizacja telefonu",
-    "dwa" : "dwa",
-    "binary" : "dwójkowy",
     "utf-8" : "utf-8",
     "a" : "a",
     "big" : "wielka",
