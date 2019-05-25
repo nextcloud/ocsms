@@ -2,13 +2,6 @@ OC.L10N.register(
     "ocsms",
     {
     "Phone Sync" : "Synchronizace s telefonem",
-    "utf-8" : "utf-8",
-    "big" : "velké",
-    "blink" : "blik",
-    "font" : "písmo",
-    "small" : "malé",
-    "strike" : "přeškrtnuté",
-    "\n" : "\n",
     "An app to sync SMS with your cloud" : "Aplikace pro synchronizaci SMS s vaším cloudem",
     "Cancel" : "Storno",
     "Confirm" : "Potvrdit",

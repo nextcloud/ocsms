@@ -2,7 +2,6 @@ OC.L10N.register(
     "ocsms",
     {
     "Phone Sync" : "電話の同期",
-    "font" : "フォント",
     "An app to sync SMS with your cloud" : "あなたのクラウドとSMSを同期させるアプリ",
     "No contact found." : "連絡先は見つかりませんでした。",
     "Settings" : "設定",

@@ -2,7 +2,6 @@ OC.L10N.register(
     "ocsms",
     {
     "Phone Sync" : "סינכרון טלפון",
-    "\n" : "\n",
     "An app to sync SMS with your cloud" : "יישומון לסנכרון המסרונים עם הענן שלך",
     "No contact found." : "לא נמצאו אנשי קשר",
     "Settings" : "הגדרות",

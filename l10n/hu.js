@@ -2,11 +2,6 @@ OC.L10N.register(
     "ocsms",
     {
     "Phone Sync" : "Telefon szinkronizáció",
-    "a" : "egy",
-    "big" : "nagy",
-    "blink" : "villog",
-    "small" : "kicsi",
-    "\n" : "\n",
     "An app to sync SMS with your cloud" : "Az alkalmazás szinkronizálja az SMS-eket a felhőddel",
     "Cancel" : "Mégse",
     "Confirm" : "Megerősít",

@@ -1,9 +1,7 @@
 OC.L10N.register(
     "ocsms",
     {
-    "Phone Sync" : "Mobilaus telefono SMS žinučių sinchronizacija",
-    "utf-8" : "utf-8",
-    "\n" : "\n",
+    "Phone Sync" : "Mobiliojo telefono SMS žinučių sinchronizacija",
     "An app to sync SMS with your cloud" : "Programėlė, skirta sinchronizuoti SMS žinutes su debesija",
     "Cancel" : "Atsisakyti",
     "Confirm" : "Patvirtinti",
