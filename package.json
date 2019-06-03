@@ -1,8 +1,8 @@
 {
   "devDependencies": {
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.2",
     "gulp-concat": "latest",
-    "gulp-uglify": "^3.0.1",
+    "gulp-uglify": "^3.0.2",
     "gulp-uglify-es": "^1.0.4",
     "gulp-rename": "latest"
   },
