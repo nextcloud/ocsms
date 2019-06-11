@@ -10,7 +10,7 @@ OC.L10N.register(
     "Max messages to load per conversation" : "Maks. ilość wiadomości do załadowania dla rozmowy",
     "Invalid message limit" : "Nieprawidłowy limit wiadomości",
     "Default country code" : "Domyślny kod kraju",
-    "Contact ordering" : "Zamawianie kontaktu",
+    "Contact ordering" : "Uporządkuj kontakt",
     "Last message" : "Ostatnia wiadomość",
     "Label" : "Etykieta",
     "Reverse ?" : "Odwrócić?",
