@@ -1,15 +1,14 @@
 # Phone Sync (for Nextcloud & ownCloud)
 
-Phone Sync provides a webinterface to display your SMS conversations. SMS conversations are pushed by your Android devices using the [Android client](https://github.com/nerzhul/ownCloud-SMS-App), available on [Google Play Store](https://play.google.com/store/apps/details?id=fr.unix_experience.owncloud_sms).
+Phone Sync provides a webinterface to display your SMS conversations. SMS conversations are pushed by your Android devices using the [Android client](https://github.com/nerzhul/ownCloud-SMS-App), available on [F-Droid](https://f-droid.org/repository/browse/?fdid=fr.unix_experience.owncloud_sms).
 
 ## :arrow_forward: Access
 
-The app is available in both, [Nextcloud appstore](https://apps.nextcloud.com/apps/ocsms) and [ownCloud appstore](https://apps.owncloud.com/content/show.php/ownCloud+SMS?content=167289). So installing is as easy as
+The app is available on the [Nextcloud App Store](https://apps.nextcloud.com/apps/ocsms), so installing is as easy as:
 
-1. Navigate in your Nextcloud / ownCloud instance to the "apps"
-2. Enable "experimental apps" in the settings
-3. Select the category "Multimedia"
-4. Click "activate"
+1. Navigate in your Nextcloud instance to the "Apps" 
+2. Select the category "Multimedia"
+3. Click "activate"
 
 ## :question: Solve encoding errors on MySQL
 If you are on MySQL or MariaDB and have the following issue with the database:
