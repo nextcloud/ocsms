@@ -1,0 +1,7 @@
+{ "translations": {
+    "Phone Sync" : "Telefonsynkronisering",
+    "Settings" : "Innstillinger",
+    "Default country code" : "Standard landskode",
+    "Last message" : "Siste melding"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}
