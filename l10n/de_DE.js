@@ -13,7 +13,7 @@ OC.L10N.register(
     "Contact ordering" : "Kontaktsortierung",
     "Last message" : "Letzte Nachricht",
     "Label" : "Beschriftung",
-    "Reverse ?" : "Rückgängig ?",
+    "Reverse ?" : "Rückgängig machen?",
     "Notification settings" : "Benachrichtigungseinstellungen",
     "Enable" : "Aktivieren",
     "Disable" : "Deaktivieren",
