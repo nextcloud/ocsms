@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+	<?xml version="1.0"?>
 <info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
 	      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
     <id>ocsms</id>
@@ -6,15 +6,13 @@
     <summary>An app to sync SMS with your cloud</summary>
     <description>An app to sync SMS with your cloud</description>
     <licence>agpl</licence>
-    <author homepage="https://www.unix-experience.fr">Loic Blot</author>
+    <author>Loic Blot</author>
     <version>2.1.3</version>
     <category>multimedia</category>
     <category>tools</category>
     <dependencies>
-        <nextcloud min-version="14.0" max-version="16.0" />
+        <nextcloud min-version="14" max-version="17" />
     </dependencies>
-
-    <ocsid>167289</ocsid>
 
     <website>https://github.com/nextcloud/ocsms</website>
     <bugs>https://github.com/nextcloud/ocsms/issues</bugs>
