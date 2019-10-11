@@ -132,9 +132,15 @@ class SmsMapper extends Mapper {
 			}
 			$phoneList[$fmtPN][$pn] += 1;
 		}
-		$fpn = PhoneNumberFormatter::format($country, $phoneNumber);
-		if(isset($phoneList[$fpn])){
+		$fpn = $phoneNumber;
+		if(isset($phoneList[$fpn])) {
 			return $phoneList[$fpn];
+		}
+		else {
+			$fpn = PhoneNumberFormatter::format($country, $fpn);
+			if (isset($phoneList[$fpn])) {
+				return $phoneList[$fpn];
+			}
 		}
 		else {
 			return array();
