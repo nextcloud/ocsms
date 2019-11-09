@@ -1,9 +1,12 @@
 OC.L10N.register(
     "ocsms",
     {
-    "Phone Sync" : "Sinhronizacija telefona",
+    "Phone Sync" : "Usklajevanje s telefonom",
+    "Cancel" : "Prekliči",
+    "Confirm" : "Potrdi",
     "Settings" : "Nastavitve",
     "Default country code" : "Privzeta koda države",
+    "Last message" : "Zadnje sporočilo",
     "Notification settings" : "Nastavitve obveščanja",
     "Enable" : "Omogoči",
     "Reset all messages" : "Ponastavi vsa sporočila",
