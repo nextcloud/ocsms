@@ -136,15 +136,13 @@ class SmsMapper extends Mapper {
 		if(isset($phoneList[$fpn])) {
 			return $phoneList[$fpn];
 		}
-		else {
-			$fpn = PhoneNumberFormatter::format($country, $fpn);
-			if (isset($phoneList[$fpn])) {
-				return $phoneList[$fpn];
-			}
+		
+		$fpn = PhoneNumberFormatter::format($country, $fpn);
+		if (isset($phoneList[$fpn])) {
+			return $phoneList[$fpn];
 		}
-		else {
-			return array();
-		}
+			
+		return array();
 	}
 
 	public function getAllMessagesForPhoneNumber ($userId, $phoneNumber, $country, $minDate = 0) {
