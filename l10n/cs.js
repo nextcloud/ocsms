@@ -13,7 +13,7 @@ OC.L10N.register(
     "Contact ordering" : "Řazení kontaktů",
     "Last message" : "Poslední zpráva",
     "Label" : "Štítek",
-    "Reverse ?" : "Obrátit ?",
+    "Reverse ?" : "Obrátit?",
     "Notification settings" : "Nastavení oznamování",
     "Enable" : "Zapnout",
     "Disable" : "Vypnout",
