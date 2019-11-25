@@ -2,7 +2,7 @@ OC.L10N.register(
     "ocsms",
     {
     "Phone Sync" : "Telefon-Sync",
-    "An app to sync SMS with your cloud" : "Eine App die SMSen mit Ihrer Cloud synchronisiert",
+    "An app to sync SMS with your cloud" : "Eine App, die SMSen mit Ihrer Cloud synchronisiert",
     "Cancel" : "Abbrechen",
     "Confirm" : "Bestätigen",
     "No contact found." : "Kein Kontakt gefunden.",
