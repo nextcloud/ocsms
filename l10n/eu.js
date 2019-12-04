@@ -9,6 +9,7 @@ OC.L10N.register(
     "Reverse ?" : "Alderantzikatu ?",
     "Notification settings" : "Jakinarazpen-ezarpenak",
     "Enable" : "Aktibatu",
-    "Disable" : "Desaktibatu"
+    "Disable" : "Desaktibatu",
+    "Reset all messages" : "Berrezarri mezu guztiak"
 },
 "nplurals=2; plural=(n != 1);");
