@@ -2,6 +2,8 @@ OC.L10N.register(
     "ocsms",
     {
     "Phone Sync" : "Telefonoa sinkronizatu",
+    "Cancel" : "Utzi",
+    "Confirm" : "Berretsi",
     "No contact found." : "Ez da kontakturik aurkitu.",
     "Settings" : "Ezarpenak",
     "Last message" : "Azken mezua",

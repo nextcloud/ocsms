@@ -1,4 +1,7 @@
 { "translations": {
-    "Phone Sync" : "Telefonni sinxronlash"
+    "Phone Sync" : "Telefonni sinxronlash",
+    "Cancel" : "Bekor qilish",
+    "Confirm" : "Tasdiqlash",
+    "Settings" : "Sozlamalar"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

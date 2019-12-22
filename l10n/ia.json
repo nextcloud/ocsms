@@ -1,4 +1,9 @@
 { "translations": {
-    "Phone Sync" : "Synchronisation del Telephono"
+    "Phone Sync" : "Synchronisation del Telephono",
+    "Cancel" : "Cancellar",
+    "Confirm" : "Confirmar",
+    "Settings" : "Configurationes",
+    "Enable" : "Activar",
+    "Disable" : "Disactivar"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

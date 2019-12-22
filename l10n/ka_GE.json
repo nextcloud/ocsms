@@ -1,4 +1,10 @@
 { "translations": {
-    "Phone Sync" : "ტელეფონის სინქრონიზაცია"
+    "Phone Sync" : "ტელეფონის სინქრონიზაცია",
+    "Cancel" : "უარყოფა",
+    "Confirm" : "დადასტურება",
+    "Settings" : "პარამეტრები",
+    "Label" : "ლეიბლი",
+    "Enable" : "ჩართვა",
+    "Disable" : "გამორთვა"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

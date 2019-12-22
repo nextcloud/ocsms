@@ -3,6 +3,8 @@ OC.L10N.register(
     {
     "Phone Sync" : "Синхр. SMS",
     "An app to sync SMS with your cloud" : "Програма для синхронізації SMS із вашою хмарою.",
+    "Cancel" : "Скасувати",
+    "Confirm" : "Підтвердити",
     "Settings" : "Налаштування",
     "Invalid message limit" : "Недійсний ліміт повідомлень",
     "Default country code" : "Код країни за замовчанням",

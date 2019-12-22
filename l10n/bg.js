@@ -3,6 +3,10 @@ OC.L10N.register(
     {
     "Phone Sync" : "Синхронизиране на телефона",
     "Cancel" : "Отказ",
-    "Settings" : "Настройки"
+    "Confirm" : "Потвърди",
+    "Settings" : "Настройки",
+    "Label" : "Име",
+    "Enable" : "Включване",
+    "Disable" : "Изключване"
 },
 "nplurals=2; plural=(n != 1);");

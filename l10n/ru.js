@@ -3,6 +3,8 @@ OC.L10N.register(
     {
     "Phone Sync" : "Синхр. телефона",
     "An app to sync SMS with your cloud" : "Приложение для синхронизации SMS с облаком",
+    "Cancel" : "Отменить",
+    "Confirm" : "Подтвердить",
     "No contact found." : "Контактов не найдено",
     "Settings" : "Параметры",
     "Invalid message limit" : "Неправильный лимит сообщения",

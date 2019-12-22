@@ -1,0 +1,7 @@
+{ "translations": {
+    "Cancel" : "বাতির",
+    "Settings" : "সেটিংস",
+    "Enable" : "সক্রিয় ",
+    "Disable" : "নিষ্ক্রিয়"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

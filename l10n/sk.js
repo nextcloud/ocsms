@@ -2,8 +2,12 @@ OC.L10N.register(
     "ocsms",
     {
     "Phone Sync" : "SMS",
+    "Cancel" : "Zrušiť",
+    "Confirm" : "Potvrdiť",
     "Settings" : "Nastavenia",
     "Last message" : "Posledná správa",
+    "Label" : "Štítok",
+    "Notification settings" : "Nastavenie notifikácií",
     "Enable" : "Povoliť",
     "Disable" : "Zakázať"
 },

@@ -1,6 +1,8 @@
 { "translations": {
     "Phone Sync" : "סינכרון טלפון",
     "An app to sync SMS with your cloud" : "יישומון לסנכרון המסרונים עם הענן שלך",
+    "Cancel" : "ביטול",
+    "Confirm" : "אימות",
     "No contact found." : "לא נמצאו אנשי קשר",
     "Settings" : "הגדרות",
     "Invalid message limit" : "מגבלת ההודעה שגויה",

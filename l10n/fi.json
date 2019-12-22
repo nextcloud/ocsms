@@ -1,9 +1,13 @@
 { "translations": {
     "Phone Sync" : "Puhelinsynkronointi",
+    "Cancel" : "Peruuta",
+    "Confirm" : "Vahvista",
     "No contact found." : "Yhteystietoa ei löydy.",
     "Settings" : "Asetukset",
     "Default country code" : "Oletusmaakoodi",
     "Contact ordering" : "Yhteystietojen järjestäminen",
-    "Notification settings" : "Ilmoitusasetukset"
+    "Notification settings" : "Ilmoitusasetukset",
+    "Enable" : "Ota käyttöön",
+    "Disable" : "Poista käytöstä"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

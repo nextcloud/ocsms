@@ -1,0 +1,7 @@
+{ "translations": {
+    "Cancel" : "取消",
+    "Settings" : "設定",
+    "Enable" : "啟用",
+    "Disable" : "停用"
+},"pluralForm" :"nplurals=1; plural=0;"
+}

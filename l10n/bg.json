@@ -1,6 +1,10 @@
 { "translations": {
     "Phone Sync" : "Синхронизиране на телефона",
     "Cancel" : "Отказ",
-    "Settings" : "Настройки"
+    "Confirm" : "Потвърди",
+    "Settings" : "Настройки",
+    "Label" : "Име",
+    "Enable" : "Включване",
+    "Disable" : "Изключване"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

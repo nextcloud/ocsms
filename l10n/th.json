@@ -1,0 +1,7 @@
+{ "translations": {
+    "Cancel" : "ยกเลิก",
+    "Settings" : "ตั้งค่า",
+    "Enable" : "เปิดใช้งาน",
+    "Disable" : "ปิดใช้งาน"
+},"pluralForm" :"nplurals=1; plural=0;"
+}

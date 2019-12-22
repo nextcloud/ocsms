@@ -1,4 +1,9 @@
 { "translations": {
-    "Phone Sync" : "همگام سازی تلفن"
+    "Phone Sync" : "همگام سازی تلفن",
+    "Cancel" : "لغو",
+    "Confirm" : "تایید",
+    "Settings" : "تنظیمات",
+    "Enable" : "فعال",
+    "Disable" : "غیرفعال کردن"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

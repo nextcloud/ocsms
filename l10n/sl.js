@@ -7,8 +7,10 @@ OC.L10N.register(
     "Settings" : "Nastavitve",
     "Default country code" : "Privzeta koda države",
     "Last message" : "Zadnje sporočilo",
+    "Label" : "Oznaka",
     "Notification settings" : "Nastavitve obveščanja",
     "Enable" : "Omogoči",
+    "Disable" : "Onemogoči",
     "Reset all messages" : "Ponastavi vsa sporočila",
     "Please select a conversation from the list to load it." : "Izberite pogovor s seznama."
 },

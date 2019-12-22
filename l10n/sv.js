@@ -3,6 +3,8 @@ OC.L10N.register(
     {
     "Phone Sync" : "Phone Sync",
     "An app to sync SMS with your cloud" : "En app för att synkronisera SMS med ditt moln",
+    "Cancel" : "Avbryt",
+    "Confirm" : "Bekräfta",
     "No contact found." : "Ingen kontakt hittades.",
     "Settings" : "Inställningar",
     "Invalid message limit" : "Ogiltig meddelandegräns",

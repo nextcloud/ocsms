@@ -1,7 +1,11 @@
 { "translations": {
     "Phone Sync" : "SMS",
+    "Cancel" : "Zrušiť",
+    "Confirm" : "Potvrdiť",
     "Settings" : "Nastavenia",
     "Last message" : "Posledná správa",
+    "Label" : "Štítok",
+    "Notification settings" : "Nastavenie notifikácií",
     "Enable" : "Povoliť",
     "Disable" : "Zakázať"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"

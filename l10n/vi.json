@@ -1,0 +1,8 @@
+{ "translations": {
+    "Cancel" : "Hủy bỏ",
+    "Confirm" : "Xác nhận",
+    "Settings" : "Thiết lập",
+    "Enable" : "Kích hoạt",
+    "Disable" : "Tắt"
+},"pluralForm" :"nplurals=1; plural=0;"
+}

@@ -1,4 +1,9 @@
 { "translations": {
-    "Phone Sync" : "Phone Sync"
+    "Phone Sync" : "Phone Sync",
+    "Cancel" : "Membatalkan",
+    "Confirm" : "Konfirmasi",
+    "Settings" : "Setelan",
+    "Enable" : "aktifkan",
+    "Disable" : "Nonaktifkan"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
