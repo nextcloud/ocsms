@@ -5,6 +5,7 @@ OC.L10N.register(
     "Cancel" : "لغو",
     "Confirm" : "تایید",
     "Settings" : "تنظیمات",
+    "Notification settings" : "تنظیمات اعلان",
     "Enable" : "فعال",
     "Disable" : "غیرفعال کردن"
 },
