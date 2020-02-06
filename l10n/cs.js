@@ -14,7 +14,7 @@ OC.L10N.register(
     "Last message" : "Poslední zpráva",
     "Label" : "Štítek",
     "Reverse ?" : "Obrátit?",
-    "Notification settings" : "Nastavení oznamování",
+    "Notification settings" : "Nastavení upozorňování",
     "Enable" : "Zapnout",
     "Disable" : "Vypnout",
     "Are you sure you want to wipe all your messages ?" : "Opravdu chcete vymazat všechny své zprávy?",
