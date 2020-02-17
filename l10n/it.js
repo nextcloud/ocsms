@@ -9,7 +9,7 @@ OC.L10N.register(
     "Settings" : "Impostazioni",
     "Max messages to load per conversation" : "Numero massimo di messaggi da caricare per conversazione",
     "Invalid message limit" : "Limite di messaggi non valido",
-    "Default country code" : "Codice paese predefinito",
+    "Default country code" : "Codice nazionale predefinito",
     "Contact ordering" : "Ordinamento dei contatti",
     "Last message" : "Ultimo messaggio",
     "Label" : "Etichetta",
