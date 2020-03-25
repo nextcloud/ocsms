@@ -11,6 +11,7 @@ OC.L10N.register(
     "Notification settings" : "Nastavitve obveščanja",
     "Enable" : "Omogoči",
     "Disable" : "Onemogoči",
+    "Are you sure you want to wipe all your messages ?" : "Ali ste prepričani, da želite trajno izbrisati vsa sporočila?",
     "Reset all messages" : "Ponastavi vsa sporočila",
     "Please select a conversation from the list to load it." : "Izberite pogovor s seznama."
 },
