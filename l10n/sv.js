@@ -7,6 +7,7 @@ OC.L10N.register(
     "Confirm" : "Bekräfta",
     "No contact found." : "Ingen kontakt hittades.",
     "Settings" : "Inställningar",
+    "Max messages to load per conversation" : "Maximalt antal meddelanden att läsa in per konversation",
     "Invalid message limit" : "Ogiltig meddelandegräns",
     "Default country code" : "Standard landskod",
     "Contact ordering" : "Kontaktordning",
