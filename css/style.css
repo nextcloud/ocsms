@@ -3,6 +3,10 @@
     width: 100%;
 }
 
+body.dark #app {
+	color: var(--color-background-dark);
+}
+
 #app-navigation {
 	box-sizing: border-box;
 	border-left: 1px solid #ddd;
