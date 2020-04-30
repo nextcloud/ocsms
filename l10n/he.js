@@ -7,6 +7,7 @@ OC.L10N.register(
     "Confirm" : "אימות",
     "No contact found." : "לא נמצאו אנשי קשר",
     "Settings" : "הגדרות",
+    "Max messages to load per conversation" : "מספר ההודעות המרבי לטעינה לכל דיון",
     "Invalid message limit" : "מגבלת ההודעה שגויה",
     "Default country code" : "קוד מדינה כבררת מחדל",
     "Contact ordering" : "סידור אנשי קשר",
