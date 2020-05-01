@@ -118,7 +118,7 @@ use \OCA\OcSms\Lib\CountryCodes;
 			<div id="ocsms-contact-details">
 				<div id="ocsms-phone-label">{{ selectedContact.label }} </div>
 				<div id="ocsms-phone-opt-number">{{ selectedContact.opt_numbers }}</div>
-				<div id="ocsms-phone-msg-nb"><?php p($l->t('%s message(s) shown of %s message(s) stored in database.', array( '{{ messages.length }}', '{{ totalMessageCount }}')));?></div>
+				<div id="ocsms-phone-msg-nb"><?php p($l->t('%s messages shown of %s messages stored in database.', array( '{{ messages.length }}', '{{ totalMessageCount }}')));?></div>
 			</div>
 			<div id="ocsms-contact-actions">
 				<div id="ocsms-conversation-removal" class="icon-delete icon-delete-white svn delete action" v-on:click="removeConversation();"></div>
