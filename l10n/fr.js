@@ -19,7 +19,6 @@ OC.L10N.register(
     "Disable" : "Désactiver",
     "Are you sure you want to wipe all your messages ?" : "Êtes-vous sûr de vouloir effacer tous vos messages ?",
     "Reset all messages" : "Réinitialiser tous les messages",
-    "%s message(s) shown of %s message(s) stored in database." : "%s message(s) affiché(s) sur %s message(s) stocké(s) dans la base de données.",
     "Please select a conversation from the list to load it." : "Veuillez sélectionner une conversation dans la liste pour la charger."
 },
 "nplurals=2; plural=(n > 1);");

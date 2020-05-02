@@ -17,7 +17,6 @@
     "Disable" : "사용 안함",
     "Are you sure you want to wipe all your messages ?" : "모든 메시지를 삭제하시겠습니까?",
     "Reset all messages" : "모든 메시지 초기화",
-    "%s message(s) shown of %s message(s) stored in database." : "표시한 메시지 %s개, 데이터베이스에 저장된 메시지 %s개가 있습니다.",
     "Please select a conversation from the list to load it." : "메시지를 불러 오려면 대화를 목록에서 선택하십시오."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

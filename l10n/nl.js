@@ -19,7 +19,6 @@ OC.L10N.register(
     "Disable" : "Uitschakelen",
     "Are you sure you want to wipe all your messages ?" : "Weet je zeker dat je je berichten wilt verwijderen?",
     "Reset all messages" : "Alle berichten verwijderen",
-    "%s message(s) shown of %s message(s) stored in database." : "%s bericht(en) getoond van %s bericht(en) in de database.",
     "Please select a conversation from the list to load it." : "Kies een gesprek uit de lijst om het te laden."
 },
 "nplurals=2; plural=(n != 1);");

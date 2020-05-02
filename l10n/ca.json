@@ -17,7 +17,6 @@
     "Disable" : "Desactiva",
     "Are you sure you want to wipe all your messages ?" : "Esteu segurs que voleu suprimir tots els vostres missatges?",
     "Reset all messages" : "Restableix tots els missatges",
-    "%s message(s) shown of %s message(s) stored in database." : "%s missatge(s) mostrat(s) de %s missatges(s) emmagatzemat(s) a la base de dades",
     "Please select a conversation from the list to load it." : "Si us plau, seleccioneu una conversa de la llista per carregar-la."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

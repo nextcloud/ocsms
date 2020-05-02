@@ -7,7 +7,6 @@ OC.L10N.register(
     "Settings" : "Настройки",
     "Label" : "Име",
     "Enable" : "Включване",
-    "Disable" : "Изключване",
-    "%s message(s) shown of %s message(s) stored in database." : "%s съобщение/я показани от %s съобщение/я запазени в базата данни."
+    "Disable" : "Изключване"
 },
 "nplurals=2; plural=(n != 1);");

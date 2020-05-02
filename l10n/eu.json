@@ -17,7 +17,6 @@
     "Disable" : "Desaktibatu",
     "Are you sure you want to wipe all your messages ?" : "Zure mezu guztiak ezabatu nahi dituzu?",
     "Reset all messages" : "Berrezarri mezu guztiak",
-    "%s message(s) shown of %s message(s) stored in database." : "%s mezu erakusten dira datu basean dauden %s mezutik",
     "Please select a conversation from the list to load it." : "Aukeratu zerrendako hizketaldi bat kargatzeko"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

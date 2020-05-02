@@ -19,7 +19,6 @@ OC.L10N.register(
     "Disable" : "Απενεργοποίηση",
     "Are you sure you want to wipe all your messages ?" : "Σίγουρα θέλετε να εκκαθαρίσετε όλα τα μηνύματά σας;",
     "Reset all messages" : "Επαναφορά όλων των μηνυμάτων",
-    "%s message(s) shown of %s message(s) stored in database." : "%s μήνυμα(τα) εμφανίζεται από %s μήνυμα(τα) αποθηκευμένα στην βάση.",
     "Please select a conversation from the list to load it." : "Παρακαλώ επιλέξτε συνομιλία από την λίστα για εμφάνιση."
 },
 "nplurals=2; plural=(n != 1);");

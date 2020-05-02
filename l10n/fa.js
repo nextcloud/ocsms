@@ -19,7 +19,6 @@ OC.L10N.register(
     "Disable" : "غیرفعال کردن",
     "Are you sure you want to wipe all your messages ?" : "آیا مطمئن هستید که می خواهید تمام پیام های خود را پاک کنید؟",
     "Reset all messages" : "تنظیم مجدد همه پیام ها",
-    "%s message(s) shown of %s message(s) stored in database." : "%s پیام (های) نشان داده شده از %s پیام (های) ذخیره شده در پایگاه داده.",
     "Please select a conversation from the list to load it." : "لطفاً یک بار مکالمه را از لیست انتخاب کنید تا بارگیری شود."
 },
 "nplurals=2; plural=(n > 1);");

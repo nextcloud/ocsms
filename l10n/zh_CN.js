@@ -19,7 +19,6 @@ OC.L10N.register(
     "Disable" : "禁用",
     "Are you sure you want to wipe all your messages ?" : "您确定您要清除您的所有消息吗？",
     "Reset all messages" : "重置所有消息",
-    "%s message(s) shown of %s message(s) stored in database." : "保存在数据库里的 %s 条消息中被显示的 %s 条消息",
     "Please select a conversation from the list to load it." : "请在列表中选择一个会话来加载。"
 },
 "nplurals=1; plural=0;");
