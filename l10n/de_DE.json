@@ -17,6 +17,7 @@
     "Disable" : "Deaktivieren",
     "Are you sure you want to wipe all your messages ?" : "Möchten Sie wirklich all Ihre Nachrichten löschen?",
     "Reset all messages" : "Alle Nachrichten zurücksetzen",
+    "%s messages shown of %s messages stored in database." : "%s Nachrichten angezeigt von %s in der Datenbank gespeicherten Nachrichten",
     "Please select a conversation from the list to load it." : "Wähle eine Unterhaltung zum Laden aus der Liste aus."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -19,6 +19,7 @@ OC.L10N.register(
     "Disable" : "Vypnout",
     "Are you sure you want to wipe all your messages ?" : "Opravdu chcete vymazat všechny své zprávy?",
     "Reset all messages" : "Resetovat všechny zprávy",
+    "%s messages shown of %s messages stored in database." : "Zobrazeno %s zpráv ze %s zpráv uložených v databázi.",
     "Please select a conversation from the list to load it." : "Pro načtení konverzace ji vyberte ze seznamu."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

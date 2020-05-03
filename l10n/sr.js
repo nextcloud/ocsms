@@ -19,6 +19,7 @@ OC.L10N.register(
     "Disable" : "Искључи",
     "Are you sure you want to wipe all your messages ?" : "Да ли сте сигурни да желите да побришете све поруке?",
     "Reset all messages" : "Ресетовање свих порука",
+    "%s messages shown of %s messages stored in database." : "%s порука приказано од %s порука ускладиштено у бази.",
     "Please select a conversation from the list to load it." : "Одаберите конверзацију из списка да бисте је учитали."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");
