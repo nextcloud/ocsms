@@ -17,6 +17,7 @@
     "Disable" : "禁用",
     "Are you sure you want to wipe all your messages ?" : "您确定您要清除您的所有消息吗？",
     "Reset all messages" : "重置所有消息",
+    "%s messages shown of %s messages stored in database." : "显示了 %s 条消息，其中显示了数据库中存储的 %s 条消息。",
     "Please select a conversation from the list to load it." : "请在列表中选择一个会话来加载。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
