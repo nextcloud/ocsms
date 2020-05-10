@@ -6,7 +6,7 @@ OC.L10N.register(
     "Cancel" : "Cancelar",
     "Confirm" : "Confirmar",
     "No contact found." : "Contacto no encontrado",
-    "Settings" : "Configuración",
+    "Settings" : "Ajustes",
     "Max messages to load per conversation" : "Máximo de mensajes que cargar por conversación",
     "Invalid message limit" : "Límite de mensajes no válido",
     "Default country code" : "Código de país por defecto",
