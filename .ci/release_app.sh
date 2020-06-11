@@ -12,13 +12,13 @@ SRC_DIR=`dirname $0`"/.."
 RELEASE_VERSION=${1}
 echo "Release version set to ${RELEASE_VERSION}"
 
-which npm > /dev/null
-which gulp > /dev/null
-which wget > /dev/null
+#which npm > /dev/null
+#which gulp > /dev/null
+#which wget > /dev/null
 
 sed -ri 's/(.*)<version>(.+)<\/version>/\1<version>'${RELEASE_VERSION}'<\/version>/g' ${SRC_DIR}/appinfo/info.xml
 npm install
-gulp uglify
+node_modules/gulp/bin/gulp.js uglify
 git commit -am "Release "${RELEASE_VERSION}
 git tag ${RELEASE_VERSION}
 git push
