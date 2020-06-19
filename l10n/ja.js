@@ -19,6 +19,7 @@ OC.L10N.register(
     "Disable" : "無効にする",
     "Are you sure you want to wipe all your messages ?" : "すべてのメッセージを消去してもよろしいですか？",
     "Reset all messages" : "すべてのメッセージをリセットする",
+    "%s messages shown of %s messages stored in database." : "データベースに格納されている%sメッセージの%sメッセージを表示",
     "Please select a conversation from the list to load it." : "読み込む会話をリストから選択してください。"
 },
 "nplurals=1; plural=0;");
