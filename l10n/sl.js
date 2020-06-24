@@ -5,6 +5,7 @@ OC.L10N.register(
     "Cancel" : "Prekliči",
     "Confirm" : "Potrdi",
     "Settings" : "Nastavitve",
+    "Max messages to load per conversation" : "Največje število naloženih sporočil na pogovor",
     "Default country code" : "Privzeta koda države",
     "Last message" : "Zadnje sporočilo",
     "Label" : "Oznaka",
