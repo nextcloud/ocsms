@@ -19,6 +19,7 @@ OC.L10N.register(
     "Disable" : "Išjungti",
     "Are you sure you want to wipe all your messages ?" : "Ar tikrai norite ištrinti visas savo žinutes?",
     "Reset all messages" : "Atstatyti visas žinutes",
+    "%s messages shown of %s messages stored in database." : "Rodoma %s žinutės(-ių) iš duomenų bazėje saugomų %s žinučių.",
     "Please select a conversation from the list to load it." : "Pasirinkite pokalbį iš sąrašo, norėdami jį įkelti."
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

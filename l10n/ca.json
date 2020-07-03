@@ -1,22 +1,23 @@
 { "translations": {
     "Phone Sync" : "Sincronització del telèfon",
-    "An app to sync SMS with your cloud" : "Una aplicació per sincronitzar SMS amb el vostre núvol",
+    "An app to sync SMS with your cloud" : "Aplicació per sincronitzar els SMS amb el núvol",
     "Cancel" : "Cancel·la",
     "Confirm" : "Confirma",
-    "No contact found." : "No s'ha trobat el contacte",
+    "No contact found." : "No s'ha trobat cap contacte.",
     "Settings" : "Paràmetres",
-    "Max messages to load per conversation" : "Màx. missatges per carregar per conversa",
+    "Max messages to load per conversation" : "Màxim de missatges que es carregaran per conversa",
     "Invalid message limit" : "Límit de missatge no vàlid",
-    "Default country code" : "Codi del país predeterminat",
-    "Contact ordering" : "Ordenació de contactes",
+    "Default country code" : "Codi de país per defecte",
+    "Contact ordering" : "Ordenació dels contactes",
     "Last message" : "Darrer missatge",
     "Label" : "Etiqueta",
-    "Reverse ?" : "Inverteix?",
+    "Reverse ?" : "Voleu invertir-ho?",
     "Notification settings" : "Paràmetres de les notificacions",
     "Enable" : "Activa",
     "Disable" : "Desactiva",
-    "Are you sure you want to wipe all your messages ?" : "Esteu segurs que voleu suprimir tots els vostres missatges?",
+    "Are you sure you want to wipe all your messages ?" : "Segur que voleu esborrar tots els vostres missatges?",
     "Reset all messages" : "Restableix tots els missatges",
-    "Please select a conversation from the list to load it." : "Si us plau, seleccioneu una conversa de la llista per carregar-la."
+    "%s messages shown of %s messages stored in database." : "Es mostren %s missatges dels %s missatges emmagatzemats a la base de dades.",
+    "Please select a conversation from the list to load it." : "Seleccioneu una conversa de la llista per carregar-la."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
