@@ -4,6 +4,7 @@ OC.L10N.register(
     "Cancel" : "Arrest",
     "Confirm" : "Kadarnañ",
     "Settings" : "Arventennoù",
+    "Label" : "Tiketenn",
     "Enable" : "Aotreañ",
     "Disable" : "Disaotreañ"
 },
