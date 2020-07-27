@@ -2,7 +2,7 @@ OC.L10N.register(
     "ocsms",
     {
     "Phone Sync" : "Sincronització del telèfon",
-    "An app to sync SMS with your cloud" : "Aplicació per sincronitzar els SMS amb el núvol",
+    "An app to sync SMS with your cloud" : "Aplicació per a sincronitzar els SMS amb el núvol",
     "Cancel" : "Cancel·la",
     "Confirm" : "Confirma",
     "No contact found." : "No s'ha trobat cap contacte.",
@@ -20,6 +20,6 @@ OC.L10N.register(
     "Are you sure you want to wipe all your messages ?" : "Segur que voleu esborrar tots els vostres missatges?",
     "Reset all messages" : "Restableix tots els missatges",
     "%s messages shown of %s messages stored in database." : "Es mostren %s missatges dels %s missatges emmagatzemats a la base de dades.",
-    "Please select a conversation from the list to load it." : "Seleccioneu una conversa de la llista per carregar-la."
+    "Please select a conversation from the list to load it." : "Seleccioneu una conversa de la llista per a carregar-la."
 },
 "nplurals=2; plural=(n != 1);");
