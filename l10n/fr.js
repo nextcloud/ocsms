@@ -7,7 +7,7 @@ OC.L10N.register(
     "Confirm" : "Confirmer",
     "No contact found." : "Aucun contact trouvé.",
     "Settings" : "Paramètres",
-    "Max messages to load per conversation" : "Nombre maximum de messages à charger par conversion",
+    "Max messages to load per conversation" : "Nombre maximum de messages à charger par conversation",
     "Invalid message limit" : "Limite de message invalide",
     "Default country code" : "Code pays par défaut",
     "Contact ordering" : "Tri des contacts",
