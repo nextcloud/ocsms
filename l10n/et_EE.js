@@ -5,6 +5,7 @@ OC.L10N.register(
     "Cancel" : "Loobu",
     "Confirm" : "Kinnita",
     "Settings" : "Seaded",
+    "Label" : "Silt",
     "Enable" : "Lülita sisse",
     "Disable" : "Lülita välja"
 },
