@@ -4,6 +4,7 @@ OC.L10N.register(
     "Cancel" : "Откажи",
     "Confirm" : "Потврди",
     "Settings" : "Параметри",
+    "Label" : "Ознака",
     "Enable" : "Овозможи",
     "Disable" : "Оневозможи"
 },

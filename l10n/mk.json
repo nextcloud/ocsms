@@ -2,6 +2,7 @@
     "Cancel" : "Откажи",
     "Confirm" : "Потврди",
     "Settings" : "Параметри",
+    "Label" : "Ознака",
     "Enable" : "Овозможи",
     "Disable" : "Оневозможи"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
