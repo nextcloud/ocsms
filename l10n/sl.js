@@ -2,6 +2,7 @@ OC.L10N.register(
     "ocsms",
     {
     "Phone Sync" : "Usklajevanje s telefonom",
+    "An app to sync SMS with your cloud" : "Program za usklajevanje sporočil SMS z oblakom",
     "Cancel" : "Prekliči",
     "Confirm" : "Potrdi",
     "No contact found." : "Ni najdenih stikov.",
