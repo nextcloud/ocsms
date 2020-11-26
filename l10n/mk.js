@@ -6,6 +6,7 @@ OC.L10N.register(
     "Settings" : "Параметри",
     "Last message" : "Последна порака",
     "Label" : "Ознака",
+    "Notification settings" : "Поставки за известување",
     "Enable" : "Овозможи",
     "Disable" : "Оневозможи"
 },
