@@ -28,7 +28,6 @@ function toBool(str) {
 	return null;
 }
 
-
 function escapeHTML(string) {
                 var str = '' + string
                 var matchHtmlRegExp = /["'&<>]/
