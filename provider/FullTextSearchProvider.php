@@ -9,7 +9,7 @@
  * @copyright Loic Blot 2014-2018
  */
 
-namespace OCA\YourNameSpace\Provider;
+namespace OCA\OcSms\Provider;
 
 use OCA\FullTextSearch\IFullTextSearchProvider;
 
@@ -21,7 +21,7 @@ class MyProvider implements IFullTextSearchProvider {
 
 	/** @var ConfigService */
 	private $configService;
-    
+
 	/** @var FilesService */
 	private $filesService;
 
