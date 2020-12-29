@@ -98,15 +98,15 @@ class Version020109Date20201216203338 extends SimpleMigrationStep {
 				'length' => 1,
 			]);
 			$table->setPrimaryKey(['id']);
-			$table->addIndex(['user_id', 'sms_mailbox'], 'smsdata_user_mailbox');
+			$table->addIndex(['user_id', 'sms_mailbox'], 'smsdata_user_mbox');
 			$table->addIndex(['user_id', 'sms_id'], 'smsdata_user_smsid');
-			$table->addIndex(['user_id', 'sms_mailbox', 'sms_date'], 'smsdata_user_mailbox_date');
-			$table->addIndex(['user_id', 'sms_mailbox', 'sms_address'], 'smsdata_user_mailbox_address');
-			$table->addIndex(['user_id', 'sms_mailbox', 'sms_address', 'sms_date'], 'smsdata_user_mailbox_address_date');
+			$table->addIndex(['user_id', 'sms_mailbox', 'sms_date'], 'smsdata_user_mbox_date');
+			$table->addIndex(['user_id', 'sms_mailbox', 'sms_address'], 'smsdata_user_mbox_addr');
+			$table->addIndex(['user_id', 'sms_mailbox', 'sms_address', 'sms_date'], 'smsdata_user_mbox_addr_date');
 		}
 
-		if (!$schema->hasTable('ocsms_sendmessage_queue')) {
-			$table = $schema->createTable('ocsms_sendmessage_queue');
+		if (!$schema->hasTable('ocsms_sendmess_queue')) {
+			$table = $schema->createTable('ocsms_sendmess_queue');
 			$table->addColumn('id', 'bigint', [
 				'autoincrement' => true,
 				'notnull' => true,
@@ -127,8 +127,8 @@ class Version020109Date20201216203338 extends SimpleMigrationStep {
 			$table->setPrimaryKey(['id']);
 		}
 
-		if (!$schema->hasTable('ocsms_conversation_read_states')) {
-			$table = $schema->createTable('ocsms_conversation_read_states');
+		if (!$schema->hasTable('ocsms_conv_r_states')) {
+			$table = $schema->createTable('ocsms_conv_r_states');
 			$table->addColumn('user_id', 'string', [
 				'notnull' => true,
 				'length' => 64,
