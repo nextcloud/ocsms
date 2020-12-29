@@ -26,7 +26,7 @@ class ConversationStateMapper extends Mapper {
 	public function getLast ($userId) {
 		$qb = $this->db->getQueryBuilder();
 		$qb->selectAlias($qb->createFunction('MAX(int_date)'), 'mx')
-			->from('ocsms_conversation_read_states')
+			->from('ocsms_conv_r_states')
 			->where($qb->expr()->andX(
 				$qb->expr()->eq('user_id', $qb->createNamedParameter($userId))
 			));
@@ -42,7 +42,7 @@ class ConversationStateMapper extends Mapper {
 	public function getLastForPhoneNumber ($userId, $phoneNumber) {
 		$qb = $this->db->getQueryBuilder();
 		$qb->selectAlias($qb->createFunction('MAX(int_date)'), 'mx')
-			->from('ocsms_conversation_read_states')
+			->from('ocsms_conv_r_states')
 			->where($qb->expr()->andX(
 				$qb->expr()->eq('user_id', $qb->createNamedParameter($userId)),
 				$qb->expr()->eq('phone_number', $qb->createNamedParameter($phoneNumber))
@@ -59,7 +59,7 @@ class ConversationStateMapper extends Mapper {
 	public function setLast ($userId, $phoneNumber, $lastDate) {
 		$this->db->beginTransaction();
 		$qb = $this->db->getQueryBuilder();
-		$qb->delete('ocsms_conversation_read_states')
+		$qb->delete('ocsms_conv_r_states')
 			->where($qb->expr()->andX(
 				$qb->expr()->eq('user_id', $qb->createNamedParameter($userId)),
 				$qb->expr()->eq('phone_number', $qb->createNamedParameter($phoneNumber))
@@ -67,7 +67,7 @@ class ConversationStateMapper extends Mapper {
 		$qb->execute();
 
 		$qb = $this->db->getQueryBuilder();
-		$qb->insert('ocsms_conversation_read_states')
+		$qb->insert('ocsms_conv_r_states')
 			->values(array(
 				'user_id' => $qb->createNamedParameter($userId),
 				'phone_number' => $qb->createNamedParameter($phoneNumber),
