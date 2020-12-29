@@ -5,9 +5,10 @@
     <name>Phone Sync</name>
     <summary>An app to sync SMS with your cloud</summary>
     <description>An app to sync SMS with your cloud</description>
-    <licence>agpl</licence>
     <author>Loic Blot</author>
+		<author>e-alfred</author>
     <version>2.2.0</version>
+		<licence>agpl</licence>
     <category>multimedia</category>
     <category>tools</category>
     <dependencies>
@@ -27,4 +28,12 @@
 			<step>OCA\OcSms\Migration\FixConversationReadStates</step>
         </post-migration>
     </repair-steps>
+		<navigations>
+        <navigation>
+					  <id>ocsms</id>
+            <name>Phone Sync</name>
+				    <route>ocsms.sms.index</route>
+				    <icon>app.svg</icon>
+        </navigation>
+		</navigations>
 </info>
