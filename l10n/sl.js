@@ -10,13 +10,16 @@ OC.L10N.register(
     "Max messages to load per conversation" : "Največje število naloženih sporočil na pogovor",
     "Invalid message limit" : "Neveljavna omejitev sporočila",
     "Default country code" : "Privzeta koda države",
+    "Contact ordering" : "Razvrstitev stikov",
     "Last message" : "Zadnje sporočilo",
     "Label" : "Oznaka",
+    "Reverse ?" : "Obrnjeno ?",
     "Notification settings" : "Nastavitve obveščanja",
     "Enable" : "Omogoči",
     "Disable" : "Onemogoči",
     "Are you sure you want to wipe all your messages ?" : "Ali ste prepričani, da želite trajno izbrisati vsa sporočila?",
     "Reset all messages" : "Ponastavi vsa sporočila",
+    "%s messages shown of %s messages stored in database." : "%s sporočil od %s shranjenih v podatkovni zbirki.",
     "Please select a conversation from the list to load it." : "Izberite pogovor s seznama."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");
