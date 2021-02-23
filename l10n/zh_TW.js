@@ -2,12 +2,24 @@ OC.L10N.register(
     "ocsms",
     {
     "Phone Sync" : "手機同步",
+    "An app to sync SMS with your cloud" : "將簡訊與您的雲端同步的應用程式",
     "Cancel" : "取消",
     "Confirm" : "確認",
+    "No contact found." : "找不到聯絡人。",
     "Settings" : "設定",
+    "Max messages to load per conversation" : "每個對話最多可載入的訊息",
+    "Invalid message limit" : "無效的訊息限制",
+    "Default country code" : "預設國碼",
+    "Contact ordering" : "聯絡人順序",
+    "Last message" : "最後訊息",
     "Label" : "標籤",
+    "Reverse ?" : "反向？",
     "Notification settings" : "通知設定",
     "Enable" : "啟用",
-    "Disable" : "停用"
+    "Disable" : "停用",
+    "Are you sure you want to wipe all your messages ?" : "您確定您想要抹除您所有的訊息嗎？",
+    "Reset all messages" : "重設所有訊息",
+    "%s messages shown of %s messages stored in database." : "顯示 %s 則訊息，有 %s 則訊息儲存在資料庫。",
+    "Please select a conversation from the list to load it." : "請從列表中選取一個對話來載入。"
 },
 "nplurals=1; plural=0;");
