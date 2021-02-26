@@ -1,4 +1,6 @@
 { "translations": {
-    "Confirm" : "ຢືນຢັນ"
+    "Cancel" : "ຍົກເລີກ",
+    "Confirm" : "ຢືນຢັນ",
+    "Settings" : "ການຕັ້ງຄ່າ"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
