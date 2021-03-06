@@ -19,6 +19,7 @@ OC.L10N.register(
     "Disable" : "Desaktibatu",
     "Are you sure you want to wipe all your messages ?" : "Zure mezu guztiak ezabatu nahi dituzu?",
     "Reset all messages" : "Berrezarri mezu guztiak",
+    "%s messages shown of %s messages stored in database." : "Datu basean gordetako %s mezutik %s mezu erakusten dira.",
     "Please select a conversation from the list to load it." : "Aukeratu zerrendako hizketaldi bat kargatzeko"
 },
 "nplurals=2; plural=(n != 1);");
