@@ -14,7 +14,7 @@ OC.L10N.register(
     "Last message" : "最新訊息",
     "Label" : "標籤",
     "Reverse ?" : "反向?",
-    "Notification settings" : "通知設定",
+    "Notification settings" : "通告設定",
     "Enable" : "啟用",
     "Disable" : "停用",
     "Are you sure you want to wipe all your messages ?" : "您確定要刪除所有訊息嗎？",
