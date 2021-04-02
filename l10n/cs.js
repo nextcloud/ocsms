@@ -5,7 +5,7 @@ OC.L10N.register(
     "An app to sync SMS with your cloud" : "Aplikace pro synchronizaci SMS s vaším cloudem",
     "Cancel" : "Storno",
     "Confirm" : "Potvrdit",
-    "No contact found." : "Nebyl nalezen žádný kontakt.",
+    "No contact found." : "Nenalezen žádný kontakt.",
     "Settings" : "Nastavení",
     "Max messages to load per conversation" : "Pro každou z konverzací načíst zpráv nejvýše",
     "Invalid message limit" : "Neplatný limit zprávy",
