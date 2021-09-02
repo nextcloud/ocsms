@@ -8,8 +8,10 @@ OC.L10N.register(
     "Settings" : "Asetukset",
     "Default country code" : "Oletusmaakoodi",
     "Contact ordering" : "Yhteystietojen järjestäminen",
+    "Last message" : "Viimeinen viesti",
     "Notification settings" : "Ilmoitusasetukset",
     "Enable" : "Ota käyttöön",
-    "Disable" : "Poista käytöstä"
+    "Disable" : "Poista käytöstä",
+    "Please select a conversation from the list to load it." : "Valitse keskustelu listasta ladataksesi se"
 },
 "nplurals=2; plural=(n != 1);");
