@@ -1,8 +1,25 @@
 OC.L10N.register(
     "ocsms",
     {
+    "Phone Sync" : "Sincronizatzione telèfonu",
+    "An app to sync SMS with your cloud" : "Un'aplicatzione pro sincronizare is SMS cun sa nue",
     "Cancel" : "Annulla",
     "Confirm" : "Cunfirma",
-    "Settings" : "Impostatziones"
+    "No contact found." : "Perunu cuntatu agatadu.",
+    "Settings" : "Impostatziones",
+    "Max messages to load per conversation" : "Nùmeru màssimu de messàgios de carrigare pro resonada",
+    "Invalid message limit" : "Lìmite de messàgios non bàlidu",
+    "Default country code" : "Còdighe natzionale predefinidu",
+    "Contact ordering" : "Ordinamentu de is cuntatos",
+    "Last message" : "Ùrtimu messàgiu",
+    "Label" : "Eticheta",
+    "Reverse ?" : "A s'imbesse ?",
+    "Notification settings" : "Impostatziones de notìfica",
+    "Enable" : "Ativa",
+    "Disable" : "Disativa",
+    "Are you sure you want to wipe all your messages ?" : "A beru boles cantzellare totu is messàgios?",
+    "Reset all messages" : "Riprìstina totu is messàgios",
+    "%s messages shown of %s messages stored in database." : "%s messàgios mustrados de %s messàgios archiviados in sa base de datos.",
+    "Please select a conversation from the list to load it." : "Seletziona una resonada dae sa lista pro dda carrigare."
 },
 "nplurals=2; plural=(n != 1);");

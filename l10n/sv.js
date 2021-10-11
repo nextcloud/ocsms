@@ -19,6 +19,7 @@ OC.L10N.register(
     "Disable" : "Inaktivera",
     "Are you sure you want to wipe all your messages ?" : "Är du säker på att du vill ta bort alla dina meddelanden ?",
     "Reset all messages" : "Återställ alla meddelanden",
+    "%s messages shown of %s messages stored in database." : "%s meddelanden som visas av %s meddelanden som lagras i databasen.",
     "Please select a conversation from the list to load it." : "Vänligen välj en konversation från listan för att läsa in den."
 },
 "nplurals=2; plural=(n != 1);");

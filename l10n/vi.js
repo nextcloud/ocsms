@@ -1,10 +1,25 @@
 OC.L10N.register(
     "ocsms",
     {
+    "Phone Sync" : "Đồng bộ điện thoại",
+    "An app to sync SMS with your cloud" : "Một ứng dụng để đồng bộ SMS với đám mây của bạn",
     "Cancel" : "Hủy bỏ",
     "Confirm" : "Xác nhận",
+    "No contact found." : "Không tìm thấy liên hệ nào.",
     "Settings" : "Thiết lập",
-    "Enable" : "Kích hoạt",
-    "Disable" : "Tắt"
+    "Max messages to load per conversation" : "Số tin nhắn tối đa được tải cho mỗi cuộc trò chuyện",
+    "Invalid message limit" : "Giới hạn tin nhắn không hợp lệ",
+    "Default country code" : "Mã quốc gia không hợp lệ",
+    "Contact ordering" : "Xếp thứ tự liên hệ",
+    "Last message" : "Tin nhắn cuối",
+    "Label" : "Nhãn",
+    "Reverse ?" : "Đảo ngược?",
+    "Notification settings" : "Cài đặt thông báo",
+    "Enable" : "Bật",
+    "Disable" : "Tắt",
+    "Are you sure you want to wipe all your messages ?" : "Bạn có chắc bạn muốn xóa tất cả tin nhắn không?",
+    "Reset all messages" : "Đặt lại tất cả tin nhắn",
+    "%s messages shown of %s messages stored in database." : "Đã hiện %s tin nhắn trong số %s tin nhắn được lưu trữ trong cơ sở dữ liệu.",
+    "Please select a conversation from the list to load it." : "Vui lòng chọn cuộc hội thoại từ danh sách để tải."
 },
 "nplurals=1; plural=0;");
