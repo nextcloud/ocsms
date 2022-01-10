@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Cancel" : "Anullar",
     "Settings" : "Paramètres",
+    "Notification settings" : "Paramètres de notificacions",
     "Enable" : "Activar"
 },
 "nplurals=2; plural=(n > 1);");

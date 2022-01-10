@@ -2,11 +2,24 @@ OC.L10N.register(
     "ocsms",
     {
     "Phone Sync" : "Синхронизиране на телефона",
+    "An app to sync SMS with your cloud" : "Приложение за синхронизиране на SMS с вашия облак",
     "Cancel" : "Отказ",
     "Confirm" : "Потвърди",
+    "No contact found." : "Няма намерен контакт.",
     "Settings" : "Настройки",
+    "Max messages to load per conversation" : "Максимален брой съобщения за зареждане за един разговор",
+    "Invalid message limit" : "Невалидно ограничение за съобщения",
+    "Default country code" : "Код на държавата по подразбиране",
+    "Contact ordering" : "Контакт на поръчката",
+    "Last message" : "Последно съобщение",
     "Label" : "Име",
+    "Reverse ?" : "Осчетоводяване?",
+    "Notification settings" : "Настройки на известие",
     "Enable" : "Включване",
-    "Disable" : "Изключване"
+    "Disable" : "Изключване",
+    "Are you sure you want to wipe all your messages ?" : "Сигурни ли сте, че искате да изтриете всичките си съобщения?",
+    "Reset all messages" : "Възстановяване на всички съобщения ",
+    "%s messages shown of %s messages stored in database." : "%sпоказвани съобщения от %s съобщения, съхранени в базата данни.  ",
+    "Please select a conversation from the list to load it." : "Моля, изберете разговор от списъка, за да го заредите."
 },
 "nplurals=2; plural=(n != 1);");
