@@ -1,4 +1,6 @@
 { "translations": {
-    "Settings" : "Sazlamalar"
+    "Cancel" : "ýatyrmak",
+    "Settings" : "Sazlamalar",
+    "Disable" : "Öçürmek"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

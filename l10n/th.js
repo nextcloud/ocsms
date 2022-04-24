@@ -2,6 +2,7 @@ OC.L10N.register(
     "ocsms",
     {
     "Cancel" : "ยกเลิก",
+    "Confirm" : "ยืนยัน",
     "Settings" : "ตั้งค่า",
     "Enable" : "เปิดใช้งาน",
     "Disable" : "ปิดใช้งาน"

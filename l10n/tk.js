@@ -1,6 +1,8 @@
 OC.L10N.register(
     "ocsms",
     {
-    "Settings" : "Sazlamalar"
+    "Cancel" : "ýatyrmak",
+    "Settings" : "Sazlamalar",
+    "Disable" : "Öçürmek"
 },
 "nplurals=2; plural=(n != 1);");

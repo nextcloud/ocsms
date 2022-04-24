@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Cancel" : "இரத்து செய்க",
     "Settings" : "அமைப்புகள்",
+    "Label" : "Label",
     "Enable" : "இயலச்செய்",
     "Disable" : "இயலுமைப்ப"
 },

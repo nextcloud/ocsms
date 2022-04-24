@@ -4,6 +4,7 @@ OC.L10N.register(
     "Phone Sync" : "Telefon Synkronisering",
     "Cancel" : "Avbryt",
     "Settings" : "Instillingar",
+    "Notification settings" : "Varsel innstillingar",
     "Enable" : "Slå på",
     "Disable" : "Slå av"
 },
