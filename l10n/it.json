@@ -19,5 +19,5 @@
     "Reset all messages" : "Ripristina tutti i messaggi",
     "%s messages shown of %s messages stored in database." : "%s messaggi mostrati di %s messaggi archiviati nel database.",
     "Please select a conversation from the list to load it." : "Seleziona una conversazione dall'elenco per caricarla."
-},"pluralForm" :"nplurals=2; plural=(n != 1);"
+},"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
