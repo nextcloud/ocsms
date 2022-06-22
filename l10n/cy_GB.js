@@ -2,6 +2,7 @@ OC.L10N.register(
     "ocsms",
     {
     "Cancel" : "Diddymu",
+    "Confirm" : "Cadarnhau",
     "Settings" : "Gosodiadau",
     "Disable" : "Analluogi"
 },
