@@ -6,6 +6,7 @@ OC.L10N.register(
     "Confirm" : "Confirmă",
     "Settings" : "Setări",
     "Label" : "Etichetă",
+    "Notification settings" : "Setări notificări",
     "Enable" : "Activează",
     "Disable" : "Dezactivează"
 },
