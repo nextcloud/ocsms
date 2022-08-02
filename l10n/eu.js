@@ -9,7 +9,7 @@ OC.L10N.register(
     "Settings" : "Ezarpenak",
     "Max messages to load per conversation" : "Hizketaldi bakoitzeko, gehienez zenbat mezu kargatu",
     "Invalid message limit" : "Mezu kopuruaren muga ez da zuzena",
-    "Default country code" : "Defektuzko herrialde-kodea",
+    "Default country code" : "Herrialde-kode lehenetsia",
     "Contact ordering" : "Kontaktuak ordenatzea",
     "Last message" : "Azken mezua",
     "Label" : "Etiketa",
