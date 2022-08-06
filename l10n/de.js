@@ -2,7 +2,7 @@ OC.L10N.register(
     "ocsms",
     {
     "Phone Sync" : "Telefon-Sync",
-    "An app to sync SMS with your cloud" : "Eine App, die SMSen mit Deiner Cloud synchronisiert",
+    "An app to sync SMS with your cloud" : "Eine App, die SMSen mit deiner Cloud synchronisiert",
     "Cancel" : "Abbrechen",
     "Confirm" : "Bestätigen",
     "No contact found." : "Kein Kontakt gefunden.",
@@ -17,7 +17,7 @@ OC.L10N.register(
     "Notification settings" : "Benachrichtigungseinstellungen",
     "Enable" : "Aktivieren",
     "Disable" : "Deaktivieren",
-    "Are you sure you want to wipe all your messages ?" : "Möchtest Du wirklich all Deine Nachrichten löschen?",
+    "Are you sure you want to wipe all your messages ?" : "Möchtest du wirklich all deine Nachrichten löschen?",
     "Reset all messages" : "Alle Nachrichten zurücksetzen",
     "%s messages shown of %s messages stored in database." : "%s Nachrichten angezeigt von %s in der Datenbank gespeicherten Nachrichten",
     "Please select a conversation from the list to load it." : "Wähle eine Unterhaltung zum Laden aus der Liste aus."
