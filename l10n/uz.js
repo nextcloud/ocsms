@@ -1,9 +1,11 @@
 OC.L10N.register(
     "ocsms",
     {
-    "Phone Sync" : "Telefonni sinxronlash",
-    "Cancel" : "Bekor qilish",
-    "Confirm" : "Tasdiqlash",
-    "Settings" : "Sozlamalar"
+    "Phone Sync" : "Phone Sync",
+    "Cancel" : "Cancel",
+    "Confirm" : "Confirm",
+    "Settings" : "Settings",
+    "Enable" : "Enable",
+    "Disable" : "Oʻchirish"
 },
 "nplurals=1; plural=0;");
