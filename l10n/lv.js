@@ -6,6 +6,7 @@ OC.L10N.register(
     "Confirm" : "Apstiprināt",
     "Settings" : "Iestatījumi",
     "Label" : "Etiķete",
+    "Notification settings" : "Paziņojumu iestatījumi",
     "Enable" : "Iespējo",
     "Disable" : "Deaktivēt"
 },
