@@ -5,6 +5,7 @@ OC.L10N.register(
     "Cancel" : "Membatalkan",
     "Confirm" : "Konfirmasi",
     "Settings" : "Setelan",
+    "Notification settings" : "Pengaturan notifkasi",
     "Enable" : "aktifkan",
     "Disable" : "Nonaktifkan"
 },
