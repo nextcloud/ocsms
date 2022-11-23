@@ -5,10 +5,21 @@ OC.L10N.register(
     "An app to sync SMS with your cloud" : "An app to sync SMS with your cloud",
     "Cancel" : "Cancel",
     "Confirm" : "Confirm",
+    "No contact found." : "No contact found.",
     "Settings" : "Settings",
+    "Max messages to load per conversation" : "Max messages to load per conversation",
+    "Invalid message limit" : "Invalid message limit",
+    "Default country code" : "Default country code",
+    "Contact ordering" : "Contact ordering",
+    "Last message" : "Last message",
     "Label" : "Label",
+    "Reverse ?" : "Reverse ?",
     "Notification settings" : "Notification settings",
     "Enable" : "Enable",
-    "Disable" : "Disable"
+    "Disable" : "Disable",
+    "Are you sure you want to wipe all your messages ?" : "Are you sure you want to wipe all your messages ?",
+    "Reset all messages" : "Reset all messages",
+    "%s messages shown of %s messages stored in database." : "%s messages shown of %s messages stored in database.",
+    "Please select a conversation from the list to load it." : "Please select a conversation from the list to load it."
 },
 "nplurals=2; plural=(n != 1);");
