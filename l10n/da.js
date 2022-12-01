@@ -1,7 +1,7 @@
 OC.L10N.register(
     "ocsms",
     {
-    "Phone Sync" : "Telefon sync",
+    "Phone Sync" : "Telefon synkronisering",
     "Cancel" : "Annullér",
     "Confirm" : "Bekræft",
     "Settings" : "Indstillinger",
