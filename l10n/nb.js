@@ -10,6 +10,7 @@ OC.L10N.register(
     "Label" : "Etikett",
     "Notification settings" : "Innstillinger for notifiseringer",
     "Enable" : "Aktiver",
-    "Disable" : "Deaktiver"
+    "Disable" : "Deaktiver",
+    "Reset all messages" : "Tilbakestill alle meldinger"
 },
 "nplurals=2; plural=(n != 1);");
