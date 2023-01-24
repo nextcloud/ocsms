@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Cancel" : "ยกเลิก",
     "Confirm" : "ยืนยัน",
-    "Settings" : "ตั้งค่า",
+    "Settings" : "การตั้งค่า",
     "Enable" : "เปิดใช้งาน",
     "Disable" : "ปิดใช้งาน"
 },
