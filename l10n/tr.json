@@ -17,7 +17,7 @@
     "Disable" : "Devre dışı bırak",
     "Are you sure you want to wipe all your messages ?" : "Tüm iletileri silmek istediğinize emin misiniz?",
     "Reset all messages" : "Tüm iletileri sıfırla",
-    "%s messages shown of %s messages stored in database." : "Veritabanında kayıtlı %s/%s ileti görüntüleniyor.",
+    "%s messages shown of %s messages stored in database." : "Veri tabanında kayıtlı %s/%s ileti görüntüleniyor.",
     "Please select a conversation from the list to load it." : "Lütfen listeden yüklenecek bir görüşme seçin."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
