@@ -9,6 +9,7 @@ OC.L10N.register(
     "Default country code" : "Oletusmaakoodi",
     "Contact ordering" : "Yhteystietojen järjestäminen",
     "Last message" : "Viimeinen viesti",
+    "Label" : "Nimike",
     "Notification settings" : "Ilmoitusasetukset",
     "Enable" : "Ota käyttöön",
     "Disable" : "Poista käytöstä",
