@@ -11,7 +11,7 @@ OC.L10N.register(
     "Invalid message limit" : "Недійсний ліміт повідомлень",
     "Default country code" : "Код країни за замовчанням",
     "Contact ordering" : "Сортування контактів",
-    "Last message" : "Останнє повідомлення",
+    "Last message" : "Останнє сповіщення",
     "Label" : "Мітка",
     "Reverse ?" : "Реверс ?",
     "Notification settings" : "Налаштування сповіщень",
