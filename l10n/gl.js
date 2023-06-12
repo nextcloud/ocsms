@@ -5,7 +5,7 @@ OC.L10N.register(
     "An app to sync SMS with your cloud" : "Unha aplicación para sincronizar os SMS coa súa nube",
     "Cancel" : "Cancelar",
     "Confirm" : "Confirmar",
-    "No contact found." : "Non se atopaou ningún contacto.",
+    "No contact found." : "Non se atopou ningún contacto.",
     "Settings" : "Axustes",
     "Max messages to load per conversation" : "Máximo de mensaxes a cargar por conversa",
     "Invalid message limit" : "Límite incorrecto de mensaxes",
