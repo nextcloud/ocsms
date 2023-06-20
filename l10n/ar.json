@@ -1,12 +1,23 @@
 { "translations": {
+    "Phone Sync" : "مُزامنة الهاتف",
+    "An app to sync SMS with your cloud" : "تطبيق لمزامنة رسالة SMS إلى مخزنك السحابي",
     "Cancel" : "إلغاء",
     "Confirm" : "تأكيد",
+    "No contact found." : "لا توجد أي جهة اتصال",
     "Settings" : "الإعدادات",
+    "Max messages to load per conversation" : "أقصى عدد من الرسائل لكل محادثة",
+    "Invalid message limit" : "الحد الأقصى للرسائل غير مقبول",
     "Default country code" : "الرمز الافتراضي للدولة",
+    "Contact ordering" : "ترتيب جهات الاتصال",
     "Last message" : "آخر رسالة",
     "Label" : "تسمية",
-    "Notification settings" : "إعدادات الإشعار",
+    "Reverse ?" : "عكسي؟",
+    "Notification settings" : "إعداد الإشعارات",
     "Enable" : "تفعيل",
-    "Disable" : "مُعطّل"
+    "Disable" : "مُعطّل",
+    "Are you sure you want to wipe all your messages ?" : "هل أنت متأكد أنك ترغب في محو كل رسائلك؟",
+    "Reset all messages" : "إعادة تعيين كافة الرسائل",
+    "%s messages shown of %s messages stored in database." : "%s رسالة معروضة من مجموع %s رسالة محفوظة في قاعدة البيانات؟",
+    "Please select a conversation from the list to load it." : "رجاءً، اختر محادثةً من القائمة لرفعها."
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }
