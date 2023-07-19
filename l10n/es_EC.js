@@ -6,6 +6,7 @@ OC.L10N.register(
     "Confirm" : "Confirmar",
     "Settings" : "Configuraciones ",
     "Label" : "Etiqueta",
+    "Notification settings" : "Configuración de notificaciones",
     "Enable" : "Habilitar",
     "Disable" : "Deshabilitar"
 },
