@@ -17,6 +17,7 @@
     "Disable" : "غیرفعال کردن",
     "Are you sure you want to wipe all your messages ?" : "آیا مطمئن هستید که می خواهید تمام پیام های خود را پاک کنید؟",
     "Reset all messages" : "تنظیم مجدد همه پیام ها",
+    "%s messages shown of %s messages stored in database." : "%s  پیام از %s پیام ذخیره شده در پایگاه داده نشان داده شده است.",
     "Please select a conversation from the list to load it." : "لطفاً یک بار مکالمه را از لیست انتخاب کنید تا بارگیری شود."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
