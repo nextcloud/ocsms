@@ -10,7 +10,7 @@ OC.L10N.register(
     "Max messages to load per conversation" : "Максимальна кількість повідомлень для завантаження в одному діалозі",
     "Invalid message limit" : "Недійсний ліміт повідомлень",
     "Default country code" : "Код країни за замовчанням",
-    "Contact ordering" : "Сортування контактів",
+    "Contact ordering" : "Впорядкування контактів",
     "Last message" : "Останнє сповіщення",
     "Label" : "Мітка",
     "Reverse ?" : "Реверс ?",
