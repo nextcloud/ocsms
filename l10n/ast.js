@@ -5,6 +5,8 @@ OC.L10N.register(
     "Cancel" : "Encaboxar",
     "Confirm" : "Confirmar",
     "No contact found." : "Nun s'atopó nengún contautu.",
-    "Settings" : "Configuración"
+    "Settings" : "Configuración",
+    "Enable" : "Activar",
+    "Disable" : "Desactivar"
 },
 "nplurals=2; plural=(n != 1);");
