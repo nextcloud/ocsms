@@ -6,6 +6,7 @@ OC.L10N.register(
     "Confirm" : "Confirmar",
     "No contact found." : "Nun s'atopó nengún contautu.",
     "Settings" : "Configuración",
+    "Notification settings" : "Configuración de los avisos",
     "Enable" : "Activar",
     "Disable" : "Desactivar"
 },
