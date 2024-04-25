@@ -6,6 +6,7 @@ OC.L10N.register(
     "Confirm" : "Confirmar",
     "No contact found." : "Nun s'atopó nengún contautu.",
     "Settings" : "Configuración",
+    "Invalid message limit" : "La llende de mensaxes ye inválida",
     "Notification settings" : "Configuración de los avisos",
     "Enable" : "Activar",
     "Disable" : "Desactivar"
