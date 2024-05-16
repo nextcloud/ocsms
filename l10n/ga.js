@@ -1,0 +1,25 @@
+OC.L10N.register(
+    "ocsms",
+    {
+    "Phone Sync" : "Sioncronú Fón",
+    "An app to sync SMS with your cloud" : "App chun SMS a shioncronú le do scamall",
+    "Cancel" : "Cealaigh",
+    "Confirm" : "Deimhnigh",
+    "No contact found." : "Níor aimsíodh aon teagmhálaí.",
+    "Settings" : "Socruithe",
+    "Max messages to load per conversation" : "Uasmhéid teachtaireachtaí le luchtú in aghaidh an chomhrá",
+    "Invalid message limit" : "Teorainn teachtaireachta neamhbhailí",
+    "Default country code" : "Cód tíre réamhshocraithe",
+    "Contact ordering" : "Ordú teagmhála",
+    "Last message" : "An teachtaireacht dheireanach",
+    "Label" : "Lipéad",
+    "Reverse ?" : "Droim ar ais ?",
+    "Notification settings" : "Socruithe fógra",
+    "Enable" : "Cumasaigh",
+    "Disable" : "Díchumasaigh",
+    "Are you sure you want to wipe all your messages ?" : "An bhfuil tú cinnte gur mhaith leat do chuid teachtaireachtaí go léir a scriosadh ?",
+    "Reset all messages" : "Athshocraigh gach teachtaireacht",
+    "%s messages shown of %s messages stored in database." : "%s teachtaireachtaí a thaispeántar as %s teachtaireacht atá stóráilte sa bhunachar sonraí. ",
+    "Please select a conversation from the list to load it." : "Roghnaigh comhrá ón liosta chun é a lódáil."
+},
+"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");
