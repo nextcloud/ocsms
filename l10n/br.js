@@ -14,7 +14,7 @@ OC.L10N.register(
     "Last message" : "Kemenadenn divezhañ",
     "Label" : "Tiketenn",
     "Reverse ?" : "En tu all ?",
-    "Notification settings" : "Arventennoù kemenadenn",
+    "Notification settings" : "Arventennoù kemennadennoù",
     "Enable" : "Aotreañ",
     "Disable" : "Disaotreañ",
     "Are you sure you want to wipe all your messages ?" : "Sur oc'h da lemel pep kemenadenn ?",
