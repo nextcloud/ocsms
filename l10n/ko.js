@@ -15,7 +15,7 @@ OC.L10N.register(
     "Label" : "이름표",
     "Reverse ?" : "반전 여부",
     "Notification settings" : "알림 설정",
-    "Enable" : "사용함",
+    "Enable" : "활성화",
     "Disable" : "사용 안함",
     "Are you sure you want to wipe all your messages ?" : "모든 메시지를 삭제하시겠습니까?",
     "Reset all messages" : "모든 메시지 초기화",
