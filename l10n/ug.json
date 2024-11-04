@@ -1,7 +1,23 @@
 { "translations": {
+    "Phone Sync" : "تېلېفون ماسقەدەملەش",
+    "An app to sync SMS with your cloud" : "بۇلۇت بىلەن قىسقا ئۇچۇرنى ماسقەدەملەيدىغان ئەپ",
     "Cancel" : "ۋاز كەچ",
+    "Confirm" : "جەزملەشتۈرۈڭ",
+    "No contact found." : "ئالاقىلىشىش تېپىلمىدى.",
     "Settings" : "تەڭشەكلەر",
+    "Max messages to load per conversation" : "ھەر بىر سۆھبەتكە يۈكلەيدىغان ئەڭ چوڭ ئۇچۇرلار",
+    "Invalid message limit" : "ئىناۋەتسىز ئۇچۇر چەكلىمىسى",
+    "Default country code" : "كۆڭۈلدىكى دۆلەت كودى",
+    "Contact ordering" : "ئالاقىلىشىش زاكاز",
+    "Last message" : "ئاخىرقى ئۇچۇر",
+    "Label" : "بەلگە",
+    "Reverse ?" : "ئەكسىچە؟",
+    "Notification settings" : "ئۇقتۇرۇش تەڭشىكى",
     "Enable" : "قوزغات",
-    "Disable" : "چەكلە"
+    "Disable" : "چەكلە",
+    "Are you sure you want to wipe all your messages ?" : "بارلىق ئۇچۇرلىرىڭىزنى ئۆچۈرمەكچىمۇ؟",
+    "Reset all messages" : "بارلىق ئۇچۇرلارنى ئەسلىگە كەلتۈرۈڭ",
+    "%s messages shown of %s messages stored in database." : "سانداندا ساقلانغان% s ئۇچۇرلىرى كۆرسىتىلگەن% s ئۇچۇرلىرى.",
+    "Please select a conversation from the list to load it." : "ئۇنى يۈكلەش ئۈچۈن تىزىملىكتىن سۆھبەتنى تاللاڭ."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
