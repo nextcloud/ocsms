@@ -1,7 +1,7 @@
 OC.L10N.register(
     "ocsms",
     {
-    "Cancel" : "Canzelar",
-    "Settings" : "Configurazión"
+    "Cancel" : "Cancelar",
+    "Settings" : "Configuración"
 },
 "nplurals=2; plural=(n != 1);");

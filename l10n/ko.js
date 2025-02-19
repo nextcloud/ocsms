@@ -19,6 +19,7 @@ OC.L10N.register(
     "Disable" : "사용 안함",
     "Are you sure you want to wipe all your messages ?" : "모든 메시지를 삭제하시겠습니까?",
     "Reset all messages" : "모든 메시지 초기화",
+    "%s messages shown of %s messages stored in database." : "데이터베이스에 저장된 %s개의 메시지 중 %s개의 메시지 표시",
     "Please select a conversation from the list to load it." : "메시지를 불러 오려면 대화를 목록에서 선택하십시오."
 },
 "nplurals=1; plural=0;");
