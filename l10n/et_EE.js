@@ -6,6 +6,7 @@ OC.L10N.register(
     "Confirm" : "Kinnita",
     "Settings" : "Seaded",
     "Label" : "Silt",
+    "Notification settings" : "Teavituse seadistused",
     "Enable" : "Lülita sisse",
     "Disable" : "Lülita välja"
 },
