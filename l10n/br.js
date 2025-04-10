@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Phone Sync" : "Kemprenn hezouk",
     "An app to sync SMS with your cloud" : "Ur meziant evit kemprennañ ho SMS gant ho cloud",
-    "Cancel" : "Arrest",
+    "Cancel" : "Nullañ",
     "Confirm" : "Kadarnañ",
     "No contact found." : "Daremprenn kavet ebet.",
     "Settings" : "Arventennoù",
