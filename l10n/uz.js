@@ -1,11 +1,25 @@
 OC.L10N.register(
     "ocsms",
     {
-    "Phone Sync" : "Phone Sync",
-    "Cancel" : "Cancel",
-    "Confirm" : "Confirm",
-    "Settings" : "Settings",
-    "Enable" : "Enable",
-    "Disable" : "Oʻchirish"
+    "Phone Sync" : "Telefon bilan sinxronlash",
+    "An app to sync SMS with your cloud" : "SMSni bulut bilan sinxronlash uchun ilova",
+    "Cancel" : "Bekor qilish",
+    "Confirm" : "Tasdiqlang",
+    "No contact found." : "Hech qanday kontakt topilmadi.",
+    "Settings" : "Sozlamalar",
+    "Max messages to load per conversation" : "Har bir suhbat uchun yuklanadigan maksimal xabarlar",
+    "Invalid message limit" : "Xabar cheklovi noto‘g‘ri",
+    "Default country code" : "Standart mamlakat kodi",
+    "Contact ordering" : "Buyurtma bilan bog'lanish",
+    "Last message" : "Oxirgi xabar",
+    "Label" : "Yorliq",
+    "Reverse ?" : "Orqagami?",
+    "Notification settings" : "Bildirishnoma sozlamalari",
+    "Enable" : "Yoqish",
+    "Disable" : "Oʻchirish",
+    "Are you sure you want to wipe all your messages ?" : "Haqiqatan ham barcha xabarlaringizni oʻchirib tashlamoqchimisiz?",
+    "Reset all messages" : "Barcha xabarlarni qayta o'rnating",
+    "%s messages shown of %s messages stored in database." : "Maʼlumotlar bazasida saqlangan %s xabarning %s abari koʻrsatilgan.",
+    "Please select a conversation from the list to load it." : "Iltimos, uni yuklash uchun roʻyxatdan suhbatni tanlang."
 },
 "nplurals=1; plural=0;");
