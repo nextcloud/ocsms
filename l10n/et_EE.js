@@ -1,13 +1,25 @@
 OC.L10N.register(
     "ocsms",
     {
-    "Phone Sync" : "Telefoniga Sünkroniseerimine",
+    "Phone Sync" : "Sünkroniseerimine telefoniga",
+    "An app to sync SMS with your cloud" : "Rakendus, mis sünkroniseerb SMS-id pilve",
     "Cancel" : "Loobu",
     "Confirm" : "Kinnita",
-    "Settings" : "Seaded",
+    "No contact found." : "Kontakti ei leidu.",
+    "Settings" : "Seadistused",
+    "Max messages to load per conversation" : "Maksimaalne vestlusekohaselt laaditavate sõnumite arv",
+    "Invalid message limit" : "Vigane sõnumite arvu piir",
+    "Default country code" : "Vaikimisi maakood",
+    "Contact ordering" : "Kontaktide järjestus",
+    "Last message" : "Viimane sõnum",
     "Label" : "Silt",
+    "Reverse ?" : "Kas pöörame tagurpidi järjestusse?",
     "Notification settings" : "Teavituse seadistused",
     "Enable" : "Lülita sisse",
-    "Disable" : "Lülita välja"
+    "Disable" : "Lülita välja",
+    "Are you sure you want to wipe all your messages ?" : "Kas sa oled kindel, et soovid kustutada kõik oma sõnumid?",
+    "Reset all messages" : "Lähtesta kõik sõnumid",
+    "%s messages shown of %s messages stored in database." : "%s sõnumit näidatud %s-st sõnumist on andmebaasi salvestatud.",
+    "Please select a conversation from the list to load it." : "Laadimiseks palun vali loendist vestlus."
 },
 "nplurals=2; plural=(n != 1);");
