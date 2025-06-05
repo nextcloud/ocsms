@@ -15,7 +15,7 @@ OC.L10N.register(
     "Label" : "Etiket",
     "Reverse ?" : "Ters sıralı",
     "Notification settings" : "Bildirim ayarları",
-    "Enable" : "Kullanıma al",
+    "Enable" : "Etkinleştir",
     "Disable" : "Kullanımdan kaldır",
     "Are you sure you want to wipe all your messages ?" : "Tüm iletileri silmek istediğinize emin misiniz?",
     "Reset all messages" : "Tüm iletileri sıfırla",
