@@ -1,6 +1,7 @@
 { "translations": {
     "Cancel" : "Cancel",
     "Confirm" : "Thibitisha",
-    "Settings" : "Mipangilio"
+    "Settings" : "Mipangilio",
+    "Label" : "Lebo"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
