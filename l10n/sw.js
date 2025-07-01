@@ -4,6 +4,7 @@ OC.L10N.register(
     "Cancel" : "Cancel",
     "Confirm" : "Thibitisha",
     "Settings" : "Mipangilio",
-    "Label" : "Lebo"
+    "Label" : "Lebo",
+    "Notification settings" : "Mipangilio ya arifu"
 },
 "nplurals=2; plural=(n != 1);");
