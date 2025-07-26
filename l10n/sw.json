@@ -1,10 +1,23 @@
 { "translations": {
-    "Cancel" : "Cancel",
+    "Phone Sync" : "Usawazishaji wa Simu",
+    "An app to sync SMS with your cloud" : "Programu ya kusawazisha SMS na cloud yako",
+    "Cancel" : "Ghairi",
     "Confirm" : "Thibitisha",
+    "No contact found." : "Hakuna anwani iliyopatikana.",
     "Settings" : "Mipangilio",
+    "Max messages to load per conversation" : "Ujumbe wa kiwango cha juu zaidi wa kupakia kwa kila mazungumzo",
+    "Invalid message limit" : "Kikomo cha ujumbe si sahihi",
+    "Default country code" : "Msimbo chaguomsingi wa nchi",
+    "Contact ordering" : "Kuagiza kwa anwani",
+    "Last message" : "Ujumbe wa mwisho",
     "Label" : "Lebo",
+    "Reverse ?" : "Kugeuza ?",
     "Notification settings" : "Mipangilio ya arifu",
     "Enable" : "Wezesha",
-    "Disable" : "Zima"
+    "Disable" : "Zima",
+    "Are you sure you want to wipe all your messages ?" : "Je, una uhakika unataka kufuta ujumbe wako wote?",
+    "Reset all messages" : "Weka upya jumbe zote",
+    "%s messages shown of %s messages stored in database." : "%s ujumbe unaoonyeshwa wa jumbe %s zilizohifadhiwa kwenye hifadhidata.",
+    "Please select a conversation from the list to load it." : "Tafadhali chagua mazungumzo kutoka kwenye orodha ili kuyapakia."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
