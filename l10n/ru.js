@@ -19,7 +19,7 @@ OC.L10N.register(
     "Disable" : "Отключить",
     "Are you sure you want to wipe all your messages ?" : "Действительно удалить все сообщения?",
     "Reset all messages" : "Удалить все сообщения",
-    "%s messages shown of %s messages stored in database." : "%s сообщений показано из %s сохраненных в базе данных",
+    "%s messages shown of %s messages stored in database." : "%s сообщений показано из %s сохранённых в базе данных",
     "Please select a conversation from the list to load it." : "Для загрузки разговора выберите его в списке."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");
