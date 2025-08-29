@@ -5,6 +5,7 @@ OC.L10N.register(
     "Confirm" : "Пацвердзіць",
     "Settings" : "Налады",
     "Last message" : "Апошняе паведамленне",
+    "Notification settings" : "Налады апавяшчэнняў",
     "Enable" : "Уключыць",
     "Disable" : "Адключыць"
 },
